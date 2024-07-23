@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join</title>
+  <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="./assets/favicons/favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="./assets/favicons/favicon-64x64.png">
+  <!-- Apple Touch Icons -->
+  <link rel="apple-touch-icon" sizes="120x120" href="./assets/favicons/apple-touch-favicon/favicon-120x120.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="./assets/favicons/apple-touch-favicon/favicon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/favicons/apple-touch-favicon/favicon-180x180.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="./assets/favicons/apple-touch-favicon/favicon-167x167.png">
+  <!-- Safari Pinned Tab -->
+  <link rel="mask-icon" href="./assets/favicons/favicon-safari.svg" color="#5bbad5">
+  <link rel="stylesheet" href="./css/fonts.css">
+  <link rel="stylesheet" href="./css/main.css">
+  <link rel="stylesheet" href="./css/login.css">
+</head>
+
+<body onload="initLogin()">
+
+
+  <main id="loginContent" class="login-content">
+
+    <div id="loginAnimationBg" class="login-animation-bg"></div>
+    <div id="loginJoinLogo" class="login-join-logo"></div>
+    <div id="loginJoinLogoNoAnimation" class="login-join-logo-no-animation"></div>
+
+
+    <div class="sign-up-container">
+      <span class="sign-up-text">Not a Join user?</span>
+      <button onclick="goToSignUp()" class="sign-up-button">Sign up</button>
+    </div>
+
+    <div class="login-card">
+      <div class="login-title">
+        <h1>Log in</h1>
+        <span class="login-seperator"></span>
+      </div>
+
+      <form action="./" onsubmit="return false;">
+        <div class="input-container">
+          <div class="login-input-fields">
+            <input placeholder="Email" class="login-input" type="email">
+            <div class="login-input-icon">
+              <img src="./assets/icons/mail.svg" alt="">
+            </div>
+          </div>
+          <div class="login-input-fields">
+            <input placeholder="Password" class="login-input" type="password">
+            <div class="login-input-icon">
+              <img src="./assets/icons/lock.svg" alt="">
+            </div>
+          </div>
+        </div>
+        <div class="login-failed-text">
+          <span>Incorrect email or password!</span>
+        </div>
+        <label class="login-remember">
+          <input type="checkbox" class="custom-checkbox">
+          <span>Remember me</span>
+        </label>
+        <div class="login-button-container">
+          <button class="login-button">Log in</button>
+          <button onclick="guestLogin()" class="guest-login-button">Guest Log in</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="login-legal-links">
+      <a class="login-legal-link" target="_blank" rel="noopener noreferrer" href="./privacyPolicyNo.html">Privacy Policy</a>
+      <a class="login-legal-link" target="_blank" rel="noopener noreferrer" href="./legalNoticeNo.html">Legal notice</a>
+    </div>
+  </main>
+
+  
+
+<script src="./js/login.js"></script>
+</body>
+
+</html>
