@@ -20,10 +20,68 @@
   <link rel="stylesheet" href="./css/main.css">
   <link rel="stylesheet" href="./css/signUp.css">
 </head>
-<body>
-    <main class="signup-content">
-      
 
-    </main>
+<body>
+  <main class="signup-content">
+    <div class="signup-join-logo"></div>
+
+    <form autocomplete="off" class="signup-card-form" onsubmit="return false">
+      <a class="signup-link-to-login" href="./index.html">
+        <img src="./assets/icons/arrowLeft.svg" alt="">
+      </a>
+      <div class="signup-title">
+        <h1>Sign up</h1>
+        <span class="signup-seperator"></span>
+      </div>
+      <div class="signup-input-container">
+        <div class="signup-input-fields">
+          <input id="name" placeholder="Name" class="signup-input" type="text" pattern="^[A-Za-z]+ [A-Za-z]+.*$" title="Please enter your full name (First and Last name)" required>
+          <div class="signup-input-icon">
+            <img src="./assets/icons/person.svg" alt="">
+          </div>
+        </div>
+        <div class="signup-input-fields">
+          <input id="email" placeholder="Email" class="signup-input" type="email" pattern="[a-z0-9._%+\-]+@[a-z0-9\-]+\.[a-z]{2,63}$" title="Please enter a valid email address (e.g., test@domain.com)" required>
+          <div class="signup-input-icon">
+            <img src="./assets/icons/mail.svg" alt="">
+          </div>
+        </div>
+        <div class="signup-input-fields">
+          <input id="password" placeholder="Password" class="signup-input" type="password" required>
+          <div class="signup-input-icon">
+            <img src="./assets/icons/lock.svg" alt="">
+          </div>
+        </div>
+        <div class="signup-input-fields">
+          <input id="confirmPassword" placeholder="Confirm Password" class="signup-input" type="password" required>
+          <div class="signup-input-icon">
+            <img src="./assets/icons/lock.svg" alt="">
+          </div>
+        </div>
+      </div>
+      <div id="signUpErrorMessage" class="signup-failed-text">
+        <span>Your Passwords don't match. Try again. </span>
+      </div>
+      <label class="signup-accept">
+        <input type="checkbox" class="signup-custom-checkbox" required>
+        <span>I accept the <a class="signup-link-privacy" target="_blank" rel="noopener noreferrer"
+            href="./privacyPolicyNo.html">Privacy policy</a></span>
+      </label>
+      <div class="signup-button-container">
+        <button class="signup-button" type="submit">Sign up</button>
+      </div>
+    </form>
+
+    <div class="signup-legal-links">
+      <a class="signup-legal-link" target="_blank" rel="noopener noreferrer" href="./privacyPolicyNo.html">Privacy
+        Policy</a>
+      <a class="signup-legal-link" target="_blank" rel="noopener noreferrer" href="./legalNoticeNo.html">Legal
+        notice</a>
+    </div>
+
+  </main>
+
+  <script src="./js/signUp.js"></script>
 </body>
+
 </html>

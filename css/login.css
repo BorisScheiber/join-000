@@ -51,6 +51,10 @@
   line-height: 24px;
 }
 
+.login-input::placeholder {
+  color: #d1d1d1;
+}
+
 .login-input:focus-visible {
   outline: none;
   border: 2px solid var(--clr-light-blue);
