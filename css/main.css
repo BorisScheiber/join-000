@@ -12,7 +12,6 @@
 :root {
   --font-family-inter: "Inter", sans-serif;
 
-  
   --clr-black: #000000;
   --clr-white: #ffffff;
   --clr-main: #2a3647;
@@ -23,7 +22,7 @@
 
 body {
   /* overflow-x: hidden; */
-  background-color: #F6F7F8;
+  background-color: #f6f7f8;
 }
 
 /* Reset standard styles */
@@ -49,11 +48,10 @@ h1 {
 }
 
 h3 {
-font-size: 27px;
-font-weight: 700;
-line-height: 32.4px;
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 32.4px;
 }
-
 
 /* Sidebar */
 
@@ -68,7 +66,7 @@ line-height: 32.4px;
   flex-direction: column;
   justify-content: space-between;
   padding: 64px 0 64px 0;
-  box-shadow: 0px 0px 4px 0px #0000001A;
+  box-shadow: 0px 0px 4px 0px #0000001a;
 }
 
 .sidebar-logo {
@@ -273,7 +271,7 @@ header {
   border-radius: 20px 0 20px 20px;
   padding: 10px;
   gap: 8px;
-  box-shadow: 0px 0px 4px 0px #0000001A;
+  box-shadow: 0px 0px 4px 0px #0000001a;
 }
 
 .slide-in {
@@ -301,7 +299,6 @@ header {
     transform: translateX(180px);
   }
 }
-
 
 .drop-down-nav-links {
   color: var(--clr-light-gray);

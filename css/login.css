@@ -95,7 +95,7 @@
   padding-left: 39px;
 }
 
-.custom-checkbox {
+.login-custom-checkbox {
   appearance: none;
   background-image: url(../assets/icons/uncheckedBox.svg);
   height: 24px;
@@ -105,19 +105,19 @@
   cursor: pointer;
 }
 
-.custom-checkbox:focus-visible {
+.login-custom-checkbox:focus-visible {
   outline: 2px solid var(--clr-light-blue);
 }
 
-.custom-checkbox:checked {
+.login-custom-checkbox:checked {
   background-image: url(../assets/icons/checkedBox.svg);
 }
 
-.custom-checkbox:hover {
+.login-custom-checkbox:hover {
   background-image: url(../assets/icons/uncheckedBoxHover.svg);
 }
 
-.custom-checkbox:checked:hover {
+.login-custom-checkbox:checked:hover {
   background-image: url(../assets/icons/checkedBoxHover.svg);
 }
 
