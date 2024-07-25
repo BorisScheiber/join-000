@@ -1,3 +1,11 @@
+/**
+ * Changes the icon next to the input field based on the text entered.
+ * 
+ * - If the input field is empty, it shows a lock icon and keeps the input type as "password".
+ * - If the input field has text and the icon is a lock, it changes to the "visibility_off" icon.
+ * 
+ * @param {HTMLInputElement} inputField - The input field to check.
+ */
 function updateIconOnInput(inputField) {
     let passwordValue = inputField.value;
     let inputIconDiv = inputField.nextElementSibling;
@@ -13,6 +21,15 @@ function updateIconOnInput(inputField) {
     }
 }
 
+/**
+ * Toggles the visibility of the password in the input field.
+ * 
+ * - If the icon is a lock, it does nothing.
+ * - If the icon is "visibility_off", it changes to "visibility" and shows the password.
+ * - If the icon is "visibility", it changes to "visibility_off" and hides the password.
+ * 
+ * @param {HTMLImageElement} inputFieldImg - The icon next to the input field that is clicked.
+ */
 function showHidePassword(inputFieldImg) {
     let inputField = inputFieldImg.parentNode.previousElementSibling;
 

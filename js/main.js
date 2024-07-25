@@ -5,14 +5,18 @@ async function init() {
   removeClassesIfNotLoggedIn();
 }
 
-
+/**
+ * Displays the desktop sidebar with links and sets the active link.
+ */
 function displayDesktopSidebar() {
   document.getElementById("desktopSidebar").innerHTML =
     displayDesktopSidebarHTML();
   setActiveLinkSidebar();
 }
 
-
+/**
+ * Sets the active link in the sidebar based on the current path.
+ */
 function setActiveLinkSidebar() {
   let path = window.location.pathname;
   let links = document.querySelectorAll(".sidebar-links");
@@ -22,7 +26,13 @@ function setActiveLinkSidebar() {
   addActiveClass(legalLinks, path, "legal-links-active");
 }
 
-
+/**
+ * Adds an active class to the links that match the current path.
+ * 
+ * @param {NodeList} links - The list of links to check.
+ * @param {string} path - The current path to match.
+ * @param {string} activeClass - The class to add to the active link.
+ */
 function addActiveClass(links, path, activeClass) {
   links.forEach((link) => {
     if (link.href.includes(path)) {
@@ -31,18 +41,24 @@ function addActiveClass(links, path, activeClass) {
   });
 }
 
-
+/**
+ * Displays the header with the logo and navigation menu.
+ */
 function displayHeader() {
   document.getElementById("header").innerHTML = displayHeaderHTML();
 }
 
-
+/**
+ * Displays the mobile navigation menu with links and sets the active link.
+ */
 function displayMobileNav() {
   document.getElementById("mobileNav").innerHTML = displayMobileNavHTML();
   setActiveLinkMobileNav();
 }
 
-
+/**
+ * Sets the active link in the mobile navigation based on the current path.
+ */
 function setActiveLinkMobileNav() {
   let path = window.location.pathname;
   let links = document.querySelectorAll(".nav-mobile-links");
@@ -50,12 +66,16 @@ function setActiveLinkMobileNav() {
   addActiveClass(links, path, "nav-mobile-links-active");
 }
 
-
+/**
+ * Navigates to the previous page in the browser history.
+ */
 function pageBack() {
   window.history.back();
 }
 
-
+/**
+ * Removes certain classes if the user is not logged in.
+ */
 function removeClassesIfNotLoggedIn() {
   let path = window.location.pathname;
 
@@ -66,25 +86,33 @@ function removeClassesIfNotLoggedIn() {
   setActiveLinkSidebar();
 }
 
-
+/**
+ * Hides elements that should not be visible if the user is not logged in.
+ */
 function hideElementsIfNotLoggedIn() {
   document.querySelector(".header-nav").classList.add("d-none");
   document.querySelector(".sidebar-menu").classList.add("d-none");
   document.getElementById("mobileNav").classList.add("d-none-important");
 }
 
-
+/**
+ * Updates the links to legal pages if the user is not logged in.
+ */
 function updateLegalLinksNotLoggedIn() {
   document.getElementById("privacyPolicyLink").href = "./privacyPolicyNo.html";
   document.getElementById("legalNoticeLink").href = "./legalNoticeNo.html";
 }
 
-
+/**
+ * Displays the dropdown navigation menu.
+ */
 function displayDropDownNav() {
   document.getElementById("dropDownNav").innerHTML = displayDropDownNavHTML();
 }
 
-
+/**
+ * Toggles the visibility of the dropdown navigation menu.
+ */
 function toggleDropDownNav() {
   let dropDownNav = document.getElementById("dropDownNav");
 
@@ -97,14 +125,22 @@ function toggleDropDownNav() {
   }
 }
 
-
+/**
+ * Slides the element in to make it visible.
+ * 
+ * @param {HTMLElement} element - The element to slide in.
+ */
 function slideIn(element) {
   element.style.display = "flex";
   element.classList.remove('slide-out');
   element.classList.add('slide-in');
 }
 
-
+/**
+ * Slides the element out to hide it.
+ * 
+ * @param {HTMLElement} element - The element to slide out.
+ */
 function slideOut(element) {
   element.classList.remove('slide-in');
   element.classList.add('slide-out');
@@ -114,7 +150,11 @@ function slideOut(element) {
   }, 200);
 }
 
-
+/**
+ * Closes the dropdown navigation menu if the user clicks outside of it.
+ * 
+ * @param {Event} event - The event triggered by clicking outside.
+ */
 function closeDropdownOnClickOutside(event) {
   let dropDownNav = document.getElementById("dropDownNav");
   let toggleButton = document.querySelector(".header-user-button");
