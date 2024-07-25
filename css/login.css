@@ -69,9 +69,6 @@
   right: 21px;
   top: 50%;
   transform: translateY(-50%);
-}
-
-.login-input-icon {
   display: block;
   height: 24px;
   width: 24px;

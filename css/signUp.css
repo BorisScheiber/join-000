@@ -206,3 +206,9 @@
   color: var(--clr-light-blue);
   font-weight: 700;
 }
+
+/* utility classes */
+
+.cursor-pointer {
+  cursor: pointer;
+}

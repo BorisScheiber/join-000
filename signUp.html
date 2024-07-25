@@ -47,15 +47,15 @@
           </div>
         </div>
         <div class="signup-input-fields">
-          <input id="password" placeholder="Password" class="signup-input" type="password" required>
+          <input oninput="updateIconOnInput(this)" id="password" placeholder="Password" class="signup-input" type="password" required>
           <div class="signup-input-icon">
-            <img src="./assets/icons/lock.svg" alt="">
+            <img onclick="showHidePassword(this)" class="signup-password-icon" src="./assets/icons/lock.svg" alt="">
           </div>
         </div>
         <div class="signup-input-fields">
-          <input id="confirmPassword" placeholder="Confirm Password" class="signup-input" type="password" required>
+          <input oninput="updateIconOnInput(this)" id="confirmPassword" placeholder="Confirm Password" class="signup-input" type="password" required>
           <div class="signup-input-icon">
-            <img src="./assets/icons/lock.svg" alt="">
+            <img onclick="showHidePassword(this)" src="./assets/icons/lock.svg" alt="">
           </div>
         </div>
       </div>
