@@ -42,3 +42,56 @@
     height: 32px;
     margin-left: 8px;
 }
+
+.contact-list{
+
+}
+
+.contact-sequence{
+    display: flex;
+    align-items: center;
+    width: 352px;
+    height: 58px;
+}
+
+.contact-sequence-text{
+    font-size: 20px;
+    font-weight: 400;
+    margin-left: 36px;
+
+}
+
+.contact-separator{
+    width: 352px;
+    height: 1px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    background-color: #D1D1D1;
+}
+
+.single-contact{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: 352px;
+    height: 78px;
+}
+
+.single-contact-profile-img{
+    height: 42px;
+    width: 42px;
+    border-radius: 50%;
+    margin-left: 24px;
+    background-color: aqua;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.single-contact-profile{
+    display: flex;
+    flex-direction: column;
+    margin-left: 35px;
+}
