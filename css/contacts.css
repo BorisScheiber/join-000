@@ -14,7 +14,8 @@
     height: 928px;
     height: 100vh;
     background-color: #FFFFFF;
-    box-shadow: 4px 0px 4px 4px #0000001a;
+    box-shadow: 4px 0px 4px 0px #0000001a;
+    z-index: 999;
 }
 
 .add-contact-button{
@@ -44,9 +45,9 @@
     margin-left: 8px;
 }
 
-.contact-list{
+/* .contact-list{
 
-}
+} */
 
 .contact-sequence{
     display: flex;
