@@ -1,19 +1,20 @@
 .contacts-content {
-    width: 456px;
-    height: 928px;
+    display: flex;
+    flex-direction: row;
     margin-top: 96px;
     margin-left: 232px;
-    box-shadow: 4px 0px 4px 4px #0000001a;
-    background-color: #FFFFFF;
+
 }
 
 .contact-menu{
     display: flex;
     align-items: center;
     flex-direction: column;
-    margin-left: 24px;
-    margin-right: 24px;
+    width: 456px;
+    height: 928px;
     height: 100vh;
+    background-color: #FFFFFF;
+    box-shadow: 4px 0px 4px 4px #0000001a;
 }
 
 .add-contact-button{
@@ -94,4 +95,34 @@
     display: flex;
     flex-direction: column;
     margin-left: 35px;
+}
+
+.contact-detail{    
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    height: 73px;
+    width: 569px;
+    margin-left: 55px;
+    margin-top: 110px;
+}
+
+.contact-detail-headline{
+    font-size: 61px;
+    font-weight: 700;
+    margin-right: 29px;
+}
+
+.contact-detail-separator{
+    height: 59px;
+    width: 2px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    background-color: #29ABE2;
+}
+
+.contact-detail-text{
+    font-size: 27px;
+    font-weight: 400;
+    margin-left: 29px;
 }
