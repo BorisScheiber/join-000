@@ -25,7 +25,7 @@
   <main class="signup-content">
     <div class="signup-join-logo"></div>
 
-    <form autocomplete="off" class="signup-card-form" onsubmit="return false">
+    <form autocomplete="off" class="signup-card-form" onsubmit="validateSignUpForm(); return false;">
       <a class="signup-link-to-login" href="./index.html">
         <img src="./assets/icons/arrowLeft.svg" alt="">
       </a>
@@ -47,13 +47,13 @@
           </div>
         </div>
         <div class="signup-input-fields">
-          <input oninput="updateIconOnInput(this)" id="password" placeholder="Password" class="signup-input" type="password" required>
+          <input oninput="updateIconOnInput(this)" id="password" placeholder="Password" class="signup-input" type="password" pattern=".{6,}" title="Password must be at least 6 characters long" required>
           <div class="signup-input-icon">
             <img onclick="showHidePassword(this)" class="signup-password-icon" src="./assets/icons/lock.svg" alt="">
           </div>
         </div>
         <div class="signup-input-fields">
-          <input oninput="updateIconOnInput(this)" id="confirmPassword" placeholder="Confirm Password" class="signup-input" type="password" required>
+          <input oninput="updateIconOnInput(this)" id="confirmPassword" placeholder="Confirm Password" class="signup-input" type="password" pattern=".{6,}" title="Password must be at least 6 characters long" required>
           <div class="signup-input-icon">
             <img onclick="showHidePassword(this)" src="./assets/icons/lock.svg" alt="">
           </div>
@@ -70,6 +70,10 @@
         <button class="signup-button" type="submit">Sign up</button>
       </div>
     </form>
+
+    <div>
+      <button onclick="validateSignUpForm()">Test Validation</button>
+    </div>
 
     <div class="signup-legal-links">
       <a class="signup-legal-link" href="#" onclick="window.open('./privacyPolicyNo.html', '_blank'); return false;">Privacy

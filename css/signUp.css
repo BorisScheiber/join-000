@@ -94,11 +94,20 @@
   border: 2px solid var(--clr-light-blue);
 }
 
+.signup-input-error {
+  border: 2px solid #FF203B;
+}
+
+.signup-input-error:focus-visible {
+  border: 2px solid #FF203B;
+}
+
 .signup-failed-text {
   margin-top: 8px;
   color: #ff8190;
   font-size: 12px;
   line-height: 14.4px;
+  transition: visibility 10ms;
   visibility: hidden;
 }
 

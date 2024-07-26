@@ -46,3 +46,27 @@ function showHidePassword(inputFieldImg) {
             break;
     }
 }
+
+function validateSignUpForm() {
+    checkIfPasswordsMatch();
+    console.log(checkIfPasswordsMatch());
+}
+
+function checkIfPasswordsMatch() {
+    let passwordField = document.getElementById("password");
+    let confirmPasswordField = document.getElementById("confirmPassword");
+    let errorMessage = document.getElementById("signUpErrorMessage");
+
+    if(passwordField.value === confirmPasswordField.value) {
+        errorMessage.style.visibility = "hidden";
+        confirmPasswordField.classList.remove("signup-input-error");
+        return true;
+    } else {
+        errorMessage.style.visibility = "visible";
+        confirmPasswordField.classList.add("signup-input-error");
+        return false;
+    }
+}
+
+
+

@@ -45,13 +45,13 @@
       <form autocomplete="off" onsubmit="return false">
         <div class="input-container">
           <div class="login-input-fields">
-            <input placeholder="Email" class="login-input" type="email" required>
+            <input placeholder="Email" class="login-input" type="email" pattern="[a-z0-9._%+\-]+@[a-z0-9\-]+\.[a-z]{2,63}$" title="Please enter a valid email address (e.g., test@domain.com)" required>
             <div class="login-input-icon">
               <img src="./assets/icons/mail.svg" alt="">
             </div>
           </div>
           <div class="login-input-fields">
-            <input placeholder="Password" class="login-input" type="password" required>
+            <input placeholder="Password" class="login-input" type="password" pattern=".{6,}" title="Password must be at least 6 characters long" required>
             <div class="login-input-icon">
               <img src="./assets/icons/lock.svg" alt="">
             </div>
