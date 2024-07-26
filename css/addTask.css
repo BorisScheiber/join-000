@@ -540,3 +540,16 @@
     padding-right: 40px;
     /* Platz für den Button rechts einräumen */
 }
+
+
+/* Changes by Boris */
+
+.add-task-clear-icon {
+    background-image: url('../assets/icons/cancelBlack.svg');
+    height: 24px;
+    width: 24px;
+}
+
+.clear-button:hover .add-task-clear-icon {
+    background-image: url('../assets/icons/cancelBlue.svg');
+}
