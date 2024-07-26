@@ -1,0 +1,44 @@
+.contacts-content {
+    width: 456px;
+    height: 928px;
+    margin-top: 96px;
+    margin-left: 232px;
+    box-shadow: 4px 0px 4px 4px #0000001a;
+    background-color: #FFFFFF;
+}
+
+.contact-menu{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 24px;
+    margin-right: 24px;
+    height: 100vh;
+}
+
+.add-contact-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 22.5px;
+    width: 352px;
+    height: 56px;
+    border: 1px;
+    border-radius: 10px;
+    padding: 12px 0px 12px 0px;
+    background-color: #2A3647;
+}
+
+.add-new-contact-text{
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 25.2px;
+    color: #FFFFFF;
+    margin-right: 8px;
+}
+
+.add-person-icon{
+    width: 32px;
+    height: 32px;
+    margin-left: 8px;
+}
