@@ -51,7 +51,8 @@
             </div>
           </div>
           <div class="login-input-fields">
-            <input placeholder="Password" class="login-input" type="password" pattern=".{6,}" title="Password must be at least 6 characters long" required>
+            <input placeholder="Password" class="login-input" type="password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{6,}$"
+            title="At least 6 characters, with an uppercase letter, a lowercase letter, a number, and no spaces." minlength="6" required>
             <div class="login-input-icon">
               <img src="./assets/icons/lock.svg" alt="">
             </div>
