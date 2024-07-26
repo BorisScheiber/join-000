@@ -26,6 +26,57 @@
 <body onload="init()">
 
     <header id="header"></header>
+    <div class="add-task-content">
+        <h1> Add Task</h1>
+        <form id="recipeForm" class="add-task-container">
+            <div class="add-task-left">
+                <div class="input-group">
+                    <label for="title">Title<span class="red-color">*</span></label>
+                    <input type="text" id="title" class="input-field" required minlength="3"
+                        placeholder="Enter a title">
+                </div>
+                <div class="input-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" class="text-area" required minlength="10"
+                        placeholder="Enter a description"></textarea>
+                </div>
+                <div class="assigned-to">
+                    <div class="search-container">
+                            <input type="text" id="contact-search" class="contact-search" placeholder="Select contacts to assign" oninput="filterContacts()">
+
+                        <button id="toggle-list" class="toggle-list" onclick="toggleContactList()"> <div class="toggle-symbole">▼</div> </button>
+                    </div>
+                    <div id="contact-list" class="contact-list hidden">
+                    </div>
+                    <div id="selected-contacts" class="selected-contacts">
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="add-task-vertical-line"></div>
+            <div class="add-task-right">
+                <!-- Right part content goes here -->
+            </div>
+        </form>
+        <div class="footer">
+            <p class="required-note"><span>*</span>This field is required</p>
+            <div class="buttons">
+                <button onclick="clearFields()" class="clear-button">
+                    <p>Clear</p>
+                    <img src="assets/icons/iconoir_cancel.png" alt="Cancel">
+                </button>
+
+                <button onclick="createTask()" class="create-button" type="submit">
+                    <p>Create task</p>
+                    <img src="assets/icons/check.png" alt="Check">
+                </button>
+
+            </div>
+        </div>
+    </div>
 
     <section id="desktopSidebar" class="sidebar"></section>
 
@@ -33,6 +84,8 @@
 
     <script src="./js/html/mainHTML.js"></script>
     <script src="./js/main.js"></script>
+    <script src="js/addTask.js"></script>
+
 </body>
 
 </html>
