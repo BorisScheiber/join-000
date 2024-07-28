@@ -1,3 +1,7 @@
+.d-none{
+    display: none;
+}
+
 .contacts-content {
     display: flex;
     flex-direction: row;
@@ -259,6 +263,7 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    display: none;
 }
 
 .add-new-contact{
