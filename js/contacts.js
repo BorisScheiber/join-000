@@ -55,21 +55,6 @@ function loadColors() {
     return colors;
 }
 
-function generateContactHTML(user, color) {
-    const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
-    return `
-        <div class="single-contact" onclick="showContactDetail('${user.name}')">
-            <div class="single-contact-profile-img" style="background-color: ${color};" id="profile-${user.name.split(' ').join('-')}">
-                ${initials}
-            </div>
-            <div class="single-contact-profile">
-                ${user.name}
-                <a href="mailto:${user.email}">${user.email}</a>
-            </div>
-        </div>
-    `;
-}
-
 const loadContactMenu = document.getElementById('loadContactMenu');
 let currentLetter = '';
 let html = '';
@@ -89,11 +74,25 @@ users.forEach(user => {
     html += generateContactHTML(user, colors[user.name]);
 });
 
+function generateContactHTML(user, color) {
+    const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
+    return `
+        <div class="single-contact" onclick="showContactDetail('${user.name}')">
+            <div class="single-contact-profile-img" style="background-color: ${color};" id="profile-${user.name.split(' ').join('-')}">
+                ${initials}
+            </div>
+            <div class="single-contact-profile">
+                ${user.name}
+                <a href="mailto:${user.email}">${user.email}</a>
+            </div>
+        </div>
+    `;
+}
+
 loadContactMenu.innerHTML = html;
 
 function openNewContact() {
     const addNewContactContainer = document.getElementById('newContact');
-
     addNewContactContainer.innerHTML = `
         <div class="add-new-contact">
             <div class="add-new-contact-menu">
@@ -211,7 +210,6 @@ window.openEditingContact = (name) => {
     const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
     const editContact = document.getElementById('editContact');
     const bgColor = colors[user.name];
-
     editContact.innerHTML = generateEditContactHTML(user, initials, bgColor);
     editContact.style.display = 'flex';
 };
