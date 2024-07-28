@@ -32,8 +32,8 @@
     <main class="contacts-content">
 
         <div class="contact-menu">
-            <div class="add-contact-button" id="add-new-contact"> 
-                <span class="add-new-contact-text" onclick="openNewContact()">Add new contact</span>
+            <div class="add-contact-button" id="add-new-contact" onclick="openNewContact()"> 
+                <span class="add-new-contact-text">Add new contact</span>
                 <img src="./assets/icons/personAdd.svg" alt="add person" class="add-person-icon">
             </div>
             <div id="loadContactMenu" class="contact-list"> 
@@ -144,62 +144,6 @@
         </div>
 
         <div class="window-edit-contact" id="editContact">
-            <div class="edit-contact">
-                <div class="edit-contact-menu">
-                    <div class="edit-contact-menu-img">
-                        <img src="./assets/icons/logo-add-new-contact.svg" alt="logo" class="edit-contact-menu-img">
-                    </div>
-                    <div>
-                        <div class="edit-contact-menu-text">
-                            <span class="edit-contact-menu-text-headline">Edit contact</span>
-                        </div>
-                        <div class="edit-contact-menu-separator"></div>
-                    </div>
-                </div>
-                <div class="edit-contact-content">
-                    <div class="edit-contact-close-button">
-                        <img src="./assets/icons/close-contact.svg" alt="close" class="close-contact" onclick="closeEditContact()">
-                    </div>
-                    <div class="edit-contact-input-fields">
-                        <div class="icon-profile-edit-contact">
-                            <span>AM</span>
-                        </div>
-                        <div class="edit-contact-input-field-section">
-                            <div class="contact-input-fields">
-                                <input type="text" placeholder="Name" class="input-fields-edit-contact">
-                                <div class="contact-input-icon">
-                                    <img src="./assets/icons/contactPersonInput.svg" alt="profile">
-                                </div>
-                            </div>
-                            <div class="input-field-separator"></div>
-                            <div class="contact-input-fields">
-                                <input type="email" placeholder="Email" class="input-fields-edit-contact">
-                                <div class="contact-input-icon">
-                                    <img src="./assets/icons/contactMailInput.svg" alt="mail">
-                                </div>
-                            </div>
-                            <div class="input-field-separator"></div>
-                            <div class="contact-input-fields">
-                                <input type="tel" placeholder="Phone" class="input-fields-edit-contact">
-                                <div class="contact-input-icon">
-                                    <img src="./assets/icons/contactCallInput.svg" alt="phone">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="edit-contact-button-section">
-                        <div class="edit-contact-buttons">
-                            <div class="button-delete-contact">
-                                <span>Delete</span>
-                            </div>
-                            <div class="button-save-contact">
-                                <span>Save</span>
-                                <img src="./assets/icons/createNewContact.svg" alt="tick">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
     </main>
@@ -209,6 +153,7 @@
     <script src="./js/html/mainHTML.js"></script>
     <script src="./js/main.js"></script>
     <script src="./js/contacts.js"></script>
+    
 </body>
 
 </html>

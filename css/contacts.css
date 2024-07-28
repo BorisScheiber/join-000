@@ -155,7 +155,7 @@ a{
     align-items: start;
     flex-direction: column;
     height: 364px;
-    width: 461px;
+    width: 661px;
     margin-left: 62px;
     margin-top: 32px;
     display: none;
@@ -480,10 +480,12 @@ a{
 
 /* new window for editing an existend contact */
 
-.window-edit-contact{
+.window-edit-contact {
     position: fixed;
     top: 0;
     right: 0;
+    bottom: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.3);
@@ -494,7 +496,7 @@ a{
     display: none;
 }
 
-.edit-contact{
+.edit-contact {
     width: 1212px;
     height: 592px;
     background-color: #FFFFFF;
@@ -591,7 +593,6 @@ a{
     height: 120px;
     border: 3px solid #FFFFFF;
     border-radius: 50%;
-    background-color: aqua;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -600,6 +601,7 @@ a{
     color: #FFFFFF;
     margin-right: 54px;
     margin-left: 101px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
 }
 
 .edit-contact-input-field-section{

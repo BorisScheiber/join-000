@@ -92,12 +92,12 @@ users.forEach(user => {
 loadContactMenu.innerHTML = html;
 
 function openNewContact(){
-    let addNew = document.getElementById('newContact');
+    const addNew = document.getElementById('newContact');
     addNew.style.display = 'flex';
 }
 
 function closeNewContact(){
-    let closeNew = document.getElementById('newContact');
+    const closeNew = document.getElementById('newContact');
     closeNew.style.display ='none';
 }
 
@@ -107,7 +107,7 @@ function showContactDetail(name) {
     const bgColor = colors[user.name];
     const contactDetail = document.getElementById('contactDetail');
     contactDetail.innerHTML = generateContactDetailHTML(user, bgColor); 
-    contactDetail.style.display = 'block';
+    contactDetail.style.display = 'flex';
 }
 
 function generateContactDetailHTML(user, bgColor) {
@@ -118,7 +118,7 @@ function generateContactDetailHTML(user, bgColor) {
             <div class="contact-detail-card-user">
                 <span class="contact-detail-card-name">${user.name}</span>
                 <div class="contact-detail-change-section">
-                    <button class="contact-detail-edit">
+                    <button class="contact-detail-edit" onclick="openEditingContact('${user.name}')">
                         <img src="./assets/icons/edit-contact.svg" alt="edit" class="contact-detail-change-icons">
                         <span class="contact-detail-edit-text">Edit</span>
                     </button>
@@ -144,3 +144,75 @@ function generateContactDetailHTML(user, bgColor) {
         </div>
     `;
 }
+
+window.openEditingContact = (name) => {
+    const user = users.find(u => u.name === name);
+    const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
+    const editContact = document.getElementById('editContact');
+    const bgColor = colors[user.name];
+
+    editContact.innerHTML = `
+    <div class="edit-contact">
+        <div class="edit-contact-menu">
+            <div class="edit-contact-menu-img">
+                <img src="./assets/icons/logo-add-new-contact.svg" alt="logo" class="edit-contact-menu-img">
+            </div>
+            <div>
+                <div class="edit-contact-menu-text">
+                    <span class="edit-contact-menu-text-headline">Edit contact</span>
+                </div>
+                <div class="edit-contact-menu-separator"></div>
+            </div>
+        </div>
+        <div class="edit-contact-content">
+            <div class="edit-contact-close-button">
+                <img src="./assets/icons/close-contact.svg" alt="close" class="close-contact" onclick="closeEditContact()">
+            </div>
+            <div class="edit-contact-input-fields">
+                <div class="icon-profile-edit-contact" style="background-color: ${bgColor};">
+                    <span>${initials}</span>
+                </div>
+                <div class="edit-contact-input-field-section">
+                    <div class="contact-input-fields">
+                        <input type="text" placeholder="Name" class="input-fields-edit-contact" value="${user.name}">
+                        <div class="contact-input-icon">
+                            <img src="./assets/icons/contactPersonInput.svg" alt="profile">
+                        </div>
+                    </div>
+                    <div class="input-field-separator"></div>
+                    <div class="contact-input-fields">
+                        <input type="email" placeholder="Email" class="input-fields-edit-contact" value="${user.email}">
+                        <div class="contact-input-icon">
+                            <img src="./assets/icons/contactMailInput.svg" alt="mail">
+                        </div>
+                    </div>
+                    <div class="input-field-separator"></div>
+                    <div class="contact-input-fields">
+                        <input type="tel" placeholder="Phone" class="input-fields-edit-contact" value="${user.phone}">
+                        <div class="contact-input-icon">
+                            <img src="./assets/icons/contactCallInput.svg" alt="phone">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="edit-contact-button-section">
+                <div class="edit-contact-buttons">
+                    <div class="button-delete-contact">
+                        <span>Delete</span>
+                    </div>
+                    <div class="button-save-contact">
+                        <span>Save</span>
+                        <img src="./assets/icons/createNewContact.svg" alt="tick">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+`;
+editContact.style.display = 'flex';
+};
+
+window.closeEditContact = () => {
+const editContact = document.getElementById('editContact');
+editContact.style.display = 'none';
+};
