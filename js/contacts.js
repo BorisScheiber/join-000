@@ -91,14 +91,75 @@ users.forEach(user => {
 
 loadContactMenu.innerHTML = html;
 
-function openNewContact(){
-    const addNew = document.getElementById('newContact');
-    addNew.style.display = 'flex';
+function openNewContact() {
+    const addNewContactContainer = document.getElementById('newContact');
+
+    addNewContactContainer.innerHTML = `
+        <div class="add-new-contact">
+            <div class="add-new-contact-menu">
+                <div class="add-new-contact-menu-img">
+                    <img src="./assets/icons/logo-add-new-contact.svg" alt="logo" class="add-new-contact-menu-img">
+                </div>
+                <div>
+                    <div class="add-new-contact-menu-text">
+                        <span class="add-new-contact-menu-text-headline">Add contact</span>
+                        <span class="add-new-contact-menu-text-subtext">Tasks are better with a team!</span>
+                    </div>
+                    <div class="add-new-contact-menu-separator"></div>
+                </div>
+            </div>
+            <div class="add-new-contact-content">
+                <div class="add-new-contact-close-button" onclick="closeNewContact()">
+                    <img src="./assets/icons/close-contact.svg" alt="close" class="close-contact">
+                </div>
+                <div class="add-new-contact-input-fields">
+                    <div class="icon-profile-add-new-contact">
+                        <img src="./assets/icons/personContact.svg" alt="profile" class="img-profile-add-new-contact">
+                    </div>
+                    <div class="add-new-contact-input-field-section">
+                        <div class="contact-input-fields">
+                            <input type="text" placeholder="Name" class="input-fields-add-new-contact">
+                            <div class="contact-input-icon">
+                                <img src="./assets/icons/contactPersonInput.svg" alt="profile">
+                            </div>
+                        </div>
+                        <div class="input-field-separator"></div>
+                        <div class="contact-input-fields">
+                            <input type="email" placeholder="Email" class="input-fields-add-new-contact">
+                            <div class="contact-input-icon">
+                                <img src="./assets/icons/contactMailInput.svg" alt="mail">
+                            </div>
+                        </div>
+                        <div class="input-field-separator"></div>
+                        <div class="contact-input-fields">
+                            <input type="tel" placeholder="Phone" class="input-fields-add-new-contact">
+                            <div class="contact-input-icon">
+                                <img src="./assets/icons/contactCallInput.svg" alt="phone">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="add-new-contact-button-section">
+                    <div class="add-new-contact-buttons">
+                        <div class="button-cancel-new-contact" onclick="closeNewContact()">
+                            <span>Cancel</span>
+                            <img src="./assets/icons/cancelNewContact.svg" alt="cancel">
+                        </div>
+                        <div class="button-create-new-contact">
+                            <span>Create contact</span>
+                            <img src="./assets/icons/createNewContact.svg" alt="tick">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    addNewContactContainer.style.display = 'flex';
 }
 
-function closeNewContact(){
-    const closeNew = document.getElementById('newContact');
-    closeNew.style.display ='none';
+function closeNewContact() {
+    const addNewContactContainer = document.getElementById('newContact');
+    addNewContactContainer.style.display = 'none';
 }
 
 function showContactDetail(name) {
