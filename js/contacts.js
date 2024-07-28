@@ -58,8 +58,8 @@ function loadColors() {
 function generateContactHTML(user, color) {
     const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
     return `
-        <div class="single-contact" onclick="openEditContact()">
-            <div class="single-contact-profile-img" style="background-color: ${color};">
+        <div class="single-contact" onclick="showContactDetail('${user.name}')">
+            <div class="single-contact-profile-img" style="background-color: ${color};" id="profile-${user.name.split(' ').join('-')}">
                 ${initials}
             </div>
             <div class="single-contact-profile">
@@ -99,4 +99,48 @@ function openNewContact(){
 function closeNewContact(){
     let closeNew = document.getElementById('newContact');
     closeNew.style.display ='none';
+}
+
+function showContactDetail(name) {
+    const user = users.find(u => u.name === name);
+    const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
+    const bgColor = colors[user.name];
+    const contactDetail = document.getElementById('contactDetail');
+    contactDetail.innerHTML = generateContactDetailHTML(user, bgColor); 
+    contactDetail.style.display = 'block';
+}
+
+function generateContactDetailHTML(user, bgColor) {
+    const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
+    return `
+        <div class="contact-detail-card-headline">
+            <div class="contact-detail-profile-img" style="background-color: ${bgColor};">${initials}</div>
+            <div class="contact-detail-card-user">
+                <span class="contact-detail-card-name">${user.name}</span>
+                <div class="contact-detail-change-section">
+                    <button class="contact-detail-edit">
+                        <img src="./assets/icons/edit-contact.svg" alt="edit" class="contact-detail-change-icons">
+                        <span class="contact-detail-edit-text">Edit</span>
+                    </button>
+                    <button class="contact-detail-delete">
+                        <img src="./assets/icons/delete-contact.svg" alt="delete" class="contact-detail-change-icons">
+                        <span class="contact-detail-edit-text">Delete</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="contact-detail-card-subheadline">
+            <span>Contact Information</span>
+        </div>
+        <div class="contact-detail-information-block">
+            <div class="contact-detail-information-block-mail">
+                <span class="contact-detail-information-block-subheadline">Email</span>
+                <a href="mailto:${user.email}" class="contact-detail-information-block-text">${user.email}</a>
+            </div>
+            <div class="contact-detail-information-block-phone">
+                <span class="contact-detail-information-block-subheadline">Phone</span>
+                <span class="contact-detail-information-block-text">${user.phone}</span>
+            </div>
+        </div>
+    `;
 }
