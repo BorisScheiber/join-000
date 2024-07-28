@@ -35,25 +35,36 @@
       </div>
       <div class="signup-input-container">
         <div class="signup-input-fields">
-          <input id="name" placeholder="Name" class="signup-input" type="text" pattern="^[A-Za-z]+ [A-Za-z]+.*$" title="Please enter your full name (First and Last name)" required>
+          <input id="name" placeholder="Name" class="signup-input" type="text"
+            pattern="^[A-Za-zäöüÄÖÜß]{3,} [A-Za-zäöüÄÖÜß]{3,}$"
+            title="Please type your full name, with both first and last names having at least 3 letters (e.g., Max Muster)."
+            required>
           <div class="signup-input-icon">
             <img src="./assets/icons/person.svg" alt="">
           </div>
         </div>
         <div class="signup-input-fields">
-          <input id="email" placeholder="Email" class="signup-input" type="email" pattern="[a-z0-9._%+\-]+@[a-z0-9\-]+\.[a-z]{2,63}$" title="Please enter a valid email address (e.g., test@domain.com)" required>
+          <input id="email" placeholder="Email" class="signup-input" type="email"
+          pattern="^[a-z0-9._%+\-]+@[a-z0-9\-]+\.[a-z]{2,63}$"
+            title="Please enter a valid email address (e.g., test@domain.com)" required>
           <div class="signup-input-icon">
             <img src="./assets/icons/mail.svg" alt="">
           </div>
         </div>
         <div class="signup-input-fields">
-          <input oninput="updateIconOnInput(this)" id="password" placeholder="Password" class="signup-input" type="password" pattern=".{6,}" title="Password must be at least 6 characters long" required>
+          <input oninput="updateIconOnInput(this)" id="password" placeholder="Password" class="signup-input"
+            type="password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{6,}$"
+            title="At least 6 characters, with an uppercase letter, a lowercase letter, a number, and no spaces." minlength="6"
+            required>
           <div class="signup-input-icon">
             <img onclick="showHidePassword(this)" class="signup-password-icon" src="./assets/icons/lock.svg" alt="">
           </div>
         </div>
         <div class="signup-input-fields">
-          <input oninput="updateIconOnInput(this)" id="confirmPassword" placeholder="Confirm Password" class="signup-input" type="password" pattern=".{6,}" title="Password must be at least 6 characters long" required>
+          <input oninput="updateIconOnInput(this)" id="confirmPassword" placeholder="Confirm Password"
+            class="signup-input" type="password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{6,}$"
+            title="At least 6 characters, with an uppercase letter, a lowercase letter, a number, and no spaces." minlength="6"
+            required>
           <div class="signup-input-icon">
             <img onclick="showHidePassword(this)" src="./assets/icons/lock.svg" alt="">
           </div>
@@ -64,7 +75,8 @@
       </div>
       <label class="signup-accept">
         <input type="checkbox" class="signup-custom-checkbox" required>
-        <span>I accept the <a class="signup-link-privacy" href="#" onclick="window.open('./privacyPolicyNo.html', '_blank'); return false;">Privacy policy</a></span>
+        <span>I accept the <a class="signup-link-privacy" href="#"
+            onclick="window.open('./privacyPolicyNo.html', '_blank'); return false;">Privacy policy</a></span>
       </label>
       <div class="signup-button-container">
         <button class="signup-button" type="submit">Sign up</button>
@@ -76,7 +88,8 @@
     </div>
 
     <div class="signup-legal-links">
-      <a class="signup-legal-link" href="#" onclick="window.open('./privacyPolicyNo.html', '_blank'); return false;">Privacy
+      <a class="signup-legal-link" href="#"
+        onclick="window.open('./privacyPolicyNo.html', '_blank'); return false;">Privacy
         Policy</a>
       <a class="signup-legal-link" href="#" onclick="window.open('./legalNoticeNo.html', '_blank'); return false;">Legal
         notice</a>
