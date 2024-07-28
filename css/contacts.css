@@ -1,3 +1,7 @@
+a{
+    color: #007CEE;
+}
+
 .d-none{
     display: none;
 }
@@ -9,6 +13,8 @@
     margin-left: 232px;
 
 }
+
+/* contact list*/
 
 .contact-menu{
     display: flex;
@@ -38,6 +44,7 @@
 .add-contact-button:hover{
     background-color: #29ABE2;
     box-shadow: 0px 4px 4px 0px #B7B7B7;
+    cursor: pointer;
 }
 
 .add-new-contact-text{
@@ -84,17 +91,25 @@
     height: 78px;
 }
 
+.single-contact:hover{
+    background-color: #2A3647;
+    border-radius: 10px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
 .single-contact-profile-img{
     height: 42px;
     width: 42px;
     border-radius: 50%;
     margin-left: 24px;
-    background-color: aqua;
+    /* background-color: aqua; */
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 12px;
     font-weight: 400;
+    color: #FFFFFF;
 }
 
 .single-contact-profile{
@@ -102,6 +117,8 @@
     flex-direction: column;
     margin-left: 35px;
 }
+
+/* detailed overview from selected contact*/
 
 .contact-detail{    
     display: flex;
@@ -141,6 +158,7 @@
     width: 461px;
     margin-left: 62px;
     margin-top: 32px;
+    display: none;
 }
 
 .contact-detail-card-headline{
@@ -197,7 +215,6 @@
     font-weight: 400;
 }
 
-
 .contact-detail-change-icons{
     width: 24px;
     height: 24px;
@@ -209,6 +226,12 @@
     font-weight: 400;
     color: #2A3647;
     padding-bottom: 2.5px;
+}
+
+.contact-detail-edit-text:hover{
+    color: #29ABE2;
+    font-size: 16px;
+    font-weight: 700;
 }
 
 .contact-detail-card-subheadline{
@@ -251,6 +274,8 @@
     font-weight: 400;
     color: #000000;
 }
+
+/*window for add a new contact*/
 
 .window-add-new-contact{
     position: fixed;
@@ -343,6 +368,24 @@
     height: 32px;
 }
 
+.close-contact:hover{
+    cursor: pointer;
+}
+
+.contact-input-fields{
+    position: relative;
+}
+
+.contact-input-icon{
+    position: absolute;
+    right: 21px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: block;
+    height: 24px;
+    width: 24px;
+}
+
 .add-new-contact-input-fields{
     display: flex;
     align-items: center;
@@ -373,13 +416,18 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    width: 422px;
 }
 
 .input-fields-add-new-contact{
-    width: 422px;
-    height: 50px;
-    border: 1px solid #D1D1D1;
+    height: 48px;
+    width: 100%;
+    padding: 12px 50px 12px 21px;
     border-radius: 10px;
+    border: 1px solid #d1d1d1;
+    font-family: var(--font-family-inter);
+    font-size: 20px;
+    line-height: 24px;
 }
 
 .input-field-separator{
@@ -399,7 +447,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-
 }
 
 .button-cancel-new-contact{
@@ -419,6 +466,195 @@
 
 .button-create-new-contact{
     width: 214px;
+    height: 57px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 4px;
+    border-radius: 10px;
+    background-color: #2A3647;
+    font-size: 21px;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+/* new window for editing an existend contact */
+
+.window-edit-contact{
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    display: none;
+}
+
+.edit-contact{
+    width: 1212px;
+    height: 592px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.edit-contact-menu{
+    display: flex;
+    flex-direction: column;
+    width: 467px;
+    height: 594px;
+    background-color: #2A3647;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    padding: 154px 48px 232.5px 48px;
+}
+
+.edit-contact-menu-img{
+    width: 55.6px;
+    height: 66.48px;
+    margin-bottom: 12.02px;
+}
+
+.edit-contact-menu-text{
+    width: 371px;
+    height: 61px;
+}
+
+.edit-contact-menu-text-headline{
+    font-size: 61px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 8px;
+}
+
+.edit-contact-menu-separator{
+    width: 90px;
+    border: 2px solid #29ABE2;
+    margin-top: 16px;
+}
+
+.edit-contact-content{
+    display: flex;
+    flex-direction: column;
+    width: 745px;
+    height: 594px;
+    background-color: #FFFFFF;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+.edit-contact-close-button{
+    height: 137px;
+    border-top-right-radius: 30px;
+    display: flex;
+    justify-content: end;
+}
+
+.close-contact{
+    margin-top: 48px;
+    margin-right: 48px;
+    width: 32px;
+    height: 32px;
+}
+
+.contact-input-fields{
+    position: relative;
+}
+
+.contact-input-icon{
+    position: absolute;
+    right: 21px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: block;
+    height: 24px;
+    width: 24px;
+}
+
+.edit-contact-input-fields{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    height: 265px;
+}
+
+.icon-profile-edit-contact{
+    width: 120px;
+    height: 120px;
+    border: 3px solid #FFFFFF;
+    border-radius: 50%;
+    background-color: aqua;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 47px;
+    font-weight: 500;
+    color: #FFFFFF;
+    margin-right: 54px;
+    margin-left: 101px;
+}
+
+.edit-contact-input-field-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 422px;
+}
+
+.input-fields-edit-contact{
+    height: 48px;
+    width: 100%;
+    padding: 12px 50px 12px 21px;
+    border-radius: 10px;
+    border: 1px solid #d1d1d1;
+    font-family: var(--font-family-inter);
+    font-size: 20px;
+    line-height: 24px;
+}
+
+.input-field-separator{
+    height: 32px;
+}
+
+.edit-contact-button-section{
+    margin-left: 275px;
+    height: 192px;
+    border-bottom-right-radius: 30px;
+}
+
+.edit-contact-buttons{
+    width: 294px;
+    height: 57px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.button-delete-contact{
+    width: 126px;
+    height: 57px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 25px;
+    border: 1px solid #2A3647;
+    border-radius: 10px;
+    color: #2A3647;
+    background-color: #FFFFFF;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.button-save-contact{
+    width: 111px;
     height: 57px;
     display: flex;
     align-items: center;

@@ -30,44 +30,26 @@
     <section id="desktopSidebar" class="sidebar"></section>
 
     <main class="contacts-content">
+
         <div class="contact-menu">
             <div class="add-contact-button" id="add-new-contact"> 
-                <span class="add-new-contact-text">Add new contact</span>
+                <span class="add-new-contact-text" onclick="openNewContact()">Add new contact</span>
                 <img src="./assets/icons/personAdd.svg" alt="add person" class="add-person-icon">
             </div>
-            <div id="contacts" class="contact-list"> 
+            <div id="loadContactMenu" class="contact-list"> 
                 <div class="contact-sequence">
-                    <span class="contact-sequence-text">A</span>
+                    <span class="contact-sequence-text" id="sortContact"></span>
                 </div>
-                <div class="contact-separator"></div>
-                <div class="single-contact">
-                    <div class="single-contact-profile-img">
-                        AM
-                    </div>
-                    <div class="single-contact-profile">
-                        Anton Mayer
-                        <a href="##">antom@gmail.com</a>
-                    </div>
-                </div>
-                <div class="single-contact">
-                    <div class="single-contact-profile-img">
-                        AS
-                    </div>
-                    <div class="single-contact-profile">
-                        Anja Schulz
-                        <a href="##">schulz@hotmail.com</a>
-                    </div>
-                </div>
-                <div class="contact-separator"></div>
             </div>
         </div>
-        <div>
+        
+        <div class="contact-detail-section">
             <div class="contact-detail">
                 <div class="contact-detail-headline">Contact</div>
                 <div class="contact-detail-separator"></div>
                 <div class="contact-detail-text">Better with a team</div>
             </div>
-            <div class="contact-detail-card">
+            <div class="contact-detail-card" id="openDetailedContact">
                 <div class="contact-detail-card-headline">
                     <div class="contact-detail-profile-img">AM</div>
                     <div class="contact-detail-card-user">
@@ -99,7 +81,8 @@
                 </div>
             </div>
         </div>
-        <div class="window-add-new-contact">
+
+        <div class="window-add-new-contact" id="newContact">
             <div class="add-new-contact">
                 <div class="add-new-contact-menu">
                     <div class="add-new-contact-menu-img">
@@ -115,18 +98,33 @@
                 </div>
                 <div class="add-new-contact-content">
                     <div class="add-new-contact-close-button">
-                        <img src="./assets/icons/close-contact.svg" alt="close" class="close-contact">
+                        <img src="./assets/icons/close-contact.svg" alt="close" class="close-contact" onclick="closeNewContact()">
                     </div>
                     <div class="add-new-contact-input-fields">
                         <div class="icon-profile-add-new-contact">
                             <img src="./assets/icons/personContact.svg" alt="profile" class="img-profile-add-new-contact">
                         </div>
                         <div class="add-new-contact-input-field-section">
-                            <input type="text" placeholder="Name" class="input-fields-add-new-contact">
+                            <div class="contact-input-fields">
+                                <input type="text" placeholder="Name" class="input-fields-add-new-contact">
+                                <div class="contact-input-icon">
+                                    <img src="./assets/icons/contactPersonInput.svg" alt="profile">
+                                </div>
+                            </div>
                             <div class="input-field-separator"></div>
-                            <input type="text" placeholder="Email" class="input-fields-add-new-contact">
+                            <div class="contact-input-fields">
+                                <input type="email" placeholder="Email" class="input-fields-add-new-contact">
+                                <div class="contact-input-icon">
+                                    <img src="./assets/icons/contactMailInput.svg" alt="mail">
+                                </div>
+                            </div>
                             <div class="input-field-separator"></div>
-                            <input type="text" placeholder="Phone" class="input-fields-add-new-contact">
+                            <div class="contact-input-fields">
+                                <input type="tel" placeholder="Phone" class="input-fields-add-new-contact">
+                                <div class="contact-input-icon">
+                                    <img src="./assets/icons/contactCallInput.svg" alt="phone">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="add-new-contact-button-section">
@@ -144,12 +142,73 @@
                 </div>
             </div>
         </div>
+
+        <div class="window-edit-contact" id="editContact">
+            <div class="edit-contact">
+                <div class="edit-contact-menu">
+                    <div class="edit-contact-menu-img">
+                        <img src="./assets/icons/logo-add-new-contact.svg" alt="logo" class="edit-contact-menu-img">
+                    </div>
+                    <div>
+                        <div class="edit-contact-menu-text">
+                            <span class="edit-contact-menu-text-headline">Edit contact</span>
+                        </div>
+                        <div class="edit-contact-menu-separator"></div>
+                    </div>
+                </div>
+                <div class="edit-contact-content">
+                    <div class="edit-contact-close-button">
+                        <img src="./assets/icons/close-contact.svg" alt="close" class="close-contact" onclick="closeEditContact()">
+                    </div>
+                    <div class="edit-contact-input-fields">
+                        <div class="icon-profile-edit-contact">
+                            <span>AM</span>
+                        </div>
+                        <div class="edit-contact-input-field-section">
+                            <div class="contact-input-fields">
+                                <input type="text" placeholder="Name" class="input-fields-edit-contact">
+                                <div class="contact-input-icon">
+                                    <img src="./assets/icons/contactPersonInput.svg" alt="profile">
+                                </div>
+                            </div>
+                            <div class="input-field-separator"></div>
+                            <div class="contact-input-fields">
+                                <input type="email" placeholder="Email" class="input-fields-edit-contact">
+                                <div class="contact-input-icon">
+                                    <img src="./assets/icons/contactMailInput.svg" alt="mail">
+                                </div>
+                            </div>
+                            <div class="input-field-separator"></div>
+                            <div class="contact-input-fields">
+                                <input type="tel" placeholder="Phone" class="input-fields-edit-contact">
+                                <div class="contact-input-icon">
+                                    <img src="./assets/icons/contactCallInput.svg" alt="phone">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="edit-contact-button-section">
+                        <div class="edit-contact-buttons">
+                            <div class="button-delete-contact">
+                                <span>Delete</span>
+                            </div>
+                            <div class="button-save-contact">
+                                <span>Save</span>
+                                <img src="./assets/icons/createNewContact.svg" alt="tick">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <nav id="mobileNav" class="nav-mobile"></nav>
 
     <script src="./js/html/mainHTML.js"></script>
     <script src="./js/main.js"></script>
+    <script src="./js/contacts.js"></script>
 </body>
 
 </html>
