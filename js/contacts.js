@@ -31,7 +31,6 @@ users = [
     },
 ]
 
-
 users.sort((a, b) => a.name.localeCompare(b.name));
 
 function getRandomColor() {
