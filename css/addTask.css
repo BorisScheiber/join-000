@@ -9,7 +9,7 @@
 .add-task-container {
     display: flex;
     gap: 24px;
-    margin: 40px 0 ;
+    margin: 56px 0;
 }
 
 .add-task-left,
@@ -31,7 +31,8 @@
 }
 
 .input-field,
-.text-area {
+.text-area,
+.subtask-input input {
     width: 100%;
     border: 1px solid rgba(209, 209, 209, 1);
     background: rgba(255, 255, 255, 1);
@@ -43,8 +44,9 @@
     text-align: left;
 }
 
-.input-field {
-    padding: 12px 21px;
+.input-field,
+.subtask-input input {
+    padding: 12px 16px;
     height: 48px;
 }
 
@@ -65,8 +67,14 @@
 
 }
 
-.contact-search::placeholder {
+.contact-search::placeholder,
+.category::placeholder {
     color: black;
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
 }
 
 /* Eingabefelder beim Schreiben */
@@ -248,19 +256,6 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: width 100ms ease-in-out, height 100ms ease-in-out, opacity 100ms ease-in-out;
- 
-}
-.clear-button:hover img {
-    content: url('/assets/icons/Vectorblue.png'); 
-    width: 24px;
-    height: 24px;
-}
-
-.clear-button:active img {
-    content: url('/assets/icons/CancelActiv.png'); 
-    width: 24px;
-    height: 24px;
 }
 
 .clear-button p {
@@ -276,7 +271,6 @@
 .clear-button img {
     width: 24px;
     height: 24px;
-    transition: width 100ms ease-in-out, height 100ms ease-in-out, opacity 100ms ease-in-out;
 }
 
 .clear-button:hover {
@@ -323,8 +317,8 @@
 }
 
 .create-button img {
-    width: 15.49px;
-    height: 11.22px;
+    width: 24px;
+    height: 24px;
 }
 
 .create-button:hover {
@@ -503,7 +497,7 @@
     /* Innenabstand */
     position: absolute;
     /* Absolute Positionierung */
-    right: 0;
+    right: 12px;
     /* Positionierung rechts */
     top: 50%;
     /* Vertikale Zentrierung */
@@ -521,10 +515,6 @@
     /* Obere rechte Ecke abrunden */
 }
 
-.toggle-list:hover {
-    background: rgba(241, 241, 241, 1);
-
-}
 
 /* Stil für das übergeordnete Container-Element */
 .search-container {
@@ -541,9 +531,6 @@
     /* Platz für den Button rechts einräumen */
 }
 
-
-/* Changes by Boris */
-
 .add-task-clear-icon {
     background-image: url('../assets/icons/cancelBlack.svg');
     height: 24px;
@@ -552,4 +539,249 @@
 
 .clear-button:hover .add-task-clear-icon {
     background-image: url('../assets/icons/cancelBlue.svg');
+}
+
+.clear-button:active .add-task-clear-icon {
+    background-image: url('../assets/icons/cancelActive.svg');
+}
+
+.add-task-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    /* Adjust gap as needed */
+}
+
+.required {
+    color: red;
+}
+
+/* Due Date Section */
+.due-date-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 440px;
+}
+
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    color: rgba(0, 0, 0, 0);
+    opacity: 1;
+    display: block;
+    background: url(/assets/icons/calendar.svg) no-repeat;
+    width: 24px;
+    height: 24px;
+    border-width: thin;
+}
+
+/* Priority Section */
+.priority-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.priority-buttons {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.priority-button {
+    width: 136px;
+    height: 56px;
+    padding: 16px 10px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+    color: rgba(0, 0, 0, 1);
+}
+
+.priority-button:hover {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.priority-button img {
+    width: 24px;
+    height: 24px;
+}
+
+
+/* Category Section */
+.category-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.category {
+    height: 24px;
+    width: 239px;
+    cursor: pointer;
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+}
+
+.category-field {
+    height: 48px;
+    width: 440px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(209, 209, 209, 1);
+    background: rgba(255, 255, 255, 1);
+    cursor: pointer;
+}
+
+.category-dropdown {
+    display: none;
+    flex-direction: column;
+    border: 1px solid rgba(209, 209, 209, 1);
+    background: rgba(255, 255, 255, 1);
+}
+
+.category-dropdown div {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+}
+
+.category-dropdown div:hover {
+    background: rgba(209, 209, 209, 0.5);
+}
+
+/* Subtasks Section */
+.subtasks-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.subtask-input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.subtask-input input {
+    width: 100%;
+    padding-right: 32px;
+    /* Enough space for the add icon */
+}
+
+.add-icon {
+    cursor: pointer;
+    display: flex;
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+}
+.subtask-list {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.subtask-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.2px;
+    text-align: left;
+    height: 32px;
+    justify-content: space-between;
+    padding-left: 20px;
+}
+
+.input-field-editing {
+    width: 440px;
+    height: 32px;
+    padding: 4px 16px ;
+    padding-right: 72px; /* Platz für die Icons */
+    background: rgba(255, 255, 255, 1);
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.2px;
+    text-align: left;
+    gap: 0px;
+    border-bottom: 1px solid rgba(0, 93, 255, 1);
+    display: flex;
+    position: relative;
+}
+.input-field-editing:focus {
+    border-bottom: 1px solid rgba(0, 93, 255, 1);   
+    background: rgb(255, 255, 255);
+    outline: none;
+
+}
+
+.edit-delete {
+    display: flex;
+    position: absolute;
+    right: 16px; /* Platz von rechts */
+    top: 50%;
+    transform: translateY(-50%);
+    gap: 4px;
+    width: 56px;
+    height: 24px;
+}
+.edit-delete-icons {
+    display: flex;
+    gap: 4px;
+
+}
+.edit-div {
+    display: flex;
+    position: relative;
+    width: 100%;
+}
+
+.subtask-item input {
+    flex: 1;
+    padding-right: 72px; /* Platz für die Icons */
+}
+
+.subtask-item img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+
+.vertical-line {
+    height: 24px;
+    width: 1px;
+    border: 1px solid rgba(168, 168, 168, 1);
+}
+
+.subtask-text {
+    width: 80%;
+}
+
+.reset-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
 }

@@ -34,6 +34,7 @@ function toggleContactList() {
     const contactSearch = document.getElementById("contact-search");
     const selectedContacts = document.getElementById("selected-contacts");
     const toggleButton = document.getElementById("toggle-list");
+    const dropdownIcon = toggleButton.querySelector(".dropdown-icon");
 
     // Überprüfen, ob die Liste momentan angezeigt wird oder nicht
     const isListOpen = !contactList.classList.contains("hidden");
@@ -41,18 +42,19 @@ function toggleContactList() {
     if (isListOpen) {
         contactList.classList.add("hidden");
         contactSearch.style.borderRadius = "10px";
-        toggleButton.textContent = "▼";
+        dropdownIcon.src = "/assets/icons/arrow_drop_down.svg";
         selectedContacts.style.display = "flex";
         document.removeEventListener('click', closeDropdownOnClickOutside);
     } else {
         contactList.classList.remove("hidden");
         contactSearch.style.borderRadius = "10px 10px 0 0";
-        toggleButton.textContent = "▲";
+        dropdownIcon.src = "/assets/icons/arrow_drop_up.svg";
         selectedContacts.style.display = "none";
         document.addEventListener('click', closeDropdownOnClickOutside);
     }
 }
 
+//for contacts
 function filterContacts() {
     const searchTerm = document.getElementById("contact-search").value.toLowerCase();
     const contactItems = document.querySelectorAll("#contact-list .contact-item");
@@ -72,8 +74,9 @@ function filterContacts() {
 function closeDropdownOnClickOutside(event) {
     const contactList = document.getElementById("contact-list");
     const contactSearch = document.getElementById("contact-search");
+    const toggleButton = document.getElementById("toggle-list");
 
-    if (!contactList.contains(event.target) && !contactSearch.contains(event.target) && !event.target.matches("#toggle-list")) {
+    if (!contactList.contains(event.target) && !contactSearch.contains(event.target) && !toggleButton.contains(event.target)) {
         toggleContactList();
     }
 }
@@ -96,7 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
             <span>${contact.vorname} ${contact.name}</span>
             <div class="contact-checkbox" data-email="${contact.email}"></div>
         `;
-
         contactList.appendChild(contactItem);
     });
     contactSearch.addEventListener("input", filterContacts);
@@ -127,14 +129,44 @@ function updateSelectedContacts() {
     });
 }
 
+// Hide dropdown on clicking outside
+document.addEventListener('click', function (event) {
+    const categoryField = document.querySelector('.category-field');
+    const dropdown = document.getElementById('category-dropdown');
+    if (!categoryField.contains(event.target)) {
+        dropdown.style.display = 'none';
+    }
+});
+
+// Open dropdown when typing in search field
+document.getElementById('contact-search').addEventListener('input', function () {
+    document.getElementById('contact-list').style.display = 'block';
+    filterContacts(); // Assuming this function filters contacts based on input
+});
+
+// Clear Fields button
 function clearFields() {
     // Leere die Werte der Eingabefelder
     document.getElementById("title").value = "";
     document.getElementById("description").value = "";
     document.getElementById("contact-search").value = "";
+    document.getElementById("due-date").value = "";
+    document.getElementById("category").value = "";
+
+    // Setze die Rahmen der Eingabefelder zurück
+    document.getElementById("title").style.border = '1px solid rgba(209, 209, 209, 1)';
+    document.getElementById("description").style.border = '1px solid rgba(209, 209, 209, 1)';
+    document.getElementById("due-date").style.border = '1px solid rgba(209, 209, 209, 1)';
+    document.getElementById("category").style.border = '1px solid rgba(209, 209, 209, 1)';
+    document.getElementById("contact-search").style.border = '1px solid rgba(209, 209, 209, 1)';
+
+    // Entferne alle Fehlermeldungen
+    removeErrorMessage(document.getElementById("title"));
+    removeErrorMessage(document.getElementById("category"));
+    removeErrorMessage(document.getElementById("due-date"));
 
     // Setze alle Kontrollkästchen der Kontaktliste zurück
-    document.querySelectorAll("#contact-list .contact-checkbox").forEach(checkbox => {
+    document.querySelectorAll(".contact-checkbox").forEach(checkbox => {
         checkbox.classList.remove("checked");
         checkbox.parentElement.classList.remove("checked");
     });
@@ -143,60 +175,84 @@ function clearFields() {
     document.getElementById("selected-contacts").innerHTML = "";
 
     // Schließe die Kontaktliste
-    const contactList = document.getElementById("contact-list");
-    contactList.classList.add("hidden");
-    document.getElementById("contact-search").style.borderRadius = "10px";
-    document.getElementById("toggle-list").textContent = "▼";
-}
+    toggleContactList() ;
+    // Leere die Subtask-Liste
+    document.getElementById("subtask-list").innerHTML = "";
 
-function validateFields() {
-    const titleField = document.getElementById('title');
-    const descriptionField = document.getElementById('description');
-    let isValid = true;
+    // Setze die Prio-Buttons zurück
+    const buttons = document.querySelectorAll('.priority-button');
+    buttons.forEach(button => resetButtonStyles(button));
+    
 
-    // Überprüfen Sie das Titelfeld
-    if (titleField.value.trim() === "") {
-        titleField.style.border = '1px solid rgba(255, 129, 144, 1)';
-        showErrorMessage(titleField, 'This field is required');
-        isValid = false;
-    } else {
-        titleField.style.border = '1px solid rgba(209, 209, 209, 1)';
-        removeErrorMessage(titleField);
-    }
-
-    // Überprüfen Sie das Beschreibungsfeld
-    if (descriptionField.value.trim() === "") {
-        descriptionField.style.border = '1px solid rgba(255, 129, 144, 1)';
-        showErrorMessage(descriptionField, 'This field is required');
-        isValid = false;
-    } else {
-        descriptionField.style.border = '1px solid rgba(209, 209, 209, 1)';
-        removeErrorMessage(descriptionField);
-    }
-    return isValid;
-}
-
-function showErrorMessage(field, message) {
-    let error = field.nextElementSibling;
-    if (!error || !error.classList.contains('error-message')) {
-        error = document.createElement('p');
-        error.classList.add('error-message');
-        field.parentNode.appendChild(error);
-    }
-    error.textContent = message;
 }
 
 function removeErrorMessage(field) {
-    let error = field.nextElementSibling;
-    if (error && error.classList.contains('error-message')) {
-        error.remove();
+    let errorElement = field.nextElementSibling;
+    if (field.id === 'category') {
+        errorElement = document.getElementById('category-error');
+    }
+    if (errorElement && errorElement.classList.contains('error-message')) {
+        errorElement.remove();
+    }
+}
+
+function validateFields() {
+    const fields = [
+        document.getElementById('title'),
+        document.getElementById('category'),
+        document.getElementById('due-date')
+    ];
+
+    let isValid = true;
+    fields.forEach(field => {
+        if (field.value.trim() === "") {
+            field.style.border = '1px solid rgba(255, 129, 144, 1)';
+            showErrorMessage(field, 'This field is required');
+            isValid = false;
+        } else {
+            field.style.border = '1px solid rgba(41, 171, 226, 1)';
+            removeErrorMessage(field);
+        }
+    });
+    return isValid;
+}
+
+document.getElementById('recipeForm').onsubmit = function (event) {
+    event.preventDefault();
+    createTask();
+};
+
+function showErrorMessage(field, message) {
+    let errorElement = field.nextElementSibling;
+    if (field.id === 'category') {
+        errorElement = document.getElementById('category-error');
+    }
+    if (!errorElement || !errorElement.classList.contains('error-message')) {
+        errorElement = document.createElement('div');
+        errorElement.className = 'error-message';
+        if (field.id === 'category') {
+            document.querySelector('.category-section .input-group').appendChild(errorElement);
+        } else {
+            field.parentNode.insertBefore(errorElement, field.nextSibling);
+        }
+    }
+    errorElement.textContent = message;
+}
+
+function removeErrorMessage(field) {
+    let errorElement = field.nextElementSibling;
+    if (field.id === 'category') {
+        errorElement = document.getElementById('category-error');
+    }
+    if (errorElement && errorElement.classList.contains('error-message')) {
+        errorElement.remove();
     }
 }
 
 function createTask() {
     const title = document.getElementById('title').value.trim();
     const description = document.getElementById('description').value.trim();
-
+    const category = document.getElementById('category').value.trim();
     if (!validateFields()) {
         return;
     }
@@ -207,14 +263,24 @@ function createTask() {
         const name = contactItem.querySelector("span:nth-child(2)").textContent;
         assignedContacts.push(name);
     });
-
     console.log("Task created with title:", title);
     console.log("Description:", description);
     console.log("Assigned to:", assignedContacts.join(", "));
+    console.log("Category:", category);
 
     // Form zurücksetzen
     document.getElementById('title').value = '';
     document.getElementById('description').value = '';
+    document.getElementById('due-date').value = '';
+    document.getElementById('category').value = '';
+
+     // Setze die Rahmen der Eingabefelder zurück
+     document.getElementById("title").style.border = '1px solid rgba(209, 209, 209, 1)';
+     document.getElementById("description").style.border = '1px solid rgba(209, 209, 209, 1)';
+     document.getElementById("due-date").style.border = '1px solid rgba(209, 209, 209, 1)';
+     document.getElementById("category").style.border = '1px solid rgba(209, 209, 209, 1)';
+     document.getElementById("contact-search").style.border = '1px solid rgba(209, 209, 209, 1)';
+
     document.querySelectorAll(".contact-list .contact-checkbox").forEach(checkbox => {
         checkbox.classList.remove('checked');
         checkbox.parentElement.classList.remove('checked');
@@ -222,155 +288,110 @@ function createTask() {
     updateSelectedContacts();
 }
 
+//Diese Funktion wird aufgerufen, wenn der Benutzer in das Eingabefeld tippt (input-Event).
+// Sie setzt den Rahmen auf 1px solid rgba(41, 171, 226, 1) während der Eingabe und entfernt die Fehlermeldung, falls vorhanden.
 function handleInput(event) {
     const field = event.target;
     if (field.value.trim() !== "") {
         field.style.border = '1px solid rgba(41, 171, 226, 1)';
         removeErrorMessage(field);
-    } else {
-        field.style.border = '1px solid rgba(255, 129, 144, 1)';
-        showErrorMessage(field, 'This field is required');
     }
 }
+
+//Diese Funktion wird aufgerufen, wenn der Benutzer das Eingabefeld verlässt (blur-Event). Wenn das Eingabefeld nicht leer ist, wird der Rahmen auf 1px solid rgba(209, 209, 209, 1) gesetzt. Wenn das Feld leer ist, wird der Rahmen auf 1px solid rgba(255, 129, 144, 1) gesetzt und eine Fehlermeldung angezeigt.
+function handleBlur(event) {
+    const field = event.target;
+    if (field.value.trim() !== "") {
+        field.style.border = '1px solid rgba(209, 209, 209, 1)';
+    } else {
+        if (field.id !== 'description') {
+            field.style.border = '1px solid rgba(255, 129, 144, 1)';
+            showErrorMessage(field, 'This field is required');
+        } else {
+            field.style.border = '1px solid rgba(209, 209, 209, 1)';
+            removeErrorMessage(field);
+        }
+    }
+}
+// Event-Listener für Eingabefelder hinzufügen
+document.getElementById('title').addEventListener('input', handleInput);
+document.getElementById('description').addEventListener('input', handleInput);
+document.getElementById('due-date').addEventListener('input', handleInput);
+document.getElementById('category').addEventListener('input', handleInput);
+
+document.getElementById('title').addEventListener('blur', handleBlur);
+document.getElementById('description').addEventListener('blur', handleBlur);
+document.getElementById('due-date').addEventListener('blur', handleBlur);
+document.getElementById('category').addEventListener('blur', handleBlur);
+
 
 document.getElementById('recipeForm').onsubmit = function (event) {
     event.preventDefault();
     createTask();
 };
 
-// Event-Listener für Eingabefelder hinzufügen
-document.getElementById('title').addEventListener('input', handleInput);
-document.getElementById('description').addEventListener('input', handleInput);
+//for Prio buttons
+let currentPriority = null;
 
+function setPriority(level) {
+    const buttons = document.querySelectorAll('.priority-button');
 
+    // If the clicked button is already selected, reset and return
+    if (currentPriority === level) {
+        buttons.forEach(button => resetButtonStyles(button));
+        currentPriority = null;
+        return;
+    }
 
+    // Reset all buttons first
+    buttons.forEach(button => resetButtonStyles(button));
 
+    // Set the styles for the clicked button
+    const activeButton = document.getElementById(`${level}-button`);
+    activeButton.style.backgroundColor = getPriorityColor(level);
+    activeButton.style.color = 'rgba(255, 255, 255, 1)'; // Change text color
+    activeButton.style.fontFamily = 'Inter'; // Change font family
+    activeButton.style.fontSize = '21px'; // Change font size
+    activeButton.style.fontWeight = '700'; // Change font weight
+    activeButton.style.lineHeight = '25.2px'; // Change line height
+    activeButton.style.textAlign = 'left'; // Change text align
+    activeButton.querySelector('img').src = `/assets/icons/${level}White.svg`;
 
+    // Update the current priority
+    currentPriority = level;
+}
 
+function resetButtonStyles(button) {
+    button.style.backgroundColor = 'rgba(255, 255, 255, 1)'; // Reset background color
+    button.style.color = 'rgba(0, 0, 0, 1)'; // Reset text color
+    button.style.fontFamily = 'Inter'; // Reset font family
+    button.style.fontSize = '20px'; // Reset font size
+    button.style.fontWeight = '400'; // Reset font weight
+    button.style.lineHeight = '24px'; // Reset line height
+    button.style.textAlign = 'left'; // Reset text align
+    const img = button.querySelector('img');
+    switch (button.id) {
+        case 'urgent-button':
+            img.src = '/assets/icons/urgent.svg';
+            break;
+        case 'medium-button':
+            img.src = '/assets/icons/medium.svg';
+            break;
+        case 'low-button':
+            img.src = '/assets/icons/low.svg';
+            break;
+    }
+}
 
-
-
-
-
-
-
-
-
-// function toggleContactList(open = null) {
-//     const contactList = document.getElementById("contact-list");
-//     const contactSearch = document.getElementById("contact-search");
-//     const selectedContacts = document.getElementById("selected-contacts");
-//     const toggleButton = document.getElementById("toggle-list");
-
-//     // Überprüfen Sie, ob ein spezifischer Status (öffnen/schließen) übergeben wurde
-//     const shouldOpen = open !== null ? open : contactList.classList.contains("hidden");
-
-//     if (shouldOpen) {
-//         contactList.classList.remove("hidden");
-//         contactSearch.style.borderRadius = "10px 10px 0 0";
-//         toggleButton.textContent = "▲";
-//         selectedContacts.style.display = "none";
-//     } else {
-//         contactList.classList.add("hidden");
-//         contactSearch.style.borderRadius = "10px";
-//         toggleButton.textContent = "▼";
-//         selectedContacts.style.display = "flex";
-//     }
-// }
-
-// function filterContacts() {
-//     const searchTerm = document.getElementById("contact-search").value.toLowerCase();
-//     const contactItems = document.querySelectorAll("#contact-list .contact-item");
-
-//     contactItems.forEach(item => {
-//         const name = item.textContent.toLowerCase();
-//         item.style.display = name.includes(searchTerm) ? "" : "none";
-//     });
-
-//     // Öffnen Sie die Kontaktliste, wenn sie gefiltert wird
-//     toggleContactList(true);
-// }
-
-// document.addEventListener("DOMContentLoaded", () => {
-//     const contactList = document.getElementById("contact-list");
-//     const contactSearch = document.getElementById("contact-search");
-
-//     contacts.forEach(contact => {
-//         const contactItem = document.createElement("div");
-//         contactItem.classList.add("contact-item");
-
-//         // Zufällige Hintergrundfarbe für das Logo
-//         const bgColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
-
-//         contactItem.innerHTML = `
-//             <div class="contact-logo" style="background-color: ${bgColor};" data-background="${bgColor}">
-//                 ${contact.vorname.charAt(0)}${contact.name.charAt(0)}
-//             </div>
-//             <span>${contact.vorname} ${contact.name}</span>
-//             <div class="contact-checkbox" data-email="${contact.email}"></div>
-//         `;
-
-//         contactList.appendChild(contactItem);
-//     });
-
-//     contactSearch.addEventListener("input", filterContacts);
-// });
-
-// document.getElementById("contact-list").addEventListener("click", (event) => {
-//     if (event.target.classList.contains("contact-checkbox")) {
-//         const checkbox = event.target;
-//         const contactItem = checkbox.parentElement;
-//         checkbox.classList.toggle("checked");
-//         contactItem.classList.toggle("checked");
-//         updateSelectedContacts();
-//     }
-// });
-
-// altes COde funktioniert gut
-// function toggleContactList() {
-//     const contactList = document.getElementById("contact-list");
-//     const toggleButton = document.getElementById("toggle-list");
-//     const selectedContacts = document.getElementById("selected-contacts");
-//     contactList.classList.toggle("hidden");
-//     toggleButton.textContent = contactList.classList.contains("hidden") ? "▼" : "▲";
-//       // Zeige ausgewählte Kontakte nur an, wenn die Kontaktliste ausgeblendet ist
-//       if (contactList.classList.contains("hidden")) {
-//         selectedContacts.style.display = "flex";
-//     } else {
-//         selectedContacts.style.display = "none";
-//     }
-// }
-
-// function filterContacts() {
-//     const searchTerm = document.getElementById("contact-search").value.toLowerCase();
-//     const contactItems = document.querySelectorAll("#contact-list .contact-item");
-//     contactItems.forEach(item => {
-//         const name = item.textContent.toLowerCase();
-//         item.style.display = name.includes(searchTerm) ? "" : "none";
-//     });
-// }
-
-// document.getElementById("contact-list").addEventListener("click", (event) => {
-//     if (event.target.classList.contains("contact-checkbox")) {
-//         const checkbox = event.target;
-//         const contactItem = checkbox.parentElement;
-//         checkbox.classList.toggle("checked");
-//         contactItem.classList.toggle("checked");
-//         updateSelectedContacts();
-//     }
-// });
-
-// function updateSelectedContacts() {
-//     const selectedContacts = document.getElementById("selected-contacts");
-//     selectedContacts.innerHTML = "";
-//     const selectedCheckboxes = document.querySelectorAll("#contact-list .contact-checkbox.checked");
-//     selectedCheckboxes.forEach(checkbox => {
-//         const contactItem = checkbox.parentElement;
-//         const logo = contactItem.querySelector(".contact-logo");
-//         const selectedContact = document.createElement("div");
-//         selectedContact.classList.add("selected-contact");
-//         selectedContact.style.backgroundColor = logo.dataset.background;
-//         selectedContact.innerText = logo.innerText;
-//         selectedContacts.appendChild(selectedContact);
-//     });
-// }
+function getPriorityColor(level) {
+    switch (level) {
+        case 'urgent':
+            return 'rgba(255, 61, 0, 1)';
+        case 'medium':
+            return 'rgba(255, 168, 0, 1)';
+        case 'low':
+            return 'rgba(122, 226, 41, 1)';
+        default:
+            return 'rgba(255, 255, 255, 1)';
+    }
+}
