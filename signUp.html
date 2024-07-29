@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="./css/signUp.css">
 </head>
 
-<body>
+<body onload="initSignUp()">
   <main class="signup-content">
     <div class="signup-join-logo"></div>
 
@@ -49,6 +49,9 @@
             title="Please enter a valid email address (e.g., test@domain.com)" required>
           <div class="signup-input-icon">
             <img src="./assets/icons/mail.svg" alt="">
+          </div>
+          <div id="signUpEmailTaken" class="signup-email-taken">
+            <span>The email address is already taken.</span>
           </div>
         </div>
         <div class="signup-input-fields">
@@ -83,8 +86,10 @@
       </div>
     </form>
 
-    <div>
-      <button onclick="validateSignUpForm()">Test Validation</button>
+    <div id="signUpSuccessfull" class="signup-successful-overlay">
+      <div class="signup-successfull-container">
+        <span>You signed up successfully</span>
+      </div>
     </div>
 
     <div class="signup-legal-links">

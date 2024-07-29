@@ -68,7 +68,7 @@
 .signup-input-container {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 30px;
 }
 
 .signup-input-fields {
@@ -95,15 +95,15 @@
 }
 
 .signup-input-error {
-  border: 2px solid #FF203B;
+  border: 2px solid #ff203b;
 }
 
 .signup-input-error:focus-visible {
-  border: 2px solid #FF203B;
+  border: 2px solid #ff203b;
 }
 
 .signup-failed-text {
-  margin-top: 8px;
+  margin-top: 4px;
   color: #ff8190;
   font-size: 12px;
   line-height: 14.4px;
@@ -215,6 +215,55 @@
   color: var(--clr-light-blue);
   font-weight: 700;
 }
+
+.signup-email-taken {
+  display: none;
+  margin-top: 4px;
+  color: #ff8190;
+  font-size: 12px;
+  line-height: 14.4px;
+  position: absolute;
+}
+
+.signup-successful-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.signup-successfull-container {
+  height: 74px;
+  width: 312px;
+  background-color: var(--clr-main);
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  transform: translateY(1000%);
+}
+
+
+.slide-up {
+  animation: slideUp 0.4s ease-in-out forwards;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(1000%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
 
 /* utility classes */
 
