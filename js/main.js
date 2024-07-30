@@ -3,6 +3,31 @@ async function init() {
   displayHeader();
   displayMobileNav();
   removeClassesIfNotLoggedIn();
+  displayInitialsHeaderUser()
+}
+
+
+function getInitialsHeaderUser() {
+  let guestInitials = localStorage.getItem("guestInitials");
+  let userInitials = localStorage.getItem("userInitials");
+  let initials = "G";
+
+  if (guestInitials) {
+    initials = guestInitials;
+  } else if (userInitials) {
+    initials = atob(userInitials);
+  }
+  return initials;
+}
+
+
+function displayInitialsHeaderUser() {
+  let initials = getInitialsHeaderUser();
+  let initialsElement = document.getElementById("headerUserInitials");
+
+  if (initialsElement) {
+    initialsElement.innerHTML = initials;
+  }
 }
 
 /**
@@ -28,7 +53,7 @@ function setActiveLinkSidebar() {
 
 /**
  * Adds an active class to the links that match the current path.
- * 
+ *
  * @param {NodeList} links - The list of links to check.
  * @param {string} path - The current path to match.
  * @param {string} activeClass - The class to add to the active link.
@@ -117,50 +142,53 @@ function toggleDropDownNav() {
   let dropDownNav = document.getElementById("dropDownNav");
 
   if (dropDownNav.style.display === "flex") {
-      slideOut(dropDownNav);
-      document.removeEventListener('click', closeDropdownOnClickOutside);
+    slideOut(dropDownNav);
+    document.removeEventListener("click", closeDropdownOnClickOutside);
   } else {
-      slideIn(dropDownNav);
-      document.addEventListener('click', closeDropdownOnClickOutside);
+    slideIn(dropDownNav);
+    document.addEventListener("click", closeDropdownOnClickOutside);
   }
 }
 
 /**
  * Slides the element in to make it visible.
- * 
+ *
  * @param {HTMLElement} element - The element to slide in.
  */
 function slideIn(element) {
   element.style.display = "flex";
-  element.classList.remove('slide-out');
-  element.classList.add('slide-in');
+  element.classList.remove("slide-out");
+  element.classList.add("slide-in");
 }
 
 /**
  * Slides the element out to hide it.
- * 
+ *
  * @param {HTMLElement} element - The element to slide out.
  */
 function slideOut(element) {
-  element.classList.remove('slide-in');
-  element.classList.add('slide-out');
+  element.classList.remove("slide-in");
+  element.classList.add("slide-out");
   setTimeout(() => {
-      element.style.display = "none";
-      element.classList.remove('slide-out');
+    element.style.display = "none";
+    element.classList.remove("slide-out");
   }, 200);
 }
 
 /**
  * Closes the dropdown navigation menu if the user clicks outside of it.
- * 
+ *
  * @param {Event} event - The event triggered by clicking outside.
  */
 function closeDropdownOnClickOutside(event) {
   let dropDownNav = document.getElementById("dropDownNav");
   let toggleButton = document.querySelector(".header-user-button");
 
-  if (!dropDownNav.contains(event.target) && !toggleButton.contains(event.target)) {
-      slideOut(dropDownNav);
-      document.removeEventListener('click', closeDropdownOnClickOutside);
+  if (
+    !dropDownNav.contains(event.target) &&
+    !toggleButton.contains(event.target)
+  ) {
+    slideOut(dropDownNav);
+    document.removeEventListener("click", closeDropdownOnClickOutside);
   }
 }

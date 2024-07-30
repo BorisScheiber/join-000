@@ -5,8 +5,11 @@ async function initSignUp() {
 }
 
 async function getAllUsers() {
-  users = await getData("users");
-  console.log(users);
+  try {
+    users = await getData("users");
+  } catch (error) {
+    console.error("Error fetching users:", error);
+  }
 }
 
 async function addNewUser(newUser) {

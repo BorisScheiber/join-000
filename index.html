@@ -42,23 +42,23 @@
         <span class="login-seperator"></span>
       </div>
 
-      <form autocomplete="off" onsubmit="return false">
+      <form autocomplete="off" onsubmit="validateLoginForm(); return false;">
         <div class="input-container">
           <div class="login-input-fields">
-            <input placeholder="Email" class="login-input" type="email" pattern="[a-z0-9._%+\-]+@[a-z0-9\-]+\.[a-z]{2,63}$" title="Please enter a valid email address (e.g., test@domain.com)" required>
+            <input id="email" placeholder="Email" class="login-input" type="email" pattern="[a-z0-9._%+\-]+@[a-z0-9\-]+\.[a-z]{2,63}$" title="Please enter a valid email address using only lowercase letters (e.g., test@domain.com)" required>
             <div class="login-input-icon">
               <img src="./assets/icons/mail.svg" alt="">
             </div>
           </div>
           <div class="login-input-fields">
-            <input placeholder="Password" class="login-input" type="password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{6,}$"
+            <input oninput="updateIconOnInput(this)" id="password" placeholder="Password" class="login-input" type="password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{6,}$"
             title="At least 6 characters, with an uppercase letter, a lowercase letter, a number, and no spaces." minlength="6" required>
             <div class="login-input-icon">
-              <img src="./assets/icons/lock.svg" alt="">
+              <img onclick="showHidePassword()" id="passwordFieldImg" src="./assets/icons/lock.svg" alt="">
             </div>
           </div>
         </div>
-        <div class="login-failed-text">
+        <div id="loginErrorMessage" class="login-failed-text">
           <span>Incorrect email or password!</span>
         </div>
         <label class="login-remember">
@@ -66,7 +66,7 @@
           <span>Remember me</span>
         </label>
         <div class="login-button-container">
-          <button class="login-button">Log in</button>
+          <button type="submit" class="login-button">Log in</button>
           <button onclick="guestLogin()" class="guest-login-button">Guest Log in</button>
         </div>
       </form>
@@ -79,7 +79,7 @@
   </main>
 
   
-
+<script src="./js/firebase.js"></script>
 <script src="./js/login.js"></script>
 </body>
 

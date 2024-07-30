@@ -302,3 +302,17 @@
     z-index: -1;
   }
 }
+
+/* utility classes */
+
+.login-input-error {
+  border: 2px solid #ff203b;
+}
+
+.login-input-error:focus-visible {
+  border: 2px solid #ff203b;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
