@@ -67,7 +67,7 @@ function generateContactHTML(user) {
             </div>
             <div class="single-contact-profile">
                 ${user.name}
-                <a href="mailto:${user.email}">${user.email}</a>
+                <a href="#">${user.email}</a>
             </div>
         </div>
     `;
@@ -112,8 +112,8 @@ function openNewContact() {
                 </div>
             </div>
             <div class="add-new-contact-content">
-                <div class="add-new-contact-close-button" onclick="closeNewContact()">
-                    <img src="./assets/icons/close-contact.svg" alt="close" class="close-contact">
+                <div class="add-new-contact-close-button">
+                    <img src="./assets/icons/close-contact.svg" alt="close" class="close-contact" onclick="closeNewContact()">
                 </div>
                 <div class="add-new-contact-input-fields">
                     <div class="icon-profile-add-new-contact">
@@ -205,7 +205,7 @@ function generateContactDetailHTML(user, bgColor) {
                         <img src="./assets/icons/edit-contact.svg" alt="edit" class="contact-detail-change-icons">
                         <span class="contact-detail-edit-text">Edit</span>
                     </button>
-                    <button class="contact-detail-delete">
+                    <button class="contact-detail-delete" onclick="deleteContact()">
                         <img src="./assets/icons/delete-contact.svg" alt="delete" class="contact-detail-change-icons">
                         <span class="contact-detail-edit-text">Delete</span>
                     </button>
@@ -296,6 +296,10 @@ function generateEditContactHTML(user, initials, bgColor) {
             </div>
         </div>
     `;
+}
+
+function deleteContact(){
+    
 }
 
 window.closeEditContact = () => {
