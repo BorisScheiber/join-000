@@ -7,6 +7,7 @@ async function initLogin() {
   await getAllUsers();
 }
 
+
 async function getAllUsers() {
   try {
     users = await getData("users");
@@ -60,23 +61,23 @@ async function guestLoginRemoveLocalStorage() {
 
 
 async function userLoginSaveLocalStorage(user) {
-  localStorage.setItem("userInitials", btoa(user.initials));
-  localStorage.setItem("userName", btoa(user.name));
+  let userData = {
+    initials: user.initials,
+    name: user.name
+};
+  localStorage.setItem("user", btoa(JSON.stringify(userData)));
 }
 
 
 async function userLoginRemoveLocalStorage() {
-  localStorage.removeItem("userInitials");
-  localStorage.removeItem("userName");
+  localStorage.removeItem("user");
 }
 
 
 async function validateLoginForm() {
   let email = getEmailFieldValue();
   let password = getPasswordFieldValue();
-  let user = users.find(
-    (user) => user.email === email && user.password === password
-  );
+  let user = users.find((user) => user.email === email && user.password === password);
 
   if (user) {
     removeLoginErrorMessage();

@@ -3,24 +3,35 @@ async function init() {
   displayHeader();
   displayMobileNav();
   removeClassesIfNotLoggedIn();
-  displayInitialsHeaderUser()
+  displayInitialsHeaderUser();
 }
 
-
+/**
+ * Gets the user's initials from localStorage.
+ * If user initials are not found, it checks for guest initials.
+ * If neither are found, it returns "G" as a default.
+ * 
+ * @returns {string} The initials of the user or guest.
+ */
 function getInitialsHeaderUser() {
+  let user = localStorage.getItem("user");
   let guestInitials = localStorage.getItem("guestInitials");
-  let userInitials = localStorage.getItem("userInitials");
   let initials = "G";
+  let userData;
 
-  if (guestInitials) {
+  if (user) {
+    userData = JSON.parse(atob(user));
+    initials = userData.initials || initials;
+  } else if (guestInitials) {
     initials = guestInitials;
-  } else if (userInitials) {
-    initials = atob(userInitials);
   }
   return initials;
 }
 
-
+/**
+ * Displays the user's initials in the HTML element with the ID 'headerUserInitials'.
+ * If the element is found, it sets its innerHTML to the user's initials.
+ */
 function displayInitialsHeaderUser() {
   let initials = getInitialsHeaderUser();
   let initialsElement = document.getElementById("headerUserInitials");
