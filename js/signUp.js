@@ -1,9 +1,27 @@
-// firebase test
-const BASE_URL = "https://array-test-2-default-rtdb.europe-west1.firebasedatabase.app/";
 let users = [];
 
 async function initSignUp() {
   await getAllUsers();
+}
+
+async function getAllUsers() {
+  users = await getData("users");
+  console.log(users);
+}
+
+async function addNewUser(newUser) {
+  let usersResponse = await getData("users");
+  let userKeysArray = usersResponse ? Object.keys(usersResponse) : [];
+  let newUserId = userKeysArray.length;
+
+  await fetch(`${BASE_URL}users/${newUserId}.json`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newUser),
+  });
+  return { newUserId };
 }
 
 /**
@@ -66,7 +84,6 @@ async function validateSignUpForm() {
             successfullSignUpOverlay();
             let response = await addNewUser(newUser);
             console.log('User successfully added:', response);
-            
             redirectToLogin();
             
         } catch (error) {
@@ -145,33 +162,4 @@ function formatUserName() {
     let formattedUserName = userName.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
 
     return formattedUserName;
-}
-
-// firebase test code
-
-async function getAllUsers() {
-  users = await getData("users");
-  console.log(users);
-}
-
-async function getData(path = "") {
-  let response = await fetch(BASE_URL + path + ".json");
-  return (responseToJson = await response.json());
-}
-
-async function addNewUser(newUser) {
-  let usersResponse = await getData("users");
-  let userKeysArray = usersResponse ? Object.keys(usersResponse) : [];
-
-  let newUserId = userKeysArray.length;
-
-  await fetch(`${BASE_URL}users/${newUserId}.json`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newUser),
-  });
-
-  return { newUserId };
 }
