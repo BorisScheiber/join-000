@@ -74,9 +74,9 @@ function generateContactHTML(user) {
 }
 
 function renderContactList() {
-    loadContactMenu.innerHTML = ''; // Reset HTML content
-    currentLetter = ''; // Reset current letter
-    html = ''; // Reset HTML string
+    loadContactMenu.innerHTML = '';
+    currentLetter = '';
+    html = '';
     contacts.forEach(user => {
         const firstLetter = user.name.charAt(0).toUpperCase();
         if (firstLetter !== currentLetter) {
@@ -228,6 +228,16 @@ function generateContactDetailHTML(user, bgColor) {
     `;
 }
 
+{/* <button class="contact-detail-edit-active" onclick="openEditingContact('${user.name}')">
+<img src="./assets/icons/editContactsActive.svg" alt="edit" class="edit-contact-active">
+<span class="contact-detail-edit-text">Edit</span>
+</button> */}
+
+{/* <button class="contact-detail-delete-active" onclick="deleteContact()">
+<img src="./assets/icons/deleteContactActive.svg" alt="delete" class="delete-contact-active">
+<span class="contact-detail-edit-text">Delete</span>
+</button> */}
+
 window.openEditingContact = (name) => {
     const user = contacts.find(u => u.name === name);
     const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
@@ -299,7 +309,7 @@ function generateEditContactHTML(user, initials, bgColor) {
 }
 
 function deleteContact(){
-    
+
 }
 
 window.closeEditContact = () => {
