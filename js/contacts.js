@@ -128,7 +128,8 @@ function openNewContact() {
                         </div>
                         <div class="input-field-separator"></div>
                         <div class="contact-input-fields">
-                            <input type="email" placeholder="Email" class="input-fields-add-new-contact" id="newContactEmail">
+                            <input type="email" placeholder="Email" class="input-fields-add-new-contact" id="newContactEmail"
+                            pattern="[a-z0-9._%+\-]+@[a-z0-9\-]+\.[a-z]{2,63}$">
                             <div class="contact-input-icon">
                                 <img src="./assets/icons/contactMailInput.svg" alt="mail">
                             </div>
@@ -278,7 +279,8 @@ function generateEditContactHTML(user, initials, bgColor) {
                         </div>
                         <div class="input-field-separator"></div>
                         <div class="contact-input-fields">
-                            <input type="email" placeholder="Email" class="input-fields-edit-contact" value="${user.email}">
+                            <input type="email" placeholder="Email" class="input-fields-edit-contact" value="${user.email}"
+                            pattern="[a-z0-9._%+\-]+@[a-z0-9\-]+\.[a-z]{2,63}$">
                             <div class="contact-input-icon">
                                 <img src="./assets/icons/contactMailInput.svg" alt="mail">
                             </div>
