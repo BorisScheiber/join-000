@@ -21,8 +21,6 @@ a{
     align-items: center;
     flex-direction: column;
     width: 456px;
-    height: 928px;
-    height: 100vh;
     background-color: #FFFFFF;
     box-shadow: 4px 0px 4px 0px #0000001a;
     /* z-index: 999; */
@@ -467,7 +465,8 @@ a{
 }
 
 .button-cancel-new-contact:hover{
-cursor: pointer;
+    cursor: pointer;
+    box-shadow: 4px 4px 4px 0px #B7B7B7;
 }
 
 .button-create-new-contact{
@@ -485,7 +484,8 @@ cursor: pointer;
 }
 
 .button-create-new-contact:hover{
-cursor: pointer;
+    cursor: pointer;
+    box-shadow: 4px 4px 4px 0px #B7B7B7;
 }
 
 /* new window for editing an existend contact */
