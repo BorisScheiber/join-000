@@ -1,37 +1,8 @@
-users = [
-    {
-        "name": "Anton Mayer",
-        "email": "antom@gmail.com",
-        "phone": "+49 1111 111 11 1",
-    },
-    {
-        "name": "Anja Schutz",
-        "email": "schulz@hotmail.de",
-        "phone": "+49 1111 111 22 2",
-    },
-    {
-        "name": "Benedikt Ziegler",
-        "email": "benedikt@gmail.com",
-        "phone": "+49 1111 111 33 3",
-    },
-    {
-        "name": "David Eisenberg",
-        "email": "davidberg@gmail.com",
-        "phone": "+49 1111 111 44 4",
-    },
-    {
-        "name": "Eva Fischer",
-        "email": "eva@gmail.com",
-        "phone": "+49 1111 111 55 5",
-    },
-    {
-        "name": "Emmanuel Mauer",
-        "email": "emmanuelma@gmail.com",
-        "phone": "+49 1111 111 66 6",
-    },
-]
+let contacts = [];
+let currentLetter = '';
+let html = '';
 
-users.sort((a, b) => a.name.localeCompare(b.name));
+contacts.sort((a, b) => a.name.localeCompare(b.name));
 
 function getRandomColor() {
     const letters = '0123456789ABCDEF';
@@ -42,11 +13,27 @@ function getRandomColor() {
     return color;
 }
 
+async function loadContacts() {
+    try {
+        const data = await getData('contacts');
+        if (data) {
+            contacts = Object.values(data);
+            contacts.sort((a, b) => a.name.localeCompare(b.name));
+            renderContactList();
+        } else {
+            contacts = [];
+            renderContactList();
+        }
+    } catch (error) {
+        console.error('Error loading contacts:', error);
+    }
+}
+
 function loadColors() {
     let colors = JSON.parse(localStorage.getItem('contactColors'));
     if (!colors) {
         colors = {};
-        users.forEach(user => {
+        contacts.forEach(user => {
             colors[user.name] = getRandomColor();
         });
         localStorage.setItem('contactColors', JSON.stringify(colors));
@@ -55,11 +42,9 @@ function loadColors() {
 }
 
 const loadContactMenu = document.getElementById('loadContactMenu');
-let currentLetter = '';
-let html = '';
 const colors = loadColors();
 
-users.forEach(user => {
+contacts.forEach(user => {
     const firstLetter = user.name.charAt(0).toUpperCase();
     if (firstLetter !== currentLetter) {
         currentLetter = firstLetter;
@@ -73,19 +58,39 @@ users.forEach(user => {
     html += generateContactHTML(user, colors[user.name]);
 });
 
-function generateContactHTML(user, color) {
+function generateContactHTML(user) {
     const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
     return `
         <div class="single-contact" onclick="showContactDetail('${user.name}')">
-            <div class="single-contact-profile-img" style="background-color: ${color};" id="profile-${user.name.split(' ').join('-')}">
+            <div class="single-contact-profile-img" style="background-color: ${user.color};" id="profile-${user.name.split(' ').join('-')}">
                 ${initials}
             </div>
             <div class="single-contact-profile">
                 ${user.name}
-                <a href="mailto:${user.email}">${user.email}</a>
+                <a href="#">${user.email}</a>
             </div>
         </div>
     `;
+}
+
+function renderContactList() {
+    loadContactMenu.innerHTML = '';
+    currentLetter = '';
+    html = '';
+    contacts.forEach(user => {
+        const firstLetter = user.name.charAt(0).toUpperCase();
+        if (firstLetter !== currentLetter) {
+            currentLetter = firstLetter;
+            html += `
+                <div class="contact-sequence">
+                    <span class="contact-sequence-text">${currentLetter}</span>
+                </div>
+                <div class="contact-separator"></div>
+            `;
+        }
+        html += generateContactHTML(user);
+    });
+    loadContactMenu.innerHTML = html;
 }
 
 loadContactMenu.innerHTML = html;
@@ -107,8 +112,8 @@ function openNewContact() {
                 </div>
             </div>
             <div class="add-new-contact-content">
-                <div class="add-new-contact-close-button" onclick="closeNewContact()">
-                    <img src="./assets/icons/close-contact.svg" alt="close" class="close-contact">
+                <div class="add-new-contact-close-button">
+                    <img src="./assets/icons/close-contact.svg" alt="close" class="close-contact" onclick="closeNewContact()">
                 </div>
                 <div class="add-new-contact-input-fields">
                     <div class="icon-profile-add-new-contact">
@@ -116,21 +121,22 @@ function openNewContact() {
                     </div>
                     <div class="add-new-contact-input-field-section">
                         <div class="contact-input-fields">
-                            <input type="text" placeholder="Name" class="input-fields-add-new-contact">
+                            <input type="text" placeholder="Name" class="input-fields-add-new-contact" id="newContactName">
                             <div class="contact-input-icon">
                                 <img src="./assets/icons/contactPersonInput.svg" alt="profile">
                             </div>
                         </div>
                         <div class="input-field-separator"></div>
                         <div class="contact-input-fields">
-                            <input type="email" placeholder="Email" class="input-fields-add-new-contact">
+                            <input type="email" placeholder="Email" class="input-fields-add-new-contact" id="newContactEmail"
+                            pattern="[a-z0-9._%+\-]+@[a-z0-9\-]+\.[a-z]{2,63}$">
                             <div class="contact-input-icon">
                                 <img src="./assets/icons/contactMailInput.svg" alt="mail">
                             </div>
                         </div>
                         <div class="input-field-separator"></div>
                         <div class="contact-input-fields">
-                            <input type="tel" placeholder="Phone" class="input-fields-add-new-contact">
+                            <input type="tel" placeholder="Phone" class="input-fields-add-new-contact" id="newContactPhone">
                             <div class="contact-input-icon">
                                 <img src="./assets/icons/contactCallInput.svg" alt="phone">
                             </div>
@@ -143,7 +149,7 @@ function openNewContact() {
                             <span>Cancel</span>
                             <img src="./assets/icons/cancelNewContact.svg" alt="cancel">
                         </div>
-                        <div class="button-create-new-contact">
+                        <div class="button-create-new-contact" onclick="createNewContact()">
                             <span>Create contact</span>
                             <img src="./assets/icons/createNewContact.svg" alt="tick">
                         </div>
@@ -155,15 +161,34 @@ function openNewContact() {
     addNewContactContainer.style.display = 'flex';
 }
 
+async function createNewContact() {
+    const name = document.getElementById('newContactName').value;
+    const email = document.getElementById('newContactEmail').value;
+    const phone = document.getElementById('newContactPhone').value;
+    if (name && email && phone) {
+        const color = getRandomColor();
+        const newContact = { name, email, phone, color };
+        const contactId = newContact.name.split(' ').join('-').toLowerCase();
+        await saveData(`contacts/${contactId}`, newContact);
+        contacts.push(newContact);
+        contacts.sort((a, b) => a.name.localeCompare(b.name));
+        renderContactList();
+        alert('Contact created successfully!');
+        closeNewContact();
+    } else {
+        alert('Please fill in all fields.');
+    }
+}
+
 function closeNewContact() {
     const addNewContactContainer = document.getElementById('newContact');
     addNewContactContainer.style.display = 'none';
 }
 
 function showContactDetail(name) {
-    const user = users.find(u => u.name === name);
+    const user = contacts.find(u => u.name === name);
     const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
-    const bgColor = colors[user.name];
+    const bgColor = user.color;
     const contactDetail = document.getElementById('contactDetail');
     contactDetail.innerHTML = generateContactDetailHTML(user, bgColor); 
     contactDetail.style.display = 'flex';
@@ -181,7 +206,7 @@ function generateContactDetailHTML(user, bgColor) {
                         <img src="./assets/icons/edit-contact.svg" alt="edit" class="contact-detail-change-icons">
                         <span class="contact-detail-edit-text">Edit</span>
                     </button>
-                    <button class="contact-detail-delete">
+                    <button class="contact-detail-delete" onclick="deleteContact()">
                         <img src="./assets/icons/delete-contact.svg" alt="delete" class="contact-detail-change-icons">
                         <span class="contact-detail-edit-text">Delete</span>
                     </button>
@@ -204,11 +229,21 @@ function generateContactDetailHTML(user, bgColor) {
     `;
 }
 
+{/* <button class="contact-detail-edit-active" onclick="openEditingContact('${user.name}')">
+<img src="./assets/icons/editContactsActive.svg" alt="edit" class="edit-contact-active">
+<span class="contact-detail-edit-text">Edit</span>
+</button> */}
+
+{/* <button class="contact-detail-delete-active" onclick="deleteContact()">
+<img src="./assets/icons/deleteContactActive.svg" alt="delete" class="delete-contact-active">
+<span class="contact-detail-edit-text">Delete</span>
+</button> */}
+
 window.openEditingContact = (name) => {
-    const user = users.find(u => u.name === name);
+    const user = contacts.find(u => u.name === name);
     const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
     const editContact = document.getElementById('editContact');
-    const bgColor = colors[user.name];
+    const bgColor = user.color;
     editContact.innerHTML = generateEditContactHTML(user, initials, bgColor);
     editContact.style.display = 'flex';
 };
@@ -244,7 +279,8 @@ function generateEditContactHTML(user, initials, bgColor) {
                         </div>
                         <div class="input-field-separator"></div>
                         <div class="contact-input-fields">
-                            <input type="email" placeholder="Email" class="input-fields-edit-contact" value="${user.email}">
+                            <input type="email" placeholder="Email" class="input-fields-edit-contact" value="${user.email}"
+                            pattern="[a-z0-9._%+\-]+@[a-z0-9\-]+\.[a-z]{2,63}$">
                             <div class="contact-input-icon">
                                 <img src="./assets/icons/contactMailInput.svg" alt="mail">
                             </div>
@@ -274,7 +310,17 @@ function generateEditContactHTML(user, initials, bgColor) {
     `;
 }
 
+function deleteContact(){
+
+}
+
 window.closeEditContact = () => {
-const editContact = document.getElementById('editContact');
-editContact.style.display = 'none';
+    const editContact = document.getElementById('editContact');
+    editContact.style.display = 'none';
+};
+
+window.onload = () => {
+    displayHeader();
+    displayDesktopSidebar();
+    loadContacts();
 };
