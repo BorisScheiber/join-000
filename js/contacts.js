@@ -125,6 +125,7 @@ function openNewContact() {
                             <div class="contact-input-icon">
                                 <img src="./assets/icons/contactPersonInput.svg" alt="profile">
                             </div>
+                            <div id="nameError" class="form-error-message"></div>
                         </div>
                         <div class="input-field-separator"></div>
                         <div class="contact-input-fields">
@@ -133,6 +134,7 @@ function openNewContact() {
                             <div class="contact-input-icon">
                                 <img src="./assets/icons/contactMailInput.svg" alt="mail">
                             </div>
+                            <div id="emailError" class="form-error-message"></div>
                         </div>
                         <div class="input-field-separator"></div>
                         <div class="contact-input-fields">
@@ -140,6 +142,7 @@ function openNewContact() {
                             <div class="contact-input-icon">
                                 <img src="./assets/icons/contactCallInput.svg" alt="phone">
                             </div>
+                            <div id="phoneError" class="form-error-message"></div>
                         </div>
                     </div>
                 </div>
@@ -161,23 +164,105 @@ function openNewContact() {
     addNewContactContainer.style.display = 'flex';
 }
 
+function validateName(name) {
+    const NAME_PATTERN = /^[A-ZÄÖÜ][a-zäöü]+(?: [A-ZÄÖÜ][a-zäöü]+)$/;
+    if (!name) {
+        return 'Please enter a first and last name.';
+    }
+    if (!NAME_PATTERN.test(name)) {
+        return 'The name may only contain letters and must begin with a capital letter and must contain both first and last names.';
+    }
+    return '';
+}
+
+function validateEmail(email) {
+    const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$/;
+    if (!emailPattern.test(email)) {
+        return 'Please enter a valid email address.';
+    }
+    return '';
+}
+
+function validatePhone(phone) {
+    const PHONE_PATTERN = /^[\+\d]+$/;
+    if (!phone) {
+        return 'Please enter a phone number.';
+    }
+    if (!PHONE_PATTERN.test(phone)) {
+        return 'The phone number can only contain numbers and the plus sign (+).';
+    }
+    return '';
+}
+
+function setErrorMessage(elementId, message) {
+    document.getElementById(elementId).textContent = message;
+}
+
+function clearErrorMessages() {
+    setErrorMessage('nameError', '');
+    setErrorMessage('emailError', '');
+    setErrorMessage('phoneError', '');
+}
+
 async function createNewContact() {
     const name = document.getElementById('newContactName').value;
     const email = document.getElementById('newContactEmail').value;
     const phone = document.getElementById('newContactPhone').value;
-    if (name && email && phone) {
-        const color = getRandomColor();
-        const newContact = { name, email, phone, color };
-        const contactId = newContact.name.split(' ').join('-').toLowerCase();
-        await saveData(`contacts/${contactId}`, newContact);
-        contacts.push(newContact);
-        contacts.sort((a, b) => a.name.localeCompare(b.name));
-        renderContactList();
-        alert('Contact created successfully!');
+    clearErrorMessages();
+    if (validateContactInputs(name, email, phone)) {
+        const newContact = createContactObject(name, email, phone);
+        await saveDataToFirebase(newContact);
+        updateContactList(newContact);
         closeNewContact();
-    } else {
-        alert('Please fill in all fields.');
+        successfullCreationContact()
     }
+}
+
+function successfullCreationContact() {
+    let overlay = document.getElementById('createContactSuccessfull');
+    let container = overlay.querySelector('.create-contact-successfull-container');
+    overlay.style.display = 'flex';
+    requestAnimationFrame(() => {
+        container.classList.add('slide-in');
+    });
+    setTimeout(() => {
+        container.classList.add('slide-out');
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            container.classList.remove('slide-in', 'slide-out');
+        }, 400);
+    }, 1500);
+}
+
+function validateContactInputs(name, email, phone) {
+    const validations = [
+        { error: validateName(name), elementId: 'nameError' },
+        { error: validateEmail(email), elementId: 'emailError' },
+        { error: validatePhone(phone), elementId: 'phoneError' },
+    ];
+    let valid = true;
+    validations.forEach(({ error, elementId }) => {
+        if (error) {
+            setErrorMessage(elementId, error);
+            valid = false;
+        }
+    });
+    return valid;
+}
+
+function createContactObject(name, email, phone) {
+    return {
+        name,
+        email,
+        phone,
+        color: getRandomColor(),
+    };
+}
+
+function updateContactList(newContact) {
+    contacts.push(newContact);
+    contacts.sort((a, b) => a.name.localeCompare(b.name));
+    renderContactList();
 }
 
 function closeNewContact() {
@@ -206,7 +291,7 @@ function generateContactDetailHTML(user, bgColor) {
                         <img src="./assets/icons/edit-contact.svg" alt="edit" class="contact-detail-change-icons">
                         <span class="contact-detail-edit-text">Edit</span>
                     </button>
-                    <button class="contact-detail-delete" onclick="deleteContact()">
+                    <button class="contact-detail-delete" onclick="deleteContact('${user.name}')">
                         <img src="./assets/icons/delete-contact.svg" alt="delete" class="contact-detail-change-icons">
                         <span class="contact-detail-edit-text">Delete</span>
                     </button>
@@ -227,6 +312,19 @@ function generateContactDetailHTML(user, bgColor) {
             </div>
         </div>
     `;
+}
+
+async function deleteContact(contactName) {
+    try {
+        const contactId = contactName.split(' ').join('-').toLowerCase();
+        await removeData(`contacts/${contactId}`);
+        contacts = contacts.filter(contact => contact.name !== contactName);
+        renderContactList();
+        location.reload();
+    } catch (error) {
+        console.error('Fehler beim Löschen des Kontakts:', error);
+        alert('Es gab ein Problem beim Löschen des Kontakts. Bitte versuchen Sie es erneut.');
+    }
 }
 
 {/* <button class="contact-detail-edit-active" onclick="openEditingContact('${user.name}')">
@@ -272,7 +370,7 @@ function generateEditContactHTML(user, initials, bgColor) {
                     </div>
                     <div class="edit-contact-input-field-section">
                         <div class="contact-input-fields">
-                            <input type="text" placeholder="Name" class="input-fields-edit-contact" value="${user.name}">
+                            <input type="text" placeholder="Name" class="input-fields-edit-contact" value="${user.name}" id="contactName">
                             <div class="contact-input-icon">
                                 <img src="./assets/icons/contactPersonInput.svg" alt="profile">
                             </div>
@@ -280,14 +378,14 @@ function generateEditContactHTML(user, initials, bgColor) {
                         <div class="input-field-separator"></div>
                         <div class="contact-input-fields">
                             <input type="email" placeholder="Email" class="input-fields-edit-contact" value="${user.email}"
-                            pattern="[a-z0-9._%+\-]+@[a-z0-9\-]+\.[a-z]{2,63}$">
+                            pattern="[a-z0-9._%+\-]+@[a-z0-9\-]+\.[a-z]{2,63}$" id="contactMailAdress">
                             <div class="contact-input-icon">
                                 <img src="./assets/icons/contactMailInput.svg" alt="mail">
                             </div>
                         </div>
                         <div class="input-field-separator"></div>
                         <div class="contact-input-fields">
-                            <input type="tel" placeholder="Phone" class="input-fields-edit-contact" value="${user.phone}">
+                            <input type="tel" placeholder="Phone" class="input-fields-edit-contact" value="${user.phone}" id="contactPhone">
                             <div class="contact-input-icon">
                                 <img src="./assets/icons/contactCallInput.svg" alt="phone">
                             </div>
@@ -296,10 +394,10 @@ function generateEditContactHTML(user, initials, bgColor) {
                 </div>
                 <div class="edit-contact-button-section">
                     <div class="edit-contact-buttons">
-                        <div class="button-delete-contact">
+                        <div class="button-delete-contact" onclick="clearContactInfo()">
                             <span>Delete</span>
                         </div>
-                        <div class="button-save-contact">
+                        <div class="button-save-contact" onclick="saveEdittingContact()">
                             <span>Save</span>
                             <img src="./assets/icons/createNewContact.svg" alt="tick">
                         </div>
@@ -310,17 +408,47 @@ function generateEditContactHTML(user, initials, bgColor) {
     `;
 }
 
-function deleteContact(){
+// async function saveEdittingContact() {
+//     // Hole die Werte aus den Input-Feldern
+//     const name = document.getElementById('contactName').value;
+//     const email = document.getElementById('contactMailAdress').value;
+//     const phone = document.getElementById('contactPhone').value;
 
+//     // Erstelle das Datenobjekt
+//     const contactData = {
+//         name: name,
+//         email: email,
+//         phone: phone
+//     };
+
+//     // Der Pfad zur Firebase-Datenbank, z.B. `contacts/userId`
+//     const userId = "someUniqueUserId"; // Hier musst du den tatsächlichen Benutzer-ID-Pfad angeben
+//     const path = `contacts/${userId}`; // Beispielpfad, anpassen je nach Datenstruktur
+
+//     try {
+//         // Speichere die Daten in Firebase
+//         await saveData(path, contactData);
+//         alert('Contact saved successfully!');
+//         closeEditContact();
+//         location.reload();
+//     } catch (error) {
+//         console.error('Error saving contact:', error);
+//         alert('Failed to save contact. Please try again.');
+//     }
+// }
+
+function clearContactInfo() {
+    const userName = document.getElementById('contactName');
+    const userMail = document.getElementById('contactMailAdress');
+    const userPhone = document.getElementById('contactPhone');
+    if (userName) userName.value = '';
+    if (userMail) userMail.value = '';
+    if (userPhone) userPhone.value = '';
 }
 
-window.closeEditContact = () => {
+function closeEditContact(){
     const editContact = document.getElementById('editContact');
     editContact.style.display = 'none';
-};
+}
 
-window.onload = () => {
-    displayHeader();
-    displayDesktopSidebar();
-    loadContacts();
-};
+

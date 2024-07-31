@@ -118,6 +118,11 @@ a{
 
 /* detailed overview from selected contact*/
 
+.contact-detail-section{
+    position: fixed;
+    margin-left: 456px;
+}
+
 .contact-detail{    
     display: flex;
     align-items: center;
@@ -153,7 +158,7 @@ a{
     align-items: start;
     flex-direction: column;
     height: 364px;
-    width: 661px;
+    width: 861px;
     margin-left: 62px;
     margin-top: 32px;
     display: none;
@@ -282,20 +287,20 @@ a{
 }
 
 .contact-detail-information-block{
-    width: 140px;
+    width: 240px;
     height: 128px;
     margin-top: 21px;
 }
 
 .contact-detail-information-block-mail{
-    width: 140px;
+    width: 240px;
     height: 53px;
     display: flex;
     flex-direction: column;
 }
 
 .contact-detail-information-block-phone{
-    width: 140px;
+    width: 240px;
     height: 53px;
     margin-top: 22px;
     display: flex;
@@ -617,6 +622,7 @@ a{
 
 .contact-input-fields{
     position: relative;
+    height: 50px;
 }
 
 .contact-input-icon{
@@ -725,4 +731,51 @@ a{
 .button-save-contact:hover{
     cursor: pointer;
     box-shadow: 4px 4px 4px 0px #B7B7B7;
+}
+
+.form-error-message{
+    margin-left: 2px;
+    margin-top: 2px;
+    margin-bottom: 8px;
+    color: #ff8190;
+    font-size: 12px;
+    line-height: 14.4px;
+}
+
+/* animation for pop-up effect*/
+
+.create-contact-successful-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.create-contact-successfull-container {
+    right: 0;
+    height: 74px;
+    width: 312px;
+    background-color: var(--clr-main);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    transform: translateX(100%);
+    transition: transform 0.4s ease-in-out;
+    position: relative;
+}
+
+.slide-in {
+    transform: translateX(100%);
+}
+
+.slide-out {
+    transform: translateX(100%);
 }

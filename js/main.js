@@ -6,6 +6,15 @@ async function init() {
   displayInitialsHeaderUser();
 }
 
+async function initContatcs(){
+  displayDesktopSidebar();
+  displayHeader();
+  displayMobileNav();
+  removeClassesIfNotLoggedIn();
+  displayInitialsHeaderUser();
+  loadContacts();
+}
+
 /**
  * Gets the user's initials from localStorage.
  * If user initials are not found, it checks for guest initials.
