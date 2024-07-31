@@ -1,6 +1,7 @@
 let contacts = [];
 let currentLetter = '';
 let html = '';
+let selectedContactElement = null;
 
 async function initContatcs(){
     displayDesktopSidebar();
@@ -57,8 +58,8 @@ contacts.forEach(user => {
 function generateContactHTML(user) {
     const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
     return `
-        <div class="single-contact" onclick="showContactDetail('${user.name}')">
-            <div class="single-contact-profile-img" style="background-color: ${user.color};" id="profile-${user.name.split(' ').join('-')}">
+        <div class="single-contact" data-name="${user.name}" onclick="showContactDetail('${user.name}')">
+            <div class="single-contact-profile-img" style="background-color: ${user.color};">
                 ${initials}
             </div>
             <div class="single-contact-profile">
@@ -180,18 +181,18 @@ function validateEmail(email) {
 }
 
 function validatePhone(phone) {
-    const PHONE_PATTERN = /^[\+\d]+$/;
+    const PHONE_PATTERN = /^[\+\d\s]+$/;
     if (!phone) {
         return 'Please enter a phone number.';
     }
     if (!PHONE_PATTERN.test(phone)) {
-        return 'The phone number can only contain numbers and the plus sign (+).';
+        return 'The phone number can only contain numbers, the plus sign (+), and spaces.';
     }
     return '';
 }
 
 function setErrorMessage(elementId, message) {
-    document.getElementById(elementId).textContent = message;
+    document.getElementById(elementId).innerHTML = message;
 }
 
 function clearErrorMessages() {
@@ -278,11 +279,17 @@ function closeNewContact() {
 
 function showContactDetail(name) {
     const user = contacts.find(u => u.name === name);
-    const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
-    const bgColor = user.color;
     const contactDetail = document.getElementById('contactDetail');
-    contactDetail.innerHTML = generateContactDetailHTML(user, bgColor); 
+    contactDetail.innerHTML = generateContactDetailHTML(user, user.color);
     contactDetail.style.display = 'flex';
+    if (selectedContactElement) {
+        selectedContactElement.classList.remove('selected-contact');
+    }
+    const contactElement = document.querySelector(`.single-contact[data-name="${name}"]`);
+    if (contactElement) {
+        contactElement.classList.add('selected-contact');
+        selectedContactElement = contactElement;
+    }
 }
 
 function generateContactDetailHTML(user, bgColor) {
@@ -385,6 +392,7 @@ function generateEditContactHTML(user, initials, bgColor) {
                             <div class="contact-input-icon">
                                 <img src="./assets/icons/contactPersonInput.svg" alt="profile">
                             </div>
+                            <div id="nameError" class="form-error-message"></div>
                         </div>
                         <div class="input-field-separator"></div>
                         <div class="contact-input-fields">
@@ -393,6 +401,7 @@ function generateEditContactHTML(user, initials, bgColor) {
                             <div class="contact-input-icon">
                                 <img src="./assets/icons/contactMailInput.svg" alt="mail">
                             </div>
+                            <div id="emailError" class="form-error-message"></div>
                         </div>
                         <div class="input-field-separator"></div>
                         <div class="contact-input-fields">
@@ -400,6 +409,7 @@ function generateEditContactHTML(user, initials, bgColor) {
                             <div class="contact-input-icon">
                                 <img src="./assets/icons/contactCallInput.svg" alt="phone">
                             </div>
+                            <div id="phoneError" class="form-error-message"></div>
                         </div>
                     </div>
                 </div>
@@ -423,6 +433,14 @@ async function saveEditingContact() {
     const originalContactId = getOriginalContactId();
     if (!originalContactId) {
         console.error('Original Contact ID is undefined.');
+        return;
+    }
+    const name = document.getElementById('contactName').value;
+    const email = document.getElementById('contactMailAdress').value;
+    const phone = document.getElementById('contactPhone').value;
+    clearErrorMessages();
+    if (!validateContactInputs(name, email, phone)) {
+        console.error('Please fix the errors before saving.');
         return;
     }
     const contactData = createContactData();

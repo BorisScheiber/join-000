@@ -21,6 +21,7 @@ a{
     align-items: center;
     flex-direction: column;
     width: 456px;
+    /* height: 100vh; */
     background-color: #FFFFFF;
     box-shadow: 4px 0px 4px 0px #0000001a;
     /* z-index: 999; */
@@ -318,6 +319,13 @@ a{
     font-weight: 400;
 }
 
+.selected-contact {
+    background-color: #2A3647;
+    color: white;
+    border-radius: 10px;
+    /* box-shadow: 4px 4px 4px 0px #B7B7B7; */
+}
+
 /*window for add a new contact*/
 
 .window-add-new-contact{
@@ -445,7 +453,7 @@ a{
     border: 3px solid #FFFFFF;
     border-radius: 50%;
     background-color: #D1D1D1;
-    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
     margin-left: 83px;
     margin-right: 72px;
 }
