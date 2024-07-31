@@ -29,6 +29,7 @@ const logoColors = [
     'rgba(255, 187, 43, 1)'
 ];
 
+//for contacts
 function toggleContactList() {
     const contactList = document.getElementById("contact-list");
     const contactSearch = document.getElementById("contact-search");
@@ -36,17 +37,15 @@ function toggleContactList() {
     const toggleButton = document.getElementById("toggle-list");
     const dropdownIcon = toggleButton.querySelector(".dropdown-icon");
 
-    // Überprüfen, ob die Liste momentan angezeigt wird oder nicht
-    const isListOpen = !contactList.classList.contains("hidden");
+    // Use classList.toggle to consistently manage the hidden class
+    contactList.classList.toggle("hidden"); 
 
-    if (isListOpen) {
-        contactList.classList.add("hidden");
+    if (contactList.classList.contains("hidden")) {
         contactSearch.style.borderRadius = "10px";
         dropdownIcon.src = "/assets/icons/arrow_drop_down.svg";
         selectedContacts.style.display = "flex";
         document.removeEventListener('click', closeDropdownOnClickOutside);
     } else {
-        contactList.classList.remove("hidden");
         contactSearch.style.borderRadius = "10px 10px 0 0";
         dropdownIcon.src = "/assets/icons/arrow_drop_up.svg";
         selectedContacts.style.display = "none";
@@ -54,7 +53,6 @@ function toggleContactList() {
     }
 }
 
-//for contacts
 function filterContacts() {
     const searchTerm = document.getElementById("contact-search").value.toLowerCase();
     const contactItems = document.querySelectorAll("#contact-list .contact-item");
@@ -75,9 +73,11 @@ function closeDropdownOnClickOutside(event) {
     const contactList = document.getElementById("contact-list");
     const contactSearch = document.getElementById("contact-search");
     const toggleButton = document.getElementById("toggle-list");
+    const selectedContacts = document.getElementById("selected-contacts");
 
     if (!contactList.contains(event.target) && !contactSearch.contains(event.target) && !toggleButton.contains(event.target)) {
-        toggleContactList();
+        toggleContactList(); // Liste schließen
+        selectedContacts.style.display = "flex"; // Selected Contacts anzeigen
     }
 }
 
@@ -102,6 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
         contactList.appendChild(contactItem);
     });
     contactSearch.addEventListener("input", filterContacts);
+    setPriority('medium'); // Set Medium as default
 });
 
 document.getElementById("contact-list").addEventListener("click", (event) => {
@@ -116,33 +117,31 @@ document.getElementById("contact-list").addEventListener("click", (event) => {
 
 function updateSelectedContacts() {
     const selectedContacts = document.getElementById("selected-contacts");
-    selectedContacts.innerHTML = "";
+    selectedContacts.innerHTML = ''; // Clear the existing content
+
     const selectedCheckboxes = document.querySelectorAll("#contact-list .contact-checkbox.checked");
     selectedCheckboxes.forEach(checkbox => {
         const contactItem = checkbox.parentElement;
         const logo = contactItem.querySelector(".contact-logo");
-        const selectedContact = document.createElement("div");
-        selectedContact.classList.add("selected-contact");
-        selectedContact.style.backgroundColor = logo.dataset.background;
-        selectedContact.innerText = logo.innerText;
-        selectedContacts.appendChild(selectedContact);
+
+        // Create the selected contact element directly using innerHTML
+        selectedContacts.innerHTML += `
+            <div class="selected-contact" style="background-color: ${logo.dataset.background}">
+                ${logo.innerText}
+            </div>
+        `;
     });
 }
 
-// Hide dropdown on clicking outside
-document.addEventListener('click', function (event) {
-    const categoryField = document.querySelector('.category-field');
-    const dropdown = document.getElementById('category-dropdown');
-    if (!categoryField.contains(event.target)) {
-        dropdown.style.display = 'none';
-    }
-});
 
 // Open dropdown when typing in search field
 document.getElementById('contact-search').addEventListener('input', function () {
     document.getElementById('contact-list').style.display = 'block';
     filterContacts(); // Assuming this function filters contacts based on input
 });
+
+
+
 
 // Clear Fields button
 function clearFields() {
@@ -175,15 +174,15 @@ function clearFields() {
     document.getElementById("selected-contacts").innerHTML = "";
 
     // Schließe die Kontaktliste
-    toggleContactList() ;
+    toggleContactList();
     // Leere die Subtask-Liste
     document.getElementById("subtask-list").innerHTML = "";
 
     // Setze die Prio-Buttons zurück
-    const buttons = document.querySelectorAll('.priority-button');
-    buttons.forEach(button => resetButtonStyles(button));
-    
-
+    setPriority('medium'); // Set Medium as default
+    currentPriority = "medium";
+    // const buttons = document.querySelectorAll('.priority-button');
+    // buttons.forEach(button => resetButtonStyles(button));
 }
 
 function removeErrorMessage(field) {
@@ -274,12 +273,12 @@ function createTask() {
     document.getElementById('due-date').value = '';
     document.getElementById('category').value = '';
 
-     // Setze die Rahmen der Eingabefelder zurück
-     document.getElementById("title").style.border = '1px solid rgba(209, 209, 209, 1)';
-     document.getElementById("description").style.border = '1px solid rgba(209, 209, 209, 1)';
-     document.getElementById("due-date").style.border = '1px solid rgba(209, 209, 209, 1)';
-     document.getElementById("category").style.border = '1px solid rgba(209, 209, 209, 1)';
-     document.getElementById("contact-search").style.border = '1px solid rgba(209, 209, 209, 1)';
+    // Setze die Rahmen der Eingabefelder zurück
+    document.getElementById("title").style.border = '1px solid rgba(209, 209, 209, 1)';
+    document.getElementById("description").style.border = '1px solid rgba(209, 209, 209, 1)';
+    document.getElementById("due-date").style.border = '1px solid rgba(209, 209, 209, 1)';
+    document.getElementById("category").style.border = '1px solid rgba(209, 209, 209, 1)';
+    document.getElementById("contact-search").style.border = '1px solid rgba(209, 209, 209, 1)';
 
     document.querySelectorAll(".contact-list .contact-checkbox").forEach(checkbox => {
         checkbox.classList.remove('checked');
@@ -331,20 +330,15 @@ document.getElementById('recipeForm').onsubmit = function (event) {
 };
 
 //for Prio buttons
-let currentPriority = null;
+let currentPriority = "medium";
 
 function setPriority(level) {
     const buttons = document.querySelectorAll('.priority-button');
 
-    // If the clicked button is already selected, reset and return
-    if (currentPriority === level) {
-        buttons.forEach(button => resetButtonStyles(button));
-        currentPriority = null;
-        return;
-    }
-
     // Reset all buttons first
     buttons.forEach(button => resetButtonStyles(button));
+
+
 
     // Set the styles for the clicked button
     const activeButton = document.getElementById(`${level}-button`);
@@ -357,11 +351,15 @@ function setPriority(level) {
     activeButton.style.textAlign = 'left'; // Change text align
     activeButton.querySelector('img').src = `/assets/icons/${level}White.svg`;
 
+    // Remove hover effect from the selected button
+    activeButton.classList.add('selected'); // Add a class to the selected button
     // Update the current priority
     currentPriority = level;
 }
 
 function resetButtonStyles(button) {
+    button.classList.remove('selected'); // Remove the class when resetting
+
     button.style.backgroundColor = 'rgba(255, 255, 255, 1)'; // Reset background color
     button.style.color = 'rgba(0, 0, 0, 1)'; // Reset text color
     button.style.fontFamily = 'Inter'; // Reset font family

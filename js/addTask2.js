@@ -31,6 +31,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+
+// Hide dropdown on clicking outside
+document.addEventListener('click', function (event) {
+    const categoryField = document.querySelector('.category-field');
+    const dropdown = document.getElementById('category-dropdown');
+    if (!categoryField.contains(event.target)) {
+        dropdown.style.display = 'none';
+    }
+});
+
 // // For subtasks
 function addSubtask() {
     const subtaskInput = document.getElementById('subtask-input');
