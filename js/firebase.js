@@ -18,11 +18,6 @@ async function saveData(path = "", data) {
     });
 }
 
-async function saveDataToFirebase(contact) {
-    const contactId = contact.name.split(' ').join('-').toLowerCase();
-    await saveData(`contacts/${contactId}`, contact);
-}
-
 async function removeData(path = "") {
     try {
         let response = await fetch(`${BASE_URL}${path}.json`, {
@@ -35,4 +30,14 @@ async function removeData(path = "") {
         console.error(`Fehler beim Entfernen von Daten an Pfad ${path}:`, error);
         throw error;
     }
+}
+
+async function saveDataToFirebase(contactId, contactData) {
+    await fetch(`${BASE_URL}contacts/${contactId}.json`, {
+        method: 'PUT',
+        body: JSON.stringify(contactData),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
 }

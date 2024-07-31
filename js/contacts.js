@@ -2,6 +2,15 @@ let contacts = [];
 let currentLetter = '';
 let html = '';
 
+async function initContatcs(){
+    displayDesktopSidebar();
+    displayHeader();
+    displayMobileNav();
+    removeClassesIfNotLoggedIn();
+    displayInitialsHeaderUser();
+    loadContacts();
+  }
+
 contacts.sort((a, b) => a.name.localeCompare(b.name));
 
 function getRandomColor() {
@@ -29,20 +38,7 @@ async function loadContacts() {
     }
 }
 
-function loadColors() {
-    let colors = JSON.parse(localStorage.getItem('contactColors'));
-    if (!colors) {
-        colors = {};
-        contacts.forEach(user => {
-            colors[user.name] = getRandomColor();
-        });
-        localStorage.setItem('contactColors', JSON.stringify(colors));
-    }
-    return colors;
-}
-
 const loadContactMenu = document.getElementById('loadContactMenu');
-const colors = loadColors();
 
 contacts.forEach(user => {
     const firstLetter = user.name.charAt(0).toUpperCase();
@@ -211,11 +207,21 @@ async function createNewContact() {
     clearErrorMessages();
     if (validateContactInputs(name, email, phone)) {
         const newContact = createContactObject(name, email, phone);
-        await saveDataToFirebase(newContact);
+        const contactId = generateContactId(name);
+        await saveDataToFirebase(contactId, newContact);
         updateContactList(newContact);
         closeNewContact();
-        successfullCreationContact()
+        location.reload();
     }
+    successfullCreationContact();
+}
+
+function generateContactId(name) {
+    if (typeof name !== 'string') {
+        console.error('Invalid name for ID generation:', name);
+        return '';
+    }
+    return name.trim().toLowerCase().replace(/\s+/g, '-');
 }
 
 function successfullCreationContact() {
@@ -337,14 +343,19 @@ async function deleteContact(contactName) {
 <span class="contact-detail-edit-text">Delete</span>
 </button> */}
 
-window.openEditingContact = (name) => {
+function openEditingContact(name) {
     const user = contacts.find(u => u.name === name);
+    if (!user) {
+        console.error('User not found:', name);
+        return;
+    }
     const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
-    const editContact = document.getElementById('editContact');
     const bgColor = user.color;
+    const editContact = document.getElementById('editContact');
+    editContact.dataset.originalContactId = generateContactId(user.name);
     editContact.innerHTML = generateEditContactHTML(user, initials, bgColor);
     editContact.style.display = 'flex';
-};
+}
 
 function generateEditContactHTML(user, initials, bgColor) {
     return `
@@ -397,7 +408,7 @@ function generateEditContactHTML(user, initials, bgColor) {
                         <div class="button-delete-contact" onclick="clearContactInfo()">
                             <span>Delete</span>
                         </div>
-                        <div class="button-save-contact" onclick="saveEdittingContact()">
+                        <div class="button-save-contact" onclick="saveEditingContact()">
                             <span>Save</span>
                             <img src="./assets/icons/createNewContact.svg" alt="tick">
                         </div>
@@ -408,30 +419,50 @@ function generateEditContactHTML(user, initials, bgColor) {
     `;
 }
 
-// async function saveEdittingContact() {
-//     const name = document.getElementById('contactName').value;
-//     const email = document.getElementById('contactMailAdress').value;
-//     const phone = document.getElementById('contactPhone').value;
+async function saveEditingContact() {
+    const originalContactId = getOriginalContactId();
+    if (!originalContactId) {
+        console.error('Original Contact ID is undefined.');
+        return;
+    }
+    const contactData = createContactData();
+    const newContactId = generateContactId(contactData.name);
+    try {
+        await updateContactInDatabase(originalContactId, newContactId, contactData);
+        updateContactList(newContactId, contactData);
+        renderContactList();
+        closeEditContact();
+        location.reload();
+    } catch (error) {
+        console.error('Error saving contact:', error);
+    }
+}
 
-//     const contactData = {
-//         name: name,
-//         email: email,
-//         phone: phone
-//     };
+function getOriginalContactId() {
+    return document.getElementById('editContact').dataset.originalContactId;
+}
 
-//     const userId = "someUniqueUserId"; // Hier musst du den tatsächlichen Benutzer-ID-Pfad angeben
-//     const path = `contacts/${userId}`; // Beispielpfad, anpassen je nach Datenstruktur
+function createContactData() {
+    return {
+        name: document.getElementById('contactName').value,
+        email: document.getElementById('contactMailAdress').value,
+        phone: document.getElementById('contactPhone').value,
+        color: getRandomColor()
+    };
+}
 
-//     try {
-//         await saveData(path, contactData);
-//         alert('Contact saved successfully!');
-//         closeEditContact();
-//         location.reload();
-//     } catch (error) {
-//         console.error('Error saving contact:', error);
-//         alert('Failed to save contact. Please try again.');
-//     }
-// }
+async function updateContactInDatabase(originalContactId, newContactId, contactData) {
+    if (newContactId !== originalContactId) {
+        await removeData(`contacts/${originalContactId}`);
+    }
+    await saveDataToFirebase(newContactId, contactData);
+}
+
+function updateContactList(newContactId, contactData) {
+    contacts = contacts.filter(contact => generateContactId(contact.name) !== newContactId);
+    contacts.push(contactData);
+    contacts.sort((a, b) => a.name.localeCompare(b.name));
+}
 
 function clearContactInfo() {
     const userName = document.getElementById('contactName');
@@ -446,5 +477,3 @@ function closeEditContact(){
     const editContact = document.getElementById('editContact');
     editContact.style.display = 'none';
 }
-
-
