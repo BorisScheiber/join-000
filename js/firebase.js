@@ -28,12 +28,9 @@ async function removeData(path = "") {
         let response = await fetch(`${BASE_URL}${path}.json`, {
             method: 'DELETE'
         });
-
         if (!response.ok) {
             throw new Error(`Fehler beim Löschen der Daten: ${response.statusText}`);
         }
-
-        console.log(`Daten erfolgreich an Pfad ${path} entfernt`);
     } catch (error) {
         console.error(`Fehler beim Entfernen von Daten an Pfad ${path}:`, error);
         throw error;

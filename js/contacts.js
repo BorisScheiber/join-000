@@ -409,24 +409,20 @@ function generateEditContactHTML(user, initials, bgColor) {
 }
 
 // async function saveEdittingContact() {
-//     // Hole die Werte aus den Input-Feldern
 //     const name = document.getElementById('contactName').value;
 //     const email = document.getElementById('contactMailAdress').value;
 //     const phone = document.getElementById('contactPhone').value;
 
-//     // Erstelle das Datenobjekt
 //     const contactData = {
 //         name: name,
 //         email: email,
 //         phone: phone
 //     };
 
-//     // Der Pfad zur Firebase-Datenbank, z.B. `contacts/userId`
 //     const userId = "someUniqueUserId"; // Hier musst du den tatsächlichen Benutzer-ID-Pfad angeben
 //     const path = `contacts/${userId}`; // Beispielpfad, anpassen je nach Datenstruktur
 
 //     try {
-//         // Speichere die Daten in Firebase
 //         await saveData(path, contactData);
 //         alert('Contact saved successfully!');
 //         closeEditContact();
