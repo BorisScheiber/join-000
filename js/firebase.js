@@ -41,3 +41,27 @@ async function saveDataToFirebase(contactId, contactData) {
         }
     });
 }
+
+
+/*tasks */
+
+// Function to delete data from Firebase
+async function deleteData(path = "") {
+    let response = await fetch(BASE_URL + path + ".json", {
+      method: "DELETE",
+    });
+    return responseAsJson = await response.json();
+  }
+
+// Function to edit data from Firebase
+
+  async function putData(path = "", data = {}) {
+    let response = await fetch(BASE_URL + path + ".json", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+    });
+    return await response.json();
+}
