@@ -1,3 +1,6 @@
+// const BASE_URL = "https://join-59d2a-default-rtdb.europe-west1.firebasedatabase.app/";
+
+
 const contacts = [
     { name: "Müller", vorname: "Hans", email: "hans.mueller@example.com" },
     { name: "Schmidt", vorname: "Anna", email: "anna.schmidt@example.com" },
@@ -151,6 +154,7 @@ function clearFields() {
     document.getElementById("contact-search").value = "";
     document.getElementById("due-date").value = "";
     document.getElementById("category").value = "";
+    document.getElementById("subtask-input").value = "";
 
     // Setze die Rahmen der Eingabefelder zurück
     document.getElementById("title").style.border = '1px solid rgba(209, 209, 209, 1)';
@@ -158,6 +162,7 @@ function clearFields() {
     document.getElementById("due-date").style.border = '1px solid rgba(209, 209, 209, 1)';
     document.getElementById("category").style.border = '1px solid rgba(209, 209, 209, 1)';
     document.getElementById("contact-search").style.border = '1px solid rgba(209, 209, 209, 1)';
+    document.getElementById("subtask-input").style.border = '1px solid rgba(209, 209, 209, 1)';
 
     // Entferne alle Fehlermeldungen
     removeErrorMessage(document.getElementById("title"));
@@ -173,16 +178,12 @@ function clearFields() {
     // Leere die ausgewählten Kontakte
     document.getElementById("selected-contacts").innerHTML = "";
 
-    // Schließe die Kontaktliste
-    toggleContactList();
     // Leere die Subtask-Liste
     document.getElementById("subtask-list").innerHTML = "";
 
     // Setze die Prio-Buttons zurück
     setPriority('medium'); // Set Medium as default
     currentPriority = "medium";
-    // const buttons = document.querySelectorAll('.priority-button');
-    // buttons.forEach(button => resetButtonStyles(button));
 }
 
 function removeErrorMessage(field) {
@@ -248,44 +249,65 @@ function removeErrorMessage(field) {
     }
 }
 
-function createTask() {
+async function postData(path = "", data = {}) {
+    let response = await fetch(BASE_URL + path + ".json", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+    });
+    return responseAsJson = await response.json();
+}
+
+async function createTask() {
     const title = document.getElementById('title').value.trim();
     const description = document.getElementById('description').value.trim();
     const category = document.getElementById('category').value.trim();
+    const dueDate = document.getElementById('due-date').value;
+    const prio = currentPriority; // Get the current priority from the global variable
+  
     if (!validateFields()) {
-        return;
+      return;
     }
-
+  
     const assignedContacts = [];
     document.querySelectorAll(".contact-list .contact-checkbox.checked").forEach(checkbox => {
-        const contactItem = checkbox.parentElement;
-        const name = contactItem.querySelector("span:nth-child(2)").textContent;
-        assignedContacts.push(name);
+      const contactItem = checkbox.parentElement;
+      const name = contactItem.querySelector("span:nth-child(2)").textContent;
+      assignedContacts.push(name);
     });
-    console.log("Task created with title:", title);
-    console.log("Description:", description);
-    console.log("Assigned to:", assignedContacts.join(", "));
-    console.log("Category:", category);
-
-    // Form zurücksetzen
-    document.getElementById('title').value = '';
-    document.getElementById('description').value = '';
-    document.getElementById('due-date').value = '';
-    document.getElementById('category').value = '';
-
-    // Setze die Rahmen der Eingabefelder zurück
-    document.getElementById("title").style.border = '1px solid rgba(209, 209, 209, 1)';
-    document.getElementById("description").style.border = '1px solid rgba(209, 209, 209, 1)';
-    document.getElementById("due-date").style.border = '1px solid rgba(209, 209, 209, 1)';
-    document.getElementById("category").style.border = '1px solid rgba(209, 209, 209, 1)';
-    document.getElementById("contact-search").style.border = '1px solid rgba(209, 209, 209, 1)';
-
-    document.querySelectorAll(".contact-list .contact-checkbox").forEach(checkbox => {
-        checkbox.classList.remove('checked');
-        checkbox.parentElement.classList.remove('checked');
+  
+    const subtasks = [];
+    const subtaskItems = document.querySelectorAll("#subtask-list .subtask-item");
+    subtaskItems.forEach(item => {
+      const subtaskText = item.querySelector('.subtask-text').innerText;
+      subtasks.push(subtaskText);
     });
-    updateSelectedContacts();
-}
+  
+    // Create the task object
+    const newTask = {
+      id: Date.now(), // Generate a unique ID using timestamp
+      Title: title,
+      Description: description,
+      Assigned_to: assignedContacts,
+      Due_date: dueDate,
+      Prio: prio,
+      Category: category,
+      Subtasks: subtasks
+    };
+  
+    // Save the task to Firebase
+    try {
+      await postData("tasks", newTask);
+      console.log("Task created successfully:", newTask);
+      // Reset the form and clear selected contacts
+      clearFields();
+    } catch (error) {
+      console.error("Error creating task:", error);
+    }
+  }
+  
 
 //Diese Funktion wird aufgerufen, wenn der Benutzer in das Eingabefeld tippt (input-Event).
 // Sie setzt den Rahmen auf 1px solid rgba(41, 171, 226, 1) während der Eingabe und entfernt die Fehlermeldung, falls vorhanden.
@@ -326,7 +348,6 @@ document.getElementById('category').addEventListener('blur', handleBlur);
 
 document.getElementById('recipeForm').onsubmit = function (event) {
     event.preventDefault();
-    createTask();
 };
 
 //for Prio buttons
