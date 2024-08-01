@@ -209,6 +209,10 @@ h6 {
   margin-left: 67.3px;
 }
 
+.summary-name {
+  color: var(--clr-light-blue);
+}
+
 @media (max-width: 1230px) {
   .summary-greeting {
     display: none;
@@ -230,4 +234,14 @@ h6 {
 .summary-seperator-mobile {
   display: inline;
 }
+}
+
+/* utility classes */
+
+.display-none {
+  display: none;
+}
+
+.display-flex {
+  display: flex;
 }

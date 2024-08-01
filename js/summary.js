@@ -1,7 +1,7 @@
 function initSummary() {
   getGreeting();
+  displayUserName();
 }
-
 
 function getGreetingMessage(time) {
   switch (true) {
@@ -20,9 +20,24 @@ function getGreetingMessage(time) {
   }
 }
 
-
 function getGreeting() {
   let time = new Date().getHours();
   let greeting = getGreetingMessage(time);
+  greeting += addCommaIfUserIsLoggedIn();
   document.getElementById("summaryGreeting").innerHTML = greeting;
+}
+
+
+function displayUserName() {
+  let user = localStorage.getItem("user");
+  if (user) {
+    let userData = JSON.parse(atob(user));
+    let userName = userData.name;
+    document.getElementById("summaryGreetingName").innerHTML = userName;
+  }
+}
+
+
+function addCommaIfUserIsLoggedIn() {
+  return localStorage.getItem("user") ? "," : "";
 }
