@@ -95,68 +95,70 @@ loadContactMenu.innerHTML = html;
 function openNewContact() {
     const addNewContactContainer = document.getElementById('newContact');
     addNewContactContainer.innerHTML = `
-        <div class="add-new-contact">
-            <div class="add-new-contact-menu">
-                <div class="add-new-contact-menu-img">
-                    <img src="./assets/icons/logo-add-new-contact.svg" alt="logo" class="add-new-contact-menu-img">
-                </div>
-                <div>
-                    <div class="add-new-contact-menu-text">
-                        <span class="add-new-contact-menu-text-headline">Add contact</span>
-                        <span class="add-new-contact-menu-text-subtext">Tasks are better with a team!</span>
+        <form class="add-new-contact-form" onsubmit="createNewContact(); return false;">
+            <div class="add-new-contact">
+                <div class="add-new-contact-menu">
+                    <div class="add-new-contact-menu-img">
+                        <img src="./assets/icons/logo-add-new-contact.svg" alt="logo" class="add-new-contact-menu-img">
                     </div>
-                    <div class="add-new-contact-menu-separator"></div>
+                    <div>
+                        <div class="add-new-contact-menu-text">
+                            <span class="add-new-contact-menu-text-headline">Add contact</span>
+                            <span class="add-new-contact-menu-text-subtext">Tasks are better with a team!</span>
+                        </div>
+                        <div class="add-new-contact-menu-separator"></div>
+                    </div>
+                </div>
+                <div class="add-new-contact-content">
+                    <div class="add-new-contact-close-button">
+                        <img src="./assets/icons/close-contact.svg" alt="close" class="close-contact" onclick="closeNewContact()">
+                    </div>
+                    <div class="add-new-contact-input-fields">
+                        <div class="icon-profile-add-new-contact">
+                            <img src="./assets/icons/personContact.svg" alt="profile" class="img-profile-add-new-contact">
+                        </div>
+                        <div class="add-new-contact-input-field-section">
+                            <div class="contact-input-fields">
+                                <input type="text" placeholder="Name" class="input-fields-add-new-contact" id="newContactName" required>
+                                <div class="contact-input-icon">
+                                    <img src="./assets/icons/contactPersonInput.svg" alt="profile">
+                                </div>
+                                <div id="nameError" class="form-error-message"></div>
+                            </div>
+                            <div class="input-field-separator"></div>
+                            <div class="contact-input-fields">
+                                <input type="email" placeholder="Email" class="input-fields-add-new-contact" id="newContactEmail"
+                                pattern="[a-z0-9._%+\-]+@[a-z0-9\-]+\.[a-z]{2,63}$" required>
+                                <div class="contact-input-icon">
+                                    <img src="./assets/icons/contactMailInput.svg" alt="mail">
+                                </div>
+                                <div id="emailError" class="form-error-message"></div>
+                            </div>
+                            <div class="input-field-separator"></div>
+                            <div class="contact-input-fields">
+                                <input type="tel" placeholder="Phone" class="input-fields-add-new-contact" id="newContactPhone" required>
+                                <div class="contact-input-icon">
+                                    <img src="./assets/icons/contactCallInput.svg" alt="phone">
+                                </div>
+                                <div id="phoneError" class="form-error-message"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="add-new-contact-button-section">
+                        <div class="add-new-contact-buttons">
+                            <button type="button" class="button-cancel-new-contact" onclick="closeNewContact()">
+                                <span>Cancel</span>
+                                <img src="./assets/icons/cancelNewContact.svg" alt="cancel">
+                            </button>
+                            <button type="submit" class="button-create-new-contact">
+                                <span>Create contact</span>
+                                <img src="./assets/icons/createNewContact.svg" alt="tick">
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="add-new-contact-content">
-                <div class="add-new-contact-close-button">
-                    <img src="./assets/icons/close-contact.svg" alt="close" class="close-contact" onclick="closeNewContact()">
-                </div>
-                <div class="add-new-contact-input-fields">
-                    <div class="icon-profile-add-new-contact">
-                        <img src="./assets/icons/personContact.svg" alt="profile" class="img-profile-add-new-contact">
-                    </div>
-                    <div class="add-new-contact-input-field-section">
-                        <div class="contact-input-fields">
-                            <input type="text" placeholder="Name" class="input-fields-add-new-contact" id="newContactName">
-                            <div class="contact-input-icon">
-                                <img src="./assets/icons/contactPersonInput.svg" alt="profile">
-                            </div>
-                            <div id="nameError" class="form-error-message"></div>
-                        </div>
-                        <div class="input-field-separator"></div>
-                        <div class="contact-input-fields">
-                            <input type="email" placeholder="Email" class="input-fields-add-new-contact" id="newContactEmail"
-                            pattern="[a-z0-9._%+\-]+@[a-z0-9\-]+\.[a-z]{2,63}$">
-                            <div class="contact-input-icon">
-                                <img src="./assets/icons/contactMailInput.svg" alt="mail">
-                            </div>
-                            <div id="emailError" class="form-error-message"></div>
-                        </div>
-                        <div class="input-field-separator"></div>
-                        <div class="contact-input-fields">
-                            <input type="tel" placeholder="Phone" class="input-fields-add-new-contact" id="newContactPhone">
-                            <div class="contact-input-icon">
-                                <img src="./assets/icons/contactCallInput.svg" alt="phone">
-                            </div>
-                            <div id="phoneError" class="form-error-message"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="add-new-contact-button-section">
-                    <div class="add-new-contact-buttons">
-                        <div class="button-cancel-new-contact" onclick="closeNewContact()">
-                            <span>Cancel</span>
-                            <img src="./assets/icons/cancelNewContact.svg" alt="cancel">
-                        </div>
-                        <div class="button-create-new-contact" onclick="createNewContact()">
-                            <span>Create contact</span>
-                            <img src="./assets/icons/createNewContact.svg" alt="tick">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </form>
     `;
     addNewContactContainer.style.display = 'flex';
 }
@@ -173,7 +175,7 @@ function validateName(name) {
 }
 
 function validateEmail(email) {
-    const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$/;
+    const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$/i;
     if (!emailPattern.test(email)) {
         return 'Please enter a valid email address.';
     }
@@ -184,6 +186,9 @@ function validatePhone(phone) {
     const PHONE_PATTERN = /^[\+\d\s]+$/;
     if (!phone) {
         return 'Please enter a phone number.';
+    }
+    if (phone.length < 9) {
+        return 'The phone number must be at least 9 characters long.';
     }
     if (!PHONE_PATTERN.test(phone)) {
         return 'The phone number can only contain numbers, the plus sign (+), and spaces.';
