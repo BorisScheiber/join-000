@@ -303,6 +303,15 @@
   }
 }
 
+.login-email-exists {
+  display: none;
+  margin-top: 4px;
+  color: #ff8190;
+  font-size: 12px;
+  line-height: 14.4px;
+  position: absolute;
+}
+
 /* utility classes */
 
 .login-input-error {

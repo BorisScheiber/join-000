@@ -49,6 +49,9 @@
             <div class="login-input-icon">
               <img src="./assets/icons/mail.svg" alt="">
             </div>
+            <div id="loginEmailExists" class="login-email-exists">
+              <span>This email address does not exist!</span>
+            </div>
           </div>
           <div class="login-input-fields">
             <input oninput="updateIconOnInput(this)" id="password" placeholder="Password" class="login-input" type="password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{6,}$"
@@ -59,10 +62,10 @@
           </div>
         </div>
         <div id="loginErrorMessage" class="login-failed-text">
-          <span>Incorrect email or password!</span>
+          <span>Wrong password!</span>
         </div>
         <label class="login-remember">
-          <input type="checkbox" class="login-custom-checkbox" required>
+          <input type="checkbox" class="login-custom-checkbox">
           <span>Remember me</span>
         </label>
         <div class="login-button-container">

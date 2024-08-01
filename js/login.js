@@ -73,18 +73,50 @@ async function userLoginRemoveLocalStorage() {
   localStorage.removeItem("user");
 }
 
+//////////OLD CODE
+// async function validateLoginForm() {
+//   let email = getEmailFieldValue();
+//   let password = getPasswordFieldValue();
+//   let user = users.find((user) => user.email === email && user.password === password);
+
+//   if (user) {
+//     removeLoginErrorMessage();
+//     userLogin(user);
+//   } else {
+//     console.log("Login failed: Incorrect email or password");
+//     showLoginErrorMessage();
+//   }
+// }
 
 async function validateLoginForm() {
   let email = getEmailFieldValue();
   let password = getPasswordFieldValue();
   let user = users.find((user) => user.email === email && user.password === password);
+  let doesEmailExist = checkIfMailExists();
 
-  if (user) {
+  if (doesEmailExist && user) {
     removeLoginErrorMessage();
     userLogin(user);
   } else {
     console.log("Login failed: Incorrect email or password");
     showLoginErrorMessage();
+  }
+}
+
+
+function checkIfMailExists() {
+  let emailField = document.getElementById("email");
+  let errorMessage = document.getElementById("loginEmailExists");
+  let emailExists = users.some((user) => user.email === emailField.value.trim());
+
+  if (emailExists) {
+    errorMessage.style.display = "none";
+    emailField.classList.remove("login-input-error");
+    return true;
+  } else {
+    errorMessage.style.display = "block";
+    emailField.classList.add("login-input-error");
+    return false;
   }
 }
 
