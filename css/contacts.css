@@ -27,7 +27,7 @@ a{
 }
 
 #loadContactMenu {
-    max-height: 81vh;
+    max-height: 78.5vh;
     overflow-y: auto;
     padding-right: 50px;
     position: relative;
