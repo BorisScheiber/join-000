@@ -26,7 +26,7 @@ a{
 }
 
 #loadContactMenu {
-    max-height: 78.5vh;
+    max-height: 78.3vh;
     overflow-y: auto;
     padding-right: 50px;
     position: relative;
@@ -231,54 +231,34 @@ a{
     font-size: 16px;
     font-weight: 400;
     margin-right: 16px;
-}
-
-/* .contact-detail-edit:hover .contact-detail-edit{
-    display: none;
-}
-
-.contact-detail-edit:hover .contact-detail-edit-active{
-    display: block;
-} */
-
-/* .contact-detail-edit-active{
-    width: 63px;
+    background: url('./assets/icons/delete-contact.svg') no-repeat center;
+    background-size: contain;
+    border: none;
+    padding: 10px;
     display: flex;
-    align-items: end;
-    font-size: 16px;
-    font-weight: 400;
-    margin-right: 16px;
-    display: none;
+    align-items: center;
 }
-
-.edit-contact-active{
-    width: 24px;
-    height: 24px;
-    margin-right: 8px;
-}
-
-.delete-contact-active{
-    width: 24px;
-    height: 24px;
-    margin-right: 8px;
-} */
 
 .contact-detail-delete{
     display: flex;
     align-items: end;
     font-size: 16px;
     font-weight: 400;
+    background: url('./assets/icons/edit-contact.svg') no-repeat center;
+    background-size: contain;
+    border: none;
+    padding: 10px;
+    display: flex;
+    align-items: center;
 }
 
-/* .contact-detail-delete-active{
-    display: flex;
-    align-items: end;
-    font-size: 16px;
-    font-weight: 400;
-    display: none;
-} */
+.contact-detail-change-icons-edit{
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
 
-.contact-detail-change-icons{
+.contact-detail-change-icons-delete{
     width: 24px;
     height: 24px;
     margin-right: 8px;
@@ -291,9 +271,28 @@ a{
     padding-bottom: 2.5px;
 }
 
-.contact-detail-edit-text:hover{
-    color: #29ABE2;
+.contact-detail-delete-text{
     font-size: 16px;
+    font-weight: 400;
+    color: #2A3647;
+    padding-bottom: 2.5px;
+}
+
+.contact-detail-edit:hover {
+    background-image: url('./assets/icons/editContactsActive.svg');
+}
+
+.contact-detail-delete:hover {
+    background-image: url('./assets/icons/deleteContactActive.svg');
+}
+
+.contact-detail-edit:hover .contact-detail-edit-text {
+    color: #29ABE2;
+    font-weight: 700;
+}
+
+.contact-detail-delete:hover .contact-detail-delete-text {
+    color: #29ABE2;
     font-weight: 700;
 }
 
@@ -806,4 +805,12 @@ a{
 
 .slide-out {
     transform: translateX(100%);
+}
+
+/* focus for input fields*/
+
+.input-fields-add-new-contact:focus,
+.input-fields-edit-contact:focus {
+    border: 2px solid var(--clr-light-blue);
+    outline: none;
 }
