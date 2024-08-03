@@ -145,23 +145,23 @@
 }
 
 /* Scrollbalken-Stile anpassen */
-.contact-list::-webkit-scrollbar {
+.subtask-list::-webkit-scrollbar,.contact-list::-webkit-scrollbar {
     width: 8px;
     /* Breite des Scrollbalkens */
     color: rgba(168, 168, 168, 1)
 }
 
-.contact-list::-webkit-scrollbar-track {
+.subtask-list::-webkit-scrollbar,.contact-list::-webkit-scrollbar-track {
     background: #f1f1f1;
     /* Hintergrund des Scrollbalken-Tracks */
 }
 
-.contact-list::-webkit-scrollbar-thumb {
+.subtask-list::-webkit-scrollbar-thumb,.contact-list::-webkit-scrollbar-thumb {
     background: #888;
     /* Hintergrund des Scrollbalkens */
 }
 
-.contact-list::-webkit-scrollbar-thumb:hover {
+.subtask-list::-webkit-scrollbar-thumb:hover,.contact-list::-webkit-scrollbar-thumb:hover {
     background: #555;
     /* Hintergrund des Scrollbalkens beim Hover */
 }
@@ -710,6 +710,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .subtask-list {
     list-style-type: disc;
     padding-left: 20px;
+    max-height: 100px; /* Set the maximum height */
+    overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .subtask-item {
@@ -803,3 +805,39 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     height: 24px;
     cursor: pointer;
 }
+
+    /* Popup Styles */
+    .taskCreatedPopup {
+        position: fixed;
+        bottom: -100px; /* Initially hidden below the screen */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 300px;
+        height: 70px;
+        background-color: var(--clr-main);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0; /* Initially transparent */
+        transition: bottom 0.5s ease, opacity 0.5s ease; /* Animation settings */
+        z-index: 1000; /* Ensure popup is on top */
+      }
+
+      .taskCreatedPopup.show {
+        bottom: 50%; /* Move to center of the screen */
+        opacity: 1; /* Make it visible */
+      }
+
+      .taskCreatedPopup p {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: white;
+        font-size: 1.2rem;
+      }
+
+      .taskCreatedPopup img {
+        height: 30px;
+        width: 30px;
+      }

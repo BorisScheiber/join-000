@@ -154,10 +154,10 @@ function toggleDropDownNav() {
 
   if (dropDownNav.style.display === "flex") {
     slideOut(dropDownNav);
-    document.removeEventListener("click", closeDropdownOnClickOutside);
+    document.removeEventListener("click", closeDropDownNavOnClickOutside); // Use a specific name
   } else {
     slideIn(dropDownNav);
-    document.addEventListener("click", closeDropdownOnClickOutside);
+    document.addEventListener("click", closeDropDownNavOnClickOutside); // Use a specific name
   }
 }
 
@@ -191,7 +191,7 @@ function slideOut(element) {
  *
  * @param {Event} event - The event triggered by clicking outside.
  */
-function closeDropdownOnClickOutside(event) {
+function closeDropDownNavOnClickOutside(event) {
   let dropDownNav = document.getElementById("dropDownNav");
   let toggleButton = document.querySelector(".header-user-button");
 
@@ -200,6 +200,6 @@ function closeDropdownOnClickOutside(event) {
     !toggleButton.contains(event.target)
   ) {
     slideOut(dropDownNav);
-    document.removeEventListener("click", closeDropdownOnClickOutside);
+    document.removeEventListener("click", closeDropDownNavOnClickOutside);
   }
 }

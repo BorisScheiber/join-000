@@ -1,36 +1,3 @@
-// const BASE_URL = "https://join-59d2a-default-rtdb.europe-west1.firebasedatabase.app/";
-
-
-const contacts = [
-    { name: "Müller", vorname: "Hans", email: "hans.mueller@example.com" },
-    { name: "Schmidt", vorname: "Anna", email: "anna.schmidt@example.com" },
-    { name: "Schneider", vorname: "Peter", email: "peter.schneider@example.com" },
-    { name: "Fischer", vorname: "Marie", email: "marie.fischer@example.com" },
-    { name: "Becker", vorname: "Linda", email: "linda.becker@example.com" },
-    { name: "Hoffmann", vorname: "Jan", email: "jan.hoffmann@example.com" },
-    { name: "Weber", vorname: "Claudia", email: "claudia.weber@example.com" },
-    { name: "Klein", vorname: "Michael", email: "michael.klein@example.com" },
-    { name: "Zimmermann", vorname: "Sophie", email: "sophie.zimmermann@example.com" },
-    { name: "Hartmann", vorname: "Max", email: "max.hartmann@example.com" }
-];
-
-const logoColors = [
-    'rgba(255, 122, 0, 1)',
-    'rgba(255, 94, 179, 1)',
-    'rgba(110, 82, 255, 1)',
-    'rgba(147, 39, 255, 1)',
-    'rgba(0, 190, 232, 1)',
-    'rgba(31, 215, 193, 1)',
-    'rgba(255, 116, 94, 1)',
-    'rgba(255, 163, 94, 1)',
-    'rgba(252, 113, 255, 1)',
-    'rgba(255, 199, 1, 1)',
-    'rgba(0, 56, 255, 1)',
-    'rgba(195, 255, 43, 1)',
-    'rgba(255, 230, 43, 1)',
-    'rgba(255, 70, 70, 1)',
-    'rgba(255, 187, 43, 1)'
-];
 
 //for contacts
 function toggleContactList() {
@@ -47,14 +14,15 @@ function toggleContactList() {
         contactSearch.style.borderRadius = "10px";
         dropdownIcon.src = "/assets/icons/arrow_drop_down.svg";
         selectedContacts.style.display = "flex";
-        document.removeEventListener('click', closeDropdownOnClickOutside);
+        document.removeEventListener('click', closeContactListOnClickOutside); 
     } else {
         contactSearch.style.borderRadius = "10px 10px 0 0";
         dropdownIcon.src = "/assets/icons/arrow_drop_up.svg";
         selectedContacts.style.display = "none";
-        document.addEventListener('click', closeDropdownOnClickOutside);
+        document.addEventListener('click', closeContactListOnClickOutside);
     }
 }
+
 
 function filterContacts() {
     const searchTerm = document.getElementById("contact-search").value.toLowerCase();
@@ -72,41 +40,57 @@ function filterContacts() {
     }
 }
 
-function closeDropdownOnClickOutside(event) {
+function closeContactListOnClickOutside(event) {
     const contactList = document.getElementById("contact-list");
     const contactSearch = document.getElementById("contact-search");
     const toggleButton = document.getElementById("toggle-list");
     const selectedContacts = document.getElementById("selected-contacts");
-
+  
     if (!contactList.contains(event.target) && !contactSearch.contains(event.target) && !toggleButton.contains(event.target)) {
-        toggleContactList(); // Liste schließen
-        selectedContacts.style.display = "flex"; // Selected Contacts anzeigen
+      toggleContactList(); // Liste schließen
+      selectedContacts.style.display = "flex"; // Selected Contacts anzeigen
     }
-}
+  }
 
-document.addEventListener("DOMContentLoaded", () => {
+
+document.addEventListener("DOMContentLoaded", async () => {
     const contactList = document.getElementById("contact-list");
     const contactSearch = document.getElementById("contact-search");
-
-    contacts.forEach(contact => {
-        const contactItem = document.createElement("div");
-        contactItem.classList.add("contact-item");
-
-        // Zufällige Hintergrundfarbe aus der vorgegebenen Liste
-        const bgColor = logoColors[Math.floor(Math.random() * logoColors.length)];
-
-        contactItem.innerHTML = `
-            <div class="contact-logo" style="background-color: ${bgColor};" data-background="${bgColor}">
-                ${contact.vorname.charAt(0)}${contact.name.charAt(0)}
-            </div>
-            <span>${contact.vorname} ${contact.name}</span>
-            <div class="contact-checkbox" data-email="${contact.email}"></div>
-        `;
-        contactList.appendChild(contactItem);
-    });
+    try {
+      const contactsData = await getData("contacts"); // Fetch contacts from Firebase
+  
+      if (contactsData) {
+        // Convert Firebase object to an array of contacts
+        const firebaseContacts = Object.values(contactsData);
+  
+        firebaseContacts.forEach(contact => {
+            const contactItem = document.createElement("div");
+            contactItem.classList.add("contact-item");
+        
+            // Split the name into parts
+            const nameParts = contact.name.split(" "); 
+        
+            // Get the first letter of the first part and the first letter of the second part
+            const initials = nameParts[0].charAt(0) + nameParts[1].charAt(0); 
+        
+            contactItem.innerHTML = `
+              <div class="contact-logo" style="background-color: ${contact.color};" data-background="${contact.color}">
+                  ${initials} 
+              </div>
+              <span>${contact.name}</span>
+              <div class="contact-checkbox" data-email="${contact.email}"></div>
+            `;
+            contactList.appendChild(contactItem);
+          });
+      } else {
+        console.log("No contacts found in Firebase.");
+      }
+    } catch (error) {
+      console.error("Error fetching contacts:", error);
+    }
     contactSearch.addEventListener("input", filterContacts);
     setPriority('medium'); // Set Medium as default
-});
+  });
 
 document.getElementById("contact-list").addEventListener("click", (event) => {
     const contactItem = event.target.closest(".contact-item");
@@ -174,7 +158,10 @@ function clearFields() {
         checkbox.classList.remove("checked");
         checkbox.parentElement.classList.remove("checked");
     });
-
+// Clear error messages instead of removing them
+document.querySelectorAll('.error-message').forEach(errorElement => {
+    errorElement.textContent = ''; // Clear the content of the error message
+  });
     // Leere die ausgewählten Kontakte
     document.getElementById("selected-contacts").innerHTML = "";
 
@@ -184,6 +171,7 @@ function clearFields() {
     // Setze die Prio-Buttons zurück
     setPriority('medium'); // Set Medium as default
     currentPriority = "medium";
+    
 }
 
 function removeErrorMessage(field) {
@@ -306,8 +294,27 @@ async function createTask() {
     } catch (error) {
       console.error("Error creating task:", error);
     }
+
+      // Show the popup
+  showTaskCreatedPopup();
+
+  // Redirect to board.html after 2 seconds
+  setTimeout(() => {
+    window.location.href = 'board.html';
+  }, 2000);
   }
   
+
+  
+function showTaskCreatedPopup() {
+    const popup = document.getElementById('taskCreatedPopup');
+    popup.classList.add('show'); // Add the 'show' class to trigger the animation
+  
+    // Hide the popup after 2 seconds
+    setTimeout(() => {
+      popup.classList.remove('show');
+    }, 2000);
+  }
 
 //Diese Funktion wird aufgerufen, wenn der Benutzer in das Eingabefeld tippt (input-Event).
 // Sie setzt den Rahmen auf 1px solid rgba(41, 171, 226, 1) während der Eingabe und entfernt die Fehlermeldung, falls vorhanden.
