@@ -1,9 +1,16 @@
 let users = [];
 
+/**
+ * Initializes the sign-up page.
+ * Fetches all users from firebase.
+ */
 async function initSignUp() {
   await getAllUsers();
 }
 
+/**
+ * Fetches all users from firebase and stores them in the 'users' array.
+ */
 async function getAllUsers() {
   try {
     users = await getData("users");
@@ -12,6 +19,12 @@ async function getAllUsers() {
   }
 }
 
+/**
+ * Adds a new user to firebase.
+ * 
+ * @param {Object} newUser - The new user object to add.
+ * @returns {Object} - An object containing the new user ID.
+ */
 async function addNewUser(newUser) {
   let usersResponse = await getData("users");
   let userKeysArray = usersResponse ? Object.keys(usersResponse) : [];
@@ -61,7 +74,6 @@ function updateIconOnInput(inputField) {
  */
 function showHidePassword(inputFieldImg) {
   let inputField = inputFieldImg.parentNode.previousElementSibling;
-
   switch (true) {
     case inputFieldImg.src.includes("lock.svg"):
       break;
@@ -76,39 +88,50 @@ function showHidePassword(inputFieldImg) {
   }
 }
 
+/**
+ * Validates the sign-up form by checking if the email and passwords are valid.
+ * If valid, creates a new user object and adds the user to firebase.
+ * Shows a success overlay and redirects to the login page.
+ */
 async function validateSignUpForm() {
     let isEmailValid = checkIfMailExists();
     let isPasswordValid = checkIfPasswordsMatch();
-    
     if (isEmailValid && isPasswordValid) {
         let newUser = createNewUserObject();
-        
         try {
             successfullSignUpOverlay();
-            let response = await addNewUser(newUser);
-            console.log('User successfully added:', response);
+            await addNewUser(newUser);
             redirectToLogin();
-            
         } catch (error) {
             console.error('Error adding new user:', error);
         }
     }
 }
 
-  function successfullSignUpOverlay() {
-    let overlay = document.getElementById('signUpSuccessfull');
-    let container = overlay.querySelector('.signup-successfull-container');
-    
-    overlay.style.display = 'flex';
-    container.classList.add('slide-up');
-  }
+/**
+* Shows a success overlay when the sign-up is successful.
+*/
+function successfullSignUpOverlay() {
+  let overlay = document.getElementById('signUpSuccessfull');
+  let container = overlay.querySelector('.signup-successfull-container');
+  overlay.style.display = 'flex';
+  container.classList.add('slide-up');
+}
 
-  function redirectToLogin() {
-    setTimeout(() => {
-        window.location.href = './index.html';
-      }, 1500);
-  }
+/**
+* Redirects the user to the login page after a successful sign-up.
+*/
+function redirectToLogin() {
+  setTimeout(() => {
+      window.location.href = './index.html';
+    }, 1500);
+}
 
+/**
+* Creates a new user object with the email, initials, name, and password from the input fields.
+* 
+* @returns {Object} - The new user object.
+*/
 function createNewUserObject() {
     let newUser = {
         email: document.getElementById("email").value.trim(),
@@ -119,11 +142,16 @@ function createNewUserObject() {
     return newUser;
 }
 
+/**
+ * Checks if the passwords in the input fields match.
+ * If they match, hides the error message; otherwise, shows the error message.
+ * 
+ * @returns {boolean} - Returns true if the passwords match, false otherwise.
+ */
 function checkIfPasswordsMatch() {
   let passwordField = document.getElementById("password");
   let confirmPasswordField = document.getElementById("confirmPassword");
   let errorMessage = document.getElementById("signUpErrorMessage");
-
   if (passwordField.value === confirmPasswordField.value) {
     errorMessage.style.visibility = "hidden";
     confirmPasswordField.classList.remove("signup-input-error");
@@ -135,11 +163,16 @@ function checkIfPasswordsMatch() {
   }
 }
 
+/**
+ * Checks if the email entered in the input field already exists in the user list.
+ * If it does not exist, hides the error message; otherwise, shows the error message.
+ * 
+ * @returns {boolean} - Returns true if the email does not exist, false otherwise.
+ */
 function checkIfMailExists() {
   let emailField = document.getElementById("email");
   let errorMessage = document.getElementById("signUpEmailTaken");
   let emailExists = users.some((user) => user.email === emailField.value.trim());
-
   if (!emailExists) {
     errorMessage.style.display = "none";
     emailField.classList.remove("signup-input-error");
@@ -151,6 +184,11 @@ function checkIfMailExists() {
   }
 }
 
+/**
+ * Sets the initials of the user based on the name entered in the input field.
+ * 
+ * @returns {string} - The initials of the user.
+ */
 function setUserInitials() {
   let userName = document.getElementById("name").value.toLowerCase();
   let nameParts = userName.split(" ");
@@ -159,10 +197,15 @@ function setUserInitials() {
   return initials;
 }
 
+/**
+ * Formats the user's name by capitalizing the first letter of each word.
+ * 
+ * @returns {string} - The formatted user name.
+ */
 function formatUserName() {
-    let userNameInput = document.getElementById("name");
-    let userName = userNameInput.value.trim();
-    let formattedUserName = userName.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+  let userNameInput = document.getElementById("name");
+  let userName = userNameInput.value.trim();
+  let formattedUserName = userName.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
 
-    return formattedUserName;
+  return formattedUserName;
 }

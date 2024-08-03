@@ -1,11 +1,10 @@
 .legal-notice-content {
   margin-top: 96px;
-  /* height: calc(100vh - 96px); */
+  height: calc(100vh - 96px);
   margin-left: 328px;
   padding-bottom: 24px;
   padding-right: 96px;
   padding-top: 110px;
-  /* background-color: lightblue; */
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -71,4 +70,27 @@ mark {
 .email-link {
   color: var(--clr-light-blue);
   text-decoration: none;
+}
+
+@media (max-width: 850px) {
+  .legal-notice-content {
+    margin-top: 80px;
+    height: calc(100vh - 160px);
+    margin-left: 0;
+    padding-bottom: 24px;
+    padding-right: 16px;
+    padding-top: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    overflow-y: auto;
+    padding-left: 16px;
+  }
+  .legal-notice-content-no{
+    height: calc(100vh - 80px);
+  }
+  h1 {
+    font-size: 47px;
+    line-height: 56.4px;
+  }
 }

@@ -24,68 +24,68 @@
 <body onload="initSignUp()">
   <main class="signup-content">
     <div class="signup-join-logo"></div>
-
-    <form autocomplete="off" class="signup-card-form" onsubmit="validateSignUpForm(); return false;">
-      <a class="signup-link-to-login" href="./index.html">
-        <img src="./assets/icons/arrowLeft.svg" alt="">
-      </a>
-      <div class="signup-title">
-        <h1>Sign up</h1>
-        <span class="signup-seperator"></span>
-      </div>
-      <div class="signup-input-container">
-        <div class="signup-input-fields">
-          <input id="name" placeholder="Name" class="signup-input" type="text"
-            pattern="^[A-Za-zäöüÄÖÜß]{3,} [A-Za-zäöüÄÖÜß]{3,}$"
-            title="Please type your full name, with both first and last names having at least 3 letters (e.g., Max Muster)."
-            required>
-          <div class="signup-input-icon">
-            <img src="./assets/icons/person.svg" alt="">
+    <div class="signup-card-content">
+      <form autocomplete="off" class="signup-card-form" onsubmit="validateSignUpForm(); return false;">
+        <a class="signup-link-to-login" href="./index.html">
+          <img src="./assets/icons/arrowLeft.svg" alt="">
+        </a>
+        <div class="signup-title">
+          <h1>Sign up</h1>
+          <span class="signup-seperator"></span>
+        </div>
+        <div class="signup-input-container">
+          <div class="signup-input-fields">
+            <input id="name" placeholder="Name" class="signup-input" type="text"
+              pattern="^[A-Za-zäöüÄÖÜß]{3,} [A-Za-zäöüÄÖÜß]{3,}$"
+              title="Please type your full name, with both first and last names having at least 3 letters (e.g., Max Muster)."
+              required>
+            <div class="signup-input-icon">
+              <img src="./assets/icons/person.svg" alt="">
+            </div>
+          </div>
+          <div class="signup-input-fields">
+            <input id="email" placeholder="Email" class="signup-input" type="email"
+              pattern="^[a-z0-9._%+\-]+@[a-z0-9\-]+\.[a-z]{2,63}$"
+              title="Please enter a valid email address using only lowercase letters (e.g., test@domain.com)" required>
+            <div class="signup-input-icon">
+              <img src="./assets/icons/mail.svg" alt="">
+            </div>
+            <div id="signUpEmailTaken" class="signup-email-taken">
+              <span>The email address is already taken!</span>
+            </div>
+          </div>
+          <div class="signup-input-fields">
+            <input oninput="updateIconOnInput(this)" id="password" placeholder="Password" class="signup-input"
+              type="password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{6,}$"
+              title="At least 6 characters, with an uppercase letter, a lowercase letter, a number, and no spaces."
+              minlength="6" required>
+            <div class="signup-input-icon">
+              <img onclick="showHidePassword(this)" class="signup-password-icon" src="./assets/icons/lock.svg" alt="">
+            </div>
+          </div>
+          <div class="signup-input-fields">
+            <input oninput="updateIconOnInput(this)" id="confirmPassword" placeholder="Confirm Password"
+              class="signup-input" type="password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{6,}$"
+              title="At least 6 characters, with an uppercase letter, a lowercase letter, a number, and no spaces."
+              minlength="6" required>
+            <div class="signup-input-icon">
+              <img onclick="showHidePassword(this)" src="./assets/icons/lock.svg" alt="">
+            </div>
           </div>
         </div>
-        <div class="signup-input-fields">
-          <input id="email" placeholder="Email" class="signup-input" type="email"
-          pattern="^[a-z0-9._%+\-]+@[a-z0-9\-]+\.[a-z]{2,63}$"
-          title="Please enter a valid email address using only lowercase letters (e.g., test@domain.com)" required>
-          <div class="signup-input-icon">
-            <img src="./assets/icons/mail.svg" alt="">
-          </div>
-          <div id="signUpEmailTaken" class="signup-email-taken">
-            <span>The email address is already taken!</span>
-          </div>
+        <div id="signUpErrorMessage" class="signup-failed-text">
+          <span>Your Passwords don't match!</span>
         </div>
-        <div class="signup-input-fields">
-          <input oninput="updateIconOnInput(this)" id="password" placeholder="Password" class="signup-input"
-            type="password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{6,}$"
-            title="At least 6 characters, with an uppercase letter, a lowercase letter, a number, and no spaces." minlength="6"
-            required>
-          <div class="signup-input-icon">
-            <img onclick="showHidePassword(this)" class="signup-password-icon" src="./assets/icons/lock.svg" alt="">
-          </div>
+        <label class="signup-accept">
+          <input type="checkbox" class="signup-custom-checkbox" required>
+          <span>I accept the <a class="signup-link-privacy" href="#"
+              onclick="window.open('./privacyPolicyNo.html', '_blank'); return false;">Privacy policy</a></span>
+        </label>
+        <div class="signup-button-container">
+          <button class="signup-button" type="submit">Sign up</button>
         </div>
-        <div class="signup-input-fields">
-          <input oninput="updateIconOnInput(this)" id="confirmPassword" placeholder="Confirm Password"
-            class="signup-input" type="password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{6,}$"
-            title="At least 6 characters, with an uppercase letter, a lowercase letter, a number, and no spaces." minlength="6"
-            required>
-          <div class="signup-input-icon">
-            <img onclick="showHidePassword(this)" src="./assets/icons/lock.svg" alt="">
-          </div>
-        </div>
-      </div>
-      <div id="signUpErrorMessage" class="signup-failed-text">
-        <span>Your Passwords don't match!</span>
-      </div>
-      <label class="signup-accept">
-        <input type="checkbox" class="signup-custom-checkbox" required>
-        <span>I accept the <a class="signup-link-privacy" href="#"
-            onclick="window.open('./privacyPolicyNo.html', '_blank'); return false;">Privacy policy</a></span>
-      </label>
-      <div class="signup-button-container">
-        <button class="signup-button" type="submit">Sign up</button>
-      </div>
-    </form>
-
+      </form>
+    </div>
     <div id="signUpSuccessfull" class="signup-successful-overlay">
       <div class="signup-successfull-container">
         <span>You signed up successfully</span>

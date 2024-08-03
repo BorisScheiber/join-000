@@ -5,7 +5,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background-color: lightblue; */
 }
 
 .signup-join-logo {
@@ -27,7 +26,6 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  /* gap: 32px; */
   padding: 48px 88px 48px 88px;
   box-shadow: 0px 0px 14px 3px #0000000a;
   position: relative;
@@ -37,7 +35,7 @@
   height: 32px;
   width: 32px;
   position: absolute;
-  top: 32px;
+  top: 65px;
   left: 32px;
   border-radius: 50%;
 }
@@ -250,7 +248,6 @@
   transform: translateY(1000%);
 }
 
-
 .slide-up {
   animation: slideUp 0.4s ease-in-out forwards;
 }
@@ -264,9 +261,59 @@
   }
 }
 
+.signup-card-content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 
 /* utility classes */
 
 .cursor-pointer {
   cursor: pointer;
 }
+
+@media (max-width: 650px) {
+  .signup-content {
+    padding: 16px;
+  }
+
+  .signup-join-logo {
+    top: 37px;
+    left: 38px;
+    width: 64px;
+    height: 78px;
+  }
+  .signup-card-form {
+    width: 396px;
+    height: 595px;
+    padding: 32px 16px 32px 16px;
+    box-shadow: 0px 0px 14px 3px #0000000a;
+  }
+  .signup-input-container {
+    gap: 24px;
+  }
+  h1 {
+    font-size: 47px;
+    line-height: 56.4px;
+  }
+  .signup-button {
+    height: 51px;
+    width: 180px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 19.2px;
+  }
+  .signup-seperator {
+    width: 88px;
+  }
+  .signup-link-to-login {
+    top: 44px;
+    left: 16px;
+  }
+  .signup-successful-overlay {
+    padding: 16px;
+  }
+}
+
+

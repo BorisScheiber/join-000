@@ -325,3 +325,104 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+@media (max-width: 890px) {
+  .sign-up-container {
+    gap: 35px;
+    top: unset;
+    right: unset;
+    bottom: 170px;
+  }
+}
+@media (max-width: 700px) {
+  .login-content {
+    padding: 0 16px 0 16px;
+  }
+}
+
+@media (max-width: 650px) {
+  @keyframes fadeOut {
+    0% {
+      background-color: var(--clr-main);
+      opacity: 1;
+    }
+
+    50% {
+      background-color: var(--clr-main);
+      opacity: 1;
+    }
+
+    100% {
+      background-color: transparent;
+      opacity: 0;
+    }
+  }
+  .login-join-logo-no-animation {
+    top: 37px;
+    left: 38px;
+    width: 64px;
+    height: 78px;
+  }
+  @keyframes moveLogo {
+    0% {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px;
+      height: 122px;
+      background-image: url(../assets/img/JoinLogoWhite.svg);
+    }
+    50% {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px;
+      height: 122px;
+      background-image: url(../assets/img/JoinLogoWhite.svg);
+    }
+    100% {
+      top: 37px;
+      left: 38px;
+      transform: translate(0, 0);
+      width: 64px;
+      height: 78px;
+      background-image: url(../assets/img/joinLogo.svg);
+    }
+  }
+  .login-card {
+    width: 396px;
+    height: 515px;
+    background-color: white;
+    border-radius: 30px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 32px 16px 32px 16px;
+    box-shadow: 0px 0px 14px 3px #0000000a;
+  }
+  .login-seperator {
+    width: 88px;
+  }
+  h1 {
+    font-size: 47px;
+    line-height: 56.4px;
+  }
+  .login-button-container {
+    display: flex;
+    gap: 21px;
+    justify-content: center;
+    margin-top: 32px;
+    flex-direction: column;
+    align-items: center;
+  }
+  .login-button-container button {
+    height: 51px;
+    font-size: 16px;
+    width: 180px;
+  }
+  .sign-up-button {
+    height: 49px;
+    width: 104px;
+  }
+}
