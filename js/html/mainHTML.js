@@ -1,3 +1,8 @@
+/**
+ * Returns the HTML string for the desktop sidebar, including the logo, menu links, and legal links.
+ *
+ * @returns {string} The HTML string for the desktop sidebar.
+ */
 function displayDesktopSidebarHTML() {
   return /*html*/ `
         <div class="sidebar-logo">
@@ -28,6 +33,11 @@ function displayDesktopSidebarHTML() {
     `;
 }
 
+/**
+ * Returns the HTML string for the header, including the logo, title, help link, and user dropdown menu.
+ *
+ * @returns {string} The HTML string for the header.
+ */
 function displayHeaderHTML() {
   return /*html*/ `
             <img class="header-logo-mobile" src="./assets/icons/mobile/joinHeaderMobile.svg" alt="">
@@ -49,6 +59,11 @@ function displayHeaderHTML() {
     `;
 }
 
+/**
+ * Returns the HTML string for the mobile navigation menu, including the menu links and icons.
+ *
+ * @returns {string} The HTML string for the mobile navigation menu.
+ */
 function displayMobileNavHTML() {
   return /*html*/ `
         <a class="nav-mobile-links" href="./summary.html">
