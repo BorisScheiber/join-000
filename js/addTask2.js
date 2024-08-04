@@ -2,23 +2,31 @@
 // For Category
 function toggleCategoryDropdown() {
     const dropdown = document.getElementById('category-dropdown');
+    const catField = document.getElementById('category-field');
     const dropdownIcon = document.querySelector('.dropdown-icon-category');
 
     if (dropdown.style.display === 'flex') {
         dropdown.style.display = 'none';
         dropdownIcon.src = '/assets/icons/arrow_drop_down.svg';
+        catField.style.borderRadius = "10px";
+
     } else {
         dropdown.style.display = 'flex';
         dropdownIcon.src = '/assets/icons/arrow_drop_up.svg';
+        catField.style.borderRadius = "10px 10px 0 0";
+
     }
 }
-
 function selectCategory(category) {
     const categoryInput = document.getElementById('category');
+    const categoryField = document.getElementById('category-field'); // Get the category-field div
     categoryInput.value = category;
     toggleCategoryDropdown();
-    handleInput({ target: categoryInput }); // Manuell das Input-Event auslösen, um die Validierung zu aktualisieren
-}
+    categoryField.style.border = '1px solid rgba(41, 171, 226, 1)'; // Change border of category-field
+    removeErrorMessage(categoryInput); // Remove any error message
+    
+  }
+
 
 // Optionale Initialisierung um sicherzustellen, dass das Icon beim Laden korrekt gesetzt wird
 document.addEventListener('DOMContentLoaded', () => {
