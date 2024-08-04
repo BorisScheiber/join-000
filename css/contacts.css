@@ -122,7 +122,6 @@ a{
     width: 42px;
     border-radius: 50%;
     margin-left: 24px;
-    /* background-color: aqua; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -135,6 +134,69 @@ a{
     display: flex;
     flex-direction: column;
     margin-left: 35px;
+}
+
+.add-new-contact-button-responsive{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: none;
+    border-radius: 50%;
+    margin-bottom: 72px;
+    width: 56px;
+    height: 56px;
+}
+
+.add-contact-button-responsive{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 56px;
+    height: 56px;
+    background-color: #2A3647;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-bottom: 72px;
+}
+
+.add-new-contact-button-responsive:hover{
+    box-shadow: 4px 4px 4px 0px #B7B7B7;
+}
+
+.add-person-icon{
+    width: 32px;
+    height: 32px;
+}
+
+.edit-contact-menu-button-responsive{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    border-radius: 50%;
+    margin-bottom: 72px;
+    width: 56px;
+    height: 56px;
+    display: none;
+}
+
+.edit-contact-button-responsive{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 56px;
+    height: 56px;
+    background-color: #2A3647;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-bottom: 72px;
+    padding-right: 8px;
+}
+
+.edit-menu-responsive{
+    width: 32px;
+    height: 32px;
 }
 
 /* detailed overview from selected contact*/
@@ -869,6 +931,10 @@ a{
 
     .add-contact-button{
         display: none;
+    }
+    
+    .add-new-contact-button-responsive{
+        display: block;
     }
 }
 
