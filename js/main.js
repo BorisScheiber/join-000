@@ -1,3 +1,7 @@
+/**
+ * Initializes the page by displaying the desktop sidebar, header, mobile navigation,
+ * removing certain classes if the user is not logged in, and displaying the user's initials in the header.
+ */
 async function init() {
   displayDesktopSidebar();
   displayHeader();

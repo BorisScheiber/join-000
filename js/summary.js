@@ -1,8 +1,19 @@
+/**
+ * Initializes the summary page.
+ * Sets the greeting, displays the username, and updates the mobile greeting.
+ */
 function initSummary() {
   getGreeting();
   displayUserName();
+  getGreetingAndUserNameMobile();
 }
 
+/**
+ * Returns a greeting message based on the current time.
+ * 
+ * @param {number} time - The current hour in 24-hour format.
+ * @returns {string} - The appropriate greeting message.
+ */
 function getGreetingMessage(time) {
   switch (true) {
     case time >= 0 && time < 6:
@@ -20,6 +31,10 @@ function getGreetingMessage(time) {
   }
 }
 
+/**
+ * Sets the greeting message in the summary based on the current time.
+ * Adds a comma if the user is logged in.
+ */
 function getGreeting() {
   let time = new Date().getHours();
   let greeting = getGreetingMessage(time);
@@ -27,7 +42,10 @@ function getGreeting() {
   document.getElementById("summaryGreeting").innerHTML = greeting;
 }
 
-
+/**
+ * Displays the username from local storage in the summary.
+ * If the user is logged in, their name is displayed.
+ */
 function displayUserName() {
   let user = localStorage.getItem("user");
   if (user) {
@@ -37,7 +55,47 @@ function displayUserName() {
   }
 }
 
-
+/**
+ * Adds a comma to the greeting if the user is logged in.
+ * 
+ * @returns {string} - A comma if the user is logged in, otherwise an empty string.
+ */
 function addCommaIfUserIsLoggedIn() {
   return localStorage.getItem("user") ? "," : "";
+}
+
+/**
+ * Updates the mobile greeting with the greeting and username.
+ * If the username is empty, an exclamation mark is added to the greeting.
+ */
+function getGreetingAndUserNameMobile() {
+  let getGreeting = document.getElementById("summaryGreeting").innerText;
+  let getUserName = document.getElementById("summaryGreetingName").innerText;
+  let greetingElement = document.getElementById("summaryGreetingMobile");
+  let getUserNameElement = document.getElementById("summaryGreetingNameMobile");
+
+  if (getUserName === "") {
+    greetingElement.innerHTML = getGreeting + "!";
+  } else {
+    greetingElement.innerHTML = getGreeting;
+    getUserNameElement.innerHTML = getUserName;
+  }
+  addAnimationToGreetingMobile();
+}
+
+/**
+ * Adds a fade-out animation to the mobile greeting if the previous page was the login page.
+ * After the animation, the mobile greeting is hidden.
+ */
+function addAnimationToGreetingMobile() {
+  let loginPage = document.referrer.includes("index.html");
+  let greetingContainer = document.querySelector(".summary-greeting-mobile");
+  if (loginPage) {
+    greetingContainer.style.animation = "fadeOutGreetingMobile 2s forwards";
+    setTimeout(() => {
+      greetingContainer.classList.add("d-none");
+    }, 2000);
+  } else {
+    greetingContainer.style.display = "none";
+  }
 }
