@@ -1,5 +1,7 @@
 
-//for contacts
+/**
+ * Toggles the visibility of the contact list.
+ */
 function toggleContactList() {
     const contactList = document.getElementById("contact-list");
     const contactSearch = document.getElementById("contact-search");
@@ -24,6 +26,9 @@ function toggleContactList() {
 }
 
 
+/**
+ * Filters the contact list based on the search term entered in the contact search field.
+ */
 function filterContacts() {
     const searchTerm = document.getElementById("contact-search").value.toLowerCase();
     const contactItems = document.querySelectorAll("#contact-list .contact-item");
@@ -40,6 +45,12 @@ function filterContacts() {
     }
 }
 
+
+/**
+ * Closes the contact list when the user clicks outside of it.
+ *
+ * @param {Event} event - The click event.
+ */
 function closeContactListOnClickOutside(event) {
     const contactList = document.getElementById("contact-list");
     const contactSearch = document.getElementById("contact-search");
@@ -92,6 +103,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     setPriority('medium'); // Set Medium as default
 });
 
+
 document.getElementById("contact-list").addEventListener("click", (event) => {
     const contactItem = event.target.closest(".contact-item");
     if (contactItem) {
@@ -102,6 +114,10 @@ document.getElementById("contact-list").addEventListener("click", (event) => {
     }
 });
 
+
+/**
+ * Updates the display of selected contacts.
+ */
 function updateSelectedContacts() {
     const selectedContacts = document.getElementById("selected-contacts");
     selectedContacts.innerHTML = ''; // Clear the existing content
@@ -130,7 +146,9 @@ document.getElementById('contact-search').addEventListener('input', function () 
 
 
 
-// Clear Fields button
+/**
+ * Clears all input fields, resets styles, and clears error messages.
+ */
 function clearFields() {
     // Leere die Werte der Eingabefelder
     document.getElementById("title").value = "";
@@ -150,7 +168,7 @@ function clearFields() {
 
     // Entferne alle Fehlermeldungen
     removeErrorMessage(document.getElementById("title"));
-    removeErrorMessage(document.getElementById("category-field"));
+    removeErrorMessage(document.getElementById("category-container"));
     removeErrorMessage(document.getElementById("due-date"));
 
     // Setze alle Kontrollkästchen der Kontaktliste zurück
@@ -178,17 +196,29 @@ function clearFields() {
     });
 }
 
+
+/**
+ * Removes the error message associated with a specific field.
+ *
+ * @param {HTMLElement} field - The input field for which to remove the error message.
+ */
 function removeErrorMessage(field) {
     let errorElement = field.nextElementSibling;
-    if (field.id === 'category') {
-        errorElement = document.getElementById('category-error');
-    }
+    // if (field.id === 'category') {
+    //     errorElement = document.getElementById('category-error');
+    // }
     if (errorElement && errorElement.classList.contains('error-message')) {
         errorElement.remove();
     }
 }
 
 
+/**
+ * Validates the due date to ensure it's in the correct format (YYYY-MM-DD) and a future date.
+ *
+ * @param {string} dueDate - The due date string to validate.
+ * @returns {string} An error message if the date is invalid, otherwise an empty string.
+ */
 function validateDueDate(dueDate) {
     const datePattern = /^\d{4}-\d{2}-\d{2}$/; // Regular expression for YYYY-MM-DD format
 
@@ -207,6 +237,11 @@ function validateDueDate(dueDate) {
 }
 
 
+/**
+ * Validates all input fields in the form.
+ *
+ * @returns {boolean} True if all fields are valid, otherwise false.
+ */
 function validateFields() {
     const fields = [
       document.getElementById('title'),
@@ -246,38 +281,51 @@ function validateFields() {
     });
     return isValid;
   }
+
+
 document.getElementById('recipeForm').onsubmit = function (event) {
     event.preventDefault();
     createTask();
 };
 
+
+/**
+ * Shows an error message for a specific field.
+ *
+ * @param {HTMLElement} field - The input field for which to show the error message.
+ * @param {string} message - The error message to display.
+ */
 function showErrorMessage(field, message) {
     let errorElement = field.nextElementSibling;
-    if (field.id === 'category') {
-        errorElement = document.getElementById('category-error');
-    }
+  
+    // Check if an error message element already exists
     if (!errorElement || !errorElement.classList.contains('error-message')) {
-        errorElement = document.createElement('div');
-        errorElement.className = 'error-message';
-         if (field.id === 'category') {
-             document.querySelector('.category-section .input-group').appendChild(errorElement);
-         } else {
-             field.parentNode.insertBefore(errorElement, field.nextSibling);
-         }
+      errorElement = document.createElement('div');
+      errorElement.className = 'error-message';
+      field.parentNode.insertBefore(errorElement, field.nextSibling); // Insert after the field
     }
     errorElement.textContent = message;
-}
-
-function removeErrorMessage(field) {
+  }
+  
+  function removeErrorMessage(field) {
     let errorElement = field.nextElementSibling;
     if (field.id === 'category') {
-        errorElement = document.getElementById('category-error');
+      errorElement = document.getElementById('category-error');
     }
-    if (errorElement && errorElement.classList.contains('error-message')) {
-        errorElement.remove();
+    // Check if errorElement exists and has the 'error-message' class
+    if (errorElement && errorElement.classList.contains('error-message')) { 
+      errorElement.remove();
     }
-}
+  }
+  
 
+  /**
+ * Sends a POST request to the Firebase database to save data.
+ *
+ * @param {string} path - The path in the Firebase database where the data should be saved.
+ * @param {object} data - The data to be saved.
+ * @returns {Promise<object>} A promise that resolves with the response from the Firebase database.
+ */
 async function postData(path = "", data = {}) {
     let response = await fetch(BASE_URL + path + ".json", {
         method: "POST",
@@ -289,6 +337,10 @@ async function postData(path = "", data = {}) {
     return responseAsJson = await response.json();
 }
 
+
+/**
+ * Creates a new task object and saves it to Firebase.
+ */
 async function createTask() {
     const title = document.getElementById('title').value.trim();
     const description = document.getElementById('description').value.trim();
@@ -346,7 +398,9 @@ async function createTask() {
 }
 
 
-
+/**
+ * Shows a popup message indicating that the task has been created successfully.
+ */
 function showTaskCreatedPopup() {
     const popup = document.getElementById('taskCreatedPopup');
     popup.classList.add('show'); // Add the 'show' class to trigger the animation
@@ -357,8 +411,12 @@ function showTaskCreatedPopup() {
     }, 2000);
 }
 
-//Diese Funktion wird aufgerufen, wenn der Benutzer in das Eingabefeld tippt (input-Event).
-// Sie setzt den Rahmen auf 1px solid rgba(41, 171, 226, 1) während der Eingabe und entfernt die Fehlermeldung, falls vorhanden.
+
+/**
+ * Handles the input event on input fields, resetting the border color and removing error messages.
+ *
+ * @param {Event} event - The input event.
+ */
 function handleInput(event) {
     const field = event.target;
     if (field.value.trim() !== "") {
@@ -367,7 +425,12 @@ function handleInput(event) {
     }
 }
 
-//Diese Funktion wird aufgerufen, wenn der Benutzer das Eingabefeld verlässt (blur-Event). Wenn das Eingabefeld nicht leer ist, wird der Rahmen auf 1px solid rgba(209, 209, 209, 1) gesetzt. Wenn das Feld leer ist, wird der Rahmen auf 1px solid rgba(255, 129, 144, 1) gesetzt und eine Fehlermeldung angezeigt.
+
+/**
+ * Handles the blur event on input fields, validating the input and displaying error messages if necessary.
+ *
+ * @param {Event} event - The blur event.
+ */
 function handleBlur(event) {
     const field = event.target;
     if (field.value.trim() !== "") {
@@ -396,8 +459,7 @@ document.getElementById('category-field').addEventListener('input', handleInput)
 document.getElementById('title').addEventListener('blur', handleBlur);
 document.getElementById('description').addEventListener('blur', handleBlur);
 document.getElementById('due-date').addEventListener('blur', handleBlur);
-// // document.getElementById('category-field').addEventListener('blur', handleBlur);
-
+document.getElementById('category-field').addEventListener('blur', handleBlur);
 
 document.getElementById('recipeForm').onsubmit = function (event) {
     event.preventDefault();
@@ -406,13 +468,17 @@ document.getElementById('recipeForm').onsubmit = function (event) {
 //for Prio buttons
 let currentPriority = "medium";
 
+
+/**
+ * Sets the priority level for the task.
+ *
+ * @param {string} level - The priority level ('urgent', 'medium', or 'low').
+ */
 function setPriority(level) {
     const buttons = document.querySelectorAll('.priority-button');
 
     // Reset all buttons first
     buttons.forEach(button => resetButtonStyles(button));
-
-
 
     // Set the styles for the clicked button
     const activeButton = document.getElementById(`${level}-button`);
@@ -431,6 +497,12 @@ function setPriority(level) {
     currentPriority = level;
 }
 
+
+/**
+ * Resets the styles of a priority button to their default state.
+ *
+ * @param {HTMLElement} button - The priority button to reset.
+ */
 function resetButtonStyles(button) {
     button.classList.remove('selected'); // Remove the class when resetting
 
@@ -455,6 +527,13 @@ function resetButtonStyles(button) {
     }
 }
 
+
+/**
+ * Gets the background color for a priority level.
+ *
+ * @param {string} level - The priority level ('urgent', 'medium', or 'low').
+ * @returns {string} The background color for the priority level.
+ */
 function getPriorityColor(level) {
     switch (level) {
         case 'urgent':

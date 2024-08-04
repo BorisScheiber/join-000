@@ -1,15 +1,16 @@
-
 // For Category
+
+/**
+ * Toggles the visibility of the category dropdown.
+ */
 function toggleCategoryDropdown() {
     const dropdown = document.getElementById('category-dropdown');
     const catField = document.getElementById('category-field');
     const dropdownIcon = document.querySelector('.dropdown-icon-category');
-
     if (dropdown.style.display === 'flex') {
         dropdown.style.display = 'none';
         dropdownIcon.src = '/assets/icons/arrow_drop_down.svg';
         catField.style.borderRadius = "10px";
-
     } else {
         dropdown.style.display = 'flex';
         dropdownIcon.src = '/assets/icons/arrow_drop_up.svg';
@@ -17,6 +18,13 @@ function toggleCategoryDropdown() {
 
     }
 }
+
+
+/**
+ * Selects a category from the dropdown and updates the input field and styles.
+ *
+ * @param {string} category - The selected category.
+ */
 function selectCategory(category) {
     const categoryInput = document.getElementById('category');
     const categoryField = document.getElementById('category-field'); // Get the category-field div
@@ -50,6 +58,9 @@ document.addEventListener('click', function (event) {
 });
 
 // // For subtasks
+/**
+ * Adds a new subtask to the subtask list.
+ */
 function addSubtask() {
     const subtaskInput = document.getElementById('subtask-input');
     const subtaskList = document.getElementById('subtask-list');
@@ -72,10 +83,22 @@ function addSubtask() {
     toggleEditDeleteVisibility();
 }
 
+
+/**
+ * Deletes a subtask from the list.
+ *
+ * @param {HTMLElement} element - The element that triggered the delete action (e.g., the delete icon).
+ */
 function deleteSubtask(element) {
     element.closest('li').remove();
 }
 
+
+/**
+ * Edits a subtask, replacing its text with an input field for editing.
+ *
+ * @param {HTMLElement} element - The element that triggered the edit action (e.g., the subtask text or edit icon).
+ */
 function editSubtask(element) {
     const subtask = document.getElementById("subtask-list");
     const li = element.closest('li');
@@ -101,6 +124,12 @@ function editSubtask(element) {
     subtaskInput.focus();
 }
 
+
+/**
+ * Saves the edited subtask, replacing the input field with the updated text.
+ *
+ * @param {HTMLElement} element - The element that triggered the save action (e.g., the done icon).
+ */
 function saveSubtask(element) {
     const subtask = document.getElementById("subtask-list");
     const li = element.closest('li');
@@ -137,7 +166,9 @@ document.addEventListener('click', (event) => {
 });
 
 
-//Diese Funktion leert das Eingabefeld und ruft toggleEditDeleteVisibility auf, um die Änderungen widerzuspiegeln.
+/**
+ * Resets the subtask input field to an empty string.
+ */
 function resetSubtaskInput() {
     const subtaskInput = document.getElementById('subtask-input');
     subtaskInput.value = '';
@@ -145,7 +176,9 @@ function resetSubtaskInput() {
 }
 
 
-//Diese Funktion prüft, ob das Eingabefeld leer ist. Wenn nicht, zeigt sie die edit-delete-Div an, andernfalls blendet sie diese aus.
+/**
+ * Toggles the visibility of the edit/delete icons for subtasks based on the input field's content.
+ */
 function toggleEditDeleteVisibility() {
     const subtaskInput = document.getElementById('subtask-input');
     const editDelete = subtaskInput.nextElementSibling;
@@ -156,11 +189,18 @@ function toggleEditDeleteVisibility() {
     }
 }
 
+
 //Dieser hört auf Änderungen im Eingabefeld und ruft toggleEditDeleteVisibility auf, 
 //um die edit-delete-Div je nach Inhalt des Eingabefelds anzuzeigen oder auszublenden.
 document.getElementById('subtask-input').addEventListener('input', toggleEditDeleteVisibility);
 
-// Funktion zum Hinzufügen eines neuen Subtasks bei Enter-Taste im Eingabefeld
+
+/**
+ * Handles the Enter key press in the subtask input field, adding a new subtask.
+ *
+ * @param {Event} event - The keyboard event.
+ * @param {function} callback - The function to call when Enter is pressed (e.g., addSubtask).
+ */
 function handleEnterKey(event, callback) {
     if (event.key === 'Enter') {
         event.preventDefault();
