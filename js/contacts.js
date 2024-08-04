@@ -63,7 +63,7 @@ function renderContactList() {
         const firstLetter = user.name.charAt(0).toUpperCase();
         if (firstLetter !== currentLetter) {
             currentLetter = firstLetter;
-            html += `
+            html += /*html*/`
                 <div class="contact-sequence">
                     <span class="contact-sequence-text">${currentLetter}</span>
                 </div>
@@ -134,7 +134,7 @@ async function createNewContact() {
             closeNewContact();
             successfullCreationContact();
             setTimeout(() => {
-                location.reload(); 
+            location.reload(); 
             }, 2000);
         } catch (error) {
             console.error('Error creating new contact:', error);
@@ -224,7 +224,6 @@ async function deleteContact(contactName) {
         location.reload();
     } catch (error) {
         console.error('Fehler beim Löschen des Kontakts:', error);
-        alert('Es gab ein Problem beim Löschen des Kontakts. Bitte versuchen Sie es erneut.');
     }
 }
 
@@ -301,14 +300,11 @@ function clearContactInfo() {
     const userMail = document.getElementById('contactMailAdress');
     const userPhone = document.getElementById('contactPhone');
     const profileContainer = document.getElementById('profileEditContact');
-
     if (userName) userName.value = '';
     if (userMail) userMail.value = '';
     if (userPhone) userPhone.value = '';
-
-    // Setze das Profilbild zurück
     if (profileContainer) {
-        profileContainer.outerHTML = `
+        profileContainer.outerHTML = /*html*/`
             <div class="icon-profile-add-new-contact">
                 <img src="./assets/icons/personContact.svg" alt="profile" class="img-profile-add-new-contact">
             </div>
@@ -345,7 +341,7 @@ function closeNewContact() {
     newContactContainer.classList.remove('show');
     setTimeout(() => {
         newContactContainer.style.display = 'none';
-    }, 400); // Dauer der Animation abwarten
+    }, 400);
 }
 
 function closeEditContact() {
@@ -354,5 +350,5 @@ function closeEditContact() {
     editContactContainer.classList.remove('show');
     setTimeout(() => {
         editContactContainer.style.display = 'none';
-    }, 400); // Dauer der Animation abwarten
+    }, 400);
 }
