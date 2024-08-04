@@ -628,6 +628,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     line-height: 24px;
     text-align: left;
 }
+.category:focus{
+    outline: none;
+    border: unset;
+}
 
 .category-field {
     /* Make category-field the positioning context */
@@ -648,7 +652,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     flex-direction: column;
     border: 1px solid rgba(209, 209, 209, 1);
     background: rgba(255, 255, 255, 1);
-    /* z-index: 1; Ensure the dropdown is above other elements */
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+    overflow: hidden;
+    margin-top: 78px;
+    width: 440px;
+}
+
+.category-container{
+    position: relative;
 }
 
 .category-dropdown div {
