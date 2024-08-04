@@ -11,7 +11,6 @@ function toggleContactList() {
 
     // Use classList.toggle to consistently manage the hidden class
     contactList.classList.toggle("hidden");
-
     if (contactList.classList.contains("hidden")) {
         contactSearch.style.borderRadius = "10px";
         dropdownIcon.src = "/assets/icons/arrow_drop_down.svg";
@@ -64,46 +63,55 @@ function closeContactListOnClickOutside(event) {
 }
 
 
+/**
+ * Initializes the contact list on page load.
+ * Fetches contacts from Firebase, creates contact items, and sets up event listeners.
+ */
 document.addEventListener("DOMContentLoaded", async () => {
     const contactList = document.getElementById("contact-list");
     const contactSearch = document.getElementById("contact-search");
     try {
-        const contactsData = await getData("contacts"); // Fetch contacts from Firebase
-
-        if (contactsData) {
-            // Convert Firebase object to an array of contacts
-            const firebaseContacts = Object.values(contactsData);
-
-            firebaseContacts.forEach(contact => {
-                const contactItem = document.createElement("div");
-                contactItem.classList.add("contact-item");
-
-                // Split the name into parts
-                const nameParts = contact.name.split(" ");
-
-                // Get the first letter of the first part and the first letter of the second part
-                const initials = nameParts[0].charAt(0) + nameParts[1].charAt(0);
-
-                contactItem.innerHTML = `
-              <div class="contact-logo" style="background-color: ${contact.color};" data-background="${contact.color}">
-                  ${initials} 
-              </div>
-              <span>${contact.name}</span>
-              <div class="contact-checkbox" data-email="${contact.email}"></div>
-            `;
-                contactList.appendChild(contactItem);
-            });
-        } else {
-            console.log("No contacts found in Firebase.");
-        }
+      const contactsData = await getData("contacts");
+      if (contactsData) {
+        const firebaseContacts = Object.values(contactsData);
+        firebaseContacts.forEach(contact => createContactItem(contact, contactList));
+      } else {
+        console.log("No contacts found in Firebase.");
+      }
     } catch (error) {
-        console.error("Error fetching contacts:", error);
+      console.error("Error fetching contacts:", error);
     }
     contactSearch.addEventListener("input", filterContacts);
-    setPriority('medium'); // Set Medium as default
-});
+    setPriority('medium');
+  });
+  
+
+  /**
+   * Creates a contact item element and appends it to the contact list.
+   * @param {Object} contact - The contact data.
+   * @param {HTMLElement} contactList - The contact list element.
+   */
+  function createContactItem(contact, contactList) {
+    const contactItem = document.createElement("div");
+    contactItem.classList.add("contact-item");
+    const nameParts = contact.name.split(" ");
+    const initials = nameParts[0].charAt(0) + nameParts[1].charAt(0);
+    contactItem.innerHTML = `
+      <div class="contact-logo" style="background-color: ${contact.color};" data-background="${contact.color}">
+          ${initials} 
+      </div>
+      <span>${contact.name}</span>
+      <div class="contact-checkbox" data-email="${contact.email}"></div>
+    `;
+    contactList.appendChild(contactItem);
+  }
 
 
+/**
+ * Adds a click event listener to the contact list.
+ * When a contact item is clicked, it toggles the 'checked' class on the checkbox and the contact item itself,
+ * and then updates the display of selected contacts.
+ */
 document.getElementById("contact-list").addEventListener("click", (event) => {
     const contactItem = event.target.closest(".contact-item");
     if (contactItem) {
@@ -144,58 +152,83 @@ document.getElementById('contact-search').addEventListener('input', function () 
 });
 
 
-
-
 /**
  * Clears all input fields, resets styles, and clears error messages.
  */
 function clearFields() {
-    // Leere die Werte der Eingabefelder
-    document.getElementById("title").value = "";
-    document.getElementById("description").value = "";
-    document.getElementById("contact-search").value = "";
-    document.getElementById("due-date").value = "";
-    document.getElementById("category").value = "";
-    document.getElementById("subtask-input").value = "";
-
-    // Setze die Rahmen der Eingabefelder zurück
-    document.getElementById("title").style.border = '1px solid rgba(209, 209, 209, 1)';
-    document.getElementById("description").style.border = '1px solid rgba(209, 209, 209, 1)';
-    document.getElementById("due-date").style.border = '1px solid rgba(209, 209, 209, 1)';
-    document.getElementById("category-field").style.border = '1px solid rgba(209, 209, 209, 1)';
-    document.getElementById("contact-search").style.border = '1px solid rgba(209, 209, 209, 1)';
-    document.getElementById("subtask-input").style.border = '1px solid rgba(209, 209, 209, 1)';
-
-    // Entferne alle Fehlermeldungen
-    removeErrorMessage(document.getElementById("title"));
-    removeErrorMessage(document.getElementById("category-container"));
-    removeErrorMessage(document.getElementById("due-date"));
-
-    // Setze alle Kontrollkästchen der Kontaktliste zurück
-    document.querySelectorAll(".contact-checkbox").forEach(checkbox => {
-        checkbox.classList.remove("checked");
-        checkbox.parentElement.classList.remove("checked");
-    });
-    // Clear error messages instead of removing them
-    document.querySelectorAll('.error-message').forEach(errorElement => {
-        errorElement.textContent = ''; // Clear the content of the error message
-    });
-    
-    // Leere die ausgewählten Kontakte
-    document.getElementById("selected-contacts").innerHTML = "";
-
-    // Leere die Subtask-Liste
-    document.getElementById("subtask-list").innerHTML = "";
-
-    // Setze die Prio-Buttons zurück
-    setPriority('medium'); // Set Medium as default
-    currentPriority = "medium";
-    // Clear error messages instead of removing them
-    document.querySelectorAll('.error-message').forEach(errorElement => {
-        errorElement.textContent = ''; // Clear the content of the error message
-    });
+  clearInputFields();
+  resetInputBorders();
+  removeErrorMessages();
+  resetContactCheckboxes();
+  clearSelectedContacts();
+  clearSubtaskList();
+  resetPriority();
 }
 
+
+/**
+ * Clears the values of all specified input fields.
+ */
+function clearInputFields() {
+    const inputIds = ["title", "description", "contact-search", "due-date", "category", "subtask-input"];
+    inputIds.forEach(id => document.getElementById(id).value = "");
+  }
+  
+
+  /**
+   * Resets the borders of all specified input fields to their default style.
+   */
+  function resetInputBorders() {
+    const inputIds = ["title", "description", "due-date", "category-field", "contact-search", "subtask-input"];
+    inputIds.forEach(id => document.getElementById(id).style.border = '1px solid rgba(209, 209, 209, 1)');
+  }
+  
+
+  /**
+   * Removes all error messages from the form.
+   */
+  function removeErrorMessages() {
+    const errorIds = ["title", "category-container", "due-date"];
+    errorIds.forEach(id => removeErrorMessage(document.getElementById(id)));
+    document.querySelectorAll('.error-message').forEach(errorElement => errorElement.textContent = '');
+  }
+  
+
+  /**
+   * Resets all contact checkboxes in the contact list to their unchecked state.
+   */
+  function resetContactCheckboxes() {
+    document.querySelectorAll(".contact-checkbox").forEach(checkbox => {
+      checkbox.classList.remove("checked");
+      checkbox.parentElement.classList.remove("checked");
+    });
+  }
+  
+
+  /**
+   * Clears the display of selected contacts.
+   */
+  function clearSelectedContacts() {
+    document.getElementById("selected-contacts").innerHTML = "";
+  }
+  
+
+  /**
+   * Clears the subtask list.
+   */
+  function clearSubtaskList() {
+    document.getElementById("subtask-list").innerHTML = "";
+  }
+  
+
+  /**
+   * Resets the priority buttons to the default 'medium' priority.
+   */
+  function resetPriority() {
+    setPriority('medium');
+    currentPriority = "medium";
+  }
+  
 
 /**
  * Removes the error message associated with a specific field.
@@ -221,11 +254,9 @@ function removeErrorMessage(field) {
  */
 function validateDueDate(dueDate) {
     const datePattern = /^\d{4}-\d{2}-\d{2}$/; // Regular expression for YYYY-MM-DD format
-
     if (!datePattern.test(dueDate)) {
         return 'Please enter a valid date in YYYY-MM-DD format.';
     }
-
     const today = new Date();
     const selectedDate = new Date(dueDate);
 
@@ -244,45 +275,37 @@ function validateDueDate(dueDate) {
  */
 function validateFields() {
     const fields = [
-      document.getElementById('title'),
-      document.getElementById('category'), // Keep this to get the value
-      document.getElementById('due-date')
+      { id: 'title', element: document.getElementById('title') },
+      { id: 'category', element: document.getElementById('category'), fieldElement: document.getElementById('category-field') },
+      { id: 'due-date', element: document.getElementById('due-date') }
     ];
   
     let isValid = true;
     fields.forEach(field => {
-      if (field.value.trim() === "") {
-        if (field.id === 'category') {
-          document.getElementById('category-field').style.border = '1px solid rgba(255, 129, 144, 1)'; // Change border of category-field
-          showErrorMessage(field, 'This field is required');
-        } else {
-          field.style.border = '1px solid rgba(255, 129, 144, 1)';
-          showErrorMessage(field, 'This field is required');
-        }
+      if (field.element.value.trim() === "") {
+        (field.fieldElement || field.element).style.border = '1px solid rgba(255, 129, 144, 1)';
+        showErrorMessage(field.element, 'This field is required');
         isValid = false;
-      } else if (field.id === 'due-date') { 
-        const dueDateError = validateDueDate(field.value);
-    if (dueDateError) {
-      field.style.border = '1px solid rgba(255, 129, 144, 1)';
-      showErrorMessage(field, dueDateError);
-      isValid = false;
-    } else {
-      field.style.border = '1px solid rgba(41, 171, 226, 1)';
-      removeErrorMessage(field);
-    }
+      } else if (field.id === 'due-date') {
+        const dueDateError = validateDueDate(field.element.value);
+        field.element.style.border = dueDateError ? '1px solid rgba(255, 129, 144, 1)' : '1px solid rgba(41, 171, 226, 1)';
+        dueDateError ? showErrorMessage(field.element, dueDateError) : removeErrorMessage(field.element);
+        isValid = isValid && !dueDateError;
       } else {
-        if (field.id === 'category') {
-          document.getElementById('category-field').style.border = '1px solid rgba(41, 171, 226, 1)'; // Change border of category-field
-        } else {
-          field.style.border = '1px solid rgba(41, 171, 226, 1)';
-        }
-        removeErrorMessage(field);
+        (field.fieldElement || field.element).style.border = '1px solid rgba(41, 171, 226, 1)';
+        removeErrorMessage(field.element);
       }
     });
     return isValid;
   }
+  
 
-
+  /**
+ * Handles the form submission event.
+ * Prevents the default form submission behavior and calls the `createTask` function.
+ *
+ * @param {Event} event - The form submission event.
+ */
 document.getElementById('recipeForm').onsubmit = function (event) {
     event.preventDefault();
     createTask();
@@ -307,6 +330,12 @@ function showErrorMessage(field, message) {
     errorElement.textContent = message;
   }
   
+
+  /**
+ * Removes the error message associated with a specific field.
+ *
+ * @param {HTMLElement} field - The input field for which to remove the error message.
+ */
   function removeErrorMessage(field) {
     let errorElement = field.nextElementSibling;
     if (field.id === 'category') {
@@ -342,61 +371,58 @@ async function postData(path = "", data = {}) {
  * Creates a new task object and saves it to Firebase.
  */
 async function createTask() {
-    const title = document.getElementById('title').value.trim();
-    const description = document.getElementById('description').value.trim();
-    const category = document.getElementById('category').value.trim();
-    const dueDate = document.getElementById('due-date').value;
-    const prio = currentPriority; // Get the current priority from the global variable
-
-    if (!validateFields()) {
-        return;
-    }
-
-    const assignedContacts = [];
-    document.querySelectorAll(".contact-list .contact-checkbox.checked").forEach(checkbox => {
-        const contactItem = checkbox.parentElement;
-        const name = contactItem.querySelector("span:nth-child(2)").textContent;
-        assignedContacts.push(name);
-    });
-
-    const subtasks = [];
-    const subtaskItems = document.querySelectorAll("#subtask-list .subtask-item");
-    subtaskItems.forEach(item => {
-        const subtaskText = item.querySelector('.subtask-text').innerText;
-        subtasks.push(subtaskText);
-    });
-
-    // Create the task object
+    if (!validateFields()) return;
+  
     const newTask = {
-        id: Date.now(), // Generate a unique ID using timestamp
-        Title: title,
-        Description: description,
-        Assigned_to: assignedContacts,
-        Due_date: dueDate,
-        Prio: prio,
-        Category: category,
-        Subtasks: subtasks
+      id: Date.now(),
+      Title: document.getElementById('title').value.trim(),
+      Description: document.getElementById('description').value.trim(),
+      Assigned_to: getAssignedContacts(),
+      Due_date: document.getElementById('due-date').value,
+      Prio: currentPriority,
+      Category: document.getElementById('category').value.trim(),
+      Subtasks: getSubtasks()
     };
-
-    // Save the task to Firebase
+  
     try {
-        await postData("tasks", newTask);
-        console.log("Task created successfully:", newTask);
-        // Reset the form and clear selected contacts
-        clearFields();
+      await postData("tasks", newTask);
+      console.log("Task created successfully:", newTask);
+      clearFields();
+      showTaskCreatedPopup();
+      setTimeout(() => { window.location.href = 'board.html'; }, 2000);
     } catch (error) {
-        console.error("Error creating task:", error);
+      console.error("Error creating task:", error);
     }
+  }
+  
 
-    // Show the popup
-    showTaskCreatedPopup();
+ /**
+ * Gets an array of names of the assigned contacts.
+ * It selects all checked checkboxes in the contact list,
+ * extracts the name from the parent element of each checkbox,
+ * and returns an array of these names.
+ *
+ * @returns {Array<string>} An array of assigned contact names.
+ */
+function getAssignedContacts() {
+    return Array.from(document.querySelectorAll(".contact-list .contact-checkbox.checked"))
+      .map(checkbox => checkbox.parentElement.querySelector("span:nth-child(2)").textContent);
+  }
+  
 
-    // Redirect to board.html after 2 seconds
-    setTimeout(() => {
-        window.location.href = 'board.html';
-    }, 2000);
-}
-
+  /**
+   * Gets an array of subtask texts from the subtask list.
+   * It selects all subtask items in the list,
+   * extracts the text content from the 'subtask-text' element within each item,
+   * and returns an array of these texts.
+   *
+   * @returns {Array<string>} An array of subtask texts.
+   */
+  function getSubtasks() {
+    return Array.from(document.querySelectorAll("#subtask-list .subtask-item"))
+      .map(item => item.querySelector('.subtask-text').innerText);
+  }
+  
 
 /**
  * Shows a popup message indicating that the task has been created successfully.
@@ -450,24 +476,38 @@ function handleBlur(event) {
   }
 }
 
-// Event-Listener für Eingabefelder hinzufügen
+
+/**
+ * Adds input event listeners to the 'title', 'description', 'due-date', and 'category-field' input fields.
+ * The `handleInput` function will be called whenever the user types into these fields.
+ */
 document.getElementById('title').addEventListener('input', handleInput);
 document.getElementById('description').addEventListener('input', handleInput);
 document.getElementById('due-date').addEventListener('input', handleInput);
 document.getElementById('category-field').addEventListener('input', handleInput);
 
+
+/**
+ * Adds blur event listeners to the 'title', 'description', 'due-date', and 'category-field' input fields.
+ * The `handleBlur` function will be called when the user moves focus away from these fields.
+ */
 document.getElementById('title').addEventListener('blur', handleBlur);
 document.getElementById('description').addEventListener('blur', handleBlur);
 document.getElementById('due-date').addEventListener('blur', handleBlur);
 document.getElementById('category-field').addEventListener('blur', handleBlur);
 
+
+/**
+ * Prevents the default form submission behavior for the form with the ID 'recipeForm'.
+ * This is likely used to handle form submission using JavaScript instead of the default browser behavior.
+ */
 document.getElementById('recipeForm').onsubmit = function (event) {
     event.preventDefault();
 };
 
+
 //for Prio buttons
 let currentPriority = "medium";
-
 
 /**
  * Sets the priority level for the task.

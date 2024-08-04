@@ -1,6 +1,5 @@
 .add-task-content {
     margin-top: 96px;
-    /* height: calc(100vh - 96px); */
     margin-left: 328px;
     padding-right: 96px;
     padding-top: 110px;
@@ -11,7 +10,6 @@
     gap: 24px;
     margin: 56px 0;
 }
-
 
 .add-task-left,
 .add-task-right {
@@ -55,6 +53,7 @@
     height: 120px;
     padding: 18px 16px;
     gap: 10px;
+    resize: none;
 }
 
 .select-contacts {
