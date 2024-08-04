@@ -6,7 +6,8 @@ async function getData(path = "") {
     return (responseToJson = await response.json());
 }
 
-/* save new contact in firebase */
+/* contacts*/
+// save and delete new contact in firebase 
 
 async function saveData(path = "", data) {
     await fetch(`${BASE_URL}${path}.json`, {
@@ -31,6 +32,8 @@ async function removeData(path = "") {
         throw error;
     }
 }
+
+// save updated contact
 
 async function saveDataToFirebase(contactId, contactData) {
     await fetch(`${BASE_URL}contacts/${contactId}.json`, {

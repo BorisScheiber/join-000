@@ -2,7 +2,7 @@
 
 function openNewContact() {
     const addNewContactContainer = document.getElementById('newContact');
-    addNewContactContainer.innerHTML = `
+    addNewContactContainer.innerHTML = /*HTML*/`
         <form class="add-new-contact-form" onsubmit="createNewContact(); return false;">
             <div class="add-new-contact">
                 <div class="add-new-contact-menu">
@@ -27,7 +27,9 @@ function openNewContact() {
                         </div>
                         <div class="add-new-contact-input-field-section">
                             <div class="contact-input-fields">
-                                <input type="text" placeholder="Name" class="input-fields-add-new-contact" id="newContactName" required>
+                                <input type="text" placeholder="Name" class="input-fields-add-new-contact" id="newContactName"
+                                titel="Please enter a first and last name."
+                                required>
                                 <div class="contact-input-icon">
                                     <img src="./assets/icons/contactPersonInput.svg" alt="profile">
                                 </div>
@@ -35,7 +37,7 @@ function openNewContact() {
                             </div>
                             <div class="input-field-separator"></div>
                             <div class="contact-input-fields">
-                                <input type="email" placeholder="Email" class="input-fields-add-new-contact" id="newContactEmail">
+                                <input type="email" placeholder="Email" class="input-fields-add-new-contact" id="newContactEmail" required>
                                 <div class="contact-input-icon">
                                     <img src="./assets/icons/contactMailInput.svg" alt="mail">
                                 </div>
@@ -68,13 +70,14 @@ function openNewContact() {
         </form>
     `;
     addNewContactContainer.style.display = 'flex';
+    openNewContactWindow();
 }
 
 /* generates HTML-contend for the short single contact detailes in the contact menu */
 
 function generateContactHTML(user) {
     const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
-    return `
+    return /*HTML*/`
         <div class="single-contact" data-name="${user.name}" onclick="showContactDetail('${user.name}')">
             <div class="single-contact-profile-img" style="background-color: ${user.color};">
                 ${initials}
@@ -91,7 +94,7 @@ function generateContactHTML(user) {
 
 function generateContactDetailHTML(user, bgColor) {
     const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
-    return `
+    return /*HTML*/`
         <div class="contact-detail-card-headline">
             <div class="contact-detail-profile-img" style="background-color: ${bgColor};">${initials}</div>
             <div class="contact-detail-card-user">
@@ -120,26 +123,16 @@ function generateContactDetailHTML(user, bgColor) {
             </div>
             <div class="contact-detail-information-block-phone">
                 <span class="contact-detail-information-block-subheadline">Phone</span>
-                <span class="contact-detail-information-block-text">${user.phone}</span>
+                <a href="tel:${user.phone}" class="contact-detail-information-block-text">${user.phone}</a>
             </div>
         </div>
     `;
 }
 
-function changeIcon(button, newIcon) {
-    const img = button.querySelector('img');
-    img.src = `./assets/icons/${newIcon}`;
-}
-
-
-
-
-
-
 /* generates HTML-content for a separate editing window to change the contact details */
 
 function generateEditContactHTML(user, initials, bgColor) {
-    return `
+    return /*HTML*/`
         <div class="edit-contact">
             <div class="edit-contact-menu">
                 <div class="edit-contact-menu-img">
@@ -158,7 +151,7 @@ function generateEditContactHTML(user, initials, bgColor) {
                 </div>
                 <form onsubmit="saveEditingContact(); return false;">
                     <div class="edit-contact-input-fields">
-                        <div class="icon-profile-edit-contact" style="background-color: ${bgColor};">
+                        <div class="icon-profile-edit-contact" style="background-color: ${bgColor};" id="profileEditContact">
                             <span>${initials}</span>
                         </div>
                         <div class="edit-contact-input-field-section">

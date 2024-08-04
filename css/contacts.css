@@ -440,6 +440,8 @@ a{
 
 .close-contact:hover{
     cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
 }
 
 .contact-input-fields{
@@ -473,8 +475,8 @@ a{
     border-radius: 50%;
     background-color: #D1D1D1;
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
-    margin-left: 83px;
-    margin-right: 72px;
+    margin-left: 101px;
+    margin-right: 54px;
 }
 
 .img-profile-add-new-contact{
@@ -771,7 +773,7 @@ a{
 
 /* animation for pop-up effect*/
 
-.create-contact-successful-overlay {
+.create-contact-successful-overlay{
     position: fixed;
     inset: 0;
     background-color: rgba(0, 0, 0, 0.2);
@@ -781,8 +783,7 @@ a{
     z-index: 100;
 }
 
-.create-contact-successfull-container {
-    right: 0;
+.create-contact-successfull-container{
     height: 74px;
     width: 312px;
     background-color: var(--clr-main);
@@ -794,23 +795,119 @@ a{
     font-size: 20px;
     font-weight: 400;
     line-height: 24px;
-    transform: translateX(100%);
-    transition: transform 0.4s ease-in-out;
     position: relative;
 }
 
-.slide-in {
-    transform: translateX(100%);
+@keyframes slideInFromRight{
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
-.slide-out {
-    transform: translateX(100%);
+@keyframes slideOutToRight{
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.window-add-new-contact.show{
+    opacity: 1;
+    transform: translateX(0);
+    animation: slideInFromRight 0.4s forwards;
+}
+
+.window-add-new-contact.hide{
+    animation: slideOutToRight 0.4s forwards;
+}
+
+.window-edit-contact.show{
+    opacity: 1;
+    transform: translateX(0);
+    animation: slideInFromRight 0.4s forwards;
+}
+
+.window-edit-contact.hide{
+    animation: slideOutToRight 0.4s forwards;
 }
 
 /* focus for input fields*/
 
 .input-fields-add-new-contact:focus,
-.input-fields-edit-contact:focus {
+.input-fields-edit-contact:focus{
     border: 2px solid var(--clr-light-blue);
     outline: none;
+}
+
+/* Media-section */
+
+@media (max-width: 850px){
+    .contacts-content{
+        margin-top: 80px;
+        margin-left: 0px;
+        justify-content: center;
+    }
+
+    .contact-detail{
+        display: none;
+    }
+
+    .contact-menu{
+        padding-top: 22.5px;
+        padding-bottom: 22.5px;
+        justify-content: center;
+    }
+
+    .add-contact-button{
+        display: none;
+    }
+}
+
+@media (max-width: 470px){
+    .contact-menu{
+        width: 380px;
+    }
+
+    .contact-separator{
+        width: 300px;
+    }
+
+    #loadContactMenu{
+        padding-right: 0;
+    }
+}
+
+@media (max-width: 395px){
+    .contact-list{
+        width: 280px;
+    }
+    .contact-menu{
+        width: 300px;
+    }
+
+    .contact-separator{
+        width: 250px;
+    }
+
+    .contact-sequence{
+        width: 260px;
+    }
+
+    .single-contact{
+        width: 260px;
+    }
+
+    .single-contact-profile{
+        margin-left: 15px;
+        font-size: 12px;
+    }
 }

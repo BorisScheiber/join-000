@@ -128,12 +128,18 @@ async function createNewContact() {
     if (validateContactInputs(name, email, phone)) {
         const newContact = createContactObject(name, email, phone);
         const contactId = generateContactId(name);
-        await saveDataToFirebase(contactId, newContact);
-        updateContactList(newContact);
-        closeNewContact();
-        location.reload();
+        try {
+            await saveDataToFirebase(contactId, newContact);
+            updateContactList(newContact);
+            closeNewContact();
+            successfullCreationContact();
+            setTimeout(() => {
+                location.reload(); 
+            }, 2000);
+        } catch (error) {
+            console.error('Error creating new contact:', error);
+        }
     }
-    successfullCreationContact();
 }
 
 function generateContactId(name) {
@@ -148,14 +154,12 @@ function successfullCreationContact() {
     let overlay = document.getElementById('createContactSuccessfull');
     let container = overlay.querySelector('.create-contact-successfull-container');
     overlay.style.display = 'flex';
-    requestAnimationFrame(() => {
-        container.classList.add('slide-in');
-    });
+    container.style.animation = 'slideInFromRight 0.4s forwards';
     setTimeout(() => {
-        container.classList.add('slide-out');
+        container.style.animation = 'slideOutToRight 0.4s forwards';
         setTimeout(() => {
             overlay.style.display = 'none';
-            container.classList.remove('slide-in', 'slide-out');
+            container.style.animation = '';
         }, 400);
     }, 1500);
 }
@@ -236,6 +240,7 @@ function openEditingContact(name) {
     editContact.dataset.originalContactId = generateContactId(user.name);
     editContact.innerHTML = generateEditContactHTML(user, initials, bgColor);
     editContact.style.display = 'flex';
+    openEditContactWindow();
 }
 
 async function saveEditingContact() {
@@ -295,12 +300,59 @@ function clearContactInfo() {
     const userName = document.getElementById('contactName');
     const userMail = document.getElementById('contactMailAdress');
     const userPhone = document.getElementById('contactPhone');
+    const profileContainer = document.getElementById('profileEditContact');
+
     if (userName) userName.value = '';
     if (userMail) userMail.value = '';
     if (userPhone) userPhone.value = '';
+
+    // Setze das Profilbild zurück
+    if (profileContainer) {
+        profileContainer.outerHTML = `
+            <div class="icon-profile-add-new-contact">
+                <img src="./assets/icons/personContact.svg" alt="profile" class="img-profile-add-new-contact">
+            </div>
+        `;
+    }
 }
 
 function closeEditContact(){
     const editContact = document.getElementById('editContact');
     editContact.style.display = 'none';
+}
+
+function changeIcon(button, newIcon) {
+    const img = button.querySelector('img');
+    img.src = `./assets/icons/${newIcon}`;
+}
+
+
+function openNewContactWindow() {
+    const newContactContainer = document.getElementById('newContact');
+    newContactContainer.classList.add('show');
+    newContactContainer.classList.remove('hide');
+}
+
+function openEditContactWindow() {
+    const editContactContainer = document.getElementById('editContact');
+    editContactContainer.classList.add('show');
+    editContactContainer.classList.remove('hide');
+}
+
+function closeNewContact() {
+    const newContactContainer = document.getElementById('newContact');
+    newContactContainer.classList.add('hide');
+    newContactContainer.classList.remove('show');
+    setTimeout(() => {
+        newContactContainer.style.display = 'none';
+    }, 400); // Dauer der Animation abwarten
+}
+
+function closeEditContact() {
+    const editContactContainer = document.getElementById('editContact');
+    editContactContainer.classList.add('hide');
+    editContactContainer.classList.remove('show');
+    setTimeout(() => {
+        editContactContainer.style.display = 'none';
+    }, 400); // Dauer der Animation abwarten
 }
