@@ -168,6 +168,12 @@
   right: 120px;
 }
 
+.sign-up-container-mobile {
+  display: none;
+  align-items: center;
+  gap: 35px;
+}
+
 .sign-up-text {
   font-size: 20px;
   line-height: 24px;
@@ -326,21 +332,25 @@
   cursor: pointer;
 }
 
-@media (max-width: 890px) {
+@media (max-width: 950px) {
   .sign-up-container {
     gap: 35px;
-    top: unset;
-    right: unset;
-    bottom: 170px;
+    right: 70px;
   }
 }
-@media (max-width: 700px) {
+@media (max-width: 850px) {
   .login-content {
     padding: 0 16px 0 16px;
+    flex-direction: column;
   }
-}
-
-@media (max-width: 650px) {
+  .sign-up-container {
+    display: none;
+  }
+  .sign-up-container-mobile {
+    display: flex;
+    margin-top: 80px;
+    gap: 24px;
+  }
   @keyframes fadeOut {
     0% {
       background-color: var(--clr-main);
@@ -390,7 +400,8 @@
     }
   }
   .login-card {
-    width: 396px;
+    max-width: 396px;
+    width: 100%;
     height: 515px;
     background-color: white;
     border-radius: 30px;
@@ -424,5 +435,28 @@
   .sign-up-button {
     height: 49px;
     width: 104px;
+  }
+  @media (max-height: 950px) {
+    .sign-up-container-mobile {
+      margin-top: 40px;
+    }
+  }
+  @media (max-height: 900px) {
+    .login-content {
+      justify-content: unset;
+      padding: 130px 16px 16px 16px;
+    }
+    .login-legal-links {
+      bottom: 37px;
+    }
+  }
+  @media (max-height: 820px) {
+    .sign-up-container-mobile {
+      margin-top: 20px;
+  }
+  .login-legal-links {
+    position: static;
+    margin-top: 20px;
+  }
   }
 }

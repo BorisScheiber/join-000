@@ -330,6 +330,11 @@ header {
   display: none !important;
 }
 
+@media (max-height: 1000px) {
+  .legal-menu {
+    padding: 0;
+  }
+}
 @media (max-width: 850px) {
   /* sidebar */
 

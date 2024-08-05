@@ -273,7 +273,7 @@
   cursor: pointer;
 }
 
-@media (max-width: 650px) {
+@media (max-width: 850px) {
   .signup-content {
     padding: 16px;
   }
@@ -314,6 +314,31 @@
   .signup-successful-overlay {
     padding: 16px;
   }
+  .signup-title{
+    margin-bottom: 24px
+  }
+  .signup-accept {
+    margin-top: 32px;
+  }
+  @media (max-height: 900px) {
+    .signup-content {
+      align-items: unset;
+      padding: 130px 16px 16px 16px;
+  }
+  .signup-legal-links {
+    bottom: 37px;
+  }
+  }
+  @media (max-height: 820px) {
+    .signup-legal-links {
+      position: static;
+      margin-top: 20px;
+    }
+    .signup-content {
+      flex-direction: column;
+    }
+  }
+  
 }
 
 
