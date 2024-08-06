@@ -27,6 +27,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
 }
 
 .input-field,
@@ -336,14 +337,6 @@
     position: relative;
 }
 
-.search-container {
-    display: flex;
-    position: relative;
-    flex-direction: column;
-    /* align-items: center;
-    gap: 8px; */
-}
-
 .contact-search {
     width: 100%;
     height: 48px;
@@ -510,6 +503,8 @@
     position: relative;
     /* Relative Positionierung für die absolute Positionierung des Buttons */
     align-items: center;
+    flex-direction: column;
+
 }
 
 .contact-search {
@@ -644,6 +639,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border: 1px solid rgba(209, 209, 209, 1);
     background: rgba(255, 255, 255, 1);
     cursor: pointer;
+    position: relative;
 }
 
 .category-dropdown {
