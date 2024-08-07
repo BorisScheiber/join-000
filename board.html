@@ -22,24 +22,153 @@
     <link rel="stylesheet" href="./css/board.css">
 
 </head>
+
 <body onload="init(), renderTasks()">
 
     <header id="header"></header>
-
-    <ul id="taskList" class="task-list"></ul> 
+    <!-- <ul id="taskList" class="task-list"></ul>  Ismail -->
 
     <section id="desktopSidebar" class="sidebar"></section>
 
-    <main>
-        
+    <main class="board-content">
+        <!-- title container + search bar + add task Button -->
+        <div class="board-title-container">
+            <h1>Board</h1>
+            <div class="search-field-add-task-container">
+                <div class="board-search-field">
+                    <input class="board-search-input" type="text" placeholder="Find Task">
+                    <span class="board-search-seperator"></span>
+                    <img class="board-search-icon" src="./assets/icons/search.svg" alt="">
+                </div>
+                <button class="board-add-task-button">
+                    Add task
+                    <img src="./assets/icons/addplus.svg" alt="">
+                </button>
+            </div>
+        </div>
+        <!-- board container -->
+        <div class="board-container">
+            <div class="board-sections board-to-do">
+                <div class="board-section-title">
+                    <h2>To do</h2>
+                    <button class="board-add-button"></button>
+                </div>
+                <!-- this is the container to drag + render single cards -->
+                <div class="board-drag-area-container">
+                    <div class="board-section-placeholder d-none">No tasks To do</div>
+                    <!-- single card / STORY-->
+                    <div class="board-cards">
+                        <div class="board-card-story">
+                            <span>User Story</span>
+                        </div>
+                        <div class="board-card-text-container">
+                            <span class="board-card-text board-card-title">Kochwelt Page & Recipe Recommender and other things </span>
+                            <span class="board-card-text board-card-description">Build start page with recipe recommendation and think about Design</span>
+                        </div>
+                        <div class="board-card-subtask-container">
+                            <div class="board-card-progress-bar">
+                                <div class="board-card-progress-fill" style="width: 50%;" role="progressbar"></div>
+                            </div>
+                            <div class="board-card-progress-text">
+                                <span>1/2 Subtasks</span>
+                            </div>
+                        </div>
+                        <div class="board-card-profiles-priority">
+                            <div class="board-card-profile-badges">
+                                <div class="board-card-single-profile" style="background-color: aqua;">AM</div>
+                                <div class="board-card-single-profile" style="background-color: orange;">EM</div>
+                                <div class="board-card-single-profile" style="background-color: purple;">BL</div>
+                                <div class="board-card-single-profile" style="background-color: darkcyan;">DF</div>
+
+                                <span class="board-card-assigned-more">+4</span>
+                            </div>
+                            <img src="./assets/icons/priorityUrgent.svg" alt="">
+                        </div>
+                    </div>
+                    <!-- single card / TECHNICAL -->
+                    <div class="board-cards">
+                        <div class="board-card-technical">
+                            <span>Technical Task</span>
+                        </div>
+                        <div class="board-card-text-container">
+                            <span class="board-card-text board-card-title">HTML Base Template</span>
+                            <span class="board-card-text board-card-description">Create reusable HTML base templates and a seperate Folder</span>
+                        </div>
+                        <div class="board-card-subtask-container">
+                            <div class="board-card-progress-bar">
+                                <div class="board-card-progress-fill" style="width: 50%;" role="progressbar"></div>
+                            </div>
+                            <div class="board-card-progress-text">
+                                <span>1/2 Subtasks</span>
+                            </div>
+                        </div>
+                        <div class="board-card-profiles-priority">
+                            <div class="board-card-profile-badges">
+                                <div class="board-card-single-profile" style="background-color: aqua;">AM</div>
+                                <div class="board-card-single-profile" style="background-color: orange;">EM</div>
+                                <div class="board-card-single-profile" style="background-color: purple;">BL</div>
+                                <div class="board-card-single-profile" style="background-color: darkcyan;">DF</div>
+
+                                <span class="board-card-assigned-more">+4</span>
+                            </div>
+                            <img src="./assets/icons/priorityUrgent.svg" alt="">
+                        </div>
+                    </div>
+                    <div class="board-cards board-test-card">
+                        test card
+                    </div>
+                    <div class="board-cards board-test-card">
+                        test card
+                    </div>
+                    <div class="board-cards board-test-card">
+                        test card
+                    </div>
+                    <div class="board-cards board-test-card">
+                        test card
+                    </div>
+                </div>
+            </div>
+            <div class="board-sections board-in-progress">
+                <div class="board-section-title">
+                    <h2>In progress</h2>
+                    <button class="board-add-button"></button>
+                </div>
+                <div class="board-drag-area-container">
+                    <div class="board-section-placeholder">No tasks In progress</div>
+                </div>
+            </div>
+            <div class="board-sections board-await-feedback">
+                <div class="board-section-title">
+                    <h2>Await feedback</h2>
+                    <button class="board-add-button"></button>
+                </div>
+                <div class="board-drag-area-container">
+                    <div class="board-section-placeholder">No tasks Await feedback</div>
+                </div>
+            </div>
+            <div class="board-sections board-done">
+                <div class="board-section-title">
+                    <h2>Done</h2>
+                    <!-- <button class="board-add-button"></button> -->
+                </div>
+                <div class="board-drag-area-container">
+                    <div class="board-section-placeholder">No tasks Done</div>
+                </div>
+            </div>
+        </div>
+
+
+
     </main>
 
     <nav id="mobileNav" class="nav-mobile"></nav>
 
     <script src="./js/html/mainHTML.js"></script>
     <script src="./js/main.js"></script>
+    <script src="./js/firebase.js"></script>
     <script src="./js/board.js"></script>
-    <script src="./js/firebase.js"></script> </body>
+
+</body>
 
 </html>
 
