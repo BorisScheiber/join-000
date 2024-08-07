@@ -16,6 +16,7 @@
     width: 440px;
 }
 
+
 .add-task-left {
     height: 376px;
     display: flex;
@@ -145,23 +146,27 @@
 }
 
 /* Scrollbalken-Stile anpassen */
-.subtask-list::-webkit-scrollbar,.contact-list::-webkit-scrollbar {
+.subtask-list::-webkit-scrollbar,
+.contact-list::-webkit-scrollbar {
     width: 8px;
     /* Breite des Scrollbalkens */
     color: rgba(168, 168, 168, 1)
 }
 
-.subtask-list::-webkit-scrollbar,.contact-list::-webkit-scrollbar-track {
+.subtask-list::-webkit-scrollbar,
+.contact-list::-webkit-scrollbar-track {
     background: #f1f1f1;
     /* Hintergrund des Scrollbalken-Tracks */
 }
 
-.subtask-list::-webkit-scrollbar-thumb,.contact-list::-webkit-scrollbar-thumb {
+.subtask-list::-webkit-scrollbar-thumb,
+.contact-list::-webkit-scrollbar-thumb {
     background: #888;
     /* Hintergrund des Scrollbalkens */
 }
 
-.subtask-list::-webkit-scrollbar-thumb:hover,.contact-list::-webkit-scrollbar-thumb:hover {
+.subtask-list::-webkit-scrollbar-thumb:hover,
+.contact-list::-webkit-scrollbar-thumb:hover {
     background: #555;
     /* Hintergrund des Scrollbalkens beim Hover */
 }
@@ -354,8 +359,9 @@
 }
 
 
+
 .contact-item {
-    width: 416px;
+    width: 100%;
     height: 56px;
     padding: 7px 16px;
     gap: 0px;
@@ -545,7 +551,7 @@
     flex-direction: column;
     align-items: flex-start;
     flex-direction: column;
-    width: 440px;
+    width: 100%;
 }
 
 
@@ -622,7 +628,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     line-height: 24px;
     text-align: left;
 }
-.category:focus{
+
+.category:focus {
     outline: none;
     border: unset;
 }
@@ -630,7 +637,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .category-field {
     /* Make category-field the positioning context */
     height: 48px;
-    width: 440px;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -652,10 +659,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     z-index: 1;
     overflow: hidden;
     margin-top: 78px;
-    width: 440px;
+    width: 100%;
 }
 
-.category-container{
+.category-container {
     position: relative;
 }
 
@@ -678,14 +685,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .default-border {
     border: 1px solid rgba(209, 209, 209, 1);
 }
+
 /* Definiert das Aussehen des Rahmens bei einem Fehlerzustand */
 .error-border {
-    border: 1px solid rgba(255, 129, 144, 1); /* Rotton für Fehler */
+    border: 1px solid rgba(255, 129, 144, 1);
+    /* Rotton für Fehler */
 }
 
 /* Definiert das Aussehen des Rahmens bei einer Hervorhebung */
 .highlight-border {
-    border: 1px solid rgba(41, 171, 226, 1); /* Blauer Farbton zur Hervorhebung */
+    border: 1px solid rgba(41, 171, 226, 1);
+    /* Blauer Farbton zur Hervorhebung */
 }
 
 /* Subtasks Section */
@@ -718,8 +728,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .subtask-list {
     list-style-type: disc;
     padding-left: 20px;
-    max-height: 100px; /* Set the maximum height */
-    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: 100px;
+    /* Set the maximum height */
+    overflow-y: auto;
+    /* Enable vertical scrolling */
 }
 
 .subtask-item {
@@ -737,7 +749,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .input-field-editing {
-    width: 440px;
+    width: 100%;
     height: 32px;
     padding: 4px 16px;
     padding-right: 72px;
@@ -797,7 +809,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     cursor: pointer;
 }
 
-
 .vertical-line {
     height: 24px;
     width: 1px;
@@ -814,38 +825,216 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     cursor: pointer;
 }
 
-    /* Popup Styles */
-    .taskCreatedPopup {
-        position: fixed;
-        bottom: -100px; /* Initially hidden below the screen */
-        left: 50%;
-        transform: translateX(-50%);
-        width: 300px;
-        height: 70px;
-        background-color: var(--clr-main);
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0; /* Initially transparent */
-        transition: bottom 0.5s ease, opacity 0.5s ease; /* Animation settings */
-        z-index: 1000; /* Ensure popup is on top */
-      }
+/* Popup Styles */
+.taskCreatedPopup {
+    position: fixed;
+    bottom: -100px;
+    /* Initially hidden below the screen */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 70px;
+    background-color: var(--clr-main);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    /* Initially transparent */
+    transition: bottom 0.5s ease, opacity 0.5s ease;
+    /* Animation settings */
+    z-index: 1000;
+    /* Ensure popup is on top */
+}
 
-      .taskCreatedPopup.show {
-        bottom: 50%; /* Move to center of the screen */
-        opacity: 1; /* Make it visible */
-      }
+.taskCreatedPopup.show {
+    bottom: 50%;
+    /* Move to center of the screen */
+    opacity: 1;
+    /* Make it visible */
+}
 
-      .taskCreatedPopup p {
+.taskCreatedPopup p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.taskCreatedPopup img {
+    height: 30px;
+    width: 30px;
+}
+
+@media (max-width: 900px) {
+
+    /* Reduce font sizes */
+    label,
+    input,
+    textarea {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 850px) {
+    .category-dropdown {
+        margin-top: -7px;
+    }
+
+    .due-date-section {
+        width: 100%;
+    }
+
+    label,
+    input,
+    textarea {
+        font-size: 18px;
+    }
+
+    .add-task-container {
+        flex-direction: column;
+    }
+
+    .add-task-left,
+    .add-task-right {
+        width: 100%;
+        height: auto;
+    }
+
+    .add-task-content {
+        margin-top: 80px;
+        height: calc(100vh - 160px);
+        margin-left: 0;
+        padding-bottom: 24px;
+        padding-right: 16px;
+        padding-top: 0px;
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        gap: 0px;
+        overflow-y: auto;
+        padding-left: 16px;
+        font-family: Inter;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 19.2px;
+        text-align: left;
+    }
+
+    .priority-button {
+        width: 121.33px;
+        height: 41px;
+        padding: 18px 10px;
+        font-family: Inter;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 19.2px;
+        text-align: left;
+
+    }
+
+    .priority-buttons {
+        gap: 16px;
+    }
+
+    .text-area {
+        height: 88px;
+        padding: 18px 21px;
         gap: 10px;
-        color: white;
-        font-size: 1.2rem;
-      }
+    }
 
-      .taskCreatedPopup img {
-        height: 30px;
-        width: 30px;
-      }
+    .input-field,
+    .subtask-input input {
+        width: 100%;
+        height: 40px;
+        padding: 10px 21px;
+    }
+
+    .input-group {
+        gap: 8px;
+    }
+
+    .add-task-container {
+        flex-direction: column;
+        margin-top: 120px;
+        gap: 16px;
+    }
+
+    .category-dropdown {
+        position: relative;
+    }
+
+    .contact-list {
+        position: relative;
+        top: 0;
+        left: 0;
+    }
+
+    .selected-contacts {
+        gap: 8px;
+    }
+
+    .add-task-left,
+    .add-task-right {
+        width: 100%;
+    }
+
+    .add-task-vertical-line {
+        display: none;
+    }
+
+    .contact-list {
+        width: 100%;
+        ;
+
+    }
+
+    .category-dropdown {
+        width: 100%;
+
+    }
+
+    .input-field-editing {
+        width: 100%;
+    }
+
+    .clear-button {
+        display: none;
+    }
+
+    .footer {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        height: 88px;
+        margin-top: 16px;
+        position: fixed;
+        bottom: 72px;
+        left: 0;
+        right: 0;
+        align-items: center;
+        padding: 0 16px;
+        background-color: #F6F7F8;
+
+    }
+
+    .add-task-content h1 {
+        font-size: 47px;
+        line-height: 56.4px;
+        text-align: left;
+    }
+
+    .add-task-title {
+        padding-top: 48px;
+        padding-bottom: 24px;
+        padding-left: 16px;
+        height: 112px;
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 80px;
+        background-color: #F6F7F8;
+
+    }
+
+}
