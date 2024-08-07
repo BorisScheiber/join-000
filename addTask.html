@@ -97,21 +97,20 @@
                 <form class="category-section">
                     <div class="input-group" id="category-groupe">
                         <label for="category">Category <span class="required">*</span></label>
-                        <div class="category-container" id="category-container">
+                        <!-- <div class="category-container" id="category-container"> -->
 
                         <div class="category-field" id="category-field" onclick="toggleCategoryDropdown()">
+                            <button id="toggle-list" class="toggle-list">
+                                <img src="/assets/icons/arrow_drop_down.svg" alt="Dropdown Icon" id="dropdown-assigned"
+                                    class="dropdown-icon dropdown-icon-category">
+                            </button>
                             <input type="text" id="category" class="category" placeholder="Select task category"
-                                required readonly>
-                            <img src="/assets/icons/arrow_drop_down.svg" alt="Dropdown Icon"
-                                class="dropdown-icon-category">
-                        </div>
-                    </div>
-
+                                required readonly >
+                            </div>
                         <div id="category-dropdown" class="category-dropdown">
                             <div onclick="selectCategory('Technical Task')">Technical Task</div>
                             <div onclick="selectCategory('User Story')">User Story</div>
                         </div>
-                       <div id="category-error" class="error-message"></div>
                     </div>
                 </form>
 
