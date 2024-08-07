@@ -352,3 +352,21 @@ function closeEditContact() {
         editContactContainer.style.display = 'none';
     }, 400);
 }
+
+function checkClickOutsideAddNewContact(){
+    const newContactContainer = document.getElementById('newContact');
+    newContactContainer.classList.add('hide');
+    newContactContainer.classList.remove('show');
+    setTimeout(() => {
+        newContactContainer.style.display = 'none';
+    }, 400);
+}
+
+function checkClickOutsideEditContact(){
+    const editContactContainer = document.getElementById('editContact');
+    editContactContainer.classList.add('hide');
+    editContactContainer.classList.remove('show');
+    setTimeout(() => {
+        editContactContainer.style.display = 'none';
+    }, 400);
+}
