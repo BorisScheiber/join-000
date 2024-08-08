@@ -10,11 +10,11 @@ async function initContatcs(){
     removeClassesIfNotLoggedIn();
     displayInitialsHeaderUser();
     loadContacts();
-  }
+}
 
 contacts.sort((a, b) => a.name.localeCompare(b.name));
 
-function getRandomColor() {
+function getRandomColor(){
     const letters = '0123456789ABCDEF';
     let color = '#';
     for (let i = 0; i < 6; i++) {
@@ -23,7 +23,7 @@ function getRandomColor() {
     return color;
 }
 
-async function loadContacts() {
+async function loadContacts(){
     try {
         const data = await getData('contacts');
         if (data) {
@@ -55,7 +55,7 @@ contacts.forEach(user => {
     html += generateContactHTML(user, colors[user.name]);
 });
 
-function renderContactList() {
+function renderContactList(){
     loadContactMenu.innerHTML = '';
     currentLetter = '';
     html = '';
@@ -77,7 +77,7 @@ function renderContactList() {
 
 loadContactMenu.innerHTML = html;
 
-function validateName(name) {
+function validateName(name){
     const NAME_PATTERN = /^[A-ZÄÖÜ][a-zäöü]+(?: [A-ZÄÖÜ][a-zäöü]+)$/;
     if (!name) {
         return 'Please enter a first and last name.';
@@ -88,7 +88,7 @@ function validateName(name) {
     return '';
 }
 
-function validateEmail(email) {
+function validateEmail(email){
     const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$/i;
     if (!emailPattern.test(email)) {
         return 'Please enter a valid email address.';
@@ -96,7 +96,7 @@ function validateEmail(email) {
     return '';
 }
 
-function validatePhone(phone) {
+function validatePhone(phone){
     const PHONE_PATTERN = /^[\+\d\s]+$/;
     if (!phone) {
         return 'Please enter a phone number.';
@@ -110,17 +110,17 @@ function validatePhone(phone) {
     return '';
 }
 
-function setErrorMessage(elementId, message) {
+function setErrorMessage(elementId, message){
     document.getElementById(elementId).innerHTML = message;
 }
 
-function clearErrorMessages() {
+function clearErrorMessages(){
     setErrorMessage('nameError', '');
     setErrorMessage('emailError', '');
     setErrorMessage('phoneError', '');
 }
 
-async function createNewContact() {
+async function createNewContact(){
     const name = document.getElementById('newContactName').value;
     const email = document.getElementById('newContactEmail').value;
     const phone = document.getElementById('newContactPhone').value;
@@ -142,7 +142,7 @@ async function createNewContact() {
     }
 }
 
-function generateContactId(name) {
+function generateContactId(name){
     if (typeof name !== 'string') {
         console.error('Invalid name for ID generation:', name);
         return '';
@@ -150,7 +150,7 @@ function generateContactId(name) {
     return name.trim().toLowerCase().replace(/\s+/g, '-');
 }
 
-function successfullCreationContact() {
+function successfullCreationContact(){
     let overlay = document.getElementById('createContactSuccessfull');
     let container = overlay.querySelector('.create-contact-successfull-container');
     overlay.style.display = 'flex';
@@ -164,7 +164,7 @@ function successfullCreationContact() {
     }, 1500);
 }
 
-function validateContactInputs(name, email, phone) {
+function validateContactInputs(name, email, phone){
     const validations = [
         { error: validateName(name), elementId: 'nameError' },
         { error: validateEmail(email), elementId: 'emailError' },
@@ -180,7 +180,7 @@ function validateContactInputs(name, email, phone) {
     return valid;
 }
 
-function createContactObject(name, email, phone) {
+function createContactObject(name, email, phone){
     return {
         name,
         email,
@@ -189,18 +189,18 @@ function createContactObject(name, email, phone) {
     };
 }
 
-function updateContactList(newContact) {
+function updateContactList(newContact){
     contacts.push(newContact);
     contacts.sort((a, b) => a.name.localeCompare(b.name));
     renderContactList();
 }
 
-function closeNewContact() {
+function closeNewContact(){
     const addNewContactContainer = document.getElementById('newContact');
     addNewContactContainer.style.display = 'none';
 }
 
-function showContactDetail(name) {
+function showContactDetail(name){
     const user = contacts.find(u => u.name === name);
     const contactDetail = document.getElementById('contactDetail');
     contactDetail.innerHTML = generateContactDetailHTML(user, user.color);
@@ -215,7 +215,7 @@ function showContactDetail(name) {
     }
 }
 
-async function deleteContact(contactName) {
+async function deleteContact(contactName){
     try {
         const contactId = contactName.split(' ').join('-').toLowerCase();
         await removeData(`contacts/${contactId}`);
@@ -227,7 +227,7 @@ async function deleteContact(contactName) {
     }
 }
 
-function openEditingContact(name) {
+function openEditingContact(name){
     const user = contacts.find(u => u.name === name);
     if (!user) {
         console.error('User not found:', name);
@@ -242,7 +242,7 @@ function openEditingContact(name) {
     openEditContactWindow();
 }
 
-async function saveEditingContact() {
+async function saveEditingContact(){
     const originalContactId = getOriginalContactId();
     if (!originalContactId) {
         console.error('Original Contact ID is undefined.');
@@ -269,11 +269,11 @@ async function saveEditingContact() {
     }
 }
 
-function getOriginalContactId() {
+function getOriginalContactId(){
     return document.getElementById('editContact').dataset.originalContactId;
 }
 
-function createContactData() {
+function createContactData(){
     return {
         name: document.getElementById('contactName').value,
         email: document.getElementById('contactMailAdress').value,
@@ -282,20 +282,20 @@ function createContactData() {
     };
 }
 
-async function updateContactInDatabase(originalContactId, newContactId, contactData) {
+async function updateContactInDatabase(originalContactId, newContactId, contactData){
     if (newContactId !== originalContactId) {
         await removeData(`contacts/${originalContactId}`);
     }
     await saveDataToFirebase(newContactId, contactData);
 }
 
-function updateContactList(newContactId, contactData) {
+function updateContactList(newContactId, contactData){
     contacts = contacts.filter(contact => generateContactId(contact.name) !== newContactId);
     contacts.push(contactData);
     contacts.sort((a, b) => a.name.localeCompare(b.name));
 }
 
-function clearContactInfo() {
+function clearContactInfo(){
     const userName = document.getElementById('contactName');
     const userMail = document.getElementById('contactMailAdress');
     const userPhone = document.getElementById('contactPhone');
@@ -317,25 +317,24 @@ function closeEditContact(){
     editContact.style.display = 'none';
 }
 
-function changeIcon(button, newIcon) {
+function changeIcon(button, newIcon){
     const img = button.querySelector('img');
     img.src = `./assets/icons/${newIcon}`;
 }
 
-
-function openNewContactWindow() {
+function openNewContactWindow(){
     const newContactContainer = document.getElementById('newContact');
     newContactContainer.classList.add('show');
     newContactContainer.classList.remove('hide');
 }
 
-function openEditContactWindow() {
+function openEditContactWindow(){
     const editContactContainer = document.getElementById('editContact');
     editContactContainer.classList.add('show');
     editContactContainer.classList.remove('hide');
 }
 
-function closeNewContact() {
+function closeNewContact(){
     const newContactContainer = document.getElementById('newContact');
     newContactContainer.classList.add('hide');
     newContactContainer.classList.remove('show');
@@ -344,7 +343,7 @@ function closeNewContact() {
     }, 400);
 }
 
-function closeEditContact() {
+function closeEditContact(){
     const editContactContainer = document.getElementById('editContact');
     editContactContainer.classList.add('hide');
     editContactContainer.classList.remove('show');
