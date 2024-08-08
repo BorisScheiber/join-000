@@ -334,7 +334,21 @@ function openEditContactWindow(){
     editContactContainer.classList.remove('hide');
 }
 
-function closeNewContact(){
+function checkClickOutsideAddNewContact(event) {
+    const newContactContainer = document.getElementById('newContact');
+    if (event.target === newContactContainer) {
+        closeNewContact();
+    }
+}
+
+function checkClickOutsideEditContact(event) {
+    const editContactContainer = document.getElementById('editContact');
+    if (event.target === editContactContainer) {
+        closeEditContact();
+    }
+}
+
+function closeNewContact() {
     const newContactContainer = document.getElementById('newContact');
     newContactContainer.classList.add('hide');
     newContactContainer.classList.remove('show');
@@ -343,7 +357,7 @@ function closeNewContact(){
     }, 400);
 }
 
-function closeEditContact(){
+function closeEditContact() {
     const editContactContainer = document.getElementById('editContact');
     editContactContainer.classList.add('hide');
     editContactContainer.classList.remove('show');
@@ -352,20 +366,6 @@ function closeEditContact(){
     }, 400);
 }
 
-function checkClickOutsideAddNewContact(){
-    const newContactContainer = document.getElementById('newContact');
-    newContactContainer.classList.add('hide');
-    newContactContainer.classList.remove('show');
-    setTimeout(() => {
-        newContactContainer.style.display = 'none';
-    }, 400);
-}
-
-function checkClickOutsideEditContact(){
-    const editContactContainer = document.getElementById('editContact');
-    editContactContainer.classList.add('hide');
-    editContactContainer.classList.remove('show');
-    setTimeout(() => {
-        editContactContainer.style.display = 'none';
-    }, 400);
+function preventClickPropagation(event) {
+    event.stopPropagation();
 }

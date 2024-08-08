@@ -4,7 +4,7 @@ function openNewContact() {
     const addNewContactContainer = document.getElementById('newContact');
     addNewContactContainer.innerHTML = /*HTML*/`
         <form class="add-new-contact-form" onsubmit="createNewContact(); return false;">
-            <div class="add-new-contact">
+            <div class="add-new-contact" onclick="preventClickPropagation(event)">
                 <div class="add-new-contact-menu">
                     <div class="add-new-contact-menu-img">
                         <img src="./assets/icons/logo-add-new-contact.svg" alt="logo" class="add-new-contact-menu-img">
@@ -133,7 +133,7 @@ function generateContactDetailHTML(user, bgColor) {
 
 function generateEditContactHTML(user, initials, bgColor) {
     return /*HTML*/`
-        <div class="edit-contact">
+        <div class="edit-contact" onclick="preventClickPropagation(event)">
             <div class="edit-contact-menu">
                 <div class="edit-contact-menu-img">
                     <img src="./assets/icons/logo-add-new-contact.svg" alt="logo" class="edit-contact-menu-img">
