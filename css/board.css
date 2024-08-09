@@ -369,6 +369,7 @@ h3 {
   }
   .board-cards {
     min-width: 252px;
+    height: fit-content;
   }
   .board-section-placeholder {
     height: 48px;
