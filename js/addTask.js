@@ -1,3 +1,8 @@
+const fields = [
+    { id: 'title', element: document.getElementById('title') },
+    { id: 'category', element: document.getElementById('category'), fieldElement: document.getElementById('category-field') },
+    { id: 'due-date', element: document.getElementById('due-date') }
+];
 
 /**
  * Toggles the visibility of the contact list.
@@ -244,9 +249,6 @@ function resetPriority() {
  */
 function removeErrorMessage(field) {
     let errorElement = field.nextElementSibling;
-    // if (field.id === 'category') {
-    //     errorElement = document.getElementById('category-error');
-    // }
     if (errorElement && errorElement.classList.contains('error-message')) {
         errorElement.remove();
     }
@@ -280,44 +282,7 @@ function validateDueDate(dueDate) {
  *
  * @returns {boolean} True if all fields are valid, otherwise false.
  */
-// function validateFields() {
-//     const fields = [
-//       { id: 'title', element: document.getElementById('title') },
-//       { id: 'category', element: document.getElementById('category'), fieldElement: document.getElementById('category-field') },
-//       { id: 'due-date', element: document.getElementById('due-date') }
-//     ];
-
-//     let isValid = true;
-//     fields.forEach(field => {
-//       if (field.element.value.trim() === "") {
-//         (field.fieldElement || field.element).style.border = '1px solid rgba(255, 129, 144, 1)';
-//         showErrorMessage(field.element, 'This field is required');
-//         isValid = false;
-//       } else if (field.id === 'due-date') {
-//         const dueDateError = validateDueDate(field.element.value);
-//         field.element.style.border = dueDateError ? '1px solid rgba(255, 129, 144, 1)' : '1px solid rgba(41, 171, 226, 1)';
-//         dueDateError ? showErrorMessage(field.element, dueDateError) : removeErrorMessage(field.element);
-//         isValid = isValid && !dueDateError;
-//       } else {
-//         (field.fieldElement || field.element).style.border = '1px solid rgba(41, 171, 226, 1)';
-//         removeErrorMessage(field.element);
-//       }
-//     });
-//     return isValid;
-//   }
-
-/**
- * Validates all input fields in the form.
- *
- * @returns {boolean} True if all fields are valid, otherwise false.
- */
 function validateFields() {
-    const fields = [
-        { id: 'title', element: document.getElementById('title') },
-        { id: 'category', element: document.getElementById('category'), fieldElement: document.getElementById('category-field') },
-        { id: 'due-date', element: document.getElementById('due-date') }
-    ];
-
     let isValid = true;
     fields.forEach(field => {
         if (field.element.value.trim() === "") {
@@ -329,7 +294,11 @@ function validateFields() {
             }
             isValid = false;
         } else if (field.id === 'due-date') {
-            // ... (Your existing due date validation code) ...
+            const errorMessage = validateDueDate(field.element.value);
+            if (errorMessage) {
+                field.element.style.border = '1px solid rgba(255, 129, 144, 1)';
+                showErrorMessage(field.element, errorMessage);
+                isValid = false;}
         } else {
             (field.fieldElement || field.element).style.border = '1px solid rgba(41, 171, 226, 1)';
             if (field.id === 'category') {
@@ -341,6 +310,7 @@ function validateFields() {
     });
     return isValid;
 }
+
 
 /**
 * Handles the form submission event.
@@ -362,7 +332,6 @@ document.getElementById('recipeForm').onsubmit = function (event) {
  */
 function showErrorMessage(field, message) {
     let errorElement = field.nextElementSibling;
-
     // Check if an error message element already exists
     if (!errorElement || !errorElement.classList.contains('error-message')) {
         errorElement = document.createElement('div');
@@ -380,10 +349,6 @@ function showErrorMessage(field, message) {
 */
 function removeErrorMessage(field) {
     let errorElement = field.nextElementSibling;
-    // if (field.id === 'category') {
-    //   errorElement = document.getElementById('category-error');
-    // }
-    // Check if errorElement exists and has the 'error-message' class
     if (errorElement && errorElement.classList.contains('error-message')) {
         errorElement.remove();
     }
@@ -414,7 +379,6 @@ async function postData(path = "", data = {}) {
  */
 async function createTask() {
     if (!validateFields()) return;
-
     const newTask = {
         id: Date.now(),
         Title: document.getElementById('title').value.trim(),
@@ -425,7 +389,6 @@ async function createTask() {
         Category: document.getElementById('category').value.trim(),
         Subtasks: getSubtasks()
     };
-
     try {
         await postData("tasks", newTask);
         console.log("Task created successfully:", newTask);
