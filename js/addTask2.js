@@ -108,6 +108,86 @@ document.getElementById('recipeForm').onsubmit = function (event) {
 };
 
 
+// //for Prio buttons
+// let currentPriority = "medium";
+
+// /**
+//  * Sets the priority level for the task.
+//  *
+//  * @param {string} level - The priority level ('urgent', 'medium', or 'low').
+//  */
+// function setPriority(level) {
+//     const buttons = document.querySelectorAll('.priority-button');
+
+//     // Reset all buttons first
+//     buttons.forEach(button => resetButtonStyles(button));
+
+//     // Set the styles for the clicked button
+//     const activeButton = document.getElementById(`${level}-button`);
+//     activeButton.style.backgroundColor = getPriorityColor(level);
+//     activeButton.style.color = 'rgba(255, 255, 255, 1)'; // Change text color
+//     activeButton.style.fontFamily = 'Inter'; // Change font family
+//     activeButton.style.fontSize = '21px'; // Change font size
+//     activeButton.style.fontWeight = '700'; // Change font weight
+//     activeButton.style.lineHeight = '25.2px'; // Change line height
+//     activeButton.style.textAlign = 'left'; // Change text align
+//     activeButton.querySelector('img').src = `/assets/icons/${level}White.svg`;
+
+//     // Remove hover effect from the selected button
+//     activeButton.classList.add('selected'); // Add a class to the selected button
+//     // Update the current priority
+//     currentPriority = level;
+// }
+
+
+// /**
+//  * Resets the styles of a priority button to their default state.
+//  *
+//  * @param {HTMLElement} button - The priority button to reset.
+//  */
+// function resetButtonStyles(button) {
+//     button.classList.remove('selected'); // Remove the class when resetting
+
+//     button.style.backgroundColor = 'rgba(255, 255, 255, 1)'; // Reset background color
+//     button.style.color = 'rgba(0, 0, 0, 1)'; // Reset text color
+//     button.style.fontFamily = 'Inter'; // Reset font family
+//     button.style.fontSize = '20px'; // Reset font size
+//     button.style.fontWeight = '400'; // Reset font weight
+//     button.style.lineHeight = '24px'; // Reset line height
+//     button.style.textAlign = 'left'; // Reset text align
+//     const img = button.querySelector('img');
+//     switch (button.id) {
+//         case 'urgent-button':
+//             img.src = '/assets/icons/urgent.svg';
+//             break;
+//         case 'medium-button':
+//             img.src = '/assets/icons/medium.svg';
+//             break;
+//         case 'low-button':
+//             img.src = '/assets/icons/low.svg';
+//             break;
+//     }
+// }
+
+
+// /**
+//  * Gets the background color for a priority level.
+//  *
+//  * @param {string} level - The priority level ('urgent', 'medium', or 'low').
+//  * @returns {string} The background color for the priority level.
+//  */
+// function getPriorityColor(level) {
+//     switch (level) {
+//         case 'urgent':
+//             return 'rgba(255, 61, 0, 1)';
+//         case 'medium':
+//             return 'rgba(255, 168, 0, 1)';
+//         case 'low':
+//             return 'rgba(122, 226, 41, 1)';
+//         default:
+//             return 'rgba(255, 255, 255, 1)';
+//     }
+// }
 //for Prio buttons
 let currentPriority = "medium";
 
@@ -124,17 +204,11 @@ function setPriority(level) {
 
     // Set the styles for the clicked button
     const activeButton = document.getElementById(`${level}-button`);
-    activeButton.style.backgroundColor = getPriorityColor(level);
-    activeButton.style.color = 'rgba(255, 255, 255, 1)'; // Change text color
-    activeButton.style.fontFamily = 'Inter'; // Change font family
-    activeButton.style.fontSize = '21px'; // Change font size
-    activeButton.style.fontWeight = '700'; // Change font weight
-    activeButton.style.lineHeight = '25.2px'; // Change line height
-    activeButton.style.textAlign = 'left'; // Change text align
+    activeButton.classList.add(level); // Add the level as a class for styling
     activeButton.querySelector('img').src = `/assets/icons/${level}White.svg`;
 
     // Remove hover effect from the selected button
-    activeButton.classList.add('selected'); // Add a class to the selected button
+    activeButton.classList.add('selected'); 
     // Update the current priority
     currentPriority = level;
 }
@@ -147,14 +221,8 @@ function setPriority(level) {
  */
 function resetButtonStyles(button) {
     button.classList.remove('selected'); // Remove the class when resetting
+    button.classList.remove('urgent', 'medium', 'low'); // Remove all priority classes
 
-    button.style.backgroundColor = 'rgba(255, 255, 255, 1)'; // Reset background color
-    button.style.color = 'rgba(0, 0, 0, 1)'; // Reset text color
-    button.style.fontFamily = 'Inter'; // Reset font family
-    button.style.fontSize = '20px'; // Reset font size
-    button.style.fontWeight = '400'; // Reset font weight
-    button.style.lineHeight = '24px'; // Reset line height
-    button.style.textAlign = 'left'; // Reset text align
     const img = button.querySelector('img');
     switch (button.id) {
         case 'urgent-button':
@@ -198,7 +266,7 @@ function getPriorityColor(level) {
  * @param {string} message - The error message to display.
  */
 function showErrorMessageCategory(message) {
-    const categoryField = document.getElementById('category-field');
+    const categoryField = document.getElementById('category-dropdown');
     let errorElement = categoryField.nextElementSibling;
   
     if (!errorElement || !errorElement.classList.contains('error-message')) {
@@ -215,7 +283,7 @@ function showErrorMessageCategory(message) {
    * Removes the error message for the category field.
    */
   function removeErrorMessageCategory() {
-    const categoryField = document.getElementById('category-field');
+    const categoryField = document.getElementById('category-dropdown');
     const errorElement = categoryField.nextElementSibling;
   
     if (errorElement && errorElement.classList.contains('error-message')) {
