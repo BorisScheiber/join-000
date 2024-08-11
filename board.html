@@ -181,7 +181,7 @@
                     <div class="add-task-title">
                         <h1> Add Task</h1>
                     </div>
-                    <form id="recipeForm" class="add-task-container width-pop-up">
+                    <form id="recipeForm" class="add-task-container-popup width-pop-up">
                         <div class="add-task-left">
                             <!-- Title Section -->
                             <div class="input-group">
@@ -299,25 +299,25 @@
                             </p>
                         </div>
 
-                    </form>
-                    <div class="footer">
-                        <p class="required-note"><span>*</span>This field is required</p>
-                        <div class="buttons">
-                            <button onclick="closeAddTaskPopup()" class="clear-button">
-                                <p>Cancel</p>
-                                <div class="add-task-clear-icon"></div>
-                            </button>
-
-                            <button onclick="createTaskFunction()" class="create-button" type="submit">
-                                <p>Create task</p>
-                                <img src="assets/icons/check.svg" alt="Check">
-                            </button>
-
+                        <div class="footer">
+                            <p class="required-note"><span>*</span>This field is required</p>
+                            <div class="buttons">
+                                <button onclick="closeAddTaskPopup()" class="clear-button">
+                                    <p>Cancel</p>
+                                    <div class="add-task-clear-icon"></div>
+                                </button>
+    
+                                <button onclick="createTaskFunction()" class="create-button" type="submit">
+                                    <p>Create task</p>
+                                    <img src="assets/icons/check.svg" alt="Check">
+                                </button>
+    
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+                    </form>
 
     </main>
 

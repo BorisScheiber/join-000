@@ -4,6 +4,7 @@ const fields = [
     { id: 'due-date', element: document.getElementById('due-date') }
 ];
 
+
 /**
  * Toggles the visibility of the contact list.
  */
@@ -205,7 +206,6 @@ function removeErrorMessages() {
 }
 
 
-
 /**
  * Resets all contact checkboxes in the contact list to their unchecked state.
  */
@@ -327,7 +327,7 @@ document.getElementById('recipeForm').onsubmit = function (event) {
 
 /**
  * Shows an error message for a specific field.
- *
+ * 
  * @param {HTMLElement} field - The input field for which to show the error message.
  * @param {string} message - The error message to display.
  */

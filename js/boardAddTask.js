@@ -33,9 +33,8 @@ function openAddTaskPopup(taskStatus) {
 function closeAddTaskPopup() {
     document.getElementById('addTaskPopup').classList.remove('show');
     setTimeout(() => {
-        document.getElementById('addTaskPopup').style.display = 'none';
+        document.getElementById('addTaskPopup').classList.add('hidden');
     }, 400);
-    document.getElementById('addTaskPopup').classList.add('hidden');
 }
 
 

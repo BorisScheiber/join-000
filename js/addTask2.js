@@ -178,7 +178,6 @@ function getPriorityColor(level) {
 
 
 // For Category
-
 /**
  * Shows an error message for the category field.
  *
@@ -276,7 +275,6 @@ document.addEventListener('click', function (event) {
 
 
 // // For subtasks
-
 /**
  * Adds a new subtask to the subtask list.
  */
@@ -285,7 +283,6 @@ function addSubtask() {
     const subtaskList = document.getElementById('subtask-list');
     const subtaskText = subtaskInput.value.trim();
     if (subtaskText === '') return;
-
     const li = createSubtaskItem(subtaskText);
     subtaskList.appendChild(li);
     subtaskInput.value = '';
@@ -312,11 +309,9 @@ function editSubtask(element) {
     const subtask = document.getElementById("subtask-list");
     const li = element.closest('li');
     const subtaskText = element.tagName.toLowerCase() === 'div' ? element.innerText : element.closest('li').querySelector('.subtask-text').innerText;
-
     subtask.style.paddingLeft = '0px';
     li.style.paddingLeft = '0';
     li.innerHTML = generateEditSubtaskHTML(subtaskText);
-
     const subtaskInput = li.querySelector('input');
     subtaskInput.focus();
 }
