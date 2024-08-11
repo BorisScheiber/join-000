@@ -64,7 +64,7 @@ function renderContactList(){
         if (firstLetter !== currentLetter) {
             currentLetter = firstLetter;
             html += /*html*/`
-                <div class="contact-sequence">
+                <div class="contact-sequence" id="contactList">
                     <span class="contact-sequence-text">${currentLetter}</span>
                 </div>
                 <div class="contact-separator"></div>
@@ -369,3 +369,11 @@ function closeEditContact() {
 function preventClickPropagation(event) {
     event.stopPropagation();
 }
+
+
+// function detailedContactResponsive(){
+//     let contactResponsive = document.getElementById('singleCardResponsive');
+//     let contactMenuResponsive = document.getElementById('contactList');
+//     contactResponsive.classList.remove('display-none');
+//     contactMenuResponsive.classList.add('display-none');
+// }

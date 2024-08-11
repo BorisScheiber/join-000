@@ -6,15 +6,20 @@ function openNewContact() {
         <form class="add-new-contact-form" onsubmit="createNewContact(); return false;">
             <div class="add-new-contact" onclick="preventClickPropagation(event)">
                 <div class="add-new-contact-menu">
-                    <div class="add-new-contact-menu-img">
-                        <img src="./assets/icons/logo-add-new-contact.svg" alt="logo" class="add-new-contact-menu-img">
-                    </div>
                     <div>
-                        <div class="add-new-contact-menu-text">
-                            <span class="add-new-contact-menu-text-headline">Add contact</span>
-                            <span class="add-new-contact-menu-text-subtext">Tasks are better with a team!</span>
+                        <!-- <div class="add-new-contact-close-button-responsive">
+                            <img src="./assets/icons/close-contact.svg" alt="close" class="close-contact-responsive" onclick="closeNewContact()">
+                        </div> -->
+                        <div class="add-new-contact-menu-img">
+                            <img src="./assets/icons/logo-add-new-contact.svg" alt="logo" class="add-new-contact-menu-img">
                         </div>
-                        <div class="add-new-contact-menu-separator"></div>
+                        <div>
+                            <div class="add-new-contact-menu-text">
+                                <span class="add-new-contact-menu-text-headline">Add contact</span>
+                                <span class="add-new-contact-menu-text-subtext">Tasks are better with a team!</span>
+                            </div>
+                            <div class="add-new-contact-menu-separator"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="add-new-contact-content">
@@ -78,7 +83,7 @@ function openNewContact() {
 function generateContactHTML(user) {
     const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
     return /*HTML*/`
-        <div class="single-contact" data-name="${user.name}" onclick="showContactDetail('${user.name}')">
+        <div class="single-contact" data-name="${user.name}" onclick="showContactDetail('${user.name}')" id="singleCardResponsive">
             <div class="single-contact-profile-img" style="background-color: ${user.color};">
                 ${initials}
             </div>

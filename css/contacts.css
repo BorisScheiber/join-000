@@ -424,9 +424,6 @@ a{
 }
 
 .add-new-contact{
-    width: 1212px;
-    height: 592px;
-    background-color: #FFFFFF;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 30px;
     display: flex;
@@ -492,6 +489,21 @@ a{
     display: flex;
     justify-content: end;
 }
+
+/* .add-new-contact-close-button-responsive{
+    margin-left: 300px;
+    
+    height: 32px;
+    width: 32px;
+    display: flex;
+    justify-content: end;
+    background-color: #007CEE;
+}
+
+.close-contact-responsive{
+    width: 32px;
+    height: 32px;
+} */
 
 .close-contact{
     margin-top: 48px;
@@ -912,15 +924,54 @@ a{
 
 /* Media-section */
 
+/* @media (max-width: 1500px){
+    .add-new-contact{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .add-new-contact-menu{
+        display: flex;
+        width: 396px;
+        height: 352px;
+        background-color: #2A3647;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+        border-bottom-left-radius: 0px;
+    }
+
+    .add-new-contact-content{
+        display: flex;
+        flex-direction: column;
+        width: 545px;
+        height: 394px;
+        background-color: #FFFFFF;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 30px;
+        border-bottom-left-radius: 30px;
+    }
+
+    .add-new-contact-close-button{
+        display: none;
+    }
+
+    .add-new-contact-close-button-responsive{
+
+    }
+
+    .add-new-contact-menu-img{
+        display: none;
+    }
+    
+} */
+
 @media (max-width: 850px){
     .contacts-content{
         margin-top: 80px;
         margin-left: 0px;
         justify-content: center;
-    }
-
-    .contact-detail{
-        display: none;
     }
 
     .contact-menu{
@@ -935,6 +986,10 @@ a{
     
     .add-new-contact-button-responsive{
         display: block;
+    }
+
+    .contact-detail-section{
+        display: none;
     }
 }
 
