@@ -33,14 +33,14 @@
                 <!-- Title Section -->
                 <div class="input-group">
                     <label for="title">Title<span class="red-color">*</span></label>
-                    <input type="text" id="title" class="input-field" required minlength="3" maxlength="20"
+                    <input type="text" id="title" class="input-field" required minlength="3" maxlength="30"
                         placeholder="Enter a title">
                 </div>
 
                 <!-- descriptopn Section -->
                 <div class="input-group">
                     <label for="description">Description</label>
-                    <textarea id="description" class="text-area" minlength="10" maxlength="40"
+                    <textarea id="description" class="text-area" minlength="10" maxlength="200"
                         placeholder="Enter a description"></textarea>
                 </div>
 
@@ -125,7 +125,10 @@
                                 <img src="/assets/icons/reset.svg" alt="Reset" class="reset-icon"
                                     onclick="resetSubtaskInput()">
                                 <div class="vertical-line"></div>
-                                <img src="/assets/icons/add.svg" alt="Add" class="add-icon" onclick="addSubtask()">
+                                <img src="/assets/icons/done.svg" alt="Add" class="add-icon" onclick="addSubtask()">
+                            </div>
+                            <div class="add-subtask" style="display: flex;">
+                                <img src="/assets/icons/add.svg" alt="Add" class="add-icon">
                             </div>
                         </div>
 
@@ -169,6 +172,7 @@
     <script src="js/board.js"></script>
     <script src="js/firebase.js"></script>
     <script src="js/html/addTaskHtml.js"></script>
+    <script src="./js/boardAddTask.js"></script> 
 
 </body>
 

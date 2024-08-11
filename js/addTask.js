@@ -4,6 +4,7 @@ const fields = [
     { id: 'due-date', element: document.getElementById('due-date') }
 ];
 
+
 /**
  * Toggles the visibility of the contact list.
  */
@@ -205,7 +206,6 @@ function removeErrorMessages() {
 }
 
 
-
 /**
  * Resets all contact checkboxes in the contact list to their unchecked state.
  */
@@ -298,7 +298,8 @@ function validateFields() {
             if (errorMessage) {
                 field.element.style.border = '1px solid rgba(255, 129, 144, 1)';
                 showErrorMessage(field.element, errorMessage);
-                isValid = false;}
+                isValid = false;
+            }
         } else {
             (field.fieldElement || field.element).style.border = '1px solid rgba(41, 171, 226, 1)';
             if (field.id === 'category') {
@@ -326,7 +327,7 @@ document.getElementById('recipeForm').onsubmit = function (event) {
 
 /**
  * Shows an error message for a specific field.
- *
+ * 
  * @param {HTMLElement} field - The input field for which to show the error message.
  * @param {string} message - The error message to display.
  */
@@ -387,7 +388,8 @@ async function createTask() {
         Due_date: document.getElementById('due-date').value,
         Prio: currentPriority,
         Category: document.getElementById('category').value.trim(),
-        Subtasks: getSubtasks()
+        Subtasks: getSubtasks(),
+        Status: 'to do'
     };
     try {
         await postData("tasks", newTask);
