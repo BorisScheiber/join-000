@@ -8,23 +8,23 @@
  */
 function getAssignedContacts() {
     return Array.from(document.querySelectorAll(".contact-list .contact-checkbox.checked"))
-      .map(checkbox => checkbox.parentElement.querySelector("span:nth-child(2)").textContent);
-  }
-  
+        .map(checkbox => checkbox.parentElement.querySelector("span:nth-child(2)").textContent);
+}
 
-  /**
-   * Gets an array of subtask texts from the subtask list.
-   * It selects all subtask items in the list,
-   * extracts the text content from the 'subtask-text' element within each item,
-   * and returns an array of these texts.
-   *
-   * @returns {Array<string>} An array of subtask texts.
-   */
-  function getSubtasks() {
+
+/**
+ * Gets an array of subtask texts from the subtask list.
+ * It selects all subtask items in the list,
+ * extracts the text content from the 'subtask-text' element within each item,
+ * and returns an array of these texts.
+ *
+ * @returns {Array<string>} An array of subtask texts.
+ */
+function getSubtasks() {
     return Array.from(document.querySelectorAll("#subtask-list .subtask-item"))
-      .map(item => item.querySelector('.subtask-text').innerText);
-  }
-  
+        .map(item => item.querySelector('.subtask-text').innerText);
+}
+
 
 /**
  * Shows a popup message indicating that the task has been created successfully.
@@ -73,9 +73,9 @@ function handleBlur(event) {
         }
     }
     // Reset category-field border when focusing out of any field
-  if (field.id !== 'category') {
-    document.getElementById('category-field').style.border = '1px solid rgba(209, 209, 209, 1)';
-  }
+    if (field.id !== 'category') {
+        document.getElementById('category-field').style.border = '1px solid rgba(209, 209, 209, 1)';
+    }
 }
 
 
@@ -107,87 +107,6 @@ document.getElementById('recipeForm').onsubmit = function (event) {
     event.preventDefault();
 };
 
-
-// //for Prio buttons
-// let currentPriority = "medium";
-
-// /**
-//  * Sets the priority level for the task.
-//  *
-//  * @param {string} level - The priority level ('urgent', 'medium', or 'low').
-//  */
-// function setPriority(level) {
-//     const buttons = document.querySelectorAll('.priority-button');
-
-//     // Reset all buttons first
-//     buttons.forEach(button => resetButtonStyles(button));
-
-//     // Set the styles for the clicked button
-//     const activeButton = document.getElementById(`${level}-button`);
-//     activeButton.style.backgroundColor = getPriorityColor(level);
-//     activeButton.style.color = 'rgba(255, 255, 255, 1)'; // Change text color
-//     activeButton.style.fontFamily = 'Inter'; // Change font family
-//     activeButton.style.fontSize = '21px'; // Change font size
-//     activeButton.style.fontWeight = '700'; // Change font weight
-//     activeButton.style.lineHeight = '25.2px'; // Change line height
-//     activeButton.style.textAlign = 'left'; // Change text align
-//     activeButton.querySelector('img').src = `/assets/icons/${level}White.svg`;
-
-//     // Remove hover effect from the selected button
-//     activeButton.classList.add('selected'); // Add a class to the selected button
-//     // Update the current priority
-//     currentPriority = level;
-// }
-
-
-// /**
-//  * Resets the styles of a priority button to their default state.
-//  *
-//  * @param {HTMLElement} button - The priority button to reset.
-//  */
-// function resetButtonStyles(button) {
-//     button.classList.remove('selected'); // Remove the class when resetting
-
-//     button.style.backgroundColor = 'rgba(255, 255, 255, 1)'; // Reset background color
-//     button.style.color = 'rgba(0, 0, 0, 1)'; // Reset text color
-//     button.style.fontFamily = 'Inter'; // Reset font family
-//     button.style.fontSize = '20px'; // Reset font size
-//     button.style.fontWeight = '400'; // Reset font weight
-//     button.style.lineHeight = '24px'; // Reset line height
-//     button.style.textAlign = 'left'; // Reset text align
-//     const img = button.querySelector('img');
-//     switch (button.id) {
-//         case 'urgent-button':
-//             img.src = '/assets/icons/urgent.svg';
-//             break;
-//         case 'medium-button':
-//             img.src = '/assets/icons/medium.svg';
-//             break;
-//         case 'low-button':
-//             img.src = '/assets/icons/low.svg';
-//             break;
-//     }
-// }
-
-
-// /**
-//  * Gets the background color for a priority level.
-//  *
-//  * @param {string} level - The priority level ('urgent', 'medium', or 'low').
-//  * @returns {string} The background color for the priority level.
-//  */
-// function getPriorityColor(level) {
-//     switch (level) {
-//         case 'urgent':
-//             return 'rgba(255, 61, 0, 1)';
-//         case 'medium':
-//             return 'rgba(255, 168, 0, 1)';
-//         case 'low':
-//             return 'rgba(122, 226, 41, 1)';
-//         default:
-//             return 'rgba(255, 255, 255, 1)';
-//     }
-// }
 //for Prio buttons
 let currentPriority = "medium";
 
@@ -208,7 +127,7 @@ function setPriority(level) {
     activeButton.querySelector('img').src = `/assets/icons/${level}White.svg`;
 
     // Remove hover effect from the selected button
-    activeButton.classList.add('selected'); 
+    activeButton.classList.add('selected');
     // Update the current priority
     currentPriority = level;
 }
@@ -268,28 +187,28 @@ function getPriorityColor(level) {
 function showErrorMessageCategory(message) {
     const categoryField = document.getElementById('category-dropdown');
     let errorElement = categoryField.nextElementSibling;
-  
-    if (!errorElement || !errorElement.classList.contains('error-message')) {
-      errorElement = document.createElement('div');
-      errorElement.className = 'error-message';
-      categoryField.parentNode.insertBefore(errorElement, categoryField.nextSibling);
-    }
-  
-    errorElement.textContent = message;
-  }
-  
 
-  /**
-   * Removes the error message for the category field.
-   */
-  function removeErrorMessageCategory() {
+    if (!errorElement || !errorElement.classList.contains('error-message')) {
+        errorElement = document.createElement('div');
+        errorElement.className = 'error-message';
+        categoryField.parentNode.insertBefore(errorElement, categoryField.nextSibling);
+    }
+
+    errorElement.textContent = message;
+}
+
+
+/**
+ * Removes the error message for the category field.
+ */
+function removeErrorMessageCategory() {
     const categoryField = document.getElementById('category-dropdown');
     const errorElement = categoryField.nextElementSibling;
-  
+
     if (errorElement && errorElement.classList.contains('error-message')) {
-      errorElement.remove();
+        errorElement.remove();
     }
-  }
+}
 
 
 /**
@@ -317,12 +236,12 @@ function toggleCategoryDropdown() {
  * @param {string} category - The selected category.
  */
 function selectCategory(category) {
-  const categoryInput = document.getElementById('category');
-  const categoryField = document.getElementById('category-field');
-  categoryInput.value = category;
-  toggleCategoryDropdown();
-  categoryField.style.border = '1px solid rgba(41, 171, 226, 1)';
-  removeErrorMessageCategory(); // Remove the error message
+    const categoryInput = document.getElementById('category');
+    const categoryField = document.getElementById('category-field');
+    categoryInput.value = category;
+    toggleCategoryDropdown();
+    categoryField.style.border = '1px solid rgba(41, 171, 226, 1)';
+    removeErrorMessageCategory(); // Remove the error message
 }
 
 
@@ -366,13 +285,13 @@ function addSubtask() {
     const subtaskList = document.getElementById('subtask-list');
     const subtaskText = subtaskInput.value.trim();
     if (subtaskText === '') return;
-  
+
     const li = createSubtaskItem(subtaskText);
     subtaskList.appendChild(li);
     subtaskInput.value = '';
     toggleEditDeleteVisibility();
-  }
-  
+}
+
 
 /**
  * Deletes a subtask from the list.
@@ -393,16 +312,16 @@ function editSubtask(element) {
     const subtask = document.getElementById("subtask-list");
     const li = element.closest('li');
     const subtaskText = element.tagName.toLowerCase() === 'div' ? element.innerText : element.closest('li').querySelector('.subtask-text').innerText;
-  
+
     subtask.style.paddingLeft = '0px';
     li.style.paddingLeft = '0';
     li.innerHTML = generateEditSubtaskHTML(subtaskText);
-  
+
     const subtaskInput = li.querySelector('input');
     subtaskInput.focus();
-  }
-  
- 
+}
+
+
 /**
  * Saves the edited subtask, replacing the input field with the updated text.
  *
@@ -414,12 +333,12 @@ function saveSubtask(element) {
     const subtaskInput = li.querySelector('input');
     const newText = subtaskInput.value.trim();
     if (newText === '') return;
-  
+
     subtask.style.paddingLeft = '20px';
     li.style.paddingLeft = '20px';
     li.innerHTML = generateSavedSubtaskHTML(newText);
-  }
-  
+}
+
 
 /**
  * Toggles the visibility of the edit/delete icons for subtasks.
@@ -456,10 +375,13 @@ function resetSubtaskInput() {
 function toggleEditDeleteVisibility() {
     const subtaskInput = document.getElementById('subtask-input');
     const editDelete = subtaskInput.nextElementSibling;
+    const addTask = editDelete.nextElementSibling;
     if (subtaskInput.value.trim() !== '') {
         editDelete.style.display = 'flex';
+        addTask.style.display = 'none';
     } else {
         editDelete.style.display = 'none';
+        addTask.style.display = 'flex';
     }
 }
 

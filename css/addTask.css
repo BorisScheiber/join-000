@@ -399,6 +399,10 @@
     margin-right: 10px;
 }
 
+.subtask-content{
+    width: 100%;
+  }
+  
 .selected-contact {
     width: 42px;
     height: 42px;
@@ -895,6 +899,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     height: 30px;
     width: 30px;
 }
+
+.add-subtask {
+    display: flex;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    gap: 4px;
+    height: 24px;
+}
+
 
 @media (max-width: 1376px) {
     .footer {

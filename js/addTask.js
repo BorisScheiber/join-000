@@ -298,7 +298,8 @@ function validateFields() {
             if (errorMessage) {
                 field.element.style.border = '1px solid rgba(255, 129, 144, 1)';
                 showErrorMessage(field.element, errorMessage);
-                isValid = false;}
+                isValid = false;
+            }
         } else {
             (field.fieldElement || field.element).style.border = '1px solid rgba(41, 171, 226, 1)';
             if (field.id === 'category') {
@@ -387,7 +388,8 @@ async function createTask() {
         Due_date: document.getElementById('due-date').value,
         Prio: currentPriority,
         Category: document.getElementById('category').value.trim(),
-        Subtasks: getSubtasks()
+        Subtasks: getSubtasks(),
+        Status: 'to do'
     };
     try {
         await postData("tasks", newTask);
