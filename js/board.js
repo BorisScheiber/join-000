@@ -58,7 +58,7 @@ function renderToDo() {
     const task = tasks[i];
 
     toDoContainer.innerHTML += /*html*/ `
-                        <div onclick="openOverlay(${task.id})" id="${task.id}" class="board-cards" draggable="true">
+                        <div onclick="openOverlay(${task.id})" id="${task.id}" class="board-cards" draggable="true" ondragstart="rotateTask(this)" ondragend="resetRotateTask(this)">
                         ${checkSingleTaskCategory(task.Category)}
                         <div class="board-card-text-container">
                             <span class="board-card-text board-card-title">${task.Title}</span>
@@ -159,4 +159,36 @@ function generateAdditionalAssignedToCount(length) {
 
 function getInitials(name) {
   return name.split(' ').map(n => n[0]).join('');
+}
+
+
+function rotateTask(element) {
+  element.classList.add("board-card-rotate");
+}
+
+
+function resetRotateTask(element) {
+  element.classList.remove("board-card-rotate");
+}
+
+// DRAG AND DROP FUNCTIONALITY
+function moveTo(category) {
+removeHighlightDragArea(category);
+}
+
+
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+
+function addHighlightDragArea(id) {
+  let dragArea = document.getElementById(id);
+  dragArea.classList.add("board-highlight-drag-area");
+}
+
+
+function removeHighlightDragArea(id) {
+  let dragArea = document.getElementById(id);
+  dragArea.classList.remove("board-highlight-drag-area");
 }

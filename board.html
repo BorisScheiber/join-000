@@ -59,7 +59,7 @@
                     <button class="board-add-button"></button>
                 </div>
                 <!-- this is the container to drag + render single cards -->
-                <div id="toDo" class="board-drag-area-container">
+                <div id="toDo" ondrop="moveTo('toDo')" ondragleave="removeHighlightDragArea('toDo')" ondragover="allowDrop(event); addHighlightDragArea('toDo')" class="board-drag-area-container">
                     <!-- this is the placeholder if the drag area is empty / i set it to d-none -->
                     <div class="board-section-placeholder d-none">No tasks To do</div>
                     <!-- single card / STORY-->
@@ -139,7 +139,7 @@
                     <h2>In progress</h2>
                     <button class="board-add-button"></button>
                 </div>
-                <div class="board-drag-area-container">
+                <div id="inProgress" ondrop="moveTo('inProgress')"  ondragleave="removeHighlightDragArea('inProgress')" ondragover="allowDrop(event); addHighlightDragArea('inProgress')" class="board-drag-area-container">
                     <div class="board-section-placeholder">No tasks In progress</div>
                 </div>
             </div>
@@ -148,7 +148,7 @@
                     <h2>Await feedback</h2>
                     <button class="board-add-button"></button>
                 </div>
-                <div class="board-drag-area-container">
+                <div id="awaitFeedback" ondrop="moveTo('awaitFeedback')"  ondragleave="removeHighlightDragArea('awaitFeedback')" ondragover="allowDrop(event); addHighlightDragArea('awaitFeedback')" class="board-drag-area-container">
                     <div class="board-section-placeholder">No tasks Await feedback</div>
                 </div>
             </div>
@@ -157,7 +157,7 @@
                     <h2>Done</h2>
                     <!-- <button class="board-add-button"></button> -->
                 </div>
-                <div class="board-drag-area-container">
+                <div id="done" ondrop="moveTo('done')"  ondragleave="removeHighlightDragArea('done')" ondragover="allowDrop(event); addHighlightDragArea('done')" class="board-drag-area-container">
                     <div class="board-section-placeholder">No tasks Done</div>
                 </div>
             </div>
