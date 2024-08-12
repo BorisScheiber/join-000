@@ -106,12 +106,12 @@ function generateContactDetailHTML(user, bgColor) {
                 <span class="contact-detail-card-name">${user.name}</span>
                 <div class="contact-detail-change-section">
                     <button class="contact-detail-edit" onmouseover="changeIcon(this, 'editContactsActive.svg')" 
-                    onmouseout="changeIcon(this, 'edit-contact.svg')" onclick="openEditingContact('${user.name}')">
+                    onmouseout="changeIcon(this, 'edit-contact.svg')" onclick="openEditingContact('${user.id}')">
                         <img src="./assets/icons/edit-contact.svg" alt="edit" class="contact-detail-change-icons-edit">
                         <span class="contact-detail-edit-text">Edit</span>
                     </button>
                     <button class="contact-detail-delete" onmouseover="changeIcon(this, 'deleteContactActive.svg')" 
-                    onmouseout="changeIcon(this, 'delete-contact.svg')" onclick="deleteContact('${user.name}')">
+                    onmouseout="changeIcon(this, 'delete-contact.svg')" onclick="deleteContact('${user.id}')">
                         <img src="./assets/icons/delete-contact.svg" alt="delete" class="contact-detail-change-icons-delete">
                         <span class="contact-detail-delete-text">Delete</span>
                     </button>

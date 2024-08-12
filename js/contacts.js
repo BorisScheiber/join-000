@@ -120,21 +120,21 @@ function clearErrorMessages(){
     setErrorMessage('phoneError', '');
 }
 
-async function createNewContact(){
+async function createNewContact() {
     const name = document.getElementById('newContactName').value;
     const email = document.getElementById('newContactEmail').value;
     const phone = document.getElementById('newContactPhone').value;
     clearErrorMessages();
     if (validateContactInputs(name, email, phone)) {
-        const newContact = createContactObject(name, email, phone);
-        const contactId = generateContactId(name);
+        const contactId = generateRandomId(); // Generiere die UUID
+        const newContact = createContactObject(name, email, phone, contactId); // Füge die ID hinzu
         try {
-            await saveDataToFirebase(contactId, newContact);
-            updateContactList(newContact);
+            await saveDataToFirebase(contactId, newContact); // Speichere mit der ID
+            updateContactList(contactId, newContact); // Aktualisiere die Liste
             closeNewContact();
             successfullCreationContact();
             setTimeout(() => {
-            location.reload(); 
+                location.reload(); 
             }, 2000);
         } catch (error) {
             console.error('Error creating new contact:', error);
@@ -142,12 +142,12 @@ async function createNewContact(){
     }
 }
 
-function generateContactId(name){
-    if (typeof name !== 'string') {
-        console.error('Invalid name for ID generation:', name);
-        return '';
-    }
-    return name.trim().toLowerCase().replace(/\s+/g, '-');
+function generateRandomId() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0; // Generiert eine Zufallszahl zwischen 0 und 15
+        const v = c == 'x' ? r : (r & 0x3 | 0x8); // Bestimmt den Wert basierend auf 'x' oder 'y'
+        return v.toString(16); // Gibt den Wert als Hexadezimal-Zeichen zurück
+    });
 }
 
 function successfullCreationContact(){
@@ -180,19 +180,14 @@ function validateContactInputs(name, email, phone){
     return valid;
 }
 
-function createContactObject(name, email, phone){
+function createContactObject(name, email, phone, id) {
     return {
+        id,          // Die ID wird hier hinzugefügt
         name,
         email,
         phone,
         color: getRandomColor(),
     };
-}
-
-function updateContactList(newContact){
-    contacts.push(newContact);
-    contacts.sort((a, b) => a.name.localeCompare(b.name));
-    renderContactList();
 }
 
 function closeNewContact(){
@@ -215,34 +210,33 @@ function showContactDetail(name){
     }
 }
 
-async function deleteContact(contactName){
+function openEditingContact(contactId) {
+
+    const user = contacts.find(u => u.id === contactId);
+    if (user) {
+        const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
+        const bgColor = user.color;
+        const editContact = document.getElementById('editContact');
+        editContact.dataset.originalContactId = contactId;
+        editContact.innerHTML = generateEditContactHTML(user, initials, bgColor);
+        editContact.style.display = 'flex';
+        openEditContactWindow();
+    }
+}
+
+async function deleteContact(contactId) {
     try {
-        const contactId = contactName.split(' ').join('-').toLowerCase();
         await removeData(`contacts/${contactId}`);
-        contacts = contacts.filter(contact => contact.name !== contactName);
+        contacts = contacts.filter(contact => contact.id !== contactId);
         renderContactList();
+        // closeEditContact();
         location.reload();
     } catch (error) {
-        console.error('Fehler beim Löschen des Kontakts:', error);
+        console.error('Error deleting contact:', error);
     }
 }
 
-function openEditingContact(name){
-    const user = contacts.find(u => u.name === name);
-    if (!user) {
-        console.error('User not found:', name);
-        return;
-    }
-    const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
-    const bgColor = user.color;
-    const editContact = document.getElementById('editContact');
-    editContact.dataset.originalContactId = generateContactId(user.name);
-    editContact.innerHTML = generateEditContactHTML(user, initials, bgColor);
-    editContact.style.display = 'flex';
-    openEditContactWindow();
-}
-
-async function saveEditingContact(){
+async function saveEditingContact() {
     const originalContactId = getOriginalContactId();
     if (!originalContactId) {
         console.error('Original Contact ID is undefined.');
@@ -257,13 +251,10 @@ async function saveEditingContact(){
         return;
     }
     const contactData = createContactData();
-    const newContactId = generateContactId(contactData.name);
     try {
-        await updateContactInDatabase(originalContactId, newContactId, contactData);
-        updateContactList(newContactId, contactData);
-        renderContactList();
+        await updateContactInDatabase(originalContactId, contactData);
+        updateContactList(originalContactId, contactData);
         closeEditContact();
-        location.reload();
     } catch (error) {
         console.error('Error saving contact:', error);
     }
@@ -273,27 +264,48 @@ function getOriginalContactId(){
     return document.getElementById('editContact').dataset.originalContactId;
 }
 
-function createContactData(){
+function createContactData() {
     return {
+        id: getOriginalContactId(), // Stelle sicher, dass die ID hier enthalten ist
         name: document.getElementById('contactName').value,
         email: document.getElementById('contactMailAdress').value,
         phone: document.getElementById('contactPhone').value,
-        color: getRandomColor()
+        color: getRandomColor() // Falls erforderlich
     };
 }
 
-async function updateContactInDatabase(originalContactId, newContactId, contactData){
-    if (newContactId !== originalContactId) {
-        await removeData(`contacts/${originalContactId}`);
-    }
-    await saveDataToFirebase(newContactId, contactData);
+async function updateContactInDatabase(originalContactId, contactData) {
+    await saveDataToFirebase(originalContactId, contactData);
 }
 
-function updateContactList(newContactId, contactData){
-    contacts = contacts.filter(contact => generateContactId(contact.name) !== newContactId);
-    contacts.push(contactData);
-    contacts.sort((a, b) => a.name.localeCompare(b.name));
+function updateExistingContact(id, contactData) {
+    const index = contacts.findIndex(contact => contact.id === id);
+    if (index !== -1) {
+        contacts[index] = { id, ...contactData };
+    } else {
+        console.error('Contact not found for update.');
+    }
 }
+
+function sortAndRenderContacts() {
+    contacts.sort((a, b) => a.name.localeCompare(b.name));
+    renderContactList();
+}
+
+function updateContactList(param1, param2) {
+    if (typeof param1 === 'object' && param1.hasOwnProperty('id')) {
+        updateExistingContact(param1.id, param1);
+    } else if (typeof param1 === 'string' && typeof param2 === 'object') {
+        updateExistingContact(param1, param2);
+    } else if (typeof param1 === 'object') {
+        contacts.push(param1);
+    } else {
+        console.error('Invalid parameters.');
+        return;
+    }
+    sortAndRenderContacts();
+}
+
 
 function clearContactInfo(){
     const userName = document.getElementById('contactName');
@@ -317,9 +329,11 @@ function closeEditContact(){
     editContact.style.display = 'none';
 }
 
-function changeIcon(button, newIcon){
+function changeIcon(button, newIcon) {
     const img = button.querySelector('img');
-    img.src = `./assets/icons/${newIcon}`;
+    if (img) {
+        img.src = `./assets/icons/${newIcon}`;
+    }
 }
 
 function openNewContactWindow(){
