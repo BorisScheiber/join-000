@@ -7,9 +7,9 @@ function openNewContact() {
             <div class="add-new-contact" onclick="preventClickPropagation(event)">
                 <div class="add-new-contact-menu">
                     <div>
-                        <!-- <div class="add-new-contact-close-button-responsive">
+                        <div class="add-new-contact-close-button-responsive">
                             <img src="./assets/icons/close-contact.svg" alt="close" class="close-contact-responsive" onclick="closeNewContact()">
-                        </div> -->
+                        </div>
                         <div class="add-new-contact-menu-img">
                             <img src="./assets/icons/logo-add-new-contact.svg" alt="logo" class="add-new-contact-menu-img">
                         </div>

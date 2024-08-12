@@ -341,11 +341,11 @@ a{
 }
 
 .contact-detail-edit:hover {
-    background-image: url('./assets/icons/editContactsActive.svg');
+    background: url('./assets/icons/editContactsActive.svg');
 }
 
 .contact-detail-delete:hover {
-    background-image: url('./assets/icons/deleteContactActive.svg');
+    background: url('./assets/icons/deleteContactActive.svg');
 }
 
 .contact-detail-edit:hover .contact-detail-edit-text {
@@ -924,7 +924,7 @@ a{
 
 /* Media-section */
 
-/* @media (max-width: 1500px){
+@media (max-width: 1500px){
     .add-new-contact{
         display: flex;
         justify-content: center;
@@ -965,7 +965,7 @@ a{
         display: none;
     }
     
-} */
+}
 
 @media (max-width: 850px){
     .contacts-content{
