@@ -111,7 +111,7 @@ function generateContactDetailHTML(user, bgColor) {
                         <span class="contact-detail-edit-text">Edit</span>
                     </button>
                     <button class="contact-detail-delete" onmouseover="changeIcon(this, 'deleteContactActive.svg')" 
-                    onmouseout="changeIcon(this, 'delete-contact.svg')" onclick="deleteContact('${user.id}')">
+                    onmouseout="changeIcon(this, 'delete-contact.svg')" onclick="deleteContactAndUpdateTasks('${user.id}')">
                         <img src="./assets/icons/delete-contact.svg" alt="delete" class="contact-detail-change-icons-delete">
                         <span class="contact-detail-delete-text">Delete</span>
                     </button>

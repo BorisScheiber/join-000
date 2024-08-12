@@ -224,16 +224,16 @@ function openEditingContact(contactId) {
     }
 }
 
-async function deleteContact(contactId) {
-    try {
-        await removeData(`contacts/${contactId}`);
-        contacts = contacts.filter(contact => contact.id !== contactId);
-        renderContactList();
-        location.reload();
-    } catch (error) {
-        console.error('Error deleting contact:', error);
-    }
-}
+// async function deleteContact(contactId) {
+//     try {
+//         await removeData(`contacts/${contactId}`);
+//         contacts = contacts.filter(contact => contact.id !== contactId);
+//         renderContactList();
+//         location.reload();
+//     } catch (error) {
+//         console.error('Error deleting contact:', error);
+//     }
+// }
 
 async function saveEditingContact() {
     const originalContactId = getOriginalContactId();
@@ -389,3 +389,65 @@ function preventClickPropagation(event) {
 //     contactResponsive.classList.remove('display-none');
 //     contactMenuResponsive.classList.add('display-none');
 // }
+
+
+
+
+
+
+
+async function deleteContactAndUpdateTasks(contactId) {
+    try {
+        // Schritt 1: Kontakt aus der Hauptdatenbank löschen
+        await removeData(`contacts/${contactId}`);
+
+        // Schritt 2: Aufgabenliste aktualisieren
+        await removeContactFromTasks(contactId);
+
+        // Schritt 3: Kontaktliste neu rendern oder aktualisieren
+        updateContactList(); // Falls du die Kontaktliste neu rendern musst
+    } catch (error) {
+        console.error('Error deleting contact and updating tasks:', error);
+    }
+}
+
+async function removeContactFromTasks(contactId) {
+    try {
+        // Schritt 1: Hole alle Aufgaben
+        const tasks = await getData('tasks');
+        if (!tasks) return; // Falls keine Aufgaben vorhanden sind, beende die Funktion
+
+        // Schritt 2: Filtere Aufgaben, um diejenigen zu entfernen, die den Kontakt enthalten
+        const updatedTasks = {};
+        for (const [taskId, task] of Object.entries(tasks)) {
+            // Überprüfe, ob der Kontakt in der Aufgabenliste ist
+            const assignedTo = task.Assigned_to || [];
+            const filteredAssignedTo = assignedTo.filter(id => id !== contactId);
+
+            // Logging zum Überprüfen des Filterprozesses
+            console.log(`Task ID: ${taskId}`);
+            console.log(`Assigned_to before filter: ${assignedTo}`);
+            console.log(`Assigned_to after filter: ${filteredAssignedTo}`);
+
+            // Wenn nach dem Filter noch Zuordnungen übrig sind, füge die Aufgabe zu den aktualisierten Aufgaben hinzu
+            if (filteredAssignedTo.length > 0 || Object.keys(task).length === 1) { // Behalte Aufgaben bei, die keine Zuweisungen haben
+                updatedTasks[taskId] = {
+                    ...task,
+                    Assigned_to: filteredAssignedTo
+                };
+            }
+        }
+
+        // Logging zur Überprüfung der aktualisierten Aufgaben
+        console.log('Updated tasks:', updatedTasks);
+
+        // Schritt 3: Speichern der aktualisierten Aufgabenliste zurück in die Datenbank
+        await putData('tasks', updatedTasks);
+    } catch (error) {
+        console.error('Error removing contact from tasks:', error);
+    }
+}
+
+async function handleDeleteContact(contactId) {
+    await deleteContactAndUpdateTasks(contactId);
+}
