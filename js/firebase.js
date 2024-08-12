@@ -68,3 +68,17 @@ async function deleteData(path = "") {
     });
     return await response.json();
 }
+
+/*Board */
+
+// Function to update data from Firebase with PATCH method
+async function patchData(path = "", data = {}) {
+    let response = await fetch(BASE_URL + path + ".json", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    return await response.json();
+  }

@@ -20,11 +20,32 @@ function getAssignedContacts() {
  *
  * @returns {Array<string>} An array of subtask texts.
  */
-function getSubtasks() {
-    return Array.from(document.querySelectorAll("#subtask-list .subtask-item"))
-        .map(item => item.querySelector('.subtask-text').innerText);
-}
+// function getSubtasks() {
+//     return Array.from(document.querySelectorAll("#subtask-list .subtask-item"))
+//         .map(item => item.querySelector('.subtask-text').innerText);
+// }
 
+/**
+ * Gets an array of subtask objects from the subtask list, each with an ID and isChecked status.
+ *
+ * @returns {Array<object>} An array of subtask objects.
+ */
+function getSubtasks() {
+    const subtasks = [];
+    const subtaskItems = document.querySelectorAll("#subtask-list .subtask-item");
+
+    subtaskItems.forEach(item => {
+        const subtaskText = item.querySelector('.subtask-text').innerText;
+        const subtaskId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`; // Generate a unique ID
+        subtasks.push({
+            id: subtaskId,
+            description: subtaskText,
+            isChecked: false // Default isChecked status
+        });
+    });
+
+    return subtasks;
+}
 
 /**
  * Shows a popup message indicating that the task has been created successfully.
