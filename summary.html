@@ -43,7 +43,7 @@
                         <div class="summary-box-todo-content">
                             <div class="summary-icon-container summary-icon-todo"></div>
                             <div class="summary-number-content">
-                                <h1>1</h1>
+                                <h1 id="toDo"></h1>
                                 <h6>To-do</h6>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                         <div class="summary-box-todo-content">
                             <div class="summary-icon-container summary-icon-done"></div>
                             <div class="summary-number-content">
-                                <h1>2</h1>
+                                <h1 id="done"></h1>
                                 <h6>Done</h6>
                             </div>
                         </div>
@@ -63,33 +63,33 @@
                         <div class="summary-box-urgent-content">
                             <img class="summary-icon-urgent" src="./assets/icons/urgentIcon.svg" alt="">
                             <div class="summary-number-content">
-                                <h1>3</h1>
+                                <h1 id="urgent"></h1>
                                 <span class="h7">Urgent</span>
                             </div>
                         </div>
                         <div class="summary-seperator-grey"></div>
                         <div class="summary-deadline-date">
-                            <h5>October 16, 2040</h5>
-                            <span class="h7">Upcoming Deadline</span>
+                            <h5 id="upcomingDeadlineDate"></h5>
+                            <span id="upcomingDeadlineText" class="h7">Upcoming Deadline</span>
                         </div>
                     </a>
                 </div>
                 <div class="summary-metrics-box">
                     <a class="summary-box-elements summary-box-tasks" href="./board.html">
                         <div class="summary-box-tasks-content">
-                            <h1>4</h1>
-                            <h6>Task in <br> Board</h6>
+                            <h1 id="totalTasks"></h1>
+                            <h6 id="taskBoardText"></h6>
                         </div>
                     </a>
                     <a class="summary-box-elements summary-box-tasks" href="./board.html">
                         <div class="summary-box-tasks-content">
-                            <h1>2</h1>
-                            <h6>Task in <br> Progress</h6>
+                            <h1 id="inProgress"></h1>
+                            <h6 id="taskProgressText"></h6>
                         </div>
                     </a>
                     <a class="summary-box-elements summary-box-tasks" href="./board.html">
                         <div class="summary-box-tasks-content">
-                            <h1>2</h1>
+                            <h1 id="awaitFeedback"></h1>
                             <h6>Awaiting <br> Feedback</h6>
                         </div>
                     </a>
@@ -118,6 +118,7 @@
 
     <script src="./js/html/mainHTML.js"></script>
     <script src="./js/main.js"></script>
+    <script src="./js/firebase.js"></script>
     <script src="./js/summary.js"></script>
 </body>
 
