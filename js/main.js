@@ -10,6 +10,7 @@ async function init() {
   displayInitialsHeaderUser();
 }
 
+
 /**
  * Gets the user's initials from localStorage.
  * If user initials are not found, it checks for guest initials.
@@ -32,6 +33,7 @@ function getInitialsHeaderUser() {
   return initials;
 }
 
+
 /**
  * Displays the user's initials in the HTML element with the ID 'headerUserInitials'.
  * If the element is found, it sets its innerHTML to the user's initials.
@@ -45,6 +47,7 @@ function displayInitialsHeaderUser() {
   }
 }
 
+
 /**
  * Displays the desktop sidebar with links and sets the active link.
  */
@@ -53,6 +56,7 @@ function displayDesktopSidebar() {
     displayDesktopSidebarHTML();
   setActiveLinkSidebar();
 }
+
 
 /**
  * Sets the active link in the sidebar based on the current path.
@@ -65,6 +69,7 @@ function setActiveLinkSidebar() {
   addActiveClass(links, path, "link-desktop-active");
   addActiveClass(legalLinks, path, "legal-links-active");
 }
+
 
 /**
  * Adds an active class to the links that match the current path.
@@ -81,12 +86,14 @@ function addActiveClass(links, path, activeClass) {
   });
 }
 
+
 /**
  * Displays the header with the logo and navigation menu.
  */
 function displayHeader() {
   document.getElementById("header").innerHTML = displayHeaderHTML();
 }
+
 
 /**
  * Displays the mobile navigation menu with links and sets the active link.
@@ -95,6 +102,7 @@ function displayMobileNav() {
   document.getElementById("mobileNav").innerHTML = displayMobileNavHTML();
   setActiveLinkMobileNav();
 }
+
 
 /**
  * Sets the active link in the mobile navigation based on the current path.
@@ -106,12 +114,14 @@ function setActiveLinkMobileNav() {
   addActiveClass(links, path, "nav-mobile-links-active");
 }
 
+
 /**
  * Navigates to the previous page in the browser history.
  */
 function pageBack() {
   window.history.back();
 }
+
 
 /**
  * Removes certain classes if the user is not logged in.
@@ -126,6 +136,7 @@ function removeClassesIfNotLoggedIn() {
   setActiveLinkSidebar();
 }
 
+
 /**
  * Hides elements that should not be visible if the user is not logged in.
  */
@@ -135,6 +146,7 @@ function hideElementsIfNotLoggedIn() {
   document.getElementById("mobileNav").classList.add("d-none-important");
 }
 
+
 /**
  * Updates the links to legal pages if the user is not logged in.
  */
@@ -143,12 +155,14 @@ function updateLegalLinksNotLoggedIn() {
   document.getElementById("legalNoticeLink").href = "./legalNoticeNo.html";
 }
 
+
 /**
  * Displays the dropdown navigation menu.
  */
 function displayDropDownNav() {
   document.getElementById("dropDownNav").innerHTML = displayDropDownNavHTML();
 }
+
 
 /**
  * Toggles the visibility of the dropdown navigation menu.
@@ -165,6 +179,7 @@ function toggleDropDownNav() {
   }
 }
 
+
 /**
  * Slides the element in to make it visible.
  *
@@ -175,6 +190,7 @@ function slideIn(element) {
   element.classList.remove("slide-out");
   element.classList.add("slide-in");
 }
+
 
 /**
  * Slides the element out to hide it.
@@ -189,6 +205,7 @@ function slideOut(element) {
     element.classList.remove("slide-out");
   }, 200);
 }
+
 
 /**
  * Closes the dropdown navigation menu if the user clicks outside of it.

@@ -1,5 +1,6 @@
 let users = [];
 
+
 /**
  * Initializes the login page.
  * Checks the previous page, displays the login page, and fetches all users.
@@ -9,6 +10,7 @@ async function initLogin() {
   displayLoginPage();
   await getAllUsers();
 }
+
 
 /**
  * Fetches all users from the database and stores them in the 'users' array.
@@ -20,6 +22,7 @@ async function getAllUsers() {
     console.error("Error fetching users:", error);
   }
 }
+
 
 /**
  * Checks if the previous page is not the sign-up page.
@@ -33,6 +36,7 @@ function checkPreviousPage() {
   }
 }
 
+
 /**
  * Displays the login page content.
  */
@@ -40,12 +44,14 @@ function displayLoginPage() {
   document.getElementById("loginContent").style.display = "flex";
 }
 
+
 /**
  * Redirects the user to the sign-up page.
  */
 function goToSignUp() {
   window.location.href = "signUp.html";
 }
+
 
 /**
  * Logs in as a guest, removes any user-specific data from local storage, saves guest data, and redirects to the summary page.
@@ -55,6 +61,7 @@ async function guestLogin() {
   await guestLoginSaveLocalStorage();
   window.location.href = "summary.html";
 }
+
 
 /**
  * Logs in a user, removes any guest-specific data from local storage, saves user data, and redirects to the summary page.
@@ -67,6 +74,7 @@ async function userLogin(user) {
   window.location.href = "summary.html";
 }
 
+
 /**
  * Saves guest login data to local storage.
  */
@@ -74,12 +82,14 @@ async function guestLoginSaveLocalStorage() {
   localStorage.setItem("guestInitials", "G");
 }
 
+
 /**
  * Removes guest login data from local storage.
  */
 async function guestLoginRemoveLocalStorage() {
   localStorage.removeItem("guestInitials");
 }
+
 
 /**
  * Saves user login data to local storage.
@@ -94,12 +104,14 @@ async function userLoginSaveLocalStorage(user) {
   localStorage.setItem("user", btoa(JSON.stringify(userData)));
 }
 
+
 /**
  * Removes user login data from local storage.
  */
 async function userLoginRemoveLocalStorage() {
   localStorage.removeItem("user");
 }
+
 
 /**
  * Validates the login form by checking if the entered email and password match a user.
@@ -118,6 +130,7 @@ async function validateLoginForm() {
     showLoginErrorMessage();
   }
 }
+
 
 /**
  * Checks if the entered email exists in the user list.
@@ -141,6 +154,7 @@ function checkIfMailExists() {
   }
 }
 
+
 /**
  * Gets the value from the password input field.
  * 
@@ -151,6 +165,7 @@ function getPasswordFieldValue() {
   return passwordField.value;
 }
 
+
 /**
  * Gets the value from the email input field.
  * 
@@ -160,6 +175,7 @@ function getEmailFieldValue() {
   let emailField = document.getElementById("email");
   return emailField.value.trim();
 }
+
 
 /**
  * Shows the login error message and adds an error class to the password input field.
@@ -172,6 +188,7 @@ function showLoginErrorMessage() {
   passwordField.classList.add("login-input-error");
 }
 
+
 /**
  * Removes the login error message and the error class from the password input field.
  */
@@ -182,6 +199,7 @@ function removeLoginErrorMessage() {
   errorMessage.style.visibility = "hidden";
   passwordField.classList.remove("login-input-error");
 }
+
 
 /**
  * Updates the icon on the password input field based on the input value.
@@ -201,6 +219,7 @@ function updateIconOnInput(inputField) {
     inputFieldImg.classList.add("cursor-pointer");
   }
 }
+
 
 /**
  * Toggles the visibility of the password input field.

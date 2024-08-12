@@ -1,5 +1,6 @@
 let users = [];
 
+
 /**
  * Initializes the sign-up page.
  * Fetches all users from firebase.
@@ -7,6 +8,7 @@ let users = [];
 async function initSignUp() {
   await getAllUsers();
 }
+
 
 /**
  * Fetches all users from firebase and stores them in the 'users' array.
@@ -18,6 +20,7 @@ async function getAllUsers() {
     console.error("Error fetching users:", error);
   }
 }
+
 
 /**
  * Adds a new user to firebase.
@@ -39,6 +42,7 @@ async function addNewUser(newUser) {
   });
   return { newUserId };
 }
+
 
 /**
  * Changes the icon next to the input field based on the text entered.
@@ -62,6 +66,7 @@ function updateIconOnInput(inputField) {
     inputFieldImg.classList.add("cursor-pointer");
   }
 }
+
 
 /**
  * Toggles the visibility of the password in the input field.
@@ -88,6 +93,7 @@ function showHidePassword(inputFieldImg) {
   }
 }
 
+
 /**
  * Validates the sign-up form by checking if the email and passwords are valid.
  * If valid, creates a new user object and adds the user to firebase.
@@ -108,6 +114,7 @@ async function validateSignUpForm() {
     }
 }
 
+
 /**
 * Shows a success overlay when the sign-up is successful.
 */
@@ -118,6 +125,7 @@ function successfullSignUpOverlay() {
   container.classList.add('slide-up');
 }
 
+
 /**
 * Redirects the user to the login page after a successful sign-up.
 */
@@ -126,6 +134,7 @@ function redirectToLogin() {
       window.location.href = './index.html';
     }, 1500);
 }
+
 
 /**
 * Creates a new user object with the email, initials, name, and password from the input fields.
@@ -141,6 +150,7 @@ function createNewUserObject() {
     };
     return newUser;
 }
+
 
 /**
  * Checks if the passwords in the input fields match.
@@ -163,6 +173,7 @@ function checkIfPasswordsMatch() {
   }
 }
 
+
 /**
  * Checks if the email entered in the input field already exists in the user list.
  * If it does not exist, hides the error message; otherwise, shows the error message.
@@ -184,6 +195,7 @@ function checkIfMailExists() {
   }
 }
 
+
 /**
  * Sets the initials of the user based on the name entered in the input field.
  * 
@@ -196,6 +208,7 @@ function setUserInitials() {
 
   return initials;
 }
+
 
 /**
  * Formats the user's name by capitalizing the first letter of each word.
