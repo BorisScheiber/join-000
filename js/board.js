@@ -42,21 +42,23 @@ async function loadContactsFromFirebase(){
   }
 }
 
-async function updateTaskStatusInFirebase(firebaseId, newStatus) {
+async function updateTaskIdAndStatusInFirebase(firebaseId, newStatus) {
+  let newTaskId = Date.now();
   try {
-    await patchData(`tasks/${firebaseId}`, { Status: newStatus });
-    console.log(`Task ${firebaseId} status updated to ${newStatus}`);
+    await patchData(`tasks/${firebaseId}`, { Status: newStatus, id: newTaskId });
+    console.log(`Task ${firebaseId} status updated to ${newStatus} and id updated to ${newTaskId}`);
   } catch (error) {
-    console.error(`Error updating task status: ${error}`);
+    console.error(`Error updating task status and id: ${error}`);
   }
 }
 
 
-// console.log(getFirebaseIdByTaskId("1723056298922"));
 function getFirebaseIdByTaskId(taskId) {
   const task = tasks.find((t) => t.id == taskId);
   return task ? task.firebaseId : null;
 }
+
+
 //delete if philip changed
 function filterAssignedToContacts(task) {
   if (task.Assigned_to && task.Assigned_to.length > 0) {
@@ -90,9 +92,10 @@ function renderBoard() {
   awaitFeedbackContainer.innerHTML = "";
   doneContainer.innerHTML = "";
   
+  let sortedTasks = sortTasksById(tasks);
 
-  for (let i = 0; i < tasks.length; i++) {
-    const task = tasks[i];
+  for (let i = 0; i < sortedTasks.length; i++) {
+    const task = sortedTasks[i];
     
     if (task.Status === "to do") {
       toDoContainer.innerHTML += generateSingleTaskHtml(task);
@@ -106,6 +109,7 @@ function renderBoard() {
   }
   checkIfContainerIsEmpty();
 }
+
 
 function generateSingleTaskHtml(task) {
   return /*html*/ `
@@ -134,6 +138,7 @@ function generateSingleTaskHtml(task) {
   `;
 }
 
+
 function checkIfContainerIsEmpty() {
   let toDoContainer = document.getElementById("toDo");
   let inProgressContainer = document.getElementById("inProgress");
@@ -152,6 +157,11 @@ function checkIfContainerIsEmpty() {
   if (doneContainer.innerHTML.trim() === "") {
     doneContainer.innerHTML = `<div class="board-section-placeholder">No tasks Done</div>`;
   }
+}
+
+
+function sortTasksById(tasksArray) {
+  return tasksArray.sort((a, b) => a.id - b.id);
 }
 
 
@@ -196,10 +206,12 @@ function checkSingleTaskPriority(priority) {
   }
 }
 
+
 function getColorForSingleContact(name) {
   const contact = contacts.find(contact => contact.name === name);
   return contact ? contact.color : '';
 }
+
 
 // OLD FUNCTION
 
@@ -213,6 +225,7 @@ function getColorForSingleContact(name) {
 //     return '';
 //   }
 // }
+
 
 // delete if philip changed
 function generateAssignedToProfileBadges(assignedTo) {
@@ -247,6 +260,7 @@ function generateAdditionalAssignedToCount(length) {
 function getInitials(name) {
   return name.split(' ').map(n => n[0]).join('');
 }
+
 
 // DRAG AND DROP FUNCTIONS//////////////////////////////////////////////////////////
 
@@ -286,7 +300,7 @@ async function moveTo(dropContainerId) {
   }
 
   if (firebaseId) {
-    await updateTaskStatusInFirebase(firebaseId, newStatus);
+    await updateTaskIdAndStatusInFirebase(firebaseId, newStatus);
   }
 
 await loadTasksFromFirebase();
@@ -310,19 +324,4 @@ function addHighlightDragArea(id) {
 function removeHighlightDragArea(id) {
   let dragArea = document.getElementById(id);
   dragArea.classList.remove("board-highlight-drag-area");
-}
-
-
-
-/// das muss noch in die firebase.js
-
-async function patchData(path = "", data = {}) {
-  let response = await fetch(BASE_URL + path + ".json", {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-  return await response.json();
 }
