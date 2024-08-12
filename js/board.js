@@ -1,11 +1,12 @@
 let tasks = [];
 let contacts = [];
-
+let currentDraggedElement;
 
 async function initBoard() {
   await loadTasksFromFirebase();
   await loadContactsFromFirebase();
-  renderToDo();
+  // renderToDo();
+  renderBoard();
 }
 
 
@@ -41,45 +42,115 @@ async function loadContactsFromFirebase(){
   }
 }
 
+async function updateTaskStatusInFirebase(firebaseId, newStatus) {
+  try {
+    await patchData(`tasks/${firebaseId}`, { Status: newStatus });
+    console.log(`Task ${firebaseId} status updated to ${newStatus}`);
+  } catch (error) {
+    console.error(`Error updating task status: ${error}`);
+  }
+}
+
 
 // console.log(getFirebaseIdByTaskId("1723056298922"));
 function getFirebaseIdByTaskId(taskId) {
   const task = tasks.find((t) => t.id == taskId);
   return task ? task.firebaseId : null;
 }
+//delete if philip changed
+function filterAssignedToContacts(task) {
+  if (task.Assigned_to && task.Assigned_to.length > 0) {
+    task.Assigned_to = task.Assigned_to.filter(person => contacts.some(contact => contact.name === person));
+  }
+}
 
+// OLD RENDER FUNCTION
+// function renderToDo() {
+//   const toDoContainer = document.getElementById("toDo");
 
-function renderToDo() {
-  const toDoContainer = document.getElementById("toDo");
+//   toDoContainer.innerHTML = "";
+
+//   for (let i = 0; i < tasks.length; i++) {
+//     const task = tasks[i];
+    
+//     filterAssignedToContacts(task);
+
+//     toDoContainer.innerHTML += generateSingleTaskHtml(task);
+//   }
+// }
+
+function renderBoard() {
+  let toDoContainer = document.getElementById("toDo");
+  let inProgressContainer = document.getElementById("inProgress");
+  let awaitFeedbackContainer = document.getElementById("awaitFeedback");
+  let doneContainer = document.getElementById("done");
 
   toDoContainer.innerHTML = "";
+  inProgressContainer.innerHTML = "";
+  awaitFeedbackContainer.innerHTML = "";
+  doneContainer.innerHTML = "";
+  
 
   for (let i = 0; i < tasks.length; i++) {
     const task = tasks[i];
+    
+    if (task.Status === "to do") {
+      toDoContainer.innerHTML += generateSingleTaskHtml(task);
+    } else if (task.Status === "in progress") {
+      inProgressContainer.innerHTML += generateSingleTaskHtml(task);
+    } else if (task.Status === "await feedback") {
+      awaitFeedbackContainer.innerHTML += generateSingleTaskHtml(task);
+    } else if (task.Status === "done") {
+      doneContainer.innerHTML += generateSingleTaskHtml(task);
+    }
+  }
+  checkIfContainerIsEmpty();
+}
 
-    toDoContainer.innerHTML += /*html*/ `
-                        <div onclick="openOverlay(${task.id})" id="${task.id}" class="board-cards" draggable="true" ondragstart="rotateTask(this)" ondragend="resetRotateTask(this)">
-                        ${checkSingleTaskCategory(task.Category)}
-                        <div class="board-card-text-container">
-                            <span class="board-card-text board-card-title">${task.Title}</span>
-                            ${checkSingleTaskDescription(task.Description)}
-                        </div>
-                        <div class="board-card-subtask-container">
-                            <div class="board-card-progress-bar">
-                                <div class="board-card-progress-fill" style="width: 0%;" role="progressbar"></div>
-                            </div>
-                            <div class="board-card-progress-text">
-                                <span>1/2 Subtasks</span>
-                            </div>
-                        </div>
-                        <div class="board-card-profiles-priority">
-                            <div class="board-card-profile-badges">
-                            ${generateAssignedToProfileBadges(task.Assigned_to)}
-                            </div>
-                            ${checkSingleTaskPriority(task.Prio)}
-                        </div>
-                    </div>
-     `;
+function generateSingleTaskHtml(task) {
+  return /*html*/ `
+  <div onclick="openOverlay(${task.id})" id="${task.id}" class="board-cards" draggable="true"
+  ondragstart="startDragging(${task.id})" ondragend="resetRotateTask(this)">
+    ${checkSingleTaskCategory(task.Category)}
+    <div class="board-card-text-container">
+        <span class="board-card-text board-card-title">${task.Title}</span>
+        ${checkSingleTaskDescription(task.Description)}
+    </div>
+    <div class="board-card-subtask-container">
+        <div class="board-card-progress-bar">
+            <div class="board-card-progress-fill" style="width: 0%;" role="progressbar"></div>
+        </div>
+        <div class="board-card-progress-text">
+            <span>1/2 Subtasks</span>
+        </div>
+    </div>
+    <div class="board-card-profiles-priority">
+        <div class="board-card-profile-badges">
+            ${generateAssignedToProfileBadges(task.Assigned_to)}
+        </div>
+        ${checkSingleTaskPriority(task.Prio)}
+    </div>
+  </div>
+  `;
+}
+
+function checkIfContainerIsEmpty() {
+  let toDoContainer = document.getElementById("toDo");
+  let inProgressContainer = document.getElementById("inProgress");
+  let awaitFeedbackContainer = document.getElementById("awaitFeedback");
+  let doneContainer = document.getElementById("done");
+
+  if (toDoContainer.innerHTML.trim() === "") {
+    toDoContainer.innerHTML = `<div class="board-section-placeholder">No tasks To do</div>`;
+  }
+  if (inProgressContainer.innerHTML.trim() === "") {
+    inProgressContainer.innerHTML = `<div class="board-section-placeholder">No tasks In progress</div>`;
+  }
+  if (awaitFeedbackContainer.innerHTML.trim() === "") {
+    awaitFeedbackContainer.innerHTML = `<div class="board-section-placeholder">No tasks Await feedback</div>`;
+  }
+  if (doneContainer.innerHTML.trim() === "") {
+    doneContainer.innerHTML = `<div class="board-section-placeholder">No tasks Done</div>`;
   }
 }
 
@@ -130,11 +201,27 @@ function getColorForSingleContact(name) {
   return contact ? contact.color : '';
 }
 
+// OLD FUNCTION
 
+// function generateAssignedToProfileBadges(assignedTo) {
+//   if (assignedTo && assignedTo.length > 0) {
+//     let assignedHtml = generateProfileBadgeHtml(assignedTo);
+//     let additionalAssigned = generateAdditionalAssignedToCount(assignedTo.length);
+
+//     return `${assignedHtml}${additionalAssigned}`;
+//   } else {
+//     return '';
+//   }
+// }
+
+// delete if philip changed
 function generateAssignedToProfileBadges(assignedTo) {
   if (assignedTo && assignedTo.length > 0) {
-    let assignedHtml = generateProfileBadgeHtml(assignedTo);
-    let additionalAssigned = generateAdditionalAssignedToCount(assignedTo.length);
+    // Kontakte filtern, die noch existieren
+    let filteredAssignedTo = assignedTo.filter(person => contacts.some(contact => contact.name === person));
+    
+    let assignedHtml = generateProfileBadgeHtml(filteredAssignedTo);
+    let additionalAssigned = generateAdditionalAssignedToCount(filteredAssignedTo.length);
 
     return `${assignedHtml}${additionalAssigned}`;
   } else {
@@ -161,9 +248,19 @@ function getInitials(name) {
   return name.split(' ').map(n => n[0]).join('');
 }
 
+// DRAG AND DROP FUNCTIONS//////////////////////////////////////////////////////////
 
-function rotateTask(element) {
+function rotateTask(taskId) {
+  let element = document.getElementById(taskId);
   element.classList.add("board-card-rotate");
+}
+
+
+function startDragging(taskId) {
+  currentDraggedElement = taskId;
+  console.log("startDragging", currentDraggedElement);
+  rotateTask(taskId);
+  
 }
 
 
@@ -171,9 +268,31 @@ function resetRotateTask(element) {
   element.classList.remove("board-card-rotate");
 }
 
-// DRAG AND DROP FUNCTIONALITY
-function moveTo(category) {
-removeHighlightDragArea(category);
+
+async function moveTo(dropContainerId) {
+  if (!currentDraggedElement) return;
+
+  let firebaseId = getFirebaseIdByTaskId(currentDraggedElement);
+
+  let newStatus;
+  if (dropContainerId === "toDo") {
+    newStatus = "to do";
+  } else if (dropContainerId === "inProgress") {
+    newStatus = "in progress";
+  } else if (dropContainerId === "awaitFeedback") {
+    newStatus = "await feedback";
+  } else if (dropContainerId === "done") {
+    newStatus = "done";
+  }
+
+  if (firebaseId) {
+    await updateTaskStatusInFirebase(firebaseId, newStatus);
+  }
+
+await loadTasksFromFirebase();
+renderBoard();
+removeHighlightDragArea(dropContainerId);
+currentDraggedElement = null;
 }
 
 
@@ -191,4 +310,19 @@ function addHighlightDragArea(id) {
 function removeHighlightDragArea(id) {
   let dragArea = document.getElementById(id);
   dragArea.classList.remove("board-highlight-drag-area");
+}
+
+
+
+/// das muss noch in die firebase.js
+
+async function patchData(path = "", data = {}) {
+  let response = await fetch(BASE_URL + path + ".json", {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  return await response.json();
 }
