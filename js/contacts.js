@@ -126,11 +126,11 @@ async function createNewContact() {
     const phone = document.getElementById('newContactPhone').value;
     clearErrorMessages();
     if (validateContactInputs(name, email, phone)) {
-        const contactId = generateRandomId(); // Generiere die UUID
-        const newContact = createContactObject(name, email, phone, contactId); // Füge die ID hinzu
+        const contactId = generateRandomId();
+        const newContact = createContactObject(name, email, phone, contactId);
         try {
-            await saveDataToFirebase(contactId, newContact); // Speichere mit der ID
-            updateContactList(contactId, newContact); // Aktualisiere die Liste
+            await saveDataToFirebase(contactId, newContact);
+            updateContactList(contactId, newContact);
             closeNewContact();
             successfullCreationContact();
             setTimeout(() => {
@@ -144,9 +144,9 @@ async function createNewContact() {
 
 function generateRandomId() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        const r = Math.random() * 16 | 0; // Generiert eine Zufallszahl zwischen 0 und 15
-        const v = c == 'x' ? r : (r & 0x3 | 0x8); // Bestimmt den Wert basierend auf 'x' oder 'y'
-        return v.toString(16); // Gibt den Wert als Hexadezimal-Zeichen zurück
+        const r = Math.random() * 16 | 0;
+        const v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
     });
 }
 
@@ -182,7 +182,7 @@ function validateContactInputs(name, email, phone){
 
 function createContactObject(name, email, phone, id) {
     return {
-        id,          // Die ID wird hier hinzugefügt
+        id, 
         name,
         email,
         phone,
@@ -229,7 +229,6 @@ async function deleteContact(contactId) {
         await removeData(`contacts/${contactId}`);
         contacts = contacts.filter(contact => contact.id !== contactId);
         renderContactList();
-        // closeEditContact();
         location.reload();
     } catch (error) {
         console.error('Error deleting contact:', error);
@@ -266,11 +265,11 @@ function getOriginalContactId(){
 
 function createContactData() {
     return {
-        id: getOriginalContactId(), // Stelle sicher, dass die ID hier enthalten ist
+        id: getOriginalContactId(),
         name: document.getElementById('contactName').value,
         email: document.getElementById('contactMailAdress').value,
         phone: document.getElementById('contactPhone').value,
-        color: getRandomColor() // Falls erforderlich
+        color: getRandomColor()
     };
 }
 
@@ -305,7 +304,6 @@ function updateContactList(param1, param2) {
     }
     sortAndRenderContacts();
 }
-
 
 function clearContactInfo(){
     const userName = document.getElementById('contactName');
