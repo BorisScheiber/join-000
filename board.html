@@ -42,9 +42,12 @@
             </div>
             <div class="search-field-add-task-container">
                 <div class="board-search-field">
-                    <input class="board-search-input" type="text" placeholder="Find Task">
+                    <input id="boardSearchInput" class="board-search-input" type="text" placeholder="Find Task" oninput="searchTasks()">
                     <span class="board-search-seperator"></span>
                     <img class="board-search-icon" src="./assets/icons/search.svg" alt="">
+                    <div class="board-no-results d-none">
+                        No tasks match your search!
+                    </div>
                 </div>
                 <button class="board-add-task-button" onclick="openAddTaskPopup()">
                     Add task

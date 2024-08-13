@@ -200,6 +200,28 @@ h3 {
   font-size: 16px;
 }
 
+.board-no-results {
+  position: absolute;
+  bottom: -34px;
+  width: 100%;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  color: #ff8190;
+  padding: 0px 16px;
+}
+
+
+.board-no-results-error {
+  border: 2px solid #ff203b;
+}
+
+.board-no-results-error:focus-visible {
+  border: 2px solid #ff203b;
+}
+
+
+
 /* drag & drop */
 
 .board-highlight-drag-area {
@@ -284,6 +306,7 @@ h3 {
   line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
+  overflow-wrap: break-word;
 }
 
 .board-card-title {

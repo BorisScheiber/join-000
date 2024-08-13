@@ -314,3 +314,57 @@ function removeHighlightDragArea(id) {
   let dragArea = document.getElementById(id);
   dragArea.classList.remove("board-highlight-drag-area");
 }
+
+///////////////// SEARCH FUNCTION //////////////////////////////////////////////////
+
+function searchTasks() {
+  let searchField = document.getElementById("boardSearchInput").value.toLowerCase();
+  let taskCards = document.querySelectorAll(".board-cards");
+
+  if (searchField === "") {
+    showAllTasks(taskCards);
+    hideNoResultsError();
+  } else {
+    filterTasks(searchField, taskCards);
+  }
+}
+
+
+function showAllTasks(taskCards) {
+  taskCards.forEach(taskCard => {
+    taskCard.style.display = "flex";
+  });
+}
+
+
+function updateTaskVisibility(taskCard, shouldShow) {
+  taskCard.style.display = shouldShow ? "flex" : "none";
+}
+
+
+function filterTasks(searchField, taskCards) {
+  let matchFound = false;
+
+  taskCards.forEach(taskCard => {
+    let title = taskCard.querySelector(".board-card-title").innerText.toLowerCase();
+    let description = taskCard.querySelector(".board-card-description").innerText.toLowerCase();
+
+    let isMatch = title.includes(searchField) || description.includes(searchField);
+    updateTaskVisibility(taskCard, isMatch);
+    if (isMatch) matchFound = true;
+  });
+
+  matchFound ? hideNoResultsError() : showNoResultsError();
+}
+
+
+function showNoResultsError() {
+  document.querySelector(".board-no-results").style.display = "flex";
+  document.querySelector(".board-search-input").classList.add("board-no-results-error");
+}
+
+
+function hideNoResultsError() {
+  document.querySelector(".board-no-results").style.display = "none";
+  document.querySelector(".board-search-input").classList.remove("board-no-results-error");
+}
