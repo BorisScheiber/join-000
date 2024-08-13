@@ -5,7 +5,6 @@ let currentDraggedElement;
 async function initBoard() {
   await loadTasksFromFirebase();
   await loadContactsFromFirebase();
-  // renderToDo();
   renderBoard();
 }
 
@@ -13,12 +12,14 @@ async function initBoard() {
 async function loadTasksFromFirebase() {
   try {
     const fetchedTasks = await getData("tasks");
-    console.log(fetchedTasks);
 
     tasks = Object.keys(fetchedTasks).map((key) => ({
       firebaseId: key,
       ...fetchedTasks[key],
+      Subtasks: fetchedTasks[key].Subtasks ? Object.values(fetchedTasks[key].Subtasks) : [],
+      Assigned_to: fetchedTasks[key].Assigned_to ? Object.values(fetchedTasks[key].Assigned_to) : []
     }));
+    
     console.log(tasks);
   } catch (error) {
     console.error("Error fetching tasks:", error);
@@ -42,6 +43,7 @@ async function loadContactsFromFirebase(){
   }
 }
 
+
 async function updateTaskIdAndStatusInFirebase(firebaseId, newStatus) {
   let newTaskId = Date.now();
   try {
@@ -58,28 +60,6 @@ function getFirebaseIdByTaskId(taskId) {
   return task ? task.firebaseId : null;
 }
 
-
-//delete if philip changed
-function filterAssignedToContacts(task) {
-  if (task.Assigned_to && task.Assigned_to.length > 0) {
-    task.Assigned_to = task.Assigned_to.filter(person => contacts.some(contact => contact.name === person));
-  }
-}
-
-// OLD RENDER FUNCTION
-// function renderToDo() {
-//   const toDoContainer = document.getElementById("toDo");
-
-//   toDoContainer.innerHTML = "";
-
-//   for (let i = 0; i < tasks.length; i++) {
-//     const task = tasks[i];
-    
-//     filterAssignedToContacts(task);
-
-//     toDoContainer.innerHTML += generateSingleTaskHtml(task);
-//   }
-// }
 
 function renderBoard() {
   let toDoContainer = document.getElementById("toDo");
@@ -213,28 +193,10 @@ function getColorForSingleContact(name) {
 }
 
 
-// OLD FUNCTION
-
-// function generateAssignedToProfileBadges(assignedTo) {
-//   if (assignedTo && assignedTo.length > 0) {
-//     let assignedHtml = generateProfileBadgeHtml(assignedTo);
-//     let additionalAssigned = generateAdditionalAssignedToCount(assignedTo.length);
-
-//     return `${assignedHtml}${additionalAssigned}`;
-//   } else {
-//     return '';
-//   }
-// }
-
-
-// delete if philip changed
 function generateAssignedToProfileBadges(assignedTo) {
   if (assignedTo && assignedTo.length > 0) {
-    // Kontakte filtern, die noch existieren
-    let filteredAssignedTo = assignedTo.filter(person => contacts.some(contact => contact.name === person));
-    
-    let assignedHtml = generateProfileBadgeHtml(filteredAssignedTo);
-    let additionalAssigned = generateAdditionalAssignedToCount(filteredAssignedTo.length);
+    let assignedHtml = generateProfileBadgeHtml(assignedTo);
+    let additionalAssigned = generateAdditionalAssignedToCount(assignedTo.length);
 
     return `${assignedHtml}${additionalAssigned}`;
   } else {
@@ -245,8 +207,10 @@ function generateAssignedToProfileBadges(assignedTo) {
 
 function generateProfileBadgeHtml(assignedTo) {
   return assignedTo.slice(0, 4).map(person => {
-    let initials = getInitials(person);
-    let color = getColorForSingleContact(person);
+    let name = getNameForSingleContact(person.id);
+    let initials = getInitials(name);
+    let color = getColorForSingleContact(person.id);
+
     return /*html*/`<div class="board-card-single-profile" style="background-color: ${color};">${initials}</div>`;
   }).join('');
 }
@@ -259,6 +223,18 @@ function generateAdditionalAssignedToCount(length) {
 
 function getInitials(name) {
   return name.split(' ').map(n => n[0]).join('');
+}
+
+
+function getColorForSingleContact(id) {
+  const contact = contacts.find(contact => contact.id === id);
+  return contact ? contact.color : '';
+}
+
+
+function getNameForSingleContact(id) {
+  const contact = contacts.find(contact => contact.id === id);
+  return contact ? contact.name : '';
 }
 
 
