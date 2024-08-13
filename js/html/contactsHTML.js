@@ -105,16 +105,18 @@ function generateContactDetailHTML(user, bgColor) {
             <div class="contact-detail-card-user">
                 <span class="contact-detail-card-name">${user.name}</span>
                 <div class="contact-detail-change-section">
-                    <button class="contact-detail-edit" onmouseover="changeIcon(this, 'editContactsActive.svg')" 
+                <button class="contact-detail-edit" onmouseover="changeIcon(this, 'editContactsActive.svg')" 
                     onmouseout="changeIcon(this, 'edit-contact.svg')" onclick="openEditingContact('${user.id}')">
-                        <img src="./assets/icons/edit-contact.svg" alt="edit" class="contact-detail-change-icons-edit">
-                        <span class="contact-detail-edit-text">Edit</span>
-                    </button>
-                    <button class="contact-detail-delete" onmouseover="changeIcon(this, 'deleteContactActive.svg')" 
+                    <img src="./assets/icons/edit-contact.svg" alt="edit" class="contact-detail-change-icons-edit">
+                    <img src="./assets/icons/editContactsActive.svg" alt="edit" class="change-icon-after-hover-detailed-contact">
+                    <span class="contact-detail-edit-text">Edit</span>
+                </button>
+                <button class="contact-detail-delete" onmouseover="changeIcon(this, 'deleteContactActive.svg')" 
                     onmouseout="changeIcon(this, 'delete-contact.svg')" onclick="deleteContactAndUpdateTasks('${user.id}')">
-                        <img src="./assets/icons/delete-contact.svg" alt="delete" class="contact-detail-change-icons-delete">
-                        <span class="contact-detail-delete-text">Delete</span>
-                    </button>
+                    <img src="./assets/icons/delete-contact.svg" alt="delete" class="contact-detail-change-icons-delete">
+                    <img src="./assets/icons/deleteContactActive.svg" alt="delete" class="change-icon-after-hover-detailed-contact">
+                    <span class="contact-detail-delete-text">Delete</span>
+                </button>
                 </div>
             </div>
         </div>

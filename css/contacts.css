@@ -293,7 +293,6 @@ a{
     font-size: 16px;
     font-weight: 400;
     margin-right: 16px;
-    background: url('./assets/icons/delete-contact.svg') no-repeat center;
     background-size: contain;
     border: none;
     padding: 10px;
@@ -306,7 +305,6 @@ a{
     align-items: end;
     font-size: 16px;
     font-weight: 400;
-    background: url('./assets/icons/edit-contact.svg') no-repeat center;
     background-size: contain;
     border: none;
     padding: 10px;
@@ -340,12 +338,23 @@ a{
     padding-bottom: 2.5px;
 }
 
-.contact-detail-edit:hover {
-    background: url('./assets/icons/editContactsActive.svg');
+.change-icon-after-hover-detailed-contact{
+    display: none;
 }
 
-.contact-detail-delete:hover {
-    background: url('./assets/icons/deleteContactActive.svg');
+.contact-detail-edit .change-icon-after-hover-detailed-contact,
+.contact-detail-delete .change-icon-after-hover-detailed-contact {
+    display: none;
+}
+
+.contact-detail-edit:hover .contact-detail-change-icons-edit,
+.contact-detail-delete:hover .contact-detail-change-icons-delete {
+    display: none;
+}
+
+.contact-detail-edit:hover .change-icon-after-hover-detailed-contact,
+.contact-detail-delete:hover .change-icon-after-hover-detailed-contact {
+    display: block;
 }
 
 .contact-detail-edit:hover .contact-detail-edit-text {
