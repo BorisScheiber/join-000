@@ -415,7 +415,6 @@ a{
     background-color: #2A3647;
     color: white;
     border-radius: 10px;
-    /* box-shadow: 4px 4px 4px 0px #B7B7B7; */
 }
 
 /*window for add a new contact*/
@@ -500,21 +499,6 @@ a{
     display: flex;
     justify-content: end;
 }
-
-/* .add-new-contact-close-button-responsive{
-    margin-left: 300px;
-    
-    height: 32px;
-    width: 32px;
-    display: flex;
-    justify-content: end;
-    background-color: #007CEE;
-}
-
-.close-contact-responsive{
-    width: 32px;
-    height: 32px;
-} */
 
 .close-contact{
     margin-top: 48px;
@@ -646,6 +630,10 @@ a{
 }
 
 /* new window for editing an existend contact */
+
+.add-new-contact-close-button-responsive{
+    display: none;
+}
 
 .window-edit-contact {
     position: fixed;
@@ -944,6 +932,7 @@ a{
     }
 
     .add-new-contact-menu{
+        position: relative;
         display: flex;
         width: 396px;
         height: 352px;
@@ -984,6 +973,13 @@ a{
     }
 
     .add-new-contact-close-button-responsive{
+        display: block;
+    }
+
+    .close-contact-responsive{
+        position: absolute;
+        top: 32px;
+        right: 32px;
         height: 24px;
         width: 24px;
     }
