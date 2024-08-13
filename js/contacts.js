@@ -254,6 +254,7 @@ async function saveEditingContact() {
         await updateContactInDatabase(originalContactId, contactData);
         updateContactList(originalContactId, contactData);
         closeEditContact();
+        location.reload();
     } catch (error) {
         console.error('Error saving contact:', error);
     }
@@ -421,16 +422,11 @@ async function removeContactFromTasks(contactId) {
         const updatedTasks = {};
         for (const [taskId, task] of Object.entries(tasks)) {
             // Überprüfe, ob der Kontakt in der Aufgabenliste ist
-            const assignedTo = task.Assigned_to || [];
+            const assignedTo = Array.isArray(task.Assigned_to) ? task.Assigned_to : [];
             const filteredAssignedTo = assignedTo.filter(id => id !== contactId);
 
-            // Logging zum Überprüfen des Filterprozesses
-            console.log(`Task ID: ${taskId}`);
-            console.log(`Assigned_to before filter: ${assignedTo}`);
-            console.log(`Assigned_to after filter: ${filteredAssignedTo}`);
-
             // Wenn nach dem Filter noch Zuordnungen übrig sind, füge die Aufgabe zu den aktualisierten Aufgaben hinzu
-            if (filteredAssignedTo.length > 0 || Object.keys(task).length === 1) { // Behalte Aufgaben bei, die keine Zuweisungen haben
+            if (filteredAssignedTo.length > 0 || Object.keys(task).length === 1) {
                 updatedTasks[taskId] = {
                     ...task,
                     Assigned_to: filteredAssignedTo
