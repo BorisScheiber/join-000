@@ -1,29 +1,33 @@
 /**
- * Gets an array of names of the assigned contacts.
- * It selects all checked checkboxes in the contact list,
- * extracts the name from the parent element of each checkbox,
- * and returns an array of these names.
+//  * Gets an array of names of the assigned contacts.
+//  * It selects all checked checkboxes in the contact list,
+//  * extracts the name from the parent element of each checkbox,
+//  * and returns an array of these names.
+//  *
+//  * @returns {Array<string>} An array of assigned contact names.
+//  */
+// function getAssignedContacts() {
+//     return Array.from(document.querySelectorAll(".contact-list .contact-checkbox.checked"))
+//         .map(checkbox => checkbox.parentElement.querySelector("span:nth-child(2)").textContent);
+// }
+/**
+ * Gets an array of objects representing the assigned contacts, each with name and ID.
  *
- * @returns {Array<string>} An array of assigned contact names.
+ * @returns {Array<object>} An array of assigned contact objects.
  */
 function getAssignedContacts() {
-    return Array.from(document.querySelectorAll(".contact-list .contact-checkbox.checked"))
-        .map(checkbox => checkbox.parentElement.querySelector("span:nth-child(2)").textContent);
+    const assignedContacts = [];
+    const checkboxes = document.querySelectorAll('.contact-list .contact-checkbox.checked');
+    checkboxes.forEach(checkbox => {
+        const contactElement = checkbox.parentElement;
+        const contactName = contactElement.querySelector("span:nth-child(2)").textContent;
+        const contactId = contactElement.getAttribute('data-contact-id'); // Get the ID from the data attribute
+        assignedContacts.push({ name: contactName, id: contactId });
+    });
+    return assignedContacts;
 }
 
 
-/**
- * Gets an array of subtask texts from the subtask list.
- * It selects all subtask items in the list,
- * extracts the text content from the 'subtask-text' element within each item,
- * and returns an array of these texts.
- *
- * @returns {Array<string>} An array of subtask texts.
- */
-// function getSubtasks() {
-//     return Array.from(document.querySelectorAll("#subtask-list .subtask-item"))
-//         .map(item => item.querySelector('.subtask-text').innerText);
-// }
 
 /**
  * Gets an array of subtask objects from the subtask list, each with an ID and isChecked status.
