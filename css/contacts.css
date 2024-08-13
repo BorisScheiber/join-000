@@ -20,7 +20,7 @@ a{
     align-items: center;
     flex-direction: column;
     width: 456px;
-    height: 100%;
+    height: calc(100vh - 96px);
     background-color: #FFFFFF;
     box-shadow: 4px 0px 4px 0px #0000001a;
 }
@@ -30,6 +30,7 @@ a{
     overflow-y: auto;
     padding-right: 50px;
     position: relative;
+    margin-bottom: 24px;
 }
 
 #loadContactMenu::-webkit-scrollbar {
@@ -950,6 +951,8 @@ a{
         border-top-left-radius: 30px;
         border-top-right-radius: 30px;
         border-bottom-left-radius: 0px;
+        padding-left: 24px;
+        padding-top: 88px;
     }
 
     .add-new-contact-content{
@@ -967,9 +970,23 @@ a{
         display: none;
     }
 
-    /* .add-new-contact-close-button-responsive{
+    .add-new-contact-menu-text{
+        height: auto;
+    }
 
-    } */
+    .add-new-contact-menu-text-headline{
+        font-size: 47px;
+        padding-right: 50px;
+    }
+
+    .add-new-contact-menu-text-subtext{
+        font-size: 20px;
+    }
+
+    .add-new-contact-close-button-responsive{
+        height: 24px;
+        width: 24px;
+    }
 
     .add-new-contact-menu-img{
         display: none;
