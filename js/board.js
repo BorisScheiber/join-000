@@ -100,14 +100,7 @@ function generateSingleTaskHtml(task) {
         <span class="board-card-text board-card-title">${task.Title}</span>
         ${checkSingleTaskDescription(task.Description)}
     </div>
-    <div class="board-card-subtask-container">
-        <div class="board-card-progress-bar">
-            <div class="board-card-progress-fill" style="width: 0%;" role="progressbar"></div>
-        </div>
-        <div class="board-card-progress-text">
-            <span>1/2 Subtasks</span>
-        </div>
-    </div>
+    ${generateSubtaskHtml(task.Subtasks)}
     <div class="board-card-profiles-priority">
         <div class="board-card-profile-badges">
             ${generateAssignedToProfileBadges(task.Assigned_to)}
@@ -115,6 +108,26 @@ function generateSingleTaskHtml(task) {
         ${checkSingleTaskPriority(task.Prio)}
     </div>
   </div>
+  `;
+}
+
+
+function generateSubtaskHtml(subtasks) {
+  if (!subtasks || subtasks.length === 0) return "";
+
+  let totalSubtasks = subtasks.length;
+  let completedSubtasks = subtasks.filter(subtask => subtask.isChecked).length;
+  let progressPercentage = (completedSubtasks / totalSubtasks) * 100;
+
+  return /*html*/ `
+    <div class="board-card-subtask-container">
+      <div class="board-card-progress-bar">
+          <div class="board-card-progress-fill" style="width: ${progressPercentage}%;" role="progressbar"></div>
+      </div>
+      <div class="board-card-progress-text">
+          <span>${completedSubtasks}/${totalSubtasks} Subtasks</span>
+      </div>
+    </div>
   `;
 }
 
