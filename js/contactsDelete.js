@@ -1,3 +1,5 @@
+// main function for deleting an existing contact
+
 async function deleteContactAndUpdateTasks(contactId) {
     try {
         await removeData(`contacts/${contactId}`);
@@ -9,6 +11,8 @@ async function deleteContactAndUpdateTasks(contactId) {
         console.error('Error deleting contact and updating tasks:', error);
     }
 }
+
+// auxiliary function for deleting an existing contact in JSON tasks. The task is also updated
 
 async function removeContactFromTasks(contactId) {
     try {
@@ -34,6 +38,8 @@ async function removeContactFromTasks(contactId) {
         console.error('Error removing contact from tasks:', error);
     }
 }
+
+// auxiliary function 
 
 async function handleDeleteContact(contactId) {
     await deleteContactAndUpdateTasks(contactId);

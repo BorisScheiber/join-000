@@ -1,3 +1,5 @@
+// function to save a new contact. The contact list is updated in this function
+
 async function createNewContact() {
     const name = document.getElementById('newContactName').value;
     const email = document.getElementById('newContactEmail').value;
@@ -20,6 +22,8 @@ async function createNewContact() {
     }
 }
 
+// function to generate a unique ID for each individual contact
+
 function generateRandomId() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         const r = Math.random() * 16 | 0;
@@ -27,6 +31,8 @@ function generateRandomId() {
         return v.toString(16);
     });
 }
+
+// function for calling a pop-up after a contact has been successfully created
 
 function successfullCreationContact(){
     let overlay = document.getElementById('createContactSuccessfull');
@@ -41,6 +47,8 @@ function successfullCreationContact(){
         }, 400);
     }, 1500);
 }
+
+// function for oversaving an existing contact. the contact list is updated
 
 async function saveEditingContact() {
     const originalContactId = getOriginalContactId();
@@ -67,9 +75,13 @@ async function saveEditingContact() {
     }
 }
 
+// help function for retrieving an existing contact
+
 function getOriginalContactId(){
     return document.getElementById('editContact').dataset.originalContactId;
 }
+
+// help function for retrieving contacts - new and existing 
 
 function createContactData() {
     return {
@@ -81,9 +93,13 @@ function createContactData() {
     };
 }
 
+// function for updating a contact in the database
+
 async function updateContactInDatabase(originalContactId, contactData) {
     await saveDataToFirebase(originalContactId, contactData);
 }
+
+// help function for retrieving an existing contact
 
 function updateExistingContact(id, contactData) {
     const index = contacts.findIndex(contact => contact.id === id);

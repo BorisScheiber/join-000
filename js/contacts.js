@@ -3,6 +3,8 @@ let currentLetter = '';
 let html = '';
 let selectedContactElement = null;
 
+// initiates the content of contact.html
+
 async function initContatcs(){
     displayDesktopSidebar();
     displayHeader();
