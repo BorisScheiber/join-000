@@ -340,6 +340,7 @@ a{
 
 .change-icon-after-hover-detailed-contact{
     display: none;
+    margin-right: 8px;
 }
 
 .contact-detail-edit .change-icon-after-hover-detailed-contact,
@@ -966,9 +967,9 @@ a{
         display: none;
     }
 
-    .add-new-contact-close-button-responsive{
+    /* .add-new-contact-close-button-responsive{
 
-    }
+    } */
 
     .add-new-contact-menu-img{
         display: none;
