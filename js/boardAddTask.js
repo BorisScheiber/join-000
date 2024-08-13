@@ -75,7 +75,6 @@ function closeAddTaskPopup() {
 }
 
 
-
 // Event listener for clicking outside the popup to close the popup
 window.addEventListener('click', (event) => {
     const popup = document.getElementById('addTaskPopup');
@@ -92,17 +91,13 @@ window.addEventListener('click', (event) => {
  */
 async function createTaskAwaitFeedback() {
     if (!validateFields()) return;
-    const newTask = {
-        id: Date.now(),
-        Title: document.getElementById('title').value.trim(),
-        Description: document.getElementById('description').value.trim(),
-        Assigned_to: getAssignedContacts(),
-        Due_date: document.getElementById('due-date').value,
-        Prio: currentPriority,
-        Category: document.getElementById('category').value.trim(),
-        Subtasks: getSubtasks(),
-        Status: 'await feedback'
-    };
+    const assignedContacts = await getAssignedContacts();
+    const assignedContactsWithIds = {};
+    assignedContacts.forEach(contact => {
+        const generatedId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        assignedContactsWithIds[generatedId] = contact;
+    });
+    const newTask = { id: Date.now(), Title: document.getElementById('title').value.trim(), Description: document.getElementById('description').value.trim(), Assigned_to: assignedContactsWithIds, Due_date: document.getElementById('due-date').value, Prio: currentPriority, Category: document.getElementById('category').value.trim(), Subtasks: getSubtasks(), Status:'await feedback' };
     try {
         await postData("tasks", newTask);
         console.log("Task created successfully:", newTask);
@@ -122,17 +117,13 @@ async function createTaskAwaitFeedback() {
  */
 async function createTaskInProgress() {
     if (!validateFields()) return;
-    const newTask = {
-        id: Date.now(),
-        Title: document.getElementById('title').value.trim(),
-        Description: document.getElementById('description').value.trim(),
-        Assigned_to: getAssignedContacts(),
-        Due_date: document.getElementById('due-date').value,
-        Prio: currentPriority,
-        Category: document.getElementById('category').value.trim(),
-        Subtasks: getSubtasks(),
-        Status: 'in progress'
-    };
+    const assignedContacts = await getAssignedContacts();
+    const assignedContactsWithIds = {};
+    assignedContacts.forEach(contact => {
+        const generatedId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        assignedContactsWithIds[generatedId] = contact;
+    });
+    const newTask = { id: Date.now(), Title: document.getElementById('title').value.trim(), Description: document.getElementById('description').value.trim(), Assigned_to: assignedContactsWithIds, Due_date: document.getElementById('due-date').value, Prio: currentPriority, Category: document.getElementById('category').value.trim(), Subtasks: getSubtasks(), Status:'in progress' };
     try {
         await postData("tasks", newTask);
         console.log("Task created successfully:", newTask);
@@ -143,4 +134,3 @@ async function createTaskInProgress() {
         console.error("Error creating task:", error);
     }
 }
-
