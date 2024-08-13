@@ -20,8 +20,12 @@
     width: 944px;
 }
 
+/* BORIS */
 .hidden {
-    display: none !important;
+    /* display: none !important; */
+    animation: slideOutToRight 1s ease-in-out;
+    transition: background-color 75ms ease-in-out;
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .show {

@@ -7,13 +7,50 @@ let createTaskFunction = createTask; // Default function
  *
  * @param {string} taskStatus - The status of the task (e.g., 'in progress', 'await feedback', or any other valid status).
  */
+// function openAddTaskPopup(taskStatus) {
+//     document.getElementById('addTaskPopup').classList.add('show');
+//     document.getElementById('addTaskPopup').classList.remove('hidden');
+//     document.getElementById('add-task-mobile').classList.add('nav-mobile-links-active');
+//     document.getElementById('board-mobile').classList.remove('nav-mobile-links-active');
+    
+//     // Set the createTaskFunction based on taskStatus
+//     switch (taskStatus) {
+//         case 'in progress':
+//             createTaskFunction = createTaskInProgress;
+//             break;
+//         case 'await feedback':
+//             createTaskFunction = createTaskAwaitFeedback;
+//             break;
+//         default:
+//             createTaskFunction = createTask;
+//     }
+// }
+
+
+/**
+ * Closes the "Add Task" popup with a smooth animation.
+ * It first adds the 'hidden' class to trigger the animation, then sets a timeout to 
+ * hide the popup completely after the animation duration.
+ */
+// function closeAddTaskPopup() {
+//     document.getElementById('addTaskPopup').classList.add('hidden'); // Add 'hidden' immediately
+//     document.getElementById('addTaskPopup').classList.remove('show');
+//     setTimeout(() => {
+//         document.getElementById('addTaskPopup').style.display = 'none'; // Hide after animation
+//     }, 1000); // 1000ms (1 second) delay - adjust to match animation duration
+// }
+
+
+
+// BORIS
 function openAddTaskPopup(taskStatus) {
-    document.getElementById('addTaskPopup').classList.add('show');
-    document.getElementById('addTaskPopup').classList.remove('hidden');
+    let popup = document.getElementById('addTaskPopup');
+    popup.style.display = 'flex';
+    popup.classList.add('show');
+    popup.classList.remove('hidden');
     document.getElementById('add-task-mobile').classList.add('nav-mobile-links-active');
     document.getElementById('board-mobile').classList.remove('nav-mobile-links-active');
-    
-    // Set the createTaskFunction based on taskStatus
+
     switch (taskStatus) {
         case 'in progress':
             createTaskFunction = createTaskInProgress;
@@ -26,18 +63,15 @@ function openAddTaskPopup(taskStatus) {
     }
 }
 
-
-/**
- * Closes the "Add Task" popup with a smooth animation.
- * It first adds the 'hidden' class to trigger the animation, then sets a timeout to 
- * hide the popup completely after the animation duration.
- */
+//BORIS
 function closeAddTaskPopup() {
-    document.getElementById('addTaskPopup').classList.add('hidden'); // Add 'hidden' immediately
-    document.getElementById('addTaskPopup').classList.remove('show');
+    let popup = document.getElementById('addTaskPopup');
+    popup.classList.add('hidden'); 
+    popup.classList.remove('show');
+
     setTimeout(() => {
-        document.getElementById('addTaskPopup').style.display = 'none'; // Hide after animation
-    }, 1000); // 1000ms (1 second) delay - adjust to match animation duration
+        popup.style.display = 'none'; 
+    }, 950); 
 }
 
 
