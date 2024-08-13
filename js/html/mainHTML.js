@@ -70,11 +70,11 @@ function displayMobileNavHTML() {
             <img class="nav-mobile-icons" src="./assets/icons/mobile/summaryMobile.svg" alt="">
             Summary
         </a>
-        <a class="nav-mobile-links" href="./board.html">
+        <a class="nav-mobile-links" href="./board.html" id="board-mobile">
             <img class="nav-mobile-icons" src="./assets/icons/mobile/boardMobile.svg" alt="">
             Board
         </a>
-        <a class="nav-mobile-links" href="./addTask.html">
+        <a class="nav-mobile-links" href="./addTask.html" id="add-task-mobile">
             <img class="nav-mobile-icons" src="./assets/icons/mobile/addTaskMobile.svg" alt="">
             Add Task
         </a>

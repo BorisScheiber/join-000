@@ -10,7 +10,9 @@ let createTaskFunction = createTask; // Default function
 function openAddTaskPopup(taskStatus) {
     document.getElementById('addTaskPopup').classList.add('show');
     document.getElementById('addTaskPopup').classList.remove('hidden');
-
+    document.getElementById('add-task-mobile').classList.add('nav-mobile-links-active');
+    document.getElementById('board-mobile').classList.remove('nav-mobile-links-active');
+    
     // Set the createTaskFunction based on taskStatus
     switch (taskStatus) {
         case 'in progress':
@@ -31,11 +33,13 @@ function openAddTaskPopup(taskStatus) {
  * hide the popup completely after the animation duration.
  */
 function closeAddTaskPopup() {
+    document.getElementById('addTaskPopup').classList.add('hidden'); // Add 'hidden' immediately
     document.getElementById('addTaskPopup').classList.remove('show');
     setTimeout(() => {
-        document.getElementById('addTaskPopup').classList.add('hidden');
-    }, 400);
+        document.getElementById('addTaskPopup').style.display = 'none'; // Hide after animation
+    }, 1000); // 1000ms (1 second) delay - adjust to match animation duration
 }
+
 
 
 // Event listener for clicking outside the popup to close the popup

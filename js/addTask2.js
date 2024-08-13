@@ -1,55 +1,79 @@
 /**
-//  * Gets an array of names of the assigned contacts.
-//  * It selects all checked checkboxes in the contact list,
-//  * extracts the name from the parent element of each checkbox,
-//  * and returns an array of these names.
-//  *
-//  * @returns {Array<string>} An array of assigned contact names.
-//  */
-// function getAssignedContacts() {
-//     return Array.from(document.querySelectorAll(".contact-list .contact-checkbox.checked"))
-//         .map(checkbox => checkbox.parentElement.querySelector("span:nth-child(2)").textContent);
+ * Gets an array of objects representing the assigned contacts, each with name and ID.
+ * It fetches contact data from Firebase and matches the selected contact names with their IDs.
+ *
+ * @returns {Promise<Array<object>>} A promise that resolves with an array of assigned contact objects.
+ */
+// async function getAssignedContacts() {
+//     const assignedContacts = [];
+//     const checkboxes = document.querySelectorAll('.contact-list .contact-checkbox.checked');
+//     try {
+//         const contactsData = await getData("contacts"); // Fetch all contacts from Firebase
+//         checkboxes.forEach(checkbox => {
+//             const contactElement = checkbox.parentElement;
+//             const contactName = contactElement.querySelector("span:nth-child(2)").textContent;
+//             // Find the contact ID based on the name
+//             const contactId = Object.entries(contactsData).find(([id, contact]) => contact.name === contactName)?.[0];
+//             if (contactId) {
+//                 assignedContacts.push({ name: contactName, id: contactId });
+//             } else {
+//                 console.warn(`Contact ID not found for ${contactName}`);
+//             }
+//         });
+//     } catch (error) {
+//         console.error("Error fetching contacts:", error);
+//     }
+//     return assignedContacts;
 // }
+
 /**
  * Gets an array of objects representing the assigned contacts, each with name and ID.
+ * It fetches contact data from Firebase and matches the selected contact names with their IDs.
  *
- * @returns {Array<object>} An array of assigned contact objects.
+ * @returns {Promise<Array<object>>} A promise that resolves with an array of assigned contact objects.
  */
-function getAssignedContacts() {
+async function getAssignedContacts() {
     const assignedContacts = [];
     const checkboxes = document.querySelectorAll('.contact-list .contact-checkbox.checked');
-    checkboxes.forEach(checkbox => {
-        const contactElement = checkbox.parentElement;
-        const contactName = contactElement.querySelector("span:nth-child(2)").textContent;
-        const contactId = contactElement.getAttribute('data-contact-id'); // Get the ID from the data attribute
-        assignedContacts.push({ name: contactName, id: contactId });
-    });
+    try {
+        const contactsData = await getData("contacts");
+        checkboxes.forEach(checkbox => {
+            const contactName = checkbox.parentElement.querySelector("span:nth-child(2)").textContent;
+            const contactId = Object.entries(contactsData).find(([, contact]) => contact.name === contactName)?.[0];
+            if (contactId) assignedContacts.push({ name: contactName, id: contactId });
+            else console.warn(`Contact ID not found for ${contactName}`);
+        });
+    } catch (error) {
+        console.error("Error fetching contacts:", error);
+    }
     return assignedContacts;
 }
 
 
-
 /**
- * Gets an array of subtask objects from the subtask list, each with an ID and isChecked status.
+ * Gets an object of subtask objects from the subtask list, each with an ID, description, and isChecked status.
  *
- * @returns {Array<object>} An array of subtask objects.
+ * @returns {object} An object of subtask objects.
  */
 function getSubtasks() {
-    const subtasks = [];
+    const subtasks = {}; // Change from array to object
     const subtaskItems = document.querySelectorAll("#subtask-list .subtask-item");
 
     subtaskItems.forEach(item => {
         const subtaskText = item.querySelector('.subtask-text').innerText;
-        const subtaskId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`; // Generate a unique ID
-        subtasks.push({
+        const subtaskId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+        // Store subtask under generated ID
+        subtasks[subtaskId] = {
             id: subtaskId,
             description: subtaskText,
-            isChecked: false // Default isChecked status
-        });
+            isChecked: false
+        };
     });
 
     return subtasks;
 }
+
 
 /**
  * Shows a popup message indicating that the task has been created successfully.
@@ -132,9 +156,9 @@ document.getElementById('recipeForm').onsubmit = function (event) {
     event.preventDefault();
 };
 
+
 //for Prio buttons
 let currentPriority = "medium";
-
 /**
  * Sets the priority level for the task.
  *
