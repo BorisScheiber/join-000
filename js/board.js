@@ -44,19 +44,18 @@ async function loadContactsFromFirebase(){
 }
 
 
-async function updateTaskIdAndStatusInFirebase(firebaseId, newStatus) {
-  let newTaskId = Date.now();
+async function updateTaskStatusInFirebase(firebaseId, newStatus) {
+  let newTimestamp = Date.now();
   try {
-    await patchData(`tasks/${firebaseId}`, { Status: newStatus, id: newTaskId });
-    console.log(`Task ${firebaseId} status updated to ${newStatus} and id updated to ${newTaskId}`);
+    await patchData(`tasks/${firebaseId}`, { Status: newStatus, timestamp: newTimestamp });
+    console.log(`Task ${firebaseId} status updated to ${newStatus} and timestamp updated to ${newTimestamp}`);
   } catch (error) {
-    console.error(`Error updating task status and id: ${error}`);
+    console.error(`Error updating task status and timestamp: ${error}`);
   }
 }
 
-
 function getFirebaseIdByTaskId(taskId) {
-  const task = tasks.find((t) => t.id == taskId);
+  let task = tasks.find((t) => t.id == taskId);
   return task ? task.firebaseId : null;
 }
 
@@ -71,8 +70,8 @@ function renderBoard() {
   inProgressContainer.innerHTML = "";
   awaitFeedbackContainer.innerHTML = "";
   doneContainer.innerHTML = "";
-  
-  let sortedTasks = sortTasksById(tasks);
+
+  let sortedTasks = sortTasksByTimestamp(tasks);
 
   for (let i = 0; i < sortedTasks.length; i++) {
     const task = sortedTasks[i];
@@ -153,8 +152,8 @@ function checkIfContainerIsEmpty() {
 }
 
 
-function sortTasksById(tasksArray) {
-  return tasksArray.sort((a, b) => a.id - b.id);
+function sortTasksByTimestamp(tasksArray) {
+  return tasksArray.sort((a, b) => a.timestamp - b.timestamp);
 }
 
 
@@ -201,7 +200,7 @@ function checkSingleTaskPriority(priority) {
 
 
 function getColorForSingleContact(name) {
-  const contact = contacts.find(contact => contact.name === name);
+  let contact = contacts.find(contact => contact.name === name);
   return contact ? contact.color : '';
 }
 
@@ -240,13 +239,13 @@ function getInitials(name) {
 
 
 function getColorForSingleContact(id) {
-  const contact = contacts.find(contact => contact.id === id);
+  let contact = contacts.find(contact => contact.id === id);
   return contact ? contact.color : '';
 }
 
 
 function getNameForSingleContact(id) {
-  const contact = contacts.find(contact => contact.id === id);
+  let contact = contacts.find(contact => contact.id === id);
   return contact ? contact.name : '';
 }
 
@@ -289,7 +288,7 @@ async function moveTo(dropContainerId) {
   }
 
   if (firebaseId) {
-    await updateTaskIdAndStatusInFirebase(firebaseId, newStatus);
+    await updateTaskStatusInFirebase(firebaseId, newStatus);
   }
 
 await loadTasksFromFirebase();
