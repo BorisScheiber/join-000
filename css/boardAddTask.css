@@ -65,7 +65,7 @@
 }
 
 .popup-content.hidden {
-    animation: slideOutToRight 1s ease-in-out;
+    animation: slideOutToRight 400ms ease-in-out;
 }
 
 .close-popup {
@@ -161,6 +161,8 @@
 }
 
 @media (max-width: 850px) {
+    .add-task-left {
+        height: 376px !important;}
 
     .add-task-left,
     .add-task-right {

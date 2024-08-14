@@ -1,5 +1,6 @@
 let createTaskFunction = createTask; // Default function
 
+
 /**
  * Sets the global `createTaskFunction` variable based on the provided task status.
  * This function is used to determine which task creation function should be called 
@@ -7,42 +8,6 @@ let createTaskFunction = createTask; // Default function
  *
  * @param {string} taskStatus - The status of the task (e.g., 'in progress', 'await feedback', or any other valid status).
  */
-// function openAddTaskPopup(taskStatus) {
-//     document.getElementById('addTaskPopup').classList.add('show');
-//     document.getElementById('addTaskPopup').classList.remove('hidden');
-//     document.getElementById('add-task-mobile').classList.add('nav-mobile-links-active');
-//     document.getElementById('board-mobile').classList.remove('nav-mobile-links-active');
-    
-//     // Set the createTaskFunction based on taskStatus
-//     switch (taskStatus) {
-//         case 'in progress':
-//             createTaskFunction = createTaskInProgress;
-//             break;
-//         case 'await feedback':
-//             createTaskFunction = createTaskAwaitFeedback;
-//             break;
-//         default:
-//             createTaskFunction = createTask;
-//     }
-// }
-
-
-/**
- * Closes the "Add Task" popup with a smooth animation.
- * It first adds the 'hidden' class to trigger the animation, then sets a timeout to 
- * hide the popup completely after the animation duration.
- */
-// function closeAddTaskPopup() {
-//     document.getElementById('addTaskPopup').classList.add('hidden'); // Add 'hidden' immediately
-//     document.getElementById('addTaskPopup').classList.remove('show');
-//     setTimeout(() => {
-//         document.getElementById('addTaskPopup').style.display = 'none'; // Hide after animation
-//     }, 1000); // 1000ms (1 second) delay - adjust to match animation duration
-// }
-
-
-
-// BORIS
 function openAddTaskPopup(taskStatus) {
     let popup = document.getElementById('addTaskPopup');
     popup.style.display = 'flex';
@@ -63,7 +28,12 @@ function openAddTaskPopup(taskStatus) {
     }
 }
 
-//BORIS
+
+/**
+ * Closes the "Add Task" popup with a smooth animation.
+ * It first adds the 'hidden' class to trigger the animation, then sets a timeout to 
+ * hide the popup completely after the animation duration.
+ */
 function closeAddTaskPopup() {
     let popup = document.getElementById('addTaskPopup');
     popup.classList.add('hidden'); 
@@ -71,7 +41,7 @@ function closeAddTaskPopup() {
 
     setTimeout(() => {
         popup.style.display = 'none'; 
-    }, 950); 
+    }, 400); 
 }
 
 
@@ -97,7 +67,7 @@ async function createTaskAwaitFeedback() {
         const generatedId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
         assignedContactsWithIds[generatedId] = contact;
     });
-    const newTask = { id: Date.now(), Title: document.getElementById('title').value.trim(), Description: document.getElementById('description').value.trim(), Assigned_to: assignedContactsWithIds, Due_date: document.getElementById('due-date').value, Prio: currentPriority, Category: document.getElementById('category').value.trim(), Subtasks: getSubtasks(), Status:'await feedback' };
+    const newTask = { timestamp: Date.now() , id: Date.now(), Title: document.getElementById('title').value.trim(), Description: document.getElementById('description').value.trim(), Assigned_to: assignedContactsWithIds, Due_date: document.getElementById('due-date').value, Prio: currentPriority, Category: document.getElementById('category').value.trim(), Subtasks: getSubtasks(), Status:'await feedback' };
     try {
         await postData("tasks", newTask);
         console.log("Task created successfully:", newTask);
@@ -123,7 +93,7 @@ async function createTaskInProgress() {
         const generatedId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
         assignedContactsWithIds[generatedId] = contact;
     });
-    const newTask = { id: Date.now(), Title: document.getElementById('title').value.trim(), Description: document.getElementById('description').value.trim(), Assigned_to: assignedContactsWithIds, Due_date: document.getElementById('due-date').value, Prio: currentPriority, Category: document.getElementById('category').value.trim(), Subtasks: getSubtasks(), Status:'in progress' };
+    const newTask = {timestamp: Date.now() , id: Date.now(), Title: document.getElementById('title').value.trim(), Description: document.getElementById('description').value.trim(), Assigned_to: assignedContactsWithIds, Due_date: document.getElementById('due-date').value, Prio: currentPriority, Category: document.getElementById('category').value.trim(), Subtasks: getSubtasks(), Status:'in progress' };
     try {
         await postData("tasks", newTask);
         console.log("Task created successfully:", newTask);
