@@ -455,6 +455,7 @@ h3 {
     padding-top: 48px;
     margin-top: 80px;
     height: calc(100vh - 160px);
+    height: calc(100svh - 160px);
   }
   .board-add-task-button-mobile {
     margin-right: 0;

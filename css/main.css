@@ -19,6 +19,10 @@
   --clr-dark-gray: #a8a8a8;
 }
 
+html {
+  height: 100svh;
+}
+
 body {
   /* overflow-x: hidden; */
   background-color: #f6f7f8;

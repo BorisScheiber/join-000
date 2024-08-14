@@ -83,6 +83,7 @@ mark {
   .privacy-policy-content {
     margin-top: 80px;
     height: calc(100vh - 160px);
+    height: calc(100svh - 160px);
     margin-left: 0;
     padding-bottom: 24px;
     padding-right: 16px;
@@ -95,6 +96,7 @@ mark {
   }
   .privacy-policy-content-no{
     height: calc(100vh - 80px);
+    height: calc(100svh - 80px);
   }
   h1 {
     font-size: 47px;

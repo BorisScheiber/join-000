@@ -337,6 +337,12 @@
     .signup-content {
       flex-direction: column;
     }
+    .signup-accept {
+      margin-top: 20px;
+  }
+  .signup-card-form {
+    height: unset;
+  }
   }
   
 }
