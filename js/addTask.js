@@ -19,14 +19,14 @@ function toggleContactList() {
     contactList.classList.toggle("hidden");
     if (contactList.classList.contains("hidden")) {
         contactSearch.style.borderRadius = "10px";
-        dropdownIcon.src = "/assets/icons/arrow_drop_down.svg";
+        dropdownIcon.src = "./assets/icons/arrow_drop_down.svg";
         selectedContacts.style.display = "flex";
         document.removeEventListener('click', closeContactListOnClickOutside);
         contactSearch.value = ''; // Clear the search field
 
     } else {
         contactSearch.style.borderRadius = "10px 10px 0 0";
-        dropdownIcon.src = "/assets/icons/arrow_drop_up.svg";
+        dropdownIcon.src = "./assets/icons/arrow_drop_up.svg";
         selectedContacts.style.display = "none";
         document.addEventListener('click', closeContactListOnClickOutside);
     }
@@ -373,41 +373,6 @@ async function postData(path = "", data = {}) {
     });
     return responseAsJson = await response.json();
 }
-
-
-// async function createTask() {
-//     if (!validateFields()) return;
-//     const assignedContacts = await getAssignedContacts(); // Wait for the promise to resolve
-
-//     // Create an object to store assigned contacts with generated IDs
-//     const assignedContactsWithIds = {};
-//     assignedContacts.forEach(contact => {
-//         const generatedId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`; // Generate a unique ID
-//         assignedContactsWithIds[generatedId] = contact;
-//     });
-
-//     const newTask = {
-//         id: Date.now(),
-//         Title: document.getElementById('title').value.trim(),
-//         Description: document.getElementById('description').value.trim(),
-//         Assigned_to: assignedContactsWithIds, // Use the object with generated IDs
-//         Due_date: document.getElementById('due-date').value,
-//         Prio: currentPriority,
-//         Category: document.getElementById('category').value.trim(),
-//         Subtasks: getSubtasks(),
-//         Status: 'to do'
-//     };
-
-//     try {
-//         await postData("tasks", newTask);
-//         console.log("Task created successfully:", newTask);
-//         clearFields();
-//         showTaskCreatedPopup();
-//         setTimeout(() => { window.location.href = 'board.html'; }, 2000);
-//     } catch (error) {
-//         console.error("Error creating task:", error);
-//     }
-// }
 
 /**
  * Creates a new task object and saves it to Firebase.
