@@ -19,14 +19,14 @@ function toggleContactList() {
     contactList.classList.toggle("hidden");
     if (contactList.classList.contains("hidden")) {
         contactSearch.style.borderRadius = "10px";
-        dropdownIcon.src = "/assets/icons/arrow_drop_down.svg";
+        dropdownIcon.src = "./assets/icons/arrow_drop_down.svg";
         selectedContacts.style.display = "flex";
         document.removeEventListener('click', closeContactListOnClickOutside);
         contactSearch.value = ''; // Clear the search field
 
     } else {
         contactSearch.style.borderRadius = "10px 10px 0 0";
-        dropdownIcon.src = "/assets/icons/arrow_drop_up.svg";
+        dropdownIcon.src = "./assets/icons/arrow_drop_up.svg";
         selectedContacts.style.display = "none";
         document.addEventListener('click', closeContactListOnClickOutside);
     }

@@ -107,7 +107,7 @@
         <!-- addTaskPopup  / ISMAIL -->
         <div id="addTaskPopup" class="addTaskPopup" style="display: none;">
             <div class="popup-content">
-                <img src="/assets/icons/close-contact.svg" alt="Close" class="close-popup" id="closePopup"
+                <img src="./assets/icons/close-contact.svg" alt="Close" class="close-popup" id="closePopup"
                     onclick="closeAddTaskPopup()">
                 <div class="add-task-content-pop-up">
                     <div class="add-task-title">
@@ -136,7 +136,7 @@
                                         placeholder="Select contacts to assign" oninput="filterContacts()">
 
                                     <button id="toggle-list" class="toggle-list" onclick="toggleContactList()">
-                                        <img src="/assets/icons/arrow_drop_down.svg" alt="Dropdown Icon"
+                                        <img src="./assets/icons/arrow_drop_down.svg" alt="Dropdown Icon"
                                             id="dropdown-assigned" class="dropdown-icon">
                                     </button>
                                 </div>
@@ -167,14 +167,14 @@
                                     <div class="priority-buttons">
                                         <button id="urgent-button" class="priority-button"
                                             onclick="setPriority('urgent')">
-                                            Urgent <img src="/assets/icons/urgent.svg" alt="Urgent">
+                                            Urgent <img src="./assets/icons/urgent.svg" alt="Urgent">
                                         </button>
                                         <button id="medium-button" class="priority-button "
                                             onclick="setPriority('medium')">
-                                            Medium <img src="/assets/icons/medium.svg" alt="Medium">
+                                            Medium <img src="./assets/icons/medium.svg" alt="Medium">
                                         </button>
                                         <button id="low-button" class="priority-button" onclick="setPriority('low')">
-                                            Low <img src="/assets/icons/low.svg" alt="Low">
+                                            Low <img src="./assets/icons/low.svg" alt="Low">
                                         </button>
                                     </div>
                                 </div>
@@ -188,7 +188,7 @@
 
                                     <div class="category-field" id="category-field" onclick="toggleCategoryDropdown()">
                                         <button id="toggle-list" class="toggle-list">
-                                            <img src="/assets/icons/arrow_drop_down.svg" alt="Dropdown Icon"
+                                            <img src="./assets/icons/arrow_drop_down.svg" alt="Dropdown Icon"
                                                 id="dropdown-assigned" class="dropdown-icon dropdown-icon-category">
                                         </button>
                                         <input type="text" id="category" class="category"
@@ -209,14 +209,14 @@
                                         <input type="text" id="subtask-input" class="input-field"
                                             placeholder="Add new subtask" minlength="5" maxlength="30">
                                         <div class="edit-delete" style="display: none ;">
-                                            <img src="/assets/icons/reset.svg" alt="Reset" class="reset-icon"
+                                            <img src="./assets/icons/reset.svg" alt="Reset" class="reset-icon"
                                                 onclick="resetSubtaskInput()">
                                             <div class="vertical-line"></div>
-                                            <img src="/assets/icons/done.svg" alt="Add" class="add-icon"
+                                            <img src="./assets/icons/done.svg" alt="Add" class="add-icon"
                                                 onclick="addSubtask()">
                                         </div>
                                         <div class="add-subtask" style="display: flex;">
-                                            <img src="/assets/icons/add.svg" alt="Add" class="add-icon">
+                                            <img src="./assets/icons/add.svg" alt="Add" class="add-icon">
                                         </div>
                                     </div>
 
@@ -227,7 +227,7 @@
                         <div id="taskCreatedPopup" class="taskCreatedPopup">
                             <p>
                                 Task added to board
-                                <img src="assets/icons/boardDesktop.svg" alt="Board Icon" />
+                                <img src="./assets/icons/boardDesktop.svg" alt="Board Icon" />
                             </p>
                         </div>
 
@@ -241,7 +241,7 @@
     
                                 <button onclick="createTaskFunction()" class="create-button" type="submit">
                                     <p>Create task</p>
-                                    <img src="assets/icons/check.svg" alt="Check">
+                                    <img src="./assets/icons/check.svg" alt="Check">
                                 </button>
     
                             </div>
