@@ -173,7 +173,7 @@ function setPriority(level) {
     // Set the styles for the clicked button
     const activeButton = document.getElementById(`${level}-button`);
     activeButton.classList.add(level); // Add the level as a class for styling
-    activeButton.querySelector('img').src = `/assets/icons/${level}White.svg`;
+    activeButton.querySelector('img').src = `./assets/icons/${level}White.svg`;
 
     // Remove hover effect from the selected button
     activeButton.classList.add('selected');
@@ -194,13 +194,13 @@ function resetButtonStyles(button) {
     const img = button.querySelector('img');
     switch (button.id) {
         case 'urgent-button':
-            img.src = '/assets/icons/urgent.svg';
+            img.src = './assets/icons/urgent.svg';
             break;
         case 'medium-button':
-            img.src = '/assets/icons/medium.svg';
+            img.src = './assets/icons/medium.svg';
             break;
         case 'low-button':
-            img.src = '/assets/icons/low.svg';
+            img.src = './assets/icons/low.svg';
             break;
     }
 }
@@ -268,11 +268,11 @@ function toggleCategoryDropdown() {
     const dropdownIcon = document.querySelector('.dropdown-icon-category');
     if (dropdown.style.display === 'flex') {
         dropdown.style.display = 'none';
-        dropdownIcon.src = '/assets/icons/arrow_drop_down.svg';
+        dropdownIcon.src = './assets/icons/arrow_drop_down.svg';
         catField.style.borderRadius = "10px";
     } else {
         dropdown.style.display = 'flex';
-        dropdownIcon.src = '/assets/icons/arrow_drop_up.svg';
+        dropdownIcon.src = './assets/icons/arrow_drop_up.svg';
         catField.style.borderRadius = "10px 10px 0 0";
     }
 }
@@ -302,9 +302,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const dropdown = document.getElementById('category-dropdown');
     const dropdownIcon = document.querySelector('.dropdown-icon-category');
     if (dropdown.style.display === 'flex') {
-        dropdownIcon.src = '/assets/icons/arrow_drop_up.svg';
+        dropdownIcon.src = './assets/icons/arrow_drop_up.svg';
     } else {
-        dropdownIcon.src = '/assets/icons/arrow_drop_down.svg';
+        dropdownIcon.src = './assets/icons/arrow_drop_down.svg';
     }
 });
 
