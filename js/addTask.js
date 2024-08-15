@@ -374,41 +374,6 @@ async function postData(path = "", data = {}) {
     return responseAsJson = await response.json();
 }
 
-
-// async function createTask() {
-//     if (!validateFields()) return;
-//     const assignedContacts = await getAssignedContacts(); // Wait for the promise to resolve
-
-//     // Create an object to store assigned contacts with generated IDs
-//     const assignedContactsWithIds = {};
-//     assignedContacts.forEach(contact => {
-//         const generatedId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`; // Generate a unique ID
-//         assignedContactsWithIds[generatedId] = contact;
-//     });
-
-//     const newTask = {
-//         id: Date.now(),
-//         Title: document.getElementById('title').value.trim(),
-//         Description: document.getElementById('description').value.trim(),
-//         Assigned_to: assignedContactsWithIds, // Use the object with generated IDs
-//         Due_date: document.getElementById('due-date').value,
-//         Prio: currentPriority,
-//         Category: document.getElementById('category').value.trim(),
-//         Subtasks: getSubtasks(),
-//         Status: 'to do'
-//     };
-
-//     try {
-//         await postData("tasks", newTask);
-//         console.log("Task created successfully:", newTask);
-//         clearFields();
-//         showTaskCreatedPopup();
-//         setTimeout(() => { window.location.href = 'board.html'; }, 2000);
-//     } catch (error) {
-//         console.error("Error creating task:", error);
-//     }
-// }
-
 /**
  * Creates a new task object and saves it to Firebase.
  */

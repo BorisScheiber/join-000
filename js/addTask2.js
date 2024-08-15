@@ -4,34 +4,6 @@
  *
  * @returns {Promise<Array<object>>} A promise that resolves with an array of assigned contact objects.
  */
-// async function getAssignedContacts() {
-//     const assignedContacts = [];
-//     const checkboxes = document.querySelectorAll('.contact-list .contact-checkbox.checked');
-//     try {
-//         const contactsData = await getData("contacts"); // Fetch all contacts from Firebase
-//         checkboxes.forEach(checkbox => {
-//             const contactElement = checkbox.parentElement;
-//             const contactName = contactElement.querySelector("span:nth-child(2)").textContent;
-//             // Find the contact ID based on the name
-//             const contactId = Object.entries(contactsData).find(([id, contact]) => contact.name === contactName)?.[0];
-//             if (contactId) {
-//                 assignedContacts.push({ name: contactName, id: contactId });
-//             } else {
-//                 console.warn(`Contact ID not found for ${contactName}`);
-//             }
-//         });
-//     } catch (error) {
-//         console.error("Error fetching contacts:", error);
-//     }
-//     return assignedContacts;
-// }
-
-/**
- * Gets an array of objects representing the assigned contacts, each with name and ID.
- * It fetches contact data from Firebase and matches the selected contact names with their IDs.
- *
- * @returns {Promise<Array<object>>} A promise that resolves with an array of assigned contact objects.
- */
 async function getAssignedContacts() {
     const assignedContacts = [];
     const checkboxes = document.querySelectorAll('.contact-list .contact-checkbox.checked');
@@ -166,15 +138,12 @@ let currentPriority = "medium";
  */
 function setPriority(level) {
     const buttons = document.querySelectorAll('.priority-button');
-
     // Reset all buttons first
     buttons.forEach(button => resetButtonStyles(button));
-
     // Set the styles for the clicked button
     const activeButton = document.getElementById(`${level}-button`);
     activeButton.classList.add(level); // Add the level as a class for styling
     activeButton.querySelector('img').src = `./assets/icons/${level}White.svg`;
-
     // Remove hover effect from the selected button
     activeButton.classList.add('selected');
     // Update the current priority
