@@ -1,11 +1,34 @@
 let tasks = [];
 let contacts = [];
 let currentDraggedElement;
+let isMobile = false;
+
 
 async function initBoard() {
   await loadTasksFromFirebase();
   await loadContactsFromFirebase();
   renderBoard();
+  checkAndApplyMobileSettings();
+}
+
+// Funktion zur Überprüfung und Anpassung für mobile Geräte
+function checkAndApplyMobileSettings() {
+  isMobile = isMobileOrTablet();
+
+  if (isMobile) {
+      let categoryIcons = document.querySelectorAll('.board-card-category-icon');
+      categoryIcons.forEach(icon => {
+          icon.style.display = 'block';
+      });
+  }
+}
+
+// Funktion zur Erkennung von mobilen Geräten und Tablets
+function isMobileOrTablet() {
+let isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+let userAgent = navigator.userAgent.toLowerCase();
+let isMobileAgent = /mobi|android|ipad|tablet|touch/i.test(userAgent);
+return isTouchDevice || isMobileAgent;
 }
 
 
@@ -89,10 +112,10 @@ function renderBoard() {
   checkIfContainerIsEmpty();
 }
 
-
+// HTML CARDS
 function generateSingleTaskHtml(task) {
   return /*html*/ `
-  <div onclick="openOverlay(${task.id})" id="${task.id}" class="board-cards" draggable="true"
+  <div onclick="openCardDetailOverlay(${task.id})" id="${task.id}" class="board-cards" draggable="true"
   ondragstart="startDragging(${task.id})" ondragend="resetRotateTask(this)">
     ${checkSingleTaskCategory(task.Category)}
     <div class="board-card-text-container">
@@ -106,8 +129,15 @@ function generateSingleTaskHtml(task) {
         </div>
         ${checkSingleTaskPriority(task.Prio)}
     </div>
+    <div onclick="openMoveToMobileOverlay(event, ${task.id})" class="board-card-category-icon"></div>
   </div>
   `;
+}
+
+//JUST A TEST
+function openCardDetailOverlay(taskId) {
+  console.log('OverlayCardDetail für Task ID:', taskId, 'geöffnet');
+  alert('OverlayCardDetail geöffnet für Task ID: ' + taskId);
 }
 
 
@@ -366,4 +396,79 @@ function showNoResultsError() {
 function hideNoResultsError() {
   document.querySelector(".board-no-results").style.display = "none";
   document.querySelector(".board-search-input").classList.remove("board-no-results-error");
+}
+
+
+// MOVE TO OVERLAY FUNCTIONS ////////////////////////////////////////////////////////
+
+
+function renderMoveToMobileOverlay(taskId) {
+  let overlayContainer = document.getElementById("moveToMobileOverlay");
+  overlayContainer.innerHTML = "";
+
+  overlayContainer.innerHTML = generateMoveToMobileOverlayHtml(taskId);
+}
+
+// HTML FOR MOVE TO OVERLAY
+function generateMoveToMobileOverlayHtml(taskId) {
+  return /*html*/ `
+  <div class="board-move-to-mobile-card">
+    <h2 class="board-move-to-title">Move Task to</h2>
+    <button class="board-move-to-buttons" onclick="moveTaskToMobile('to do', ${taskId})">To do</button>
+    <button class="board-move-to-buttons" onclick="moveTaskToMobile('in progress', ${taskId})">In progress</button>
+    <button class="board-move-to-buttons" onclick="moveTaskToMobile('await feedback', ${taskId})">Await feedback</button>
+    <button class="board-move-to-buttons" onclick="moveTaskToMobile('done', ${taskId})">Done</button>
+    <img class="board-move-to-xmark" src="./assets/icons/close-contact.svg" alt="" onclick="closeMoveToMobileOverlay()">
+  </div>
+  `;
+}
+
+
+function closeMoveToMobileIfClickOutside(event) {
+  let card = document.querySelector('.board-move-to-mobile-card');
+    if (!card.contains(event.target)) {
+        closeMoveToMobileOverlay();
+    }
+}
+
+
+function openMoveToMobileOverlay(event, taskId) {
+  event.stopPropagation(); 
+  renderMoveToMobileOverlay(taskId); 
+  let overlay = document.getElementById("moveToMobileOverlay");
+  let card = overlay.querySelector('.board-move-to-mobile-card');
+
+  overlay.style.display = "flex"; 
+  overlay.classList.add('fadeInMoveToMobile'); 
+  card.classList.add('slideInMoveToMobile'); 
+}
+
+
+function closeMoveToMobileOverlay() {
+  let overlay = document.getElementById("moveToMobileOverlay");
+  let card = overlay.querySelector('.board-move-to-mobile-card');
+
+  card.classList.remove('slideInMoveToMobile'); 
+  card.classList.add('slideOutMoveToMobile'); 
+  overlay.classList.remove('fadeInMoveToMobile');
+  overlay.classList.add('fadeOutMoveToMobile'); 
+
+  setTimeout(() => {
+      overlay.style.display = "none"; 
+      overlay.classList.remove('fadeOutMoveToMobile'); 
+      card.classList.remove('slideOutMoveToMobile'); 
+  }, 300); 
+}
+
+
+async function moveTaskToMobile(status, taskId) {
+  let firebaseId = getFirebaseIdByTaskId(taskId);
+
+  if (firebaseId) {
+      await updateTaskStatusInFirebase(firebaseId, status);
+      await loadTasksFromFirebase();
+      renderBoard();
+      checkAndApplyMobileSettings();
+  }
+  closeMoveToMobileOverlay();
 }
