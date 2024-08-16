@@ -8,7 +8,7 @@
  */
 function generateSingleTaskHtml(task) {
     return /*html*/ `
-    <div onclick="openCardDetailOverlay(${task.id})" id="${task.id}" class="board-cards" draggable="true"
+    <div onclick="openTaskDetails(${task.id})" id="${task.id}" class="board-cards" draggable="true"
     ondragstart="startDragging(${task.id})" ondragend="resetRotateTask(this)">
       ${checkSingleTaskCategory(task.Category)}
       <div class="board-card-text-container">
