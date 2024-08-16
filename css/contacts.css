@@ -681,8 +681,9 @@ a{
 }
 
 .edit-contact-menu-text{
-    width: 371px;
+    width: 340px;
     height: 61px;
+    margin-top: 64px;
 }
 
 .edit-contact-menu-text-headline{
@@ -961,6 +962,7 @@ a{
 
     .add-new-contact-menu-text{
         height: auto;
+        margin-top: 48px;
     }
 
     .add-new-contact-menu-text-headline{
@@ -986,6 +988,194 @@ a{
 
     .add-new-contact-menu-img{
         display: none;
+    }
+
+    .add-new-contact-content{
+        width: 394px;
+        height: 408px;
+    }
+
+    .add-new-contact-input-fields{
+        flex-direction: column;
+        position: relative;
+    }
+
+    .icon-profile-add-new-contact{
+        position: absolute;
+        margin-top: -64px;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .add-new-contact-input-field-section{
+        width: 364px;
+        margin-top: 100px;
+
+    }
+
+    .input-fields-add-new-contact{
+        width: 364px;
+        height: 41px;
+        font-size: 20px;
+        font-weight: 400;
+    }
+
+    .add-new-contact-button-section{
+        margin-left: 0;
+        margin-top: 36px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .add-new-contact-buttons{
+        width: 300px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .button-cancel-new-contact{
+        display: none;
+    }
+
+    .input-field-separator{
+        height: 8px;
+    }
+
+    .button-create-new-contact{
+        height: 51px;
+        width: 202px;
+        font-size: 21px;
+    }
+
+    /*edit menu*/
+
+    .edit-contact{
+        flex-direction: column;
+        background-color: transparent;
+        width: 396px;
+        height: 760px;
+    }
+
+    .edit-contact-menu{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .edit-contact-menu{
+        position: relative;
+        display: flex;
+        width: 396px;
+        height: 352px;
+        background-color: #2A3647;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+        border-bottom-left-radius: 0px;
+        padding-left: 24px;
+        padding-top: 88px;
+    }
+
+    .edit-contact-content{
+        display: flex;
+        flex-direction: column;
+        width: 545px;
+        height: 394px;
+        background-color: #FFFFFF;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 30px;
+        border-bottom-left-radius: 30px;
+    }
+
+    .edit-contact-close-button{
+        display: none;
+    }
+
+    .edit-contact-menu-text{
+        height: auto;
+        margin-top: 48px;
+    }
+
+    .edit-contact-menu-text-headline{
+        font-size: 47px;
+        padding-right: 50px;
+    }
+
+    .edit-contact-menu-text-subtext{
+        font-size: 20px;
+    }
+
+    .edit-contact-close-button-responsive{
+        display: block;
+    }
+
+    .close-contact-responsive{
+        position: absolute;
+        top: 32px;
+        right: 32px;
+        height: 24px;
+        width: 24px;
+    }
+
+    .edit-contact-menu-img{
+        display: none;
+    }
+
+    .edit-contact-content{
+        width: 394px;
+        height: 408px;
+    }
+
+    .edit-contact-input-fields{
+        flex-direction: column;
+        position: relative;
+    }
+
+    .icon-profile-edit-contact{
+        position: absolute;
+        margin-top: -64px;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .edit-contact-input-field-section{
+        width: 364px;
+        margin-top: 100px;
+
+    }
+
+    .input-fields-edit-contact{
+        width: 364px;
+        height: 41px;
+        font-size: 20px;
+        font-weight: 400;
+    }
+
+    .edit-contact-button-section{
+        margin-left: 0;
+        margin-top: 36px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .edit-contact-buttons{
+        width: 300px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .button-cancel-new-contact{
+        display: none;
+    }
+
+    .input-field-separator{
+        height: 8px;
+    }
+
+    .button-save-contact{
+        height: 51px;
+        width: 202px;
+        font-size: 21px;
     }
     
 }
