@@ -307,3 +307,20 @@ function rotateTask(taskId) {
     }
     closeMoveToMobileOverlay();
   }
+
+  ///////////////////ADIIONAL FUNCTIONS//////////////////////////
+
+function scrollToSection() {
+let urlParams = new URLSearchParams(window.location.search);
+let scrollTo = urlParams.get('scrollTo');
+
+if (scrollTo) {
+    let targetElement = document.getElementById(scrollTo);
+    if (targetElement) {
+    targetElement.scrollIntoView(); 
+
+    let newUrl = window.location.origin + window.location.pathname;
+    window.history.replaceState({}, document.title, newUrl);
+    }
+}
+}

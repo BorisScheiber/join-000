@@ -10,6 +10,7 @@ let isMobile = false;
  */
 async function initBoard() {
   await updateBoard();
+  scrollToSection();
 }
 
 
