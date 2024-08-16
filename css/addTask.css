@@ -470,8 +470,6 @@
 }
 
 
-
-
 .contact-checkbox {
     width: 24px;
     height: 24px;
@@ -482,12 +480,11 @@
     cursor: pointer;
 }
 
+
 .contact-checkbox.checked {
     background: url('./assets/icons/Checkedbuttonwhite.svg') no-repeat center center;
     background-size: contain;
-
 }
-
 
 
 /* Stil für den Toggle-Button */

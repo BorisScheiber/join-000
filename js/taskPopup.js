@@ -10,7 +10,7 @@ async function openTaskDetails(taskId) {
     popup.innerHTML = /*html*/ `
         <div class="task-details-content " data-task-id="${task.id}">
             <div class="popup-header">
-           <div class="task-category ${checkSingleTaskCategory(task.Category)}"><span >${task.Category}</span></div>
+           <div class="task-category ${checkSingleTaskCategoryPopup(task.Category)}"><span >${task.Category}</span></div>
                 <img src="./assets/icons/close-contact.svg" alt="Close" class="close-popup" onclick="closeTaskDetailsPopup()">
             </div>
             <span class="task-title">${task.Title}</span>
@@ -54,7 +54,7 @@ async function openTaskDetails(taskId) {
 }
 
 
-function checkSingleTaskCategory(category) {
+function checkSingleTaskCategoryPopup(category) {
     if (category === 'Technical Task') {
         return 'technical-task';
     } else if (category === 'User Story') {
@@ -79,16 +79,16 @@ function getPriorityIcon(priority) {
 
 function displayAssignedContacts(contacts) {
     if (!contacts || Object.keys(contacts).length === 0) {
-      return '<p class="no-assigned">No one.</p>'; // Return a paragraph if no contacts
+        return '<p class="no-assigned">No one.</p>'; // Return a paragraph if no contacts
     }
-  
+
     let html = '';
     for (const contactId in contacts) {
-      const contact = contacts[contactId];
-      const initials = contact.name.split(' ').map(part => part.charAt(0)).join('');
-      const randomColor = getRandomColor();
-  
-      html += /*html*/ `
+        const contact = contacts[contactId];
+        const initials = contact.name.split(' ').map(part => part.charAt(0)).join('');
+        const randomColor = getRandomColor();
+
+        html += /*html*/ `
         <div class="contact-item-assigned">
           <div class="contact-logo" style="background-color: ${randomColor}">${initials}</div>
           <span>${contact.name}</span>
@@ -96,12 +96,12 @@ function displayAssignedContacts(contacts) {
       `;
     }
     return html;
-  }
-  
-  function getRandomColor() {
+}
+
+function getRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';
-    for (let  index = 0; index < 6; index++) {
+    for (let index = 0; index < 6; index++) {
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
