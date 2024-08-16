@@ -5,13 +5,18 @@ let isMobile = false;
 
 
 async function initBoard() {
+  await updateBoard();
+}
+
+
+async function updateBoard() {
   await loadTasksFromFirebase();
   await loadContactsFromFirebase();
   renderBoard();
   checkAndApplyMobileSettings();
 }
 
-// Funktion zur Überprüfung und Anpassung für mobile Geräte
+
 function checkAndApplyMobileSettings() {
   isMobile = isMobileOrTablet();
 
@@ -23,7 +28,7 @@ function checkAndApplyMobileSettings() {
   }
 }
 
-// Funktion zur Erkennung von mobilen Geräten und Tablets
+
 function isMobileOrTablet() {
 let isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 let userAgent = navigator.userAgent.toLowerCase();
@@ -42,8 +47,6 @@ async function loadTasksFromFirebase() {
       Subtasks: fetchedTasks[key].Subtasks ? Object.values(fetchedTasks[key].Subtasks) : [],
       Assigned_to: fetchedTasks[key].Assigned_to ? Object.values(fetchedTasks[key].Assigned_to) : []
     }));
-    
-    console.log(tasks);
   } catch (error) {
     console.error("Error fetching tasks:", error);
   }
@@ -56,8 +59,6 @@ async function loadContactsFromFirebase(){
       if (data) {
           contacts = Object.values(data);
           contacts.sort((a, b) => a.name.localeCompare(b.name));
-          console.log(contacts);
-          
       } else {
           contacts = [];
       }
@@ -71,11 +72,12 @@ async function updateTaskStatusInFirebase(firebaseId, newStatus) {
   let newTimestamp = Date.now();
   try {
     await patchData(`tasks/${firebaseId}`, { Status: newStatus, timestamp: newTimestamp });
-    console.log(`Task ${firebaseId} status updated to ${newStatus} and timestamp updated to ${newTimestamp}`);
   } catch (error) {
     console.error(`Error updating task status and timestamp: ${error}`);
   }
 }
+
+
 
 function getFirebaseIdByTaskId(taskId) {
   let task = tasks.find((t) => t.id == taskId);
@@ -83,34 +85,42 @@ function getFirebaseIdByTaskId(taskId) {
 }
 
 
+function clearContainers() {
+  let containers = getContainersById();
+  let { toDoContainer, inProgressContainer, awaitFeedbackContainer, doneContainer } = containers;
+
+  [toDoContainer, inProgressContainer, awaitFeedbackContainer, doneContainer].forEach(container => {
+    container.innerHTML = "";
+  });
+}
+
+
 function renderBoard() {
-  let toDoContainer = document.getElementById("toDo");
-  let inProgressContainer = document.getElementById("inProgress");
-  let awaitFeedbackContainer = document.getElementById("awaitFeedback");
-  let doneContainer = document.getElementById("done");
+  clearContainers();
 
-  toDoContainer.innerHTML = "";
-  inProgressContainer.innerHTML = "";
-  awaitFeedbackContainer.innerHTML = "";
-  doneContainer.innerHTML = "";
-
+  let containers = getContainersById();
   let sortedTasks = sortTasksByTimestamp(tasks);
 
-  for (let i = 0; i < sortedTasks.length; i++) {
-    const task = sortedTasks[i];
-    
-    if (task.Status === "to do") {
-      toDoContainer.innerHTML += generateSingleTaskHtml(task);
-    } else if (task.Status === "in progress") {
-      inProgressContainer.innerHTML += generateSingleTaskHtml(task);
-    } else if (task.Status === "await feedback") {
-      awaitFeedbackContainer.innerHTML += generateSingleTaskHtml(task);
-    } else if (task.Status === "done") {
-      doneContainer.innerHTML += generateSingleTaskHtml(task);
+  sortedTasks.forEach(task => {
+    let container = getContainerForTaskStatus(task, containers);
+    if (container) {
+      container.innerHTML += generateSingleTaskHtml(task);
     }
-  }
+  });
   checkIfContainerIsEmpty();
 }
+
+
+function getContainerForTaskStatus(task, containers) {
+  let containerMap = {
+    "to do": containers.toDoContainer,
+    "in progress": containers.inProgressContainer,
+    "await feedback": containers.awaitFeedbackContainer,
+    "done": containers.doneContainer
+  };
+  return containerMap[task.Status];
+}
+
 
 // HTML CARDS
 function generateSingleTaskHtml(task) {
@@ -122,7 +132,7 @@ function generateSingleTaskHtml(task) {
         <span class="board-card-text board-card-title">${task.Title}</span>
         ${checkSingleTaskDescription(task.Description)}
     </div>
-    ${generateSubtaskHtml(task.Subtasks)}
+    ${renderSingleTaskSubtask(task.Subtasks)}
     <div class="board-card-profiles-priority">
         <div class="board-card-profile-badges">
             ${generateAssignedToProfileBadges(task.Assigned_to)}
@@ -134,20 +144,20 @@ function generateSingleTaskHtml(task) {
   `;
 }
 
-//JUST A TEST
-function openCardDetailOverlay(taskId) {
-  console.log('OverlayCardDetail für Task ID:', taskId, 'geöffnet');
-  alert('OverlayCardDetail geöffnet für Task ID: ' + taskId);
-}
 
-
-function generateSubtaskHtml(subtasks) {
+function renderSingleTaskSubtask(subtasks) {
   if (!subtasks || subtasks.length === 0) return "";
 
   let totalSubtasks = subtasks.length;
   let completedSubtasks = subtasks.filter(subtask => subtask.isChecked).length;
   let progressPercentage = (completedSubtasks / totalSubtasks) * 100;
 
+  return generateSingleTaskSubtaskHtml(progressPercentage, completedSubtasks, totalSubtasks);
+}
+
+
+// HTML FOR SUBTASKS
+function generateSingleTaskSubtaskHtml(progressPercentage, completedSubtasks, totalSubtasks) {
   return /*html*/ `
     <div class="board-card-subtask-container">
       <div class="board-card-progress-bar">
@@ -161,23 +171,29 @@ function generateSubtaskHtml(subtasks) {
 }
 
 
-function checkIfContainerIsEmpty() {
-  let toDoContainer = document.getElementById("toDo");
-  let inProgressContainer = document.getElementById("inProgress");
-  let awaitFeedbackContainer = document.getElementById("awaitFeedback");
-  let doneContainer = document.getElementById("done");
+function getContainersById() {
+  return {
+    toDoContainer: document.getElementById("toDo"),
+    inProgressContainer: document.getElementById("inProgress"),
+    awaitFeedbackContainer: document.getElementById("awaitFeedback"),
+    doneContainer: document.getElementById("done")
+  };
+}
 
-  if (toDoContainer.innerHTML.trim() === "") {
-    toDoContainer.innerHTML = `<div class="board-section-placeholder">No tasks To do</div>`;
-  }
-  if (inProgressContainer.innerHTML.trim() === "") {
-    inProgressContainer.innerHTML = `<div class="board-section-placeholder">No tasks In progress</div>`;
-  }
-  if (awaitFeedbackContainer.innerHTML.trim() === "") {
-    awaitFeedbackContainer.innerHTML = `<div class="board-section-placeholder">No tasks Await feedback</div>`;
-  }
-  if (doneContainer.innerHTML.trim() === "") {
-    doneContainer.innerHTML = `<div class="board-section-placeholder">No tasks Done</div>`;
+
+function checkIfContainerIsEmpty() {
+  const { toDoContainer, inProgressContainer, awaitFeedbackContainer, doneContainer } = getContainersById();
+
+  addPlaceholderIfEmpty(toDoContainer, "No tasks To do");
+  addPlaceholderIfEmpty(inProgressContainer, "No tasks In progress");
+  addPlaceholderIfEmpty(awaitFeedbackContainer, "No tasks Await feedback");
+  addPlaceholderIfEmpty(doneContainer, "No tasks Done");
+}
+
+
+function addPlaceholderIfEmpty(container, placeholderText) {
+  if (container.innerHTML.trim() === "") {
+    container.innerHTML = /*html*/ `<div class="board-section-placeholder">${placeholderText}</div>`;
   }
 }
 
@@ -196,17 +212,20 @@ function checkSingleTaskDescription(description) {
 }
 
 
+// Category HTML
+function generateSingleTaskCategoryHtml(categoryClass, categoryLabel) {
+  return /*html*/ `
+    <div class="${categoryClass}">
+      <span>${categoryLabel}</span>
+    </div>`;
+}
+
+
 function checkSingleTaskCategory(category) {
   if (category === "Technical Task") {
-    return /*html*/ `
-      <div class="board-card-technical">
-        <span>Technical Task</span>
-      </div>`;
+    return generateSingleTaskCategoryHtml("board-card-technical", "Technical Task");
   } else if (category === "User Story") {
-    return /*html*/ `
-      <div class="board-card-story">
-        <span>User Story</span>
-      </div>`;
+    return generateSingleTaskCategoryHtml("board-card-story", "User Story");
   } else {
     return "";
   }
@@ -259,7 +278,7 @@ function generateProfileBadgeHtml(assignedTo) {
 
 
 function generateAdditionalAssignedToCount(length) {
-  return length > 4 ? `<span class="board-card-assigned-more">+${length - 4}</span>` : '';
+  return length > 4 ? /*html*/ `<span class="board-card-assigned-more">+${length - 4}</span>` : '';
 }
 
 
@@ -290,9 +309,7 @@ function rotateTask(taskId) {
 
 function startDragging(taskId) {
   currentDraggedElement = taskId;
-  console.log("startDragging", currentDraggedElement);
   rotateTask(taskId);
-  
 }
 
 
@@ -301,30 +318,37 @@ function resetRotateTask(element) {
 }
 
 
+function getStatusFromDropContainerId(dropContainerId) {
+  let statusMap = {
+    "toDo": "to do",
+    "inProgress": "in progress",
+    "awaitFeedback": "await feedback",
+    "done": "done"
+  };
+  return statusMap[dropContainerId] || null;
+}
+
+
+async function updateTaskStatus(firebaseId, newStatus) {
+  if (firebaseId) {
+    await updateTaskStatusInFirebase(firebaseId, newStatus);
+  }
+}
+
+
 async function moveTo(dropContainerId) {
   if (!currentDraggedElement) return;
 
   let firebaseId = getFirebaseIdByTaskId(currentDraggedElement);
+  let newStatus = getStatusFromDropContainerId(dropContainerId);
 
-  let newStatus;
-  if (dropContainerId === "toDo") {
-    newStatus = "to do";
-  } else if (dropContainerId === "inProgress") {
-    newStatus = "in progress";
-  } else if (dropContainerId === "awaitFeedback") {
-    newStatus = "await feedback";
-  } else if (dropContainerId === "done") {
-    newStatus = "done";
+  if (newStatus) {
+    await updateTaskStatus(firebaseId, newStatus);
   }
 
-  if (firebaseId) {
-    await updateTaskStatusInFirebase(firebaseId, newStatus);
-  }
-
-await loadTasksFromFirebase();
-renderBoard();
-removeHighlightDragArea(dropContainerId);
-currentDraggedElement = null;
+  await updateBoard();
+  removeHighlightDragArea(dropContainerId);
+  currentDraggedElement = null;
 }
 
 
@@ -377,8 +401,8 @@ function filterTasks(searchField, taskCards) {
   taskCards.forEach(taskCard => {
     let title = taskCard.querySelector(".board-card-title").innerText.toLowerCase();
     let description = taskCard.querySelector(".board-card-description").innerText.toLowerCase();
-
     let isMatch = title.includes(searchField) || description.includes(searchField);
+
     updateTaskVisibility(taskCard, isMatch);
     if (isMatch) matchFound = true;
   });
@@ -409,7 +433,9 @@ function renderMoveToMobileOverlay(taskId) {
   overlayContainer.innerHTML = generateMoveToMobileOverlayHtml(taskId);
 }
 
-// HTML FOR MOVE TO OVERLAY
+
+
+// HTML FOR MOVE TO MOBILE OVERLAY
 function generateMoveToMobileOverlayHtml(taskId) {
   return /*html*/ `
   <div class="board-move-to-mobile-card">
@@ -432,25 +458,39 @@ function closeMoveToMobileIfClickOutside(event) {
 }
 
 
+
 function openMoveToMobileOverlay(event, taskId) {
   event.stopPropagation(); 
   renderMoveToMobileOverlay(taskId); 
   let overlay = document.getElementById("moveToMobileOverlay");
   let card = overlay.querySelector('.board-move-to-mobile-card');
 
-  overlay.style.display = "flex"; 
-  overlay.classList.add('fadeInMoveToMobile'); 
-  card.classList.add('slideInMoveToMobile'); 
+  showMoveToOverlay(overlay, card);
 }
+
 
 
 function closeMoveToMobileOverlay() {
   let overlay = document.getElementById("moveToMobileOverlay");
   let card = overlay.querySelector('.board-move-to-mobile-card');
 
+  hideMoveToOverlay(overlay, card);
+}
+
+
+
+function showMoveToOverlay(overlay, card) {
+  overlay.style.display = "flex"; 
+  overlay.classList.add('fadeInMoveToMobile'); 
+  card.classList.add('slideInMoveToMobile'); 
+}
+
+
+
+function hideMoveToOverlay(overlay, card) {
   card.classList.remove('slideInMoveToMobile'); 
   card.classList.add('slideOutMoveToMobile'); 
-  overlay.classList.remove('fadeInMoveToMobile');
+  overlay.classList.remove('fadeInMoveToMobile'); 
   overlay.classList.add('fadeOutMoveToMobile'); 
 
   setTimeout(() => {
@@ -461,14 +501,13 @@ function closeMoveToMobileOverlay() {
 }
 
 
+
 async function moveTaskToMobile(status, taskId) {
   let firebaseId = getFirebaseIdByTaskId(taskId);
 
   if (firebaseId) {
       await updateTaskStatusInFirebase(firebaseId, status);
-      await loadTasksFromFirebase();
-      renderBoard();
-      checkAndApplyMobileSettings();
+      await updateBoard();
   }
   closeMoveToMobileOverlay();
 }
