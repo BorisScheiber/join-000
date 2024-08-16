@@ -10,6 +10,7 @@ let isMobile = false;
  */
 async function initBoard() {
   await updateBoard();
+  scrollToSection();
 }
 
 
@@ -152,7 +153,6 @@ function renderBoard() {
   });
   checkIfContainerIsEmpty();
 }
-
 
 /**
  * Returns the appropriate container element for a given task status.
