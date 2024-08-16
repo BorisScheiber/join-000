@@ -683,7 +683,6 @@ a{
 .edit-contact-menu-text{
     width: 340px;
     height: 61px;
-    margin-top: 64px;
 }
 
 .edit-contact-menu-text-headline{
@@ -1176,6 +1175,10 @@ a{
         height: 51px;
         width: 202px;
         font-size: 21px;
+    }
+
+    .contact-input-icon{
+        top: 40%;
     }
     
 }
