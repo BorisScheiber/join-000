@@ -4,11 +4,19 @@ let currentDraggedElement;
 let isMobile = false;
 
 
+/**
+ * Initializes the board by updating it with tasks and contacts.
+ * This function is called when the page is loaded.
+ */
 async function initBoard() {
   await updateBoard();
 }
 
 
+/**
+ * Updates the board by loading tasks and contacts from Firebase.
+ * It then renders the board and applies settings for mobile devices.
+ */
 async function updateBoard() {
   await loadTasksFromFirebase();
   await loadContactsFromFirebase();
@@ -17,6 +25,10 @@ async function updateBoard() {
 }
 
 
+/**
+ * Checks if the user is on a mobile or tablet device and applies specific settings.
+ * If on a mobile device, category icons are displayed on the task cards.
+ */
 function checkAndApplyMobileSettings() {
   isMobile = isMobileOrTablet();
 
@@ -29,6 +41,11 @@ function checkAndApplyMobileSettings() {
 }
 
 
+/**
+ * Determines if the current device is a mobile or tablet based on touch capabilities and user agent.
+ *
+ * @returns {boolean} True if the device is a mobile or tablet, false otherwise.
+ */
 function isMobileOrTablet() {
 let isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 let userAgent = navigator.userAgent.toLowerCase();
@@ -37,6 +54,10 @@ return isTouchDevice || isMobileAgent;
 }
 
 
+/**
+ * Loads tasks from Firebase and maps them into the local tasks array.
+ * Each task includes subtasks and assigned users.
+ */
 async function loadTasksFromFirebase() {
   try {
     const fetchedTasks = await getData("tasks");
@@ -53,6 +74,10 @@ async function loadTasksFromFirebase() {
 }
 
 
+/**
+ * Loads contacts from Firebase and sorts them alphabetically by name.
+ * The contacts are stored in the local contacts array.
+ */
 async function loadContactsFromFirebase(){
   try {
       const data = await getData('contacts');
@@ -68,6 +93,12 @@ async function loadContactsFromFirebase(){
 }
 
 
+/**
+ * Updates the status and timestamp of a task in Firebase.
+ *
+ * @param {string} firebaseId - The Firebase ID of the task to update.
+ * @param {string} newStatus - The new status of the task.
+ */
 async function updateTaskStatusInFirebase(firebaseId, newStatus) {
   let newTimestamp = Date.now();
   try {
@@ -78,13 +109,21 @@ async function updateTaskStatusInFirebase(firebaseId, newStatus) {
 }
 
 
-
+/**
+ * Retrieves the Firebase ID for a given task ID.
+ *
+ * @param {number} taskId - The ID of the task.
+ * @returns {string|null} The Firebase ID of the task, or null if not found.
+ */
 function getFirebaseIdByTaskId(taskId) {
   let task = tasks.find((t) => t.id == taskId);
   return task ? task.firebaseId : null;
 }
 
 
+/**
+ * Clears the inner HTML of all task containers (To Do, In Progress, Await Feedback, Done).
+ */
 function clearContainers() {
   let containers = getContainersById();
   let { toDoContainer, inProgressContainer, awaitFeedbackContainer, doneContainer } = containers;
@@ -95,6 +134,10 @@ function clearContainers() {
 }
 
 
+/**
+ * Renders the task board by clearing containers and populating them with tasks.
+ * Tasks are sorted by timestamp and placed in their appropriate containers.
+ */
 function renderBoard() {
   clearContainers();
 
@@ -111,6 +154,13 @@ function renderBoard() {
 }
 
 
+/**
+ * Returns the appropriate container element for a given task status.
+ *
+ * @param {Object} task - The task object with a status.
+ * @param {Object} containers - An object containing all task containers.
+ * @returns {HTMLElement|null} The container element for the task's status, or null if not found.
+ */
 function getContainerForTaskStatus(task, containers) {
   let containerMap = {
     "to do": containers.toDoContainer,
@@ -122,29 +172,12 @@ function getContainerForTaskStatus(task, containers) {
 }
 
 
-// HTML CARDS
-function generateSingleTaskHtml(task) {
-  return /*html*/ `
-  <div onclick="openCardDetailOverlay(${task.id})" id="${task.id}" class="board-cards" draggable="true"
-  ondragstart="startDragging(${task.id})" ondragend="resetRotateTask(this)">
-    ${checkSingleTaskCategory(task.Category)}
-    <div class="board-card-text-container">
-        <span class="board-card-text board-card-title">${task.Title}</span>
-        ${checkSingleTaskDescription(task.Description)}
-    </div>
-    ${renderSingleTaskSubtask(task.Subtasks)}
-    <div class="board-card-profiles-priority">
-        <div class="board-card-profile-badges">
-            ${generateAssignedToProfileBadges(task.Assigned_to)}
-        </div>
-        ${checkSingleTaskPriority(task.Prio)}
-    </div>
-    <div onclick="openMoveToMobileOverlay(event, ${task.id})" class="board-card-category-icon"></div>
-  </div>
-  `;
-}
-
-
+/**
+ * Renders the subtasks of a task, including a progress bar showing completion.
+ *
+ * @param {Array} subtasks - An array of subtask objects.
+ * @returns {string} The HTML string for the subtask section.
+ */
 function renderSingleTaskSubtask(subtasks) {
   if (!subtasks || subtasks.length === 0) return "";
 
@@ -156,21 +189,11 @@ function renderSingleTaskSubtask(subtasks) {
 }
 
 
-// HTML FOR SUBTASKS
-function generateSingleTaskSubtaskHtml(progressPercentage, completedSubtasks, totalSubtasks) {
-  return /*html*/ `
-    <div class="board-card-subtask-container">
-      <div class="board-card-progress-bar">
-          <div class="board-card-progress-fill" style="width: ${progressPercentage}%;" role="progressbar"></div>
-      </div>
-      <div class="board-card-progress-text">
-          <span>${completedSubtasks}/${totalSubtasks} Subtasks</span>
-      </div>
-    </div>
-  `;
-}
-
-
+/**
+ * Retrieves all task containers by their IDs.
+ *
+ * @returns {Object} An object containing the task containers (To Do, In Progress, Await Feedback, Done).
+ */
 function getContainersById() {
   return {
     toDoContainer: document.getElementById("toDo"),
@@ -181,6 +204,9 @@ function getContainersById() {
 }
 
 
+/**
+ * Checks if each task container is empty, and if so, adds a placeholder message.
+ */
 function checkIfContainerIsEmpty() {
   const { toDoContainer, inProgressContainer, awaitFeedbackContainer, doneContainer } = getContainersById();
 
@@ -191,6 +217,12 @@ function checkIfContainerIsEmpty() {
 }
 
 
+/**
+ * Adds a placeholder message to a container if it is empty.
+ *
+ * @param {HTMLElement} container - The container to check.
+ * @param {string} placeholderText - The placeholder text to display if the container is empty.
+ */
 function addPlaceholderIfEmpty(container, placeholderText) {
   if (container.innerHTML.trim() === "") {
     container.innerHTML = /*html*/ `<div class="board-section-placeholder">${placeholderText}</div>`;
@@ -198,11 +230,24 @@ function addPlaceholderIfEmpty(container, placeholderText) {
 }
 
 
+/**
+ * Sorts an array of tasks by their timestamp.
+ *
+ * @param {Array} tasksArray - The array of tasks to sort.
+ * @returns {Array} The sorted array of tasks.
+ */
 function sortTasksByTimestamp(tasksArray) {
   return tasksArray.sort((a, b) => a.timestamp - b.timestamp);
 }
 
 
+/**
+ * Returns the HTML for a task's description.
+ * If the description is empty, a hidden span is returned.
+ *
+ * @param {string} description - The task description.
+ * @returns {string} The HTML string for the task description.
+ */
 function checkSingleTaskDescription(description) {
   if (!description || description.trim() === '') {
     return /*html*/ `<span class="board-card-text board-card-description d-none"></span>`;
@@ -212,15 +257,12 @@ function checkSingleTaskDescription(description) {
 }
 
 
-// Category HTML
-function generateSingleTaskCategoryHtml(categoryClass, categoryLabel) {
-  return /*html*/ `
-    <div class="${categoryClass}">
-      <span>${categoryLabel}</span>
-    </div>`;
-}
-
-
+/**
+ * Returns the HTML for a task's category.
+ *
+ * @param {string} category - The task category (e.g., "Technical Task", "User Story").
+ * @returns {string} The HTML string for the task category section.
+ */
 function checkSingleTaskCategory(category) {
   if (category === "Technical Task") {
     return generateSingleTaskCategoryHtml("board-card-technical", "Technical Task");
@@ -232,6 +274,12 @@ function checkSingleTaskCategory(category) {
 }
 
 
+/**
+ * Returns the HTML for a task's priority icon.
+ *
+ * @param {string} priority - The task priority (e.g., "urgent", "medium", "low").
+ * @returns {string} The HTML string for the priority icon.
+ */
 function checkSingleTaskPriority(priority) {
   if (!priority) return '';
 
@@ -248,12 +296,24 @@ function checkSingleTaskPriority(priority) {
 }
 
 
+/**
+ * Retrieves the color associated with a contact's name.
+ *
+ * @param {string} name - The name of the contact.
+ * @returns {string} The color associated with the contact, or an empty string if not found.
+ */
 function getColorForSingleContact(name) {
   let contact = contacts.find(contact => contact.name === name);
   return contact ? contact.color : '';
 }
 
 
+/**
+ * Generates the HTML for the profile badges of users assigned to a task.
+ *
+ * @param {Array} assignedTo - An array of user objects assigned to the task.
+ * @returns {string} The HTML string for the profile badges, or an empty string if none are assigned.
+ */
 function generateAssignedToProfileBadges(assignedTo) {
   if (assignedTo && assignedTo.length > 0) {
     let assignedHtml = generateProfileBadgeHtml(assignedTo);
@@ -266,6 +326,12 @@ function generateAssignedToProfileBadges(assignedTo) {
 }
 
 
+/**
+ * Generates the HTML for up to four profile badges for assigned users.
+ *
+ * @param {Array} assignedTo - An array of user objects assigned to the task.
+ * @returns {string} The HTML string for the profile badges.
+ */
 function generateProfileBadgeHtml(assignedTo) {
   return assignedTo.slice(0, 4).map(person => {
     let name = getNameForSingleContact(person.id);
@@ -277,237 +343,47 @@ function generateProfileBadgeHtml(assignedTo) {
 }
 
 
+/**
+ * Generates the HTML for displaying the count of additional assigned users if there are more than four.
+ *
+ * @param {number} length - The total number of assigned users.
+ * @returns {string} The HTML string for the additional assigned user count, or an empty string if not needed.
+ */
 function generateAdditionalAssignedToCount(length) {
   return length > 4 ? /*html*/ `<span class="board-card-assigned-more">+${length - 4}</span>` : '';
 }
 
 
+/**
+ * Retrieves the initials from a contact's name.
+ *
+ * @param {string} name - The full name of the contact.
+ * @returns {string} The initials of the contact.
+ */
 function getInitials(name) {
   return name.split(' ').map(n => n[0]).join('');
 }
 
 
+/**
+ * Retrieves the color associated with a contact's ID.
+ *
+ * @param {string} id - The ID of the contact.
+ * @returns {string} The color associated with the contact, or an empty string if not found.
+ */
 function getColorForSingleContact(id) {
   let contact = contacts.find(contact => contact.id === id);
   return contact ? contact.color : '';
 }
 
 
+/**
+ * Retrieves the name of a contact by their ID.
+ *
+ * @param {string} id - The ID of the contact.
+ * @returns {string} The name of the contact, or an empty string if not found.
+ */
 function getNameForSingleContact(id) {
   let contact = contacts.find(contact => contact.id === id);
   return contact ? contact.name : '';
-}
-
-
-// DRAG AND DROP FUNCTIONS//////////////////////////////////////////////////////////
-
-function rotateTask(taskId) {
-  let element = document.getElementById(taskId);
-  element.classList.add("board-card-rotate");
-}
-
-
-function startDragging(taskId) {
-  currentDraggedElement = taskId;
-  rotateTask(taskId);
-}
-
-
-function resetRotateTask(element) {
-  element.classList.remove("board-card-rotate");
-}
-
-
-function getStatusFromDropContainerId(dropContainerId) {
-  let statusMap = {
-    "toDo": "to do",
-    "inProgress": "in progress",
-    "awaitFeedback": "await feedback",
-    "done": "done"
-  };
-  return statusMap[dropContainerId] || null;
-}
-
-
-async function updateTaskStatus(firebaseId, newStatus) {
-  if (firebaseId) {
-    await updateTaskStatusInFirebase(firebaseId, newStatus);
-  }
-}
-
-
-async function moveTo(dropContainerId) {
-  if (!currentDraggedElement) return;
-
-  let firebaseId = getFirebaseIdByTaskId(currentDraggedElement);
-  let newStatus = getStatusFromDropContainerId(dropContainerId);
-
-  if (newStatus) {
-    await updateTaskStatus(firebaseId, newStatus);
-  }
-
-  await updateBoard();
-  removeHighlightDragArea(dropContainerId);
-  currentDraggedElement = null;
-}
-
-
-function allowDrop(ev) {
-  ev.preventDefault();
-}
-
-
-function addHighlightDragArea(id) {
-  let dragArea = document.getElementById(id);
-  dragArea.classList.add("board-highlight-drag-area");
-}
-
-
-function removeHighlightDragArea(id) {
-  let dragArea = document.getElementById(id);
-  dragArea.classList.remove("board-highlight-drag-area");
-}
-
-///////////////// SEARCH FUNCTION //////////////////////////////////////////////////
-
-function searchTasks() {
-  let searchField = document.getElementById("boardSearchInput").value.toLowerCase();
-  let taskCards = document.querySelectorAll(".board-cards");
-
-  if (searchField === "") {
-    showAllTasks(taskCards);
-    hideNoResultsError();
-  } else {
-    filterTasks(searchField, taskCards);
-  }
-}
-
-
-function showAllTasks(taskCards) {
-  taskCards.forEach(taskCard => {
-    taskCard.style.display = "flex";
-  });
-}
-
-
-function updateTaskVisibility(taskCard, shouldShow) {
-  taskCard.style.display = shouldShow ? "flex" : "none";
-}
-
-
-function filterTasks(searchField, taskCards) {
-  let matchFound = false;
-
-  taskCards.forEach(taskCard => {
-    let title = taskCard.querySelector(".board-card-title").innerText.toLowerCase();
-    let description = taskCard.querySelector(".board-card-description").innerText.toLowerCase();
-    let isMatch = title.includes(searchField) || description.includes(searchField);
-
-    updateTaskVisibility(taskCard, isMatch);
-    if (isMatch) matchFound = true;
-  });
-
-  matchFound ? hideNoResultsError() : showNoResultsError();
-}
-
-
-function showNoResultsError() {
-  document.querySelector(".board-no-results").style.display = "flex";
-  document.querySelector(".board-search-input").classList.add("board-no-results-error");
-}
-
-
-function hideNoResultsError() {
-  document.querySelector(".board-no-results").style.display = "none";
-  document.querySelector(".board-search-input").classList.remove("board-no-results-error");
-}
-
-
-// MOVE TO OVERLAY FUNCTIONS ////////////////////////////////////////////////////////
-
-
-function renderMoveToMobileOverlay(taskId) {
-  let overlayContainer = document.getElementById("moveToMobileOverlay");
-  overlayContainer.innerHTML = "";
-
-  overlayContainer.innerHTML = generateMoveToMobileOverlayHtml(taskId);
-}
-
-
-
-// HTML FOR MOVE TO MOBILE OVERLAY
-function generateMoveToMobileOverlayHtml(taskId) {
-  return /*html*/ `
-  <div class="board-move-to-mobile-card">
-    <h2 class="board-move-to-title">Move Task to</h2>
-    <button class="board-move-to-buttons" onclick="moveTaskToMobile('to do', ${taskId})">To do</button>
-    <button class="board-move-to-buttons" onclick="moveTaskToMobile('in progress', ${taskId})">In progress</button>
-    <button class="board-move-to-buttons" onclick="moveTaskToMobile('await feedback', ${taskId})">Await feedback</button>
-    <button class="board-move-to-buttons" onclick="moveTaskToMobile('done', ${taskId})">Done</button>
-    <img class="board-move-to-xmark" src="./assets/icons/close-contact.svg" alt="" onclick="closeMoveToMobileOverlay()">
-  </div>
-  `;
-}
-
-
-function closeMoveToMobileIfClickOutside(event) {
-  let card = document.querySelector('.board-move-to-mobile-card');
-    if (!card.contains(event.target)) {
-        closeMoveToMobileOverlay();
-    }
-}
-
-
-
-function openMoveToMobileOverlay(event, taskId) {
-  event.stopPropagation(); 
-  renderMoveToMobileOverlay(taskId); 
-  let overlay = document.getElementById("moveToMobileOverlay");
-  let card = overlay.querySelector('.board-move-to-mobile-card');
-
-  showMoveToOverlay(overlay, card);
-}
-
-
-
-function closeMoveToMobileOverlay() {
-  let overlay = document.getElementById("moveToMobileOverlay");
-  let card = overlay.querySelector('.board-move-to-mobile-card');
-
-  hideMoveToOverlay(overlay, card);
-}
-
-
-
-function showMoveToOverlay(overlay, card) {
-  overlay.style.display = "flex"; 
-  overlay.classList.add('fadeInMoveToMobile'); 
-  card.classList.add('slideInMoveToMobile'); 
-}
-
-
-
-function hideMoveToOverlay(overlay, card) {
-  card.classList.remove('slideInMoveToMobile'); 
-  card.classList.add('slideOutMoveToMobile'); 
-  overlay.classList.remove('fadeInMoveToMobile'); 
-  overlay.classList.add('fadeOutMoveToMobile'); 
-
-  setTimeout(() => {
-      overlay.style.display = "none"; 
-      overlay.classList.remove('fadeOutMoveToMobile'); 
-      card.classList.remove('slideOutMoveToMobile'); 
-  }, 300); 
-}
-
-
-
-async function moveTaskToMobile(status, taskId) {
-  let firebaseId = getFirebaseIdByTaskId(taskId);
-
-  if (firebaseId) {
-      await updateTaskStatusInFirebase(firebaseId, status);
-      await updateBoard();
-  }
-  closeMoveToMobileOverlay();
 }
