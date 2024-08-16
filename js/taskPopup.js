@@ -158,7 +158,7 @@ async function toggleSubtaskCheck(subtaskId) {
     checkboxImg.src = task.Subtasks[subtaskId].isChecked ? './assets/icons/checkedBox.svg' : './assets/icons/uncheckedBox.svg';
 
     await putData(`tasks/${task.firebaseId}`, task);
-
+    await updateBoard();
 }
 
 function toggleCheckboxImage(checkboxDiv) {
