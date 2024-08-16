@@ -149,26 +149,34 @@
 
 /* Scrollbalken-Stile anpassen */
 .subtask-list::-webkit-scrollbar,
-.contact-list::-webkit-scrollbar {
+.contact-list::-webkit-scrollbar ,
+.contacts::-webkit-scrollbar  ,
+.subtasks::-webkit-scrollbar {
     width: 8px;
     /* Breite des Scrollbalkens */
     color: rgba(168, 168, 168, 1)
 }
 
 .subtask-list::-webkit-scrollbar,
-.contact-list::-webkit-scrollbar-track {
+.contact-list::-webkit-scrollbar-track ,
+.contacts::-webkit-scrollbar ,
+.subtasks::-webkit-scrollbar  {
     background: #f1f1f1;
     /* Hintergrund des Scrollbalken-Tracks */
 }
 
 .subtask-list::-webkit-scrollbar-thumb,
-.contact-list::-webkit-scrollbar-thumb {
+.contact-list::-webkit-scrollbar-thumb ,
+.contacts::-webkit-scrollbar  ,
+.subtasks::-webkit-scrollbar {
     background: #888;
     /* Hintergrund des Scrollbalkens */
 }
 
 .subtask-list::-webkit-scrollbar-thumb:hover,
-.contact-list::-webkit-scrollbar-thumb:hover {
+.contact-list::-webkit-scrollbar-thumb:hover ,
+.contacts::-webkit-scrollbar  ,
+.subtasks::-webkit-scrollbar {
     background: #555;
     /* Hintergrund des Scrollbalkens beim Hover */
 }
@@ -462,18 +470,20 @@
 }
 
 
+
+
 .contact-checkbox {
     width: 24px;
     height: 24px;
     padding: 4px 0 0 0;
     border-radius: 3px;
-    background: url('/assets/icons/uncheckedBox.svg') no-repeat center center;
+    background: url('./assets/icons/uncheckedBox.svg') no-repeat center center;
     background-size: contain;
     cursor: pointer;
 }
 
 .contact-checkbox.checked {
-    background: url('/assets/icons/Checkedbuttonwhite.svg') no-repeat center center;
+    background: url('./assets/icons/Checkedbuttonwhite.svg') no-repeat center center;
     background-size: contain;
 
 }
@@ -564,7 +574,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: rgba(0, 0, 0, 0);
     opacity: 1;
     display: block;
-    background: url(/assets/icons/calendar.svg) no-repeat;
+    background: url(./assets/icons/calendar.svg) no-repeat;
     width: 24px;
     height: 24px;
     border-width: thin;
@@ -763,9 +773,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     list-style-type: disc;
     padding-left: 20px;
     max-height: 100px;
-    /* Set the maximum height */
     overflow-y: auto;
-    /* Enable vertical scrolling */
 }
 
 .subtask-item {
@@ -787,7 +795,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     height: 32px;
     padding: 4px 16px;
     padding-right: 72px;
-    /* Platz für die Icons */
     background: rgba(255, 255, 255, 1);
     font-family: Inter;
     font-size: 16px;
@@ -811,7 +818,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     display: flex;
     position: absolute;
     right: 16px;
-    /* Platz von rechts */
     top: 50%;
     transform: translateY(-50%);
     gap: 4px;

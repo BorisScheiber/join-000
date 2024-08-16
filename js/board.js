@@ -153,6 +153,30 @@ function renderBoard() {
   checkIfContainerIsEmpty();
 }
 
+<<<<<<< Updated upstream
+=======
+// HTML CARDS
+function generateSingleTaskHtml(task) {
+  return /*html*/ `
+  <div onclick=" openTaskDetails(${task.id})" id="${task.id}" class="board-cards" draggable="true"
+  ondragstart="startDragging(${task.id})" ondragend="resetRotateTask(this)">
+    ${checkSingleTaskCategory(task.Category)}
+    <div class="board-card-text-container">
+        <span class="board-card-text board-card-title">${task.Title}</span>
+        ${checkSingleTaskDescription(task.Description)}
+    </div>
+    ${generateSubtaskHtml(task.Subtasks)}
+    <div class="board-card-profiles-priority">
+        <div class="board-card-profile-badges">
+            ${generateAssignedToProfileBadges(task.Assigned_to)}
+        </div>
+        ${checkSingleTaskPriority(task.Prio)}
+    </div>
+    <div onclick="openMoveToMobileOverlay(event, ${task.id})" class="board-card-category-icon"></div>
+  </div>
+  `;
+}
+>>>>>>> Stashed changes
 
 /**
  * Returns the appropriate container element for a given task status.
