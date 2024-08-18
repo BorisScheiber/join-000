@@ -196,10 +196,10 @@ async function deleteTask(taskId) {
     }
 }
 
-function editTask(taskId) {
-    // Redirect to the edit task page with the task ID
-    window.location.href = `editTask.html?id=${taskId}`;
-}
+// function editTask(taskId) {
+//     // Redirect to the edit task page with the task ID
+//     window.location.href = `editTask.html?id=${taskId}`;
+// }
 
 // Event listener for clicking outside the popup to close it
 window.addEventListener('click', (event) => {
@@ -208,3 +208,144 @@ window.addEventListener('click', (event) => {
         closeTaskDetailsPopup();
     }
 });
+
+
+
+// const url = `${BASE_URL}tasks/${-O4_8JS5zSIhISMY_U_a}.json`;
+
+async function getTaskToEdit(taskId) {
+    const url = `${BASE_URL}tasks/${taskId}.json`;
+    console.log('Fetching URL:', url); // Debugging-Statement
+    
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const task = await response.json();
+        if (!task) {
+            console.error('Task not found in database!');
+        }
+        return task;
+    } catch (error) {
+        console.error('Error fetching task:', error);
+        return null;
+    }
+}
+
+// Diese Funktion wird aufgerufen, wenn der "Edit"-Button geklickt wird
+async function editTask(taskId) {
+    console.log('Editing task with ID:', taskId); // Debugging-Statement
+
+    try {
+        // Schließe das Detailfenster, bevor das Editierformular geöffnet wird
+        closeTaskDetailsPopup();
+
+        const task = await getTaskToEdit(taskId);
+        if (!task) {
+            console.error('Task not found!');
+            return;
+        }
+
+        console.log('Task details:', task);
+
+        // Überprüfe und konvertiere `Assigned_to` in ein Array, falls nötig
+        const assignedToArray = Array.isArray(task.Assigned_to)
+            ? task.Assigned_to
+            : Object.values(task.Assigned_to || {});
+
+        // Konvertiere `task.Subtasks` in ein Array, falls nötig
+        const subtasksArray = Array.isArray(task.Subtasks)
+            ? task.Subtasks
+            : Object.values(task.Subtasks || {});
+
+        // Erstelle das Editierformular HTML
+        const formHTML = /*html*/ `
+            <div id="editTaskPopup" class="task-details-content">
+                <div class="popup-content">
+                    <h2>Edit Task</h2>
+                    <form id="editTaskForm">
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" name="title" value="${task.Title || ''}" required>
+
+                        <label for="description">Description:</label>
+                        <textarea id="description" name="description" required>${task.Description || ''}</textarea>
+
+                        <label for="dueDate">Due Date:</label>
+                        <input type="date" id="dueDate" name="dueDate" value="${task.Due_date || ''}" required>
+
+                        <label for="priority">Priority:</label>
+                        <select id="priority" name="priority" required>
+                            <option value="urgent" ${task.Prio === 'urgent' ? 'selected' : ''}>Urgent</option>
+                            <option value="medium" ${task.Prio === 'medium' ? 'selected' : ''}>Medium</option>
+                            <option value="low" ${task.Prio === 'low' ? 'selected' : ''}>Low</option>
+                        </select>
+
+                        <label for="assignedTo">Assigned To:</label>
+                        <input type="text" id="assignedTo" name="assignedTo" value="${assignedToArray.map(contact => contact.name).join(', ')}">
+
+                        <label for="subtasks">Subtasks:</label>
+                        <input type="text" id="subtasks" name="subtasks" value="${subtasksArray.map(subtask => subtask.description).join(', ')}">
+
+                        <button type="submit">Save</button>
+                        <button type="button" onclick="closeEditTaskPopup()">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        `;
+
+        // Füge das Formular HTML in die bestehende Seite ein
+        const container = document.getElementById('editTaskContainer');
+        container.innerHTML = formHTML;
+
+        // Zeige das Popup an
+        document.getElementById('editTaskPopup').style.display = 'block';
+
+        // Event-Listener für das Formular speichern
+        document.getElementById('editTaskForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            await saveTask(taskId);
+        });
+
+    } catch (error) {
+        console.error('Error in editTask:', error);
+    }
+}
+// Funktion zum Speichern der Aufgabe
+async function saveTask(taskId) {
+    const updatedTask = {
+        Title: document.getElementById('title').value,
+        Description: document.getElementById('description').value,
+        Due_date: document.getElementById('dueDate').value,
+        Prio: document.getElementById('priority').value,
+        Assigned_to: document.getElementById('assignedTo').value.split(',').map(name => ({ name })),
+        Subtasks: document.getElementById('subtasks').value.split(',').map(description => ({ description, isChecked: false }))
+    };
+
+    await fetch(`${BASE_URL}tasks/${taskId}.json`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedTask)
+    });
+
+    alert('Task updated successfully!');
+    closeEditTaskPopup();
+    renderBoard(); // Aktualisiere die Board-Seite
+}
+
+// Funktion zum Schließen des Editierformulars
+function closeEditTaskPopup() {
+    document.getElementById('editTaskPopup').style.display = 'none';
+}
+
+(async () => {
+    const testTaskId = '-O4_8JS5zSIhISMY_U_a'; // Beispiel-Id
+    try {
+        const task = await getTaskToEdit(testTaskId);
+        console.log('Fetched task:', task);
+    } catch (error) {
+        console.error('Error during test fetch:', error);
+    }
+})();
