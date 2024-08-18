@@ -1173,12 +1173,23 @@ a{
 
     .button-save-contact{
         height: 51px;
-        width: 202px;
+        width: 99px;
+        font-size: 21px;
+    }
+
+    .button-delete-contact{
+        height: 51px;
+        width: 82px;
         font-size: 21px;
     }
 
     .contact-input-icon{
         top: 40%;
+    }
+
+    .edit-contact-text-area{
+        margin-top: 100px;
+        margin-left: 24px;
     }
     
 }
@@ -1207,6 +1218,8 @@ a{
     .contact-detail-section{
         display: none;
     }
+
+
 }
 
 @media (max-width: 470px){
