@@ -1,6 +1,6 @@
 /**
- * Gets an array of objects representing the assigned contacts, each with name and ID.
- * It fetches contact data from Firebase and matches the selected contact names with their IDs.
+ * Gets an array of objects representing the assigned contacts, each with name and ID and color.
+ * It fetches contact data from Firebase and matches the selected contact names with their IDs and color.
  *
  * @returns {Promise<Array<object>>} A promise that resolves with an array of assigned contact objects.
  */
@@ -9,12 +9,15 @@ async function getAssignedContacts() {
     const checkboxes = document.querySelectorAll('.contact-list .contact-checkbox.checked');
     try {
         const contactsData = await getData("contacts");
-        checkboxes.forEach(checkbox => {
+        for (const checkbox of checkboxes) { // Use for...of loop for async/await
             const contactName = checkbox.parentElement.querySelector("span:nth-child(2)").textContent;
-            const contactId = Object.entries(contactsData).find(([, contact]) => contact.name === contactName)?.[0];
-            if (contactId) assignedContacts.push({ name: contactName, id: contactId });
-            else console.warn(`Contact ID not found for ${contactName}`);
-        });
+            const contact = Object.values(contactsData).find(c => c.name === contactName); // Find contact by name
+            if (contact) {
+                assignedContacts.push({ name: contactName, id: contact.id, color: contact.color }); // Push color
+            } else {
+                console.warn(`Contact not found for ${contactName}`);
+            }
+        }
     } catch (error) {
         console.error("Error fetching contacts:", error);
     }

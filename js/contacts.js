@@ -5,7 +5,7 @@ let selectedContactElement = null;
 
 // initiates the content of contact.html
 
-async function initContatcs(){
+async function initContacts(){
     displayDesktopSidebar();
     displayHeader();
     displayMobileNav();
@@ -153,6 +153,15 @@ function closeNewContact(){
     addNewContactContainer.style.display = 'none';
 }
 
+function handleShowContactDetail(name) {
+    if (window.innerWidth >= 850) {
+        showContactDetail(name); // Für größere Bildschirme
+    } else {
+        hideContactList(); // Kontaktliste ausblenden
+        showContactDetailSmallScreen(name); // Für kleinere Bildschirme
+    }
+}
+
 function showContactDetail(name){
     const user = contacts.find(u => u.name === name);
     const contactDetail = document.getElementById('contactDetail');
@@ -167,6 +176,37 @@ function showContactDetail(name){
         selectedContactElement = contactElement;
     }
 }
+
+function hideContactList() {
+    const contactList = document.getElementById('contactListResponsive');
+    if (contactList) {
+        contactList.style.display = 'none';
+        console.log('Kontaktliste ausgeblendet');
+        console.log('Aktueller Display-Status:', window.getComputedStyle(contactList).display);
+    }
+}
+
+function showContactDetailSmallScreen(name) {
+    const user = contacts.find(u => u.name === name);
+    const contactDetail = document.getElementById('contactDetail');
+    if (contactDetail) {
+        contactDetail.innerHTML = generateContactDetailHTML(user, user.color);
+        contactDetail.style.display = 'flex';
+        console.log('Kontakt-Detail angezeigt');
+        console.log('Aktueller Display-Status:', window.getComputedStyle(contactDetail).display);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.single-contact').forEach(contactElement => {
+        contactElement.onclick = function() {
+            const name = this.getAttribute('data-name');
+            handleShowContactDetail(name);
+        };
+    });
+});
+
+
 
 function openEditingContact(contactId) {
 
