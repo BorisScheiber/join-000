@@ -84,3 +84,25 @@ function displayMobileNavHTML() {
         </a>
     `;
 }
+
+
+/**
+ * Generates the HTML content for the landscape warning message on mobile devices.
+ * 
+ * This function returns a string of HTML that represents a warning message to be displayed
+ * when the device is in landscape orientation on mobile. The warning includes an image icon
+ * and text prompting the user to rotate their device to portrait mode.
+ * 
+ * @returns {string} The HTML string for the landscape warning message.
+ */
+function displayLandscapeWarningMobileHTML() {
+    return /*html*/ `
+    <div class="landscape-warning-container">
+        <div class="landscape-warning-imagebox">
+            <img class="landscape-warning-icon" src="./assets/icons/mobile/rotateDevice.png" alt="">
+        </div>
+        <span class="landscape-warning-seperator"></span>
+        <span class="landscape-warning-text">Please <br> rotate <br> your <br> device</span>
+    </div>
+    `;
+}

@@ -11,6 +11,69 @@ async function init() {
 }
 
 
+
+function initLandscapeWarning() {
+  displayLandscapeWarningMobile();
+
+  if (isMobileDevice() && isTouchDevice()) {
+    handleOrientationChangeMobile();
+  }
+}
+
+
+
+function displayLandscapeWarningMobile() {
+  let warningOverlay = document.getElementById('landscapeWarningMobile');
+  warningOverlay.innerHTML = "";
+  warningOverlay.innerHTML = displayLandscapeWarningMobileHTML();
+}
+
+
+
+function handleOrientationChangeMobile() {
+  let mediaQuery = window.matchMedia("(orientation: landscape)");
+
+  toggleLandscapeWarning(mediaQuery.matches);
+
+  mediaQuery.addEventListener("change", (e) => {
+    toggleLandscapeWarning(e.matches);
+  });
+
+  window.addEventListener('resize', () => {
+    toggleLandscapeWarning(mediaQuery.matches);
+  });
+}
+
+
+
+function toggleLandscapeWarning(show) {
+  let warningOverlay = document.getElementById('landscapeWarningMobile');
+  let body = document.querySelector('body');
+  if (warningOverlay) {
+    if (show && window.innerHeight <= 850) { 
+      warningOverlay.style.display = 'flex';
+      body.style.overflow = 'hidden';
+    } else {
+      warningOverlay.style.display = 'none';
+      body.style.overflow = 'auto';
+    }
+  }
+}
+
+
+
+function isMobileDevice() {
+  let userAgent = navigator.userAgent.toLowerCase();
+  return /mobi|android|iphone|ipod|ipad|tablet/i.test(userAgent);
+}
+
+
+
+function isTouchDevice() {
+  return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+}
+
+
 /**
  * Gets the user's initials from localStorage.
  * If user initials are not found, it checks for guest initials.

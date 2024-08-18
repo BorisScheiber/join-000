@@ -332,6 +332,8 @@
   cursor: pointer;
 }
 
+/* Media Queries */
+
 @media (max-width: 950px) {
   .sign-up-container {
     gap: 35px;

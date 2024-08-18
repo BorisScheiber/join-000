@@ -19,9 +19,10 @@
   <link rel="stylesheet" href="./css/fonts.css">
   <link rel="stylesheet" href="./css/main.css">
   <link rel="stylesheet" href="./css/login.css">
+  <link rel="stylesheet" href="./css/landscapeWarning.css">
 </head>
 
-<body onload="initLogin()">
+<body onload="initLogin(); initLandscapeWarning();">
 
 
   <main id="loginContent" class="login-content">
@@ -84,9 +85,14 @@
       <a class="login-legal-link" href="#" onclick="window.open('./privacyPolicyNo.html', '_blank'); return false;">Privacy Policy</a>
       <a class="login-legal-link" href="#" onclick="window.open('./legalNoticeNo.html', '_blank'); return false;">Legal notice</a>
     </div>
+
+    <!-- ORIENTATION WARNING MOBILE -->
+    <div id="landscapeWarningMobile" class="landscape-warning"></div>
+
   </main>
 
-  
+<script src="./js/html/mainHTML.js"></script> 
+<script src="./js/main.js"></script>
 <script src="./js/firebase.js"></script>
 <script src="./js/login.js"></script>
 </body>

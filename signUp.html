@@ -19,9 +19,10 @@
   <link rel="stylesheet" href="./css/fonts.css">
   <link rel="stylesheet" href="./css/main.css">
   <link rel="stylesheet" href="./css/signUp.css">
+  <link rel="stylesheet" href="./css/landscapeWarning.css">
 </head>
 
-<body onload="initSignUp()">
+<body onload="initSignUp(); initLandscapeWarning();">
   <main class="signup-content">
     <div class="signup-join-logo"></div>
     <div class="signup-card-content">
@@ -100,7 +101,12 @@
         notice</a>
     </div>
 
+    <!-- ORIENTATION WARNING MOBILE -->
+    <div id="landscapeWarningMobile" class="landscape-warning"></div>
+
   </main>
+  <script src="./js/html/mainHTML.js"></script> 
+  <script src="./js/main.js"></script>
   <script src="./js/firebase.js"></script>
   <script src="./js/signUp.js"></script>
 </body>
