@@ -94,7 +94,7 @@
 
     .add-task-left,
     .add-task-right {
-        width: 50% !important;
+        width: 45% !important;
     }
 
     .footer {
@@ -155,12 +155,40 @@
         justify-content: flex-start;
     }
 
-
+    .contact-logo {
+        width: 32px;
+        height: 32px;
+        margin-right: 5px;
+    }
+    .contact-item {
+      
+        padding: 7px 6px;}
+    .contact-item span {
+    
+        font-size: 12px ;
+    
+    }
 
 
 }
 
-@media (max-width: 850px) {
+@media (max-width: 950px) {
+    .addTaskPopup {
+        z-index: 10 !important;
+    }
+    .contact-logo {
+        width: 42px;
+        height: 42px;
+        margin-right: 10px;
+    }
+    .contact-item {
+      
+        padding: 7px 16px;}
+    .contact-item span {
+    
+        font-size: 20px;
+    
+    }
     .add-task-left {
         height: 376px !important;}
 
@@ -317,7 +345,7 @@
         justify-content: space-between;
         width: 100%;
         height: 74px;
-        padding: 20px 50px;
+        padding: 20px 65px;
         position: fixed;
         bottom: 81px;
         left: 0;

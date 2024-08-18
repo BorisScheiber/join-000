@@ -11,9 +11,10 @@ async function openTaskDetails(taskId) {
         <div class="task-details-content " data-task-id="${task.id}">
             <div class="popup-header">
            <div class="task-category ${checkSingleTaskCategoryPopup(task.Category)}"><span >${task.Category}</span></div>
-                <img src="./assets/icons/close-contact.svg" alt="Close" class="close-popup" onclick="closeTaskDetailsPopup()">
+                <img src="./assets/icons/close-contact.svg" alt="Close" class="close-popup-button" onclick="closeTaskDetailsPopup()">
             </div>
             <span class="task-title">${task.Title}</span>
+            <div class="popup-content-task">
             <span class="task-description">${task.Description}</span>
                 <div class="due-date">
                     <p>Due Date:</p>
@@ -34,6 +35,7 @@ async function openTaskDetails(taskId) {
                 <div class="subtasks" id="subtask-list">
                     ${displaySubtasks(task.Subtasks)} 
                 </div>
+            </div>
             </div>
             <div class="popup-buttons">
                 <div class="delete-button" onclick="deleteTask('${task.firebaseId}')">
@@ -86,11 +88,10 @@ function displayAssignedContacts(contacts) {
     for (const contactId in contacts) {
         const contact = contacts[contactId];
         const initials = contact.name.split(' ').map(part => part.charAt(0)).join('');
-        const randomColor = getRandomColor();
 
         html += /*html*/ `
         <div class="contact-item-assigned">
-          <div class="contact-logo" style="background-color: ${randomColor}">${initials}</div>
+          <div class="contact-logo" style="background-color: ${contact.color}">${initials}</div>
           <span>${contact.name}</span>
         </div>
       `;
@@ -98,14 +99,6 @@ function displayAssignedContacts(contacts) {
     return html;
 }
 
-function getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let index = 0; index < 6; index++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
 
 async function toggleSubtaskCheck(subtaskId) {
     const taskId = document.querySelector('.task-details-content').dataset.taskId;
@@ -125,7 +118,7 @@ async function toggleSubtaskCheck(subtaskId) {
 
 function displaySubtasks(subtasks) {
     if (!subtasks || Object.keys(subtasks).length === 0) {
-        return '<p>You don`t have any subtasks</p>';
+        return '<p>You don`t have any subtasks .</p>';
     }
     let html = '';
     for (const subtaskId in subtasks) {
