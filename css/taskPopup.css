@@ -18,6 +18,9 @@
     max-height: 700px;
     flex-direction: column;
     width: 100%;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 .task-details-content {
