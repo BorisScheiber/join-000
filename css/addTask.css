@@ -19,7 +19,7 @@
 
 
 .add-task-left {
-    height: 376px;
+    /* height: 376px; */
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -831,6 +831,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .subtask-text {
     width: 99%;
+    padding: 5px 0px;
 }
 
 .subtask-item {
