@@ -287,13 +287,6 @@
 }
 
 
-
-
-
-
-
-
-
 .popup-edit-task{
     gap: 24px;
     display: flex;
@@ -343,7 +336,7 @@
     align-items: center;
     margin-bottom: 10px;
     padding: 10px;
-    background-color: #f5f5f5;
+  
     border-radius: 5px;
 } */
 
