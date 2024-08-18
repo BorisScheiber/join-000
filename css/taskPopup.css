@@ -294,7 +294,17 @@
 
 
 
-
+.popup-edit-task{
+    gap: 24px;
+    display: flex;
+    overflow-x: auto;
+    max-height: 700px;
+    flex-direction: column;
+    width: 100%;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
 
 
 .contact-selector {
@@ -322,20 +332,20 @@
     margin-bottom: 5px;
 }
 
-#edit-assigned-to {
+/* #edit-assigned-to {
     padding: 20px;
     background-color: #fff;
     border: 1px solid #ddd;
-}
+} */
 
-.contact-item-assigned {
+/* .contact-item-assigned {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
     padding: 10px;
     background-color: #f5f5f5;
     border-radius: 5px;
-}
+} */
 
 .contact-logo {
     width: 30px;

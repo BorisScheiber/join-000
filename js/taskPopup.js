@@ -351,7 +351,7 @@ function displayAssignedContactsForEdit(contacts) {
         html += `
         <div class="contact-item-assigned">
           <div class="contact-logo" style="background-color: ${contact.color}">${initials}</div>
-          <span>${contact.name}</span>
+          <span class="contacts">${contact.name}</span>
         </div>
       `;
     }
