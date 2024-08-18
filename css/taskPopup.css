@@ -15,7 +15,7 @@
     gap: 24px;
     display: flex;
     overflow-x: auto;
-    max-height: 400px;
+    max-height: 700px;
     flex-direction: column;
     width: 100%;
 }
@@ -29,6 +29,7 @@
     height: 931px;
     width: 525px;
     max-width: 90%;
+    padding-bottom: 60px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
     animation: slideIn 400ms ease-in-out;

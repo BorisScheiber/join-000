@@ -13,8 +13,8 @@ async function openTaskDetails(taskId) {
            <div class="task-category ${checkSingleTaskCategoryPopup(task.Category)}"><span >${task.Category}</span></div>
                 <img src="./assets/icons/close-contact.svg" alt="Close" class="close-popup-button" onclick="closeTaskDetailsPopup()">
             </div>
-            <span class="task-title">${task.Title}</span>
             <div class="popup-content-task">
+            <span class="task-title">${task.Title}</span>
             <span class="task-description">${task.Description}</span>
                 <div class="due-date">
                     <p>Due Date:</p>

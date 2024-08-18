@@ -147,38 +147,30 @@
     cursor: pointer;
 }
 
-/* Scrollbalken-Stile anpassen */
-.subtask-list::-webkit-scrollbar,
+
+
+
+.popup-content-task::-webkit-scrollbar ,
 .contact-list::-webkit-scrollbar ,
-.contacts::-webkit-scrollbar  ,
-.subtasks::-webkit-scrollbar {
+.subtask-list::-webkit-scrollbar, 
+.contacts::-webkit-scrollbar {
     width: 8px;
-    /* Breite des Scrollbalkens */
-    color: rgba(168, 168, 168, 1)
 }
 
-.subtask-list::-webkit-scrollbar,
-.contact-list::-webkit-scrollbar-track ,
-.contacts::-webkit-scrollbar ,
-.subtasks::-webkit-scrollbar  {
-    background: #f1f1f1;
-    /* Hintergrund des Scrollbalken-Tracks */
-}
-
-.subtask-list::-webkit-scrollbar-thumb,
+.popup-content-task::-webkit-scrollbar-thumb ,
 .contact-list::-webkit-scrollbar-thumb ,
-.contacts::-webkit-scrollbar  ,
-.subtasks::-webkit-scrollbar {
-    background: #888;
-    /* Hintergrund des Scrollbalkens */
+.subtask-list::-webkit-scrollbar-thumb, 
+.contacts::-webkit-scrollbar-thumb {
+    background-color: #A8A8A8;
+    border-radius: 4px;
+    min-height: 53px;
 }
 
-.subtask-list::-webkit-scrollbar-thumb:hover,
+.popup-content-task::-webkit-scrollbar-thumb:hover ,
 .contact-list::-webkit-scrollbar-thumb:hover ,
-.contacts::-webkit-scrollbar  ,
-.subtasks::-webkit-scrollbar {
-    background: #555;
-    /* Hintergrund des Scrollbalkens beim Hover */
+.subtask-list::-webkit-scrollbar-thumb:hover, 
+.contacts::-webkit-scrollbar-thumb:hover {
+    background-color: #A8A8A8;
 }
 
 .contact-list.hidden {
