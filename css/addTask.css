@@ -150,14 +150,14 @@
 
 
 
-.popup-content-task::-webkit-scrollbar ,
+/* .popup-content-task::-webkit-scrollbar ,
 .contact-list::-webkit-scrollbar ,
 .subtask-list::-webkit-scrollbar, 
 .contacts::-webkit-scrollbar {
     width: 8px;
-}
+} */
 
-.popup-content-task::-webkit-scrollbar-thumb ,
+/* .popup-content-task::-webkit-scrollbar-thumb ,
 .contact-list::-webkit-scrollbar-thumb ,
 .subtask-list::-webkit-scrollbar-thumb, 
 .contacts::-webkit-scrollbar-thumb {
@@ -171,7 +171,7 @@
 .subtask-list::-webkit-scrollbar-thumb:hover, 
 .contacts::-webkit-scrollbar-thumb:hover {
     background-color: #A8A8A8;
-}
+} */
 
 .contact-list.hidden {
     display: none !important;
