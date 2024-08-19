@@ -1449,6 +1449,7 @@ a {
       padding-bottom: 0;
       justify-content: center;
       height: calc(100vh - 160px);
+      height: calc(100svh - 160px);
     }
   
     .add-contact-button {
@@ -1510,6 +1511,14 @@ a {
     }
     .contact-detail-edit-button-mobile {
       display: inline-block;
+    }
+    .contact-detail-card-subheadline {
+      height: unset;
+    }
+    @media (max-height: 750px) {
+      .contact-detail-title {
+        margin-bottom: 36px;
+      }
     }
   }
   
