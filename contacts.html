@@ -21,10 +21,11 @@
     <link rel="stylesheet" href="./css/fonts.css">
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/contacts.css">
+    <link rel="stylesheet" href="./css/landscapeWarning.css">
 
 </head>
 
-<body onload="initContacts()">
+<body onload="initContacts(); initLandscapeWarning();">
 
     <header id="header"></header>
 
@@ -78,6 +79,8 @@
                 <img src="./assets/icons/editContactMenuResponsive.svg" alt="editMenu" class="edit-menu-responsive">
             </div>
         </div>
+        <!-- ORIENTATION WARNING MOBILE -->
+    <div id="landscapeWarningMobile" class="landscape-warning"></div>
 
     </main>
 

@@ -602,12 +602,9 @@ h3 {
   font-size: 47px;
   line-height: 56.4px;
   }
-
-  /* move to mobile overlay */
-  .board-move-to-mobile {
-    top: 80px;
-    height: calc(100vh - 160px);
-    height: calc(100svh - 160px);
+  .board-move-to-mobile-card {
+    margin-top: 80px;
+    margin-bottom: 80px;
   }
   
 }

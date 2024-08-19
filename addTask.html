@@ -21,10 +21,11 @@
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/addTask.css">
     <link rel="stylesheet" href="./css/addTaskResponsive.css">
+    <link rel="stylesheet" href="./css/landscapeWarning.css">
 
 </head>
 
-<body onload="init()">
+<body onload="init(); initLandscapeWarning();">
 
     <header id="header"></header>
     <div class="add-task-content">
@@ -183,6 +184,9 @@
     <section id="desktopSidebar" class="sidebar"></section>
 
     <nav id="mobileNav" class="nav-mobile"></nav>
+
+    <!-- ORIENTATION WARNING MOBILE -->
+    <div id="landscapeWarningMobile" class="landscape-warning"></div>
 
     <script src="./js/html/mainHTML.js"></script>
     <script src="./js/main.js"></script>

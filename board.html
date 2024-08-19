@@ -24,10 +24,11 @@
     <link rel="stylesheet" href="./css/addTask.css">
     <link rel="stylesheet" href="./css/taskPopup.css">
     <link rel="stylesheet" href="./css/taskPopup.css">
+    <link rel="stylesheet" href="./css/landscapeWarning.css">
 
 </head>
 
-<body onload="init(), initBoard()">
+<body onload="init(); initBoard(); initLandscapeWarning();">
 
     <header id="header"></header>
 
@@ -289,6 +290,13 @@
                             </div>
                         </div>
                     </div>
+
+
+
+
+            <!-- ORIENTATION WARNING MOBILE -->
+            <div id="landscapeWarningMobile" class="landscape-warning"></div>
+
     </main>
 
     <nav id="mobileNav" class="nav-mobile"></nav>
