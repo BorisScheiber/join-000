@@ -1,6 +1,7 @@
 let tasks = [];
 let contacts = [];
 let currentDraggedElement;
+let currentDraggedElementMobile;
 let isMobile = false;
 
 
