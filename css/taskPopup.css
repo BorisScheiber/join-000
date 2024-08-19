@@ -68,9 +68,8 @@
     display: flex;
     gap: 8px;
     position: absolute;
-    bottom: 48px;
+    bottom: 4%;
     right: 40px;
-
 }
 
 .priority-choice {
@@ -90,7 +89,7 @@
     color: rgba(0, 0, 0, 1);
 }
 
-.close-popup-button{
+.close-popup-button {
     top: 11%;
     right: 0%;
     left: auto;
@@ -262,6 +261,14 @@
 
 }
 
+@media screen and (max-width: 1376px),
+screen and (max-height: 850px) {
+
+    .task-details-content {
+        height: 90%;
+    }
+}
+
 @media (max-width: 370px) {
 
     .contact-item-assigned {
@@ -283,11 +290,17 @@
 
     }
 
- 
+
 }
 
 
-.popup-edit-task{
+
+
+
+
+
+
+.popup-edit-task {
     gap: 24px;
     display: flex;
     overflow-x: auto;

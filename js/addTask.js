@@ -374,6 +374,7 @@ async function postData(path = "", data = {}) {
     return responseAsJson = await response.json();
 }
 
+
 /**
  * Creates a new task object and saves it to Firebase.
  */

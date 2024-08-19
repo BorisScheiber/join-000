@@ -1,3 +1,9 @@
+/**
+ * Opens the task details popup for a given task ID.
+ * Fetches the task data from Firebase and populates the popup with the task details.
+ * 
+ * @param {string} taskId - The ID of the task to display in the popup.
+ */
 async function openTaskDetails(taskId) {
     const task = await getTaskById(taskId);
     if (!task) {
@@ -9,57 +15,26 @@ async function openTaskDetails(taskId) {
     console.log('Fetched task:', task);
     console.log('Assigned_to data:', task.Assigned_to);
 
+    // Call the function to generate the HTML content
+    const popupHTML = generateTaskDetailsPopupHTML(task);
+
+    // Get the popup element and set its content
     let popup = document.getElementById('taskDetailsPopup');
-    popup.innerHTML = ''; // Clear previous content
-    popup.innerHTML = /*html*/ `
-        <div class="task-details-content " data-task-id="${task.id}">
-            <div class="popup-header">
-           <div class="task-category ${checkSingleTaskCategoryPopup(task.Category)}"><span >${task.Category}</span></div>
-                <img src="./assets/icons/close-contact.svg" alt="Close" class="close-popup-button" onclick="closeTaskDetailsPopup()">
-            </div>
-            <div class="popup-content-task">
-            <span class="task-title">${task.Title}</span>
-            <span class="task-description">${task.Description}</span>
-                <div class="due-date">
-                    <p>Due Date:</p>
-                    <span>${task.Due_date}</span>
-                </div>
-                <div class="priority">
-                    <p>Priority:</p>
-                   <div class="priority-choice"> ${getPriorityIcon(task.Prio)} </div>
-            </div>
-            <div class="assigned-to">
-                <p class="assigned-to-title">Assigned To:</p>
-                <div class="contacts">
-                    ${displayAssignedContacts(task.Assigned_to)}
-                </div>
-            </div>
-            <div class="subtasks-container" id="subtask-container">
-                <p class="subtasks-title">Subtasks:</p>
-                <div class="subtasks" id="subtask-list">
-                    ${displaySubtasks(task.Subtasks)} 
-                </div>
-            </div>
-            </div>
-            <div class="popup-buttons">
-                <div class="delete-button" onclick="deleteTask('${task.firebaseId}')">
-                    <img src="./assets/icons/delete.svg" alt="Delete">
-                    <span>Delete</span>
-                </div>
-                <div class="vertical-line"></div>
-                <div class="edit-button" onclick="editTask('${task.firebaseId}')">
-                    <img src="./assets/icons/edit.svg" alt="Edit">
-                    <span>Edit</span>
-                </div>
-            </div>
-        </div>
-    `;
+    popup.innerHTML = popupHTML;
+
+    // Show the popup
     popup.style.display = 'flex';
     popup.classList.add('show');
     popup.classList.remove('hidden');
 }
 
 
+/**
+ * Checks the category of a task and returns the corresponding CSS class for styling.
+ * 
+ * @param {string} category - The category of the task.
+ * @returns {string} The CSS class for the task category.
+ */
 function checkSingleTaskCategoryPopup(category) {
     if (category === 'Technical Task') {
         return 'technical-task';
@@ -70,6 +45,13 @@ function checkSingleTaskCategoryPopup(category) {
     }
 }
 
+
+/**
+ * Returns the HTML for the priority icon based on the given priority level.
+ * 
+ * @param {string} priority - The priority level of the task.
+ * @returns {string} The HTML string for the priority icon.
+ */
 function getPriorityIcon(priority) {
     switch (priority?.toLowerCase()) {
         case 'urgent':
@@ -83,11 +65,18 @@ function getPriorityIcon(priority) {
     }
 }
 
+
+/**
+ * Generates the HTML for displaying the assigned contacts for a task.
+ * If there are no assigned contacts, it returns a message indicating that.
+ * 
+ * @param {Object} contacts - An object containing the assigned contacts for the task.
+ * @returns {string} The HTML string for displaying the assigned contacts.
+ */
 function displayAssignedContacts(contacts) {
     if (!contacts || Object.keys(contacts).length === 0) {
         return '<p class="no-assigned">No one.</p>'; // Return a paragraph if no contacts
     }
-
     let html = '';
     for (const contactId in contacts) {
         const contact = contacts[contactId];
@@ -104,22 +93,33 @@ function displayAssignedContacts(contacts) {
 }
 
 
-async function toggleSubtaskCheck(subtaskId) {
-    const taskId = document.querySelector('.task-details-content').dataset.taskId;
-    const task = await getTaskById(taskId);
-    if (!task) {
-        console.error('Task not found!');
-        return;
-    }
+/**
+ * Toggles the checked state of a subtask in the task details popup and updates the task in Firebase.
+ * Also updates the subtask list in the popup and refreshes the main board to reflect the changes.
+ * 
+ * @param {string} subtaskId - The ID of the subtask to toggle.
+ */
+// async function toggleSubtaskCheck(subtaskId) {
+//     const taskId = document.querySelector('.task-details-content').dataset.taskId;
+//     const task = await getTaskById(taskId);
+//     if (!task) {
+//         console.error('Task not found!');
+//         return;
+//     }
+//     task.Subtasks[subtaskId].isChecked = !task.Subtasks[subtaskId].isChecked;
+//     await putData(`tasks/${task.firebaseId}`, task);
+//     displaySubtasks(task.Subtasks); // Update popup
+//     renderBoard(); // Update the main board 
+// }
 
-    task.Subtasks[subtaskId].isChecked = !task.Subtasks[subtaskId].isChecked;
 
-    await putData(`tasks/${task.firebaseId}`, task);
-
-    displaySubtasks(task.Subtasks); // Update popup
-    renderBoard(); // Update the main board 
-}
-
+/**
+ * Generates the HTML for displaying the subtasks of a task in the popup.
+ * If there are no subtasks, it returns a message indicating that.
+ * 
+ * @param {Object} subtasks - An object containing the subtasks for the task.
+ * @returns {string} The HTML string for displaying the subtasks.
+ */
 function displaySubtasks(subtasks) {
     if (!subtasks || Object.keys(subtasks).length === 0) {
         return '<p>You don`t have any subtasks .</p>';
@@ -128,7 +128,6 @@ function displaySubtasks(subtasks) {
     for (const subtaskId in subtasks) {
         const subtask = subtasks[subtaskId];
         const checkboxImg = subtask.isChecked ? './assets/icons/checkedBox.svg' : './assets/icons/uncheckedBox.svg';
-
         html += /*html*/ `
             <div class="subtask-item-popup ${subtask.isChecked ? 'checked' : ''}" data-subtask-id="${subtaskId}">
                 <div class="subtask-checkbox" onclick="toggleSubtaskCheck('${subtaskId}');"> 
@@ -141,6 +140,13 @@ function displaySubtasks(subtasks) {
     return html;
 }
 
+
+/**
+ * Toggles the checked state of a subtask in the task details popup and updates the task in Firebase.
+ * Also updates the subtask list in the popup and refreshes the main board to reflect the changes.
+ * 
+ * @param {string} subtaskId - The ID of the subtask to toggle.
+ */
 async function toggleSubtaskCheck(subtaskId) {
     const taskId = document.querySelector('.task-details-content').dataset.taskId;
     const task = await getTaskById(taskId);
@@ -158,17 +164,28 @@ async function toggleSubtaskCheck(subtaskId) {
     await updateBoard();
 }
 
+
+/**
+ * Toggles the checkbox image between checked and unchecked states.
+ * 
+ * @param {HTMLElement} checkboxDiv - The div element containing the checkbox image.
+ */
 function toggleCheckboxImage(checkboxDiv) {
     const img = checkboxDiv.querySelector('img');
     img.src = img.src.includes('checkedBox.svg') ? './assets/icons/uncheckedBox.svg' : './assets/icons/checkedBox.svg';
 }
 
 
+/**
+ * Fetches a task from Firebase based on its ID.
+ * 
+ * @param {number} taskId - The ID of the task to fetch.
+ * @returns {Promise<Object|null>} A promise that resolves with the task object if found, or null if not found.
+ */
 async function getTaskById(taskId) {
     try {
         const allTasks = await getData('tasks');
         console.log('All Tasks:', allTasks); // Log all tasks
-
         for (const firebaseId in allTasks) {
             if (allTasks[firebaseId].id === parseInt(taskId)) {
                 return {
@@ -177,7 +194,6 @@ async function getTaskById(taskId) {
                 };
             }
         }
-        
         console.warn(`Task with ID ${taskId} not found.`);
         return null;
     } catch (error) {
@@ -186,6 +202,10 @@ async function getTaskById(taskId) {
     }
 }
 
+
+/**
+ * Closes the task details popup with a smooth animation.
+ */
 function closeTaskDetailsPopup() {
     let popup = document.getElementById('taskDetailsPopup');
     popup.classList.add('hidden');
@@ -195,6 +215,12 @@ function closeTaskDetailsPopup() {
     }, 400);
 }
 
+
+/**
+ * Deletes a task from Firebase after confirming with the user.
+ * 
+ * @param {string} taskId - The Firebase ID of the task to delete.
+ */
 async function deleteTask(taskId) {
     if (confirm("Are you sure you want to delete this task?")) {
         try {
@@ -257,7 +283,7 @@ async function getTaskIdForEdit(taskId) {
                 };
             }
         }
-        
+
         console.warn(`Task with ID ${taskId} not found.`);
         return null;
     } catch (error) {
@@ -270,7 +296,7 @@ async function getTaskIdForEdit(taskId) {
 async function editTask(taskId) {
     try {
         currentTaskId = taskId;
-        
+
         const task = await getTaskIdForEdit(taskId);
         if (!task) {
             console.error('Task not found!');
@@ -298,7 +324,7 @@ async function editTask(taskId) {
 function setEditPriority(priority) {
     const priorityButtons = document.querySelectorAll('.priority-button');
     priorityButtons.forEach(button => button.classList.remove('selected'));
-    
+
     const selectedButton = document.getElementById(`edit-${priority}-button`);
     if (selectedButton) {
         selectedButton.classList.add('selected');
@@ -313,8 +339,8 @@ async function saveTask() {
     const description = document.getElementById('edit-description').value;
     const dueDate = document.getElementById('edit-due-date').value;
     const priority = Array.from(document.querySelectorAll('.priority-button.selected'))
-                          .map(button => button.textContent.trim().toLowerCase())[0];
-    
+        .map(button => button.textContent.trim().toLowerCase())[0];
+
     // This assumes you have a way of gathering contact data from the edit form
     const contactElements = document.querySelectorAll('.contact-item-assigned');
     const assignedTo = {};
@@ -345,7 +371,7 @@ async function saveTask() {
 
 function displayAssignedContactsForEdit(contacts) {
     if (!contacts || Object.keys(contacts).length === 0) {
-        return '<p class="no-assigned">No one.</p>'; 
+        return '<p class="no-assigned">No one.</p>';
     }
 
     let html = '';

@@ -208,6 +208,11 @@
     display: flex;
     gap: 8px;
     margin-top: 10px;
+    flex-direction: column;
+    max-height: 75px;
+    overflow-x: auto;
+    flex-wrap: wrap;
+    align-content: flex-start;
 }
 
 .selected-logo {

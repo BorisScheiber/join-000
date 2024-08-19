@@ -99,12 +99,12 @@
 
     .footer {
         padding-top: 0px !important;
-        width: 100% !important;
+        width: 99% !important;
     }
 
     .popup-content {
         width: 80%;
-        height: 70%;
+        height: 90%;
         background-color: #fff;
         border-radius: 30px;
         padding: 0px;
@@ -162,7 +162,7 @@
     }
     .contact-item {
       
-        padding: 7px 6px;}
+        padding: 7px 6px !important;}
     .contact-item span {
     
         font-size: 12px ;
@@ -172,7 +172,10 @@
 
 }
 
-@media (max-width: 950px) {
+@media (max-width: 850px) {
+    .footer {
+        width: 98% !important;
+    }
     .addTaskPopup {
         z-index: 10 !important;
     }
@@ -201,10 +204,10 @@
 
         padding-left: 64px
     }
-
+/* 
     header {
         z-index: 100;
-    }
+    } */
 
     .nav-mobile {
         display: flex;
@@ -255,10 +258,6 @@
 
     }
 
-    .footer {
-        padding-top: 0px !important;
-        width: 100% !important;
-    }
 
     .add-task-content {
         margin-top: 80px;
@@ -343,9 +342,9 @@
     .footer {
         display: flex;
         justify-content: space-between;
-        width: 100%;
+        width: 99%;
         height: 74px;
-        padding: 20px 65px;
+        padding: 20px 62px !important;
         position: fixed;
         bottom: 81px;
         left: 0;
@@ -353,7 +352,7 @@
         align-items: center;
         background-color: #F6F7F8;
         gap: 12px;
-        z-index: 100;
+        z-index: 100 !important ;
     }
 
     .add-task-content h1 {
@@ -363,7 +362,7 @@
     }
 
     .add-task-title {
-        padding-top: 48px;
+        padding-top: 18px;
         padding-bottom: 24px;
         height: 112px;
         position: fixed;
@@ -371,7 +370,7 @@
         right: 0;
         top: 80px;
         background-color: #F6F7F8;
-        width: 100%;
+        width: 99%;
         z-index: 100;
 
     }
@@ -394,6 +393,10 @@
         padding-right: 16px;
         padding-left: 16px;
 
+    }
+    .footer{
+
+        padding: 20px 18px !important;
     }
 
 }

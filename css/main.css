@@ -451,6 +451,7 @@ header {
   header {
     padding: 20px 16px 20px 16px;
     height: 80px;
+    z-index: 100;
   }
 
   .header-title {
