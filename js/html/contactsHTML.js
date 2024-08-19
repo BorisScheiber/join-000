@@ -100,6 +100,18 @@ function generateContactHTML(user) {
 function generateContactDetailHTML(user, bgColor) {
     const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
     return /*HTML*/`
+        <div class="contact-detail-title">
+         <div class="contact-detail-header">
+            <h2 class="contact-detail-headline">Contact</h2>
+            <span class="contact-detail-separator"></span>
+            <h4 class="contact-detail-text">Better with a team</h4>
+            <span class="contact-detail-seperator-mobile"></span>
+         </div>
+            <div class="contact-detail-card-back-arrow">
+                <img onclick="closeContactDetailCard()" src="./assets/icons/backArrow.svg" alt="">
+            </div>
+        </div>
+        
         <div class="contact-detail-card-headline">
             <div class="contact-detail-profile-img" style="background-color: ${bgColor};">${initials}</div>
             <div class="contact-detail-card-user">
@@ -132,6 +144,19 @@ function generateContactDetailHTML(user, bgColor) {
                 <span class="contact-detail-information-block-subheadline">Phone</span>
                 <a href="tel:${user.phone}" class="contact-detail-information-block-text">${user.phone}</a>
             </div>
+        </div>
+        <button onclick="toggleContactDetailEditDropdown()" class="contact-detail-edit-button-mobile"></button>
+
+        <div id="contactDetailEditDropDown" class="contact-detail-edit-dropdown" style="display: none;">
+            <button onclick="openEditingContact('${user.id}')" class="contact-detail-edit-buttons">
+                <div class="contact-detail-edit-icon"></div>
+                <span class="contact-detail-edit-text">Edit</span>
+            </button>
+            <button onclick="deleteContactAndUpdateTasks('${user.id}')" class="contact-detail-edit-buttons">
+                <div class="contact-detail-edit-icon contact-detail-delete-icon"></div>
+                <span class="contact-detail-edit-text">Delete</span>
+            </button>
+            
         </div>
     `;
 }

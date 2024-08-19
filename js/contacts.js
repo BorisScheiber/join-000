@@ -325,3 +325,77 @@ function preventClickPropagation(event) {
 //     contactResponsive.classList.remove('display-none');
 //     contactMenuResponsive.classList.add('display-none');
 // }
+
+////////////////////////////////////////// BORIS ////////////////////////////////////////
+
+/**
+ * Closes the contact detail card by reloading the current page.
+ */
+function closeContactDetailCard() {
+    window.location.reload();
+}
+
+
+/**
+ * Toggles the visibility of the contact detail edit dropdown menu.
+ * If the dropdown is currently visible, it slides out and hides the dropdown.
+ * If the dropdown is currently hidden, it slides in and shows the dropdown.
+ */
+function toggleContactDetailEditDropdown() {
+    let dropdown = document.getElementById("contactDetailEditDropDown");
+  
+    if (dropdown.style.display === "flex") {
+      slideOutContactDropdown(dropdown);
+      document.removeEventListener("click", closeContactDetailEditDropdownOnClickOutside);
+    } else {
+      slideInContactDropdown(dropdown);
+      document.addEventListener("click", closeContactDetailEditDropdownOnClickOutside);
+    }
+}
+  
+
+/**
+ * Slides in the contact detail edit dropdown menu by adding the appropriate animation class
+ * and setting its display to "flex".
+ * 
+ * @param {HTMLElement} element - The dropdown menu element to slide in.
+ */
+function slideInContactDropdown(element) {
+    element.style.display = "flex";
+    element.classList.remove("slide-out-contact-dropdown");
+    element.classList.add("slide-in-contact-dropdown");
+}
+  
+
+/**
+ * Slides out the contact detail edit dropdown menu by adding the appropriate animation class.
+ * After the animation is complete, the dropdown is hidden by setting its display to "none".
+ * 
+ * @param {HTMLElement} element - The dropdown menu element to slide out.
+ */
+function slideOutContactDropdown(element) {
+    element.classList.remove("slide-in-contact-dropdown");
+    element.classList.add("slide-out-contact-dropdown");
+        setTimeout(() => {
+     element.style.display = "none";
+     element.classList.remove("slide-out-contact-dropdown");
+    }, 200);
+}
+  
+
+/**
+ * Closes the contact detail edit dropdown menu if the user clicks outside of it.
+ * This function is triggered by a click event listener added when the dropdown is shown.
+ * 
+ * @param {Event} event - The click event triggered by the user's interaction.
+ */
+function closeContactDetailEditDropdownOnClickOutside(event) {
+    let dropdown = document.getElementById("contactDetailEditDropDown");
+    let toggleButton = document.querySelector(".contact-detail-edit-button-mobile");
+  
+    if (!dropdown.contains(event.target) && !toggleButton.contains(event.target)) {
+      slideOutContactDropdown(dropdown);
+      document.removeEventListener("click", closeContactDetailEditDropdownOnClickOutside);
+    }
+}
+  
