@@ -11,7 +11,10 @@ async function init() {
 }
 
 
-
+/**
+ * Initializes the landscape warning for mobile devices.
+ * Displays a warning if the device is in landscape orientation and is a mobile device.
+ */
 function initLandscapeWarning() {
   displayLandscapeWarningMobile();
 
@@ -21,7 +24,10 @@ function initLandscapeWarning() {
 }
 
 
-
+/**
+ * Displays the HTML content for the landscape warning on mobile devices.
+ * This function injects the warning HTML into the element with the ID 'landscapeWarningMobile'.
+ */
 function displayLandscapeWarningMobile() {
   let warningOverlay = document.getElementById('landscapeWarningMobile');
   warningOverlay.innerHTML = "";
@@ -29,7 +35,10 @@ function displayLandscapeWarningMobile() {
 }
 
 
-
+/**
+ * Handles the orientation change for mobile devices.
+ * It listens for changes in orientation and window size, then toggles the landscape warning accordingly.
+ */
 function handleOrientationChangeMobile() {
   let mediaQuery = window.matchMedia("(orientation: landscape)");
 
@@ -45,7 +54,13 @@ function handleOrientationChangeMobile() {
 }
 
 
-
+/**
+ * Toggles the display of the landscape warning based on the device's orientation and height.
+ * If the device is in landscape mode and the height is less than or equal to 850px,
+ * the warning overlay is shown and the body overflow is hidden. Otherwise, the warning is hidden.
+ *
+ * @param {boolean} show - A boolean indicating whether to show or hide the landscape warning.
+ */
 function toggleLandscapeWarning(show) {
   let warningOverlay = document.getElementById('landscapeWarningMobile');
   let body = document.querySelector('body');
@@ -61,14 +76,22 @@ function toggleLandscapeWarning(show) {
 }
 
 
-
+/**
+ * Checks if the current device is a mobile device based on the user agent string.
+ *
+ * @returns {boolean} True if the device is a mobile or tablet, false otherwise.
+ */
 function isMobileDevice() {
   let userAgent = navigator.userAgent.toLowerCase();
   return /mobi|android|iphone|ipod|ipad|tablet/i.test(userAgent);
 }
 
 
-
+/**
+ * Checks if the current device supports touch input.
+ *
+ * @returns {boolean} True if the device supports touch input, false otherwise.
+ */
 function isTouchDevice() {
   return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 }
