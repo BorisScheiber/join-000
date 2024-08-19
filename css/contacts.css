@@ -1517,7 +1517,7 @@ a {
     }
     @media (max-height: 750px) {
       .contact-detail-title {
-        margin-bottom: 36px;
+        margin-bottom: 40px;
       }
     }
   }
