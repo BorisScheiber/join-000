@@ -254,7 +254,6 @@ window.addEventListener('click', (event) => {
 async function editTask(taskId) {
     let showEditTask = document.getElementById('editTaskPopup');
     showEditTask.classList.remove('edit-d-none');
-
     try {
         currentTaskId = taskId;
 
@@ -264,20 +263,17 @@ async function editTask(taskId) {
             return;
         }
 
-        // Setze die selectedContactIds basierend auf der aktuellen Aufgabe
-        selectedContactIds = Object.keys(task.Assigned_to);
-
         document.getElementById('edit-title').value = task.Title;
         document.getElementById('edit-description').value = task.Description;
         document.getElementById('edit-due-date').value = task.Due_date;
         setEditPriority(task.Prio);
 
         // Kontakte in das Dropdown und das Zuweisungsfeld laden
-        populateAssignedContactsEdit(task.Assigned_to);
+        populateAssignedContactsEdit(contacts);
 
-        showEditTask.style.display = 'flex';
-        showEditTask.classList.add('show');
-        showEditTask.classList.remove('hidden');
+        document.getElementById('editTaskPopup').style.display = 'flex';
+        document.getElementById('editTaskPopup').classList.add('show');
+        document.getElementById('editTaskPopup').classList.remove('hidden');
 
     } catch (error) {
         console.error('Error editing task:', error);
@@ -296,36 +292,20 @@ function setEditPriority(priority) {
     }
 }
 
-let selectedContactIds = [];
-
 function populateAssignedContactsEdit(contacts) {
-    const contactListContainer = document.getElementById('contact-list-container');
+    // Clear previous contacts
     const selectedContactsContainer = document.getElementById('selected-contacts-container');
-    
-    // Leeren der Container
-    contactListContainer.innerHTML = '';
     selectedContactsContainer.innerHTML = '';
 
-    for (const contactId in contacts) {
-        const contact = contacts[contactId];
-
-        const contactElement = document.createElement('div');
-        contactElement.className = 'contact-item';
-        contactElement.style.color = contact.color; 
-        contactElement.innerText = contact.name;
-
-        // Überprüfen, ob der Kontakt in selectedContactIds enthalten ist
-        if (selectedContactIds.includes(contactId)) {
-            selectedContactsContainer.appendChild(contactElement);
-        } else {
-            contactListContainer.appendChild(contactElement);
+    if (contacts) {
+        for (const contactId in contacts) {
+            const contact = contacts[contactId];
+            const contactDiv = document.createElement('div');
+            contactDiv.classList.add('selected-contact');
+            contactDiv.textContent = contact.name;
+            selectedContactsContainer.appendChild(contactDiv);
         }
     }
-}
-
-function removeContact(contactId) {
-    selectedContactIds = selectedContactIds.filter(id => id !== contactId);
-    populateAssignedContactsEdit(currentTask.Assigned_to); // Aktualisiert die UI
 }
 
 function displayEditSubtasks(subtasks) {
