@@ -24,11 +24,8 @@ html {
 }
 
 body {
-  /* overflow-x: hidden; */
   background-color: #f6f7f8;
 }
-
-/* Reset standard styles */
 
 a {
   text-decoration: none;
@@ -56,19 +53,17 @@ h3 {
   line-height: 32.4px;
 }
 
-/* SCROLLBARS */
-
 .board-content::-webkit-scrollbar,
 .summary-content::-webkit-scrollbar,
 .add-task-content::-webkit-scrollbar,
 .contacts-content::-webkit-scrollbar,
 .help-content::-webkit-scrollbar,
 .legal-notice-content::-webkit-scrollbar,
-.privacy-policy-content::-webkit-scrollbar ,
-.popup-content-task::-webkit-scrollbar ,
-.contact-list::-webkit-scrollbar ,
-.subtask-list::-webkit-scrollbar, 
-.contacts::-webkit-scrollbar{
+.privacy-policy-content::-webkit-scrollbar,
+.popup-content-task::-webkit-scrollbar,
+.contact-list::-webkit-scrollbar,
+.subtask-list::-webkit-scrollbar,
+.contacts::-webkit-scrollbar {
   width: 8px;
 }
 
@@ -78,10 +73,10 @@ h3 {
 .contacts-content::-webkit-scrollbar-track,
 .help-content::-webkit-scrollbar-track,
 .legal-notice-content::-webkit-scrollbar-track,
-.privacy-policy-content::-webkit-scrollbar-track ,
-.popup-content-task::-webkit-scrollbar-track ,
-.contact-list::-webkit-scrollbar-track ,
-.subtask-list::-webkit-scrollbar-track, 
+.privacy-policy-content::-webkit-scrollbar-track,
+.popup-content-task::-webkit-scrollbar-track,
+.contact-list::-webkit-scrollbar-track,
+.subtask-list::-webkit-scrollbar-track,
 .contacts::-webkit-scrollbar-track {
   background: transparent;
 }
@@ -93,11 +88,11 @@ h3 {
 .help-content::-webkit-scrollbar-thumb,
 .legal-notice-content::-webkit-scrollbar-thumb,
 .privacy-policy-content::-webkit-scrollbar-thumb,
-.popup-content-task::-webkit-scrollbar-thumb ,
-.contact-list::-webkit-scrollbar-thumb ,
-.subtask-list::-webkit-scrollbar-thumb, 
+.popup-content-task::-webkit-scrollbar-thumb,
+.contact-list::-webkit-scrollbar-thumb,
+.subtask-list::-webkit-scrollbar-thumb,
 .contacts::-webkit-scrollbar-thumb {
-  background-color: #A8A8A8;
+  background-color: #a8a8a8;
   border-radius: 4px;
   border: 1px solid #f6f7f8;
 }
@@ -109,9 +104,9 @@ h3 {
 .help-content::-webkit-scrollbar-thumb:hover,
 .legal-notice-content::-webkit-scrollbar-thumb:hover,
 .privacy-policy-content::-webkit-scrollbar-thumb:hover,
-.popup-content-task::-webkit-scrollbar-thumb:hover ,
-.contact-list::-webkit-scrollbar-thumb:hover ,
-.subtask-list::-webkit-scrollbar-thumb:hover, 
+.popup-content-task::-webkit-scrollbar-thumb:hover,
+.contact-list::-webkit-scrollbar-thumb:hover,
+.subtask-list::-webkit-scrollbar-thumb:hover,
 .contacts::-webkit-scrollbar-thumb:hover {
   cursor: grab;
 }
@@ -122,15 +117,13 @@ h3 {
 .contacts-content::-webkit-scrollbar-thumb:active,
 .help-content::-webkit-scrollbar-thumb:active,
 .legal-notice-content::-webkit-scrollbar-thumb:active,
-.privacy-policy-content::-webkit-scrollbar-thumb:active ,
-.popup-content-task::-webkit-scrollbar-thumb:active ,
-.contact-list::-webkit-scrollbar-thumb:active ,
-.subtask-list::-webkit-scrollbar-thumb:active, 
+.privacy-policy-content::-webkit-scrollbar-thumb:active,
+.popup-content-task::-webkit-scrollbar-thumb:active,
+.contact-list::-webkit-scrollbar-thumb:active,
+.subtask-list::-webkit-scrollbar-thumb:active,
 .contacts::-webkit-scrollbar-thumb:active {
   cursor: grabbing;
 }
-
-/* board section drag and drop scrollbars */
 
 .board-drag-area-container::-webkit-scrollbar {
   width: 6px;
@@ -142,7 +135,7 @@ h3 {
 }
 
 .board-drag-area-container::-webkit-scrollbar-thumb {
-  background-color: #A8A8A8;
+  background-color: #a8a8a8;
   border-radius: 4px;
   border: 1px solid #f6f7f8;
 }
@@ -154,9 +147,6 @@ h3 {
 .board-drag-area-container::-webkit-scrollbar-thumb:active {
   cursor: grabbing;
 }
-
-
-/* Sidebar */
 
 .sidebar {
   background-color: var(--clr-main);
@@ -247,8 +237,6 @@ h3 {
   font-weight: 400 !important;
 }
 
-/* header */
-
 header {
   background-color: var(--clr-white);
   position: fixed;
@@ -313,8 +301,6 @@ header {
   font-weight: 700;
 }
 
-/* nav-mobile bottom */
-
 .nav-mobile {
   background-color: var(--clr-main);
   height: 80px;
@@ -364,8 +350,6 @@ header {
 .nav-mobile-links-active .nav-mobile-icons {
   filter: invert(1) brightness(10);
 }
-
-/* Drop Down Nav Top */
 
 .drop-down-nav {
   position: absolute;
@@ -424,8 +408,6 @@ header {
   display: none;
 }
 
-/* Utility Classes */
-
 .d-none {
   display: none;
 }
@@ -440,13 +422,9 @@ header {
   }
 }
 @media (max-width: 850px) {
-  /* sidebar */
-
   .sidebar {
     display: none;
   }
-
-  /* header */
 
   header {
     padding: 20px 16px 20px 16px;
@@ -476,13 +454,9 @@ header {
     font-size: 16px;
   }
 
-  /* nav-mobile */
-
   .nav-mobile {
     display: flex;
   }
-
-  /* drop down nav */
 
   .drop-down-nav {
     top: 80px;

@@ -1,7 +1,5 @@
 .signup-content {
   height: 100vh;
-  /* position: fixed; */
-  /* inset: 0; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -267,8 +265,6 @@
   justify-content: center;
 }
 
-/* utility classes */
-
 .cursor-pointer {
   cursor: pointer;
 }
@@ -314,8 +310,8 @@
   .signup-successful-overlay {
     padding: 16px;
   }
-  .signup-title{
-    margin-bottom: 24px
+  .signup-title {
+    margin-bottom: 24px;
   }
   .signup-accept {
     margin-top: 32px;
@@ -324,10 +320,10 @@
     .signup-content {
       align-items: unset;
       padding: 130px 16px 16px 16px;
-  }
-  .signup-legal-links {
-    bottom: 37px;
-  }
+    }
+    .signup-legal-links {
+      bottom: 37px;
+    }
   }
   @media (max-height: 820px) {
     .signup-legal-links {
@@ -339,12 +335,9 @@
     }
     .signup-accept {
       margin-top: 20px;
+    }
+    .signup-card-form {
+      height: unset;
+    }
   }
-  .signup-card-form {
-    height: unset;
-  }
-  }
-  
 }
-
-

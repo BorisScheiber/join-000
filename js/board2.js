@@ -1,6 +1,3 @@
-/////////////////////////////////////////// DRAG AND DROP FUNCTIONS//////////////////////////////////////////////////////////
-
-
 /**
  * Rotates a task card by adding a CSS class.
  *
@@ -130,10 +127,7 @@ function removeHighlightDragArea(id) {
   let dragArea = document.getElementById(id);
   dragArea.classList.remove("board-highlight-drag-area");
 }
-  
-  
-  ///////////////////////////////////////// SEARCH FUNCTION //////////////////////////////////////////////////
-  
+
   
 /**
  * Filters and displays tasks on the board based on the search input.
@@ -214,10 +208,7 @@ function hideNoResultsError() {
   document.querySelector(".board-no-results").style.display = "none";
   document.querySelector(".board-search-input").classList.remove("board-no-results-error");
 }
-  
-  
-  ////////////////////////////////////////// MOVE TO OVERLAY FUNCTIONS ////////////////////////////////////////////////////////
-  
+
   
 /**
  * Renders the "Move Task to" overlay for mobile view.
@@ -329,8 +320,6 @@ async function moveTaskToMobile(status, taskId) {
   }
   closeMoveToMobileOverlay();
 }
-
-  ///////////////////ADIIONAL FUNCTIONS//////////////////////////
 
 
 /**
