@@ -414,15 +414,15 @@ h3 {
   border-radius: 30px;
   position: relative;
   transform: translateX(400%);
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.4s ease-in-out;
 }
 
 .slideInMoveToMobile {
-  animation: slideInMoveToMobile 0.3s ease-in-out forwards;
+  animation: slideInMoveToMobile 0.4s ease-in-out forwards;
 }
 
 .slideOutMoveToMobile {
-  animation: slideOutMoveToMobile 0.3s ease-in-out forwards;
+  animation: slideOutMoveToMobile 0.4s ease-in-out forwards;
 }
 
 @keyframes slideInMoveToMobile {
