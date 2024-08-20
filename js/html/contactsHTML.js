@@ -197,7 +197,7 @@ function generateEditContactHTML(user, initials, bgColor) {
                     <img src="./assets/icons/logo-add-new-contact.svg" alt="logo" class="edit-contact-menu-img">
                 </div>
                 <div class="add-new-contact-close-button-responsive">
-                        <img src="./assets/icons/closeContactsResponsive.svg" alt="close" class="close-contact-responsive" onclick="closeNewContact()">
+                        <img src="./assets/icons/closeContactsResponsive.svg" alt="close" class="close-contact-responsive" onclick="closeEditContact()">
                 </div>
                 <div class="edit-contact-text-area">
                     <div class="edit-contact-menu-text">

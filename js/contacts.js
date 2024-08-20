@@ -218,6 +218,17 @@ function closeNewContact() {
 }
 
 /**
+ * Closes the "Add New Contact" form.
+ * 
+ * @function
+ * @returns {void}
+ */
+function closeEditContact() {
+    const addNewContactContainer = document.getElementById('editContact');
+    addNewContactContainer.style.display = 'none';
+}
+
+/**
  * Handles showing contact details based on screen size.
  * 
  * @function
