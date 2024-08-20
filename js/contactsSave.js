@@ -1,5 +1,10 @@
-// function to save a new contact. The contact list is updated in this function
-
+/**
+ * Creates a new contact, saves it to the database, and updates the contact list.
+ * Displays a success message and reloads the contact list.
+ * 
+ * @async
+ * @function
+ */
 async function createNewContact() {
     const name = document.getElementById('newContactName').value;
     const email = document.getElementById('newContactEmail').value;
@@ -10,18 +15,22 @@ async function createNewContact() {
         const newContact = createContactObject(name, email, phone, contactId);
         try {
             await saveDataToFirebase(contactId, newContact);
-            updateContactList(contactId, newContact);
+            updateContactList(newContact);  // Add new contact
             closeNewContact();
             successfullCreationContact();
-            loadContacts();
+            await loadContacts();  // Ensure contacts are reloaded after update
         } catch (error) {
             console.error('Error creating new contact:', error);
         }
     }
 }
 
-// function to generate a unique ID for each individual contact
-
+/**
+ * Generates a unique identifier (UUID) for a contact.
+ * 
+ * @function
+ * @returns {string} A unique ID string in the format 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.
+ */
 function generateRandomId() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         const r = Math.random() * 16 | 0;
@@ -30,9 +39,12 @@ function generateRandomId() {
     });
 }
 
-// function for calling a pop-up after a contact has been successfully created
-
-function successfullCreationContact(){
+/**
+ * Displays a success message pop-up when a new contact is successfully created.
+ * 
+ * @function
+ */
+function successfullCreationContact() {
     let overlay = document.getElementById('createContactSuccessfull');
     let container = overlay.querySelector('.create-contact-successfull-container');
     overlay.style.display = 'flex';
@@ -46,8 +58,13 @@ function successfullCreationContact(){
     }, 1500);
 }
 
-// function for oversaving an existing contact. the contact list is updated
-
+/**
+ * Saves the edited contact data to the database and updates the contact list.
+ * Refreshes the page to reflect changes.
+ * 
+ * @async
+ * @function
+ */
 async function saveEditingContact() {
     const originalContactId = getOriginalContactId();
     if (!originalContactId) {
@@ -73,14 +90,22 @@ async function saveEditingContact() {
     }
 }
 
-// help function for retrieving an existing contact
-
-function getOriginalContactId(){
+/**
+ * Retrieves the ID of the contact currently being edited from the DOM.
+ * 
+ * @function
+ * @returns {string} The ID of the contact being edited.
+ */
+function getOriginalContactId() {
     return document.getElementById('editContact').dataset.originalContactId;
 }
 
-// help function for retrieving contacts - new and existing 
-
+/**
+ * Creates a contact data object from the values in the edit contact form.
+ * 
+ * @function
+ * @returns {Object} An object containing the contact data with id, name, email, phone, and color properties.
+ */
 function createContactData() {
     return {
         id: getOriginalContactId(),
@@ -91,19 +116,29 @@ function createContactData() {
     };
 }
 
-// function for updating a contact in the database
-
+/**
+ * Updates a contact in the database with the given contact data.
+ * 
+ * @async
+ * @function
+ * @param {string} originalContactId - The ID of the contact to update.
+ * @param {Object} contactData - The data to update the contact with.
+ */
 async function updateContactInDatabase(originalContactId, contactData) {
     await saveDataToFirebase(originalContactId, contactData);
 }
 
-// help function for retrieving an existing contact
-
+/**
+ * Updates an existing contact in the contact list.
+ * If the contact with the specified ID exists, it is updated with the new data.
+ * 
+ * @function
+ * @param {string} id - The ID of the contact to update.
+ * @param {Object} contactData - The new data for the contact.
+ */
 function updateExistingContact(id, contactData) {
     const index = contacts.findIndex(contact => contact.id === id);
     if (index !== -1) {
         contacts[index] = { id, ...contactData };
-    } else {
-        console.error('Contact not found for update.');
     }
 }

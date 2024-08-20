@@ -301,7 +301,7 @@ function populateAssignedContactsEdit(contacts) {
         for (const contactId in contacts) {
             const contact = contacts[contactId];
             const contactDiv = document.createElement('div');
-            contactDiv.classList.add('selected-contact');
+            contactDiv.classList.add('contact-item');
             contactDiv.textContent = contact.name;
             selectedContactsContainer.appendChild(contactDiv);
         }

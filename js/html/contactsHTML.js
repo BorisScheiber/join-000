@@ -1,5 +1,9 @@
-/* gerenarte HTML-content for the separate card to create a new contact */
-
+/**
+ * Generates and displays HTML content for a form to create a new contact.
+ * 
+ * @function
+ * @returns {void}
+ */
 function openNewContact() {
     const addNewContactContainer = document.getElementById('newContact');
     addNewContactContainer.innerHTML = /*HTML*/`
@@ -33,7 +37,7 @@ function openNewContact() {
                         <div class="add-new-contact-input-field-section">
                             <div class="contact-input-fields">
                                 <input type="text" placeholder="Name" class="input-fields-add-new-contact" id="newContactName"
-                                titel="Please enter a first and last name."
+                                title="Please enter a first and last name."
                                 required>
                                 <div class="contact-input-icon">
                                     <img src="./assets/icons/contactPersonInput.svg" alt="profile">
@@ -78,8 +82,16 @@ function openNewContact() {
     openNewContactWindow();
 }
 
-/* generates HTML-contend for the short single contact detailes in the contact menu */
-
+/**
+ * Generates HTML content for displaying a single contact in a contact menu.
+ * 
+ * @function
+ * @param {Object} user - The user object containing contact details.
+ * @param {string} user.name - The name of the contact.
+ * @param {string} user.email - The email of the contact.
+ * @param {string} user.color - The background color for the contact's profile image.
+ * @returns {string} The HTML content for the contact menu.
+ */
 function generateContactHTML(user) {
     const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
     return /*HTML*/`
@@ -95,8 +107,17 @@ function generateContactHTML(user) {
     `;
 }
 
-/* generates HTML-contend for the detailed view of a contact */
-
+/**
+ * Generates HTML content for the detailed view of a contact.
+ * 
+ * @function
+ * @param {Object} user - The user object containing contact details.
+ * @param {string} user.name - The name of the contact.
+ * @param {string} user.email - The email of the contact.
+ * @param {string} user.phone - The phone number of the contact.
+ * @param {string} bgColor - The background color for the contact's profile image.
+ * @returns {string} The HTML content for the contact detail view.
+ */
 function generateContactDetailHTML(user, bgColor) {
     const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
     return /*HTML*/`
@@ -111,7 +132,6 @@ function generateContactDetailHTML(user, bgColor) {
                 <img onclick="closeContactDetailCard()" src="./assets/icons/backArrow.svg" alt="">
             </div>
         </div>
-        
         <div class="contact-detail-card-headline">
             <div class="contact-detail-profile-img" style="background-color: ${bgColor};">${initials}</div>
             <div class="contact-detail-card-user">
@@ -146,7 +166,6 @@ function generateContactDetailHTML(user, bgColor) {
             </div>
         </div>
         <button onclick="toggleContactDetailEditDropdown()" class="contact-detail-edit-button-mobile"></button>
-
         <div id="contactDetailEditDropDown" class="contact-detail-edit-dropdown" style="display: none;">
             <button onclick="openEditingContact('${user.id}')" class="contact-detail-edit-buttons">
                 <div class="contact-detail-edit-icon"></div>
@@ -161,8 +180,15 @@ function generateContactDetailHTML(user, bgColor) {
     `;
 }
 
-/* generates HTML-content for a separate editing window to change the contact details */
-
+/**
+ * Generates HTML content for a form to edit contact details.
+ * 
+ * @function
+ * @param {Object} user - The user object containing contact details.
+ * @param {string} initials - The initials of the contact for display.
+ * @param {string} bgColor - The background color for the contact's profile image.
+ * @returns {string} The HTML content for the contact editing window.
+ */
 function generateEditContactHTML(user, initials, bgColor) {
     return /*HTML*/`
         <div class="edit-contact" onclick="preventClickPropagation(event)">
