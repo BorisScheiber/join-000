@@ -254,6 +254,7 @@ window.addEventListener('click', (event) => {
 async function editTask(taskId) {
     let showEditTask = document.getElementById('editTaskPopup');
     showEditTask.classList.remove('edit-d-none');
+
     try {
         currentTaskId = taskId;
 
@@ -263,53 +264,26 @@ async function editTask(taskId) {
             return;
         }
 
+        // Setze die selectedContactIds basierend auf der aktuellen Aufgabe
+        selectedContactIds = Object.keys(task.Assigned_to);
+
         document.getElementById('edit-title').value = task.Title;
         document.getElementById('edit-description').value = task.Description;
         document.getElementById('edit-due-date').value = task.Due_date;
         setEditPriority(task.Prio);
 
         // Kontakte in das Dropdown und das Zuweisungsfeld laden
-        populateAssignedContactsEdit(contacts);
+        populateAssignedContactsEdit(task.Assigned_to);
 
-        document.getElementById('editTaskPopup').style.display = 'flex';
-        document.getElementById('editTaskPopup').classList.add('show');
-        document.getElementById('editTaskPopup').classList.remove('hidden');
+        showEditTask.style.display = 'flex';
+        showEditTask.classList.add('show');
+        showEditTask.classList.remove('hidden');
 
     } catch (error) {
         console.error('Error editing task:', error);
     }
     closeTaskDetailsPopup();
 }
-
-
-
-// async function getTaskByTimestamp(timestamp) {
-//     try {
-//         // Hole alle Aufgaben
-//         const allTasks = await getData('tasks'); // Ersetze `getData` durch deine Methode zum Abrufen der Daten
-//         console.log('All Tasks:', allTasks); // Protokolliere alle Aufgaben zum Debuggen
-
-//         // Stelle sicher, dass der Timestamp in eine Zahl umgewandelt wird
-//         const timestampAsNumber = Number(timestamp);
-
-//         // Durchlaufe alle Aufgaben, um die mit dem passenden Timestamp zu finden
-//         for (const firebaseId in allTasks) {
-//             if (allTasks[firebaseId].timestamp === timestampAsNumber) {
-//                 return {
-//                     firebaseId,
-//                     ...allTasks[firebaseId]
-//                 };
-//             }
-//         }
-
-//         console.warn(`Task with timestamp ${timestamp} not found.`);
-//         return null;
-//     } catch (error) {
-//         console.error('Error fetching tasks:', error);
-//         return null;
-//     }
-// }
-
 
 function setEditPriority(priority) {
     document.querySelectorAll('.priority-button').forEach(button => {
@@ -322,20 +296,36 @@ function setEditPriority(priority) {
     }
 }
 
+let selectedContactIds = [];
+
 function populateAssignedContactsEdit(contacts) {
-    // Clear previous contacts
+    const contactListContainer = document.getElementById('contact-list-container');
     const selectedContactsContainer = document.getElementById('selected-contacts-container');
+    
+    // Leeren der Container
+    contactListContainer.innerHTML = '';
     selectedContactsContainer.innerHTML = '';
 
-    if (contacts) {
-        for (const contactId in contacts) {
-            const contact = contacts[contactId];
-            const contactDiv = document.createElement('div');
-            contactDiv.classList.add('selected-contact');
-            contactDiv.textContent = contact.name;
-            selectedContactsContainer.appendChild(contactDiv);
+    for (const contactId in contacts) {
+        const contact = contacts[contactId];
+
+        const contactElement = document.createElement('div');
+        contactElement.className = 'contact-item';
+        contactElement.style.color = contact.color; 
+        contactElement.innerText = contact.name;
+
+        // Überprüfen, ob der Kontakt in selectedContactIds enthalten ist
+        if (selectedContactIds.includes(contactId)) {
+            selectedContactsContainer.appendChild(contactElement);
+        } else {
+            contactListContainer.appendChild(contactElement);
         }
     }
+}
+
+function removeContact(contactId) {
+    selectedContactIds = selectedContactIds.filter(id => id !== contactId);
+    populateAssignedContactsEdit(currentTask.Assigned_to); // Aktualisiert die UI
 }
 
 function displayEditSubtasks(subtasks) {
@@ -398,47 +388,7 @@ function closeEditTaskPopup() {
     }, 400);
 }
 
-// const taskTimestamp = document.querySelector('.task-details-content').dataset.timestamp; // Beispiel
-// editTask(taskTimestamp);
-// console.log('Looking for task with timestamp:', timestampAsNumber);
-// console.log('Available tasks:', allTasks);
-
-
-
-
-
-
-
-
-
 let currentTaskId = null;
-
-// async function editTask(taskId) {
-//     try {
-//         currentTaskId = taskId;
-
-//         const task = await getTaskIdForEdit(taskId);
-//         if (!task) {
-//             console.error('Task not found!');
-//             return;
-//         }
-
-//         document.getElementById('edit-title').value = task.Title;
-//         document.getElementById('edit-description').value = task.Description;
-//         document.getElementById('edit-due-date').value = task.Due_date;
-//         setEditPriority(task.Prio);
-
-//         // Kontakte in das Dropdown und das Zuweisungsfeld laden
-//         displayAssignedContactsForEdit(task.Assigned_to);
-
-//         document.getElementById('editTaskPopup').style.display = 'flex';
-//         document.getElementById('editTaskPopup').classList.add('show');
-//         document.getElementById('editTaskPopup').classList.remove('hidden');
-
-//     } catch (error) {
-//         console.error('Error editing task:', error);
-//     }
-// }
 
 async function getTaskIdForEdit(taskId) {
     try {
@@ -459,183 +409,3 @@ async function getTaskIdForEdit(taskId) {
     }
 }
 
-// function setEditPriority(priority) {
-//     const priorityButtons = document.querySelectorAll('.priority-button');
-//     priorityButtons.forEach(button => button.classList.remove('selected'));
-    
-//     const selectedButton = document.getElementById(`edit-${priority}-button`);
-//     if (selectedButton) {
-//         selectedButton.classList.add('selected');
-//     }
-// }
-
-// async function displayAssignedContactsForEdit(contacts) {
-//     const contactList = document.getElementById('contact-list-container');
-//     const selectedContactsContainer = document.getElementById('selected-contacts');
-
-//     // Clear the lists
-//     contactList.innerHTML = '';
-//     selectedContactsContainer.innerHTML = '';
-
-//     // Load all contacts
-//     const allContacts = await getData('contacts');
-//     console.log('All contacts:', allContacts);
-
-//     // Create and add contacts to the contact list
-//     for (const contactId in allContacts) {
-//         const contact = allContacts[contactId];
-//         console.log('Processing contact:', contact);
-
-//         const contactItem = document.createElement('div');
-//         contactItem.className = 'contact-item';
-//         contactItem.innerHTML = `
-//             <div class="contact-logo" style="background-color: ${contact.color};"></div>
-//             <span>${contact.name}</span>
-//         `;
-
-//         // Add event listener to select the contact
-//         contactItem.addEventListener('click', () => {
-//             selectContact(contactId, allContacts);
-//         });
-
-//         contactList.appendChild(contactItem);
-//     }
-
-//     // Process the selected contacts
-//     if (contacts && typeof contacts === 'object') {
-//         // Extract contact IDs from the `Assigned_to` field
-//         const contactIds = Object.values(contacts).map(contact => contact.id);
-//         console.log('Selected contact IDs:', contactIds);
-
-//         // Convert contact IDs to contact objects
-//         const selectedContacts = contactIds.map(id => allContacts[id]).filter(contact => contact); // Filter out undefined contacts
-
-//         // Display the selected contacts
-//         displaySelectedContacts(selectedContacts);
-//     } else {
-//         console.error('Contacts data for edit should be an object with contact details. Received:', contacts);
-//     }
-// }
-    
-// function displayAssignedContacts(contacts) {
-//     if (!contacts || Object.keys(contacts).length === 0) {
-//         return '<p class="no-assigned">No one.</p>'; // Return a paragraph if no contacts
-//     }
-
-//     let html = '';
-//     for (const contactId in contacts) {
-//         const contact = contacts[contactId];
-//         const initials = contact.name.split(' ').map(part => part.charAt(0)).join('');
-
-//         html += /*html*/ `
-//         <div class="contact-item-assigned">
-//           <div class="contact-logo" style="background-color: ${contact.color}">${initials}</div>
-//           <span>${contact.name}</span>
-//         </div>
-//       `;
-//     }
-//     return html;
-// }
-    
-//     function selectContact(contactId, allContacts) {
-//         if (!selectedContacts.includes(contactId)) {
-//             selectedContacts.push(contactId);
-//             displayAssignedContactsForEdit(selectedContacts); // Update both lists
-//         }
-//     }
-
-// function filterContactsEditTask() {
-//     const searchInput = document.getElementById('contact-search').value.toLowerCase();
-//     const contacts = document.querySelectorAll('#contact-list-container .contact-item');
-//     contacts.forEach(contact => {
-//         const name = contact.querySelector('span').textContent.toLowerCase();
-//         if (name.includes(searchInput)) {
-//             contact.style.display = '';
-//         } else {
-//             contact.style.display = 'none';
-//         }
-//     });
-// }
-
-// async function saveTask() {
-//     if (currentTaskId === null) return;
-
-//     const selectedContacts = {};
-//     document.querySelectorAll('#selected-contacts-container .contact-item').forEach(item => {
-//         const contactId = item.getAttribute('data-id');
-//         const contactName = item.querySelector('span').textContent;
-//         const contactColor = item.querySelector('.contact-logo').style.backgroundColor;
-//         selectedContacts[contactId] = { name: contactName, color: contactColor };
-//     });
-
-//     const title = document.getElementById('edit-title').value;
-//     const description = document.getElementById('edit-description').value;
-//     const dueDate = document.getElementById('edit-due-date').value;
-//     const priority = Array.from(document.querySelectorAll('.priority-button.selected'))
-//                           .map(button => button.textContent.trim().toLowerCase())[0];
-
-//     if (!title || !description || !dueDate || !priority) {
-//         alert('Please fill in all required fields.');
-//         return;
-//     }
-
-//     const updatedTask = {
-//         Title: title,
-//         Description: description,
-//         Due_date: dueDate,
-//         Prio: priority,
-//         Assigned_to: selectedContacts,
-//     };
-
-//     await putData(`tasks/${currentTaskId}`, updatedTask);
-
-//     closeEditTaskPopup();
-//     renderBoard();
-// }
-
-// function closeEditTaskPopup() {
-//     const popup = document.getElementById('editTaskPopup');
-//     popup.classList.add('hidden');
-//     popup.classList.remove('show');
-//     setTimeout(() => {
-//         popup.style.display = 'none';
-//     }, 400);
-// }
-
-// function toggleContactListEditTask() {
-//     const contactListContainer = document.getElementById('contact-list-container');
-//     if (contactListContainer.classList.contains('hidden')) {
-//         contactListContainer.classList.remove('hidden');
-//     } else {
-//         contactListContainer.classList.add('hidden');
-//     }
-// }
-
-// function renderContacts() {
-//     const contactListContainer = document.getElementById('contact-list-container');
-//     contactListContainer.innerHTML = ''; // Leeren des Containers vor dem Hinzufügen
-
-//     contacts.forEach(contact => {
-//         const contactItem = document.createElement('div');
-//         contactItem.className = 'contact-item';
-
-//         const contactLogo = document.createElement('div');
-//         contactLogo.className = 'contact-logo';
-//         contactLogo.style.backgroundColor = contact.color;
-
-//         const contactName = document.createElement('span');
-//         contactName.textContent = contact.name;
-
-//         contactItem.appendChild(contactLogo);
-//         contactItem.appendChild(contactName);
-
-//         contactListContainer.appendChild(contactItem);
-//     });
-// }
-
-// // Rufe die Funktion auf, um die Kontakte zu rendern
-// renderContacts();
-
-// document.addEventListener('DOMContentLoaded', () => {
-//     renderContacts(); // Render Kontakte, wenn das DOM bereit ist
-// });
