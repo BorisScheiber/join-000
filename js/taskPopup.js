@@ -252,6 +252,8 @@ window.addEventListener('click', (event) => {
 
 
 async function editTask(taskId) {
+    let showEditTask = document.getElementById('editTaskPopup');
+    showEditTask.classList.remove('edit-d-none');
     try {
         currentTaskId = taskId;
 
