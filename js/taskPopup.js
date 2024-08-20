@@ -276,6 +276,7 @@ async function editTask(taskId) {
     } catch (error) {
         console.error('Error editing task:', error);
     }
+    closeTaskDetailsPopup();
 }
 
 
