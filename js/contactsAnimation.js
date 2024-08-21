@@ -35,9 +35,11 @@ function changeIcon(button, newIcon) {
  * @returns {void}
  */
 function openNewContactWindow() {
-    const newContactContainer = document.getElementById('newContact');
-    newContactContainer.classList.add('show');
-    newContactContainer.classList.remove('hide');
+    const newContactOverlay = document.getElementById('newContact');
+    const newContactCard = document.getElementById('addNewContactCard');
+    newContactOverlay.style.display = 'flex';
+    newContactOverlay.classList.add('fadeInOverlayBg');
+    newContactCard.classList.add('show');
 }
 
 /**
@@ -47,9 +49,11 @@ function openNewContactWindow() {
  * @returns {void}
  */
 function openEditContactWindow() {
-    const editContactContainer = document.getElementById('editContact');
-    editContactContainer.classList.add('show');
-    editContactContainer.classList.remove('hide');
+    const editContactOverlay = document.getElementById('editContact');
+    const editContactCard = document.getElementById('editContactCard');
+    editContactOverlay.style.display = 'flex';
+    editContactOverlay.classList.add('fadeInOverlayBg');
+    editContactCard.classList.add('show');
 }
 
 /**
@@ -87,12 +91,17 @@ function checkClickOutsideEditContact(event) {
  * @returns {void}
  */
 function closeNewContact() {
-    const newContactContainer = document.getElementById('newContact');
-    newContactContainer.classList.add('hide');
-    newContactContainer.classList.remove('show');
+    const newContactOverlay = document.getElementById('newContact');
+    const newContactCard = document.getElementById('addNewContactCard');
+    newContactCard.classList.remove('show');
+    newContactCard.classList.add('hide');
+    newContactOverlay.classList.remove('fadeInOverlayBg');
+    newContactOverlay.classList.add('fadeOutOverlayBg');
     setTimeout(() => {
-        newContactContainer.style.display = 'none';
-    }, 400);
+        newContactOverlay.style.display = "none"; 
+        newContactOverlay.classList.remove('fadeOutOverlayBg'); 
+        newContactCard.classList.remove('hide'); 
+    }, 400); 
 }
 
 /**
@@ -102,12 +111,17 @@ function closeNewContact() {
  * @returns {void}
  */
 function closeEditContact() {
-    const editContactContainer = document.getElementById('editContact');
-    editContactContainer.classList.add('hide');
-    editContactContainer.classList.remove('show');
+    const editContactOverlay = document.getElementById('editContact');
+    const editContactCard = document.getElementById('editContactCard');
+    editContactCard.classList.remove('show');
+    editContactCard.classList.add('hide');
+    editContactOverlay.classList.remove('fadeInOverlayBg');
+    editContactOverlay.classList.add('fadeOutOverlayBg');
     setTimeout(() => {
-        editContactContainer.style.display = 'none';
-    }, 400);
+        editContactOverlay.style.display = "none"; 
+        editContactOverlay.classList.remove('fadeOutOverlayBg'); 
+        editContactCard.classList.remove('hide'); 
+    }, 400); 
 }
 
 /**
