@@ -38,6 +38,8 @@
     animation: slideIn 400ms ease-in-out;
     transition: transform 400ms ease-in-out;
     flex-direction: column;
+    height: fit-content;
+    max-height: calc(100% - 64px);
 }
 
 /* .task-details-content */
@@ -68,7 +70,7 @@
     display: flex;
     gap: 8px;
     position: absolute;
-    bottom: 4%;
+    bottom: 3%;
     right: 40px;
 }
 
@@ -261,12 +263,39 @@
 
 }
 
-@media screen and (max-width: 1376px),
-screen and (max-height: 850px) {
+@media (max-width: 850px){
 
     .task-details-content {
-        height: 90%;
+        /* height: 90%; */
+        height: fit-content;
+        max-height: calc(100% - 160px);
+        padding: 48px 24px;
     }
+
+    .task-category {
+        height: 32px;
+        width: fit-content !important;
+        padding: 0px 16px;
+        display: flex;
+        align-items: center;
+        
+    }
+
+    .task-category span {
+        font-size: 16px;
+    }
+
+    .task-title {
+        font-size: 36px !important;
+        line-height: 43.2px;
+    }
+
+    .popup-buttons {
+        bottom: 18px;
+        right: 20px;
+    }
+
+
 }
 
 @media (max-width: 370px) {
@@ -284,8 +313,13 @@ screen and (max-height: 850px) {
         font-size: 40px !important;
     }
 
+    .popup-buttons {
+        bottom: 2%;
+        right: 16px;
+    }
+
     .task-details-content {
-        padding: 28px 20px;
+        padding: 28px 20px 48px 20px;
         gap: 16px;
 
     }
