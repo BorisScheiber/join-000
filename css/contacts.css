@@ -1061,7 +1061,7 @@ a {
   
   /* Media-section */
   
-  @media (max-width: 1500px) {
+    @media (max-width: 1300px) {
     .add-new-contact {
       display: flex;
       justify-content: center;
@@ -1327,9 +1327,7 @@ a {
       margin-top: 100px;
       margin-left: 24px;
     }
-  }
   
-  @media (max-width: 1300px) {
     .contact-detail-card {
       display: flex;
       align-items: start;
@@ -1534,9 +1532,91 @@ a {
     #loadContactMenu {
       padding-right: 0;
     }
+
+    .add-new-contact{
+      width: 340px;
+      height: 640px;
+    }
+
+    .edit-contact{
+      width: 340px;
+      height: 640px;
+    }
+
+    .add-new-contact-menu{
+      width: 340px;
+      height: 250px;
+    }
+
+    .edit-contact-menu{
+      width: 340px;
+      height: 250px;
+    }
+
+    .add-new-contact-content{
+      width: 340px;
+      height: 330px;
+    }
+
+    .edit-contact-content{
+      width: 340px;
+      height: 330px;
+    }
+
+    .add-new-contact-input-field-section{
+      width: 310px;
+      margin-top: 75px;
+    }
+
+    .edit-contact-input-field-section{
+      width: 310px;
+      margin-top: 75px;
+    }
+
+    .input-fields-add-new-contact{
+      width: 310px;
+    }
+
+    .input-fields-edit-contact{
+      width: 310px;
+    }
+
+    .edit-contact-input-fields{
+      height: 220px;
+    }
+
+    .icon-profile-add-new-contact{
+      width: 90px;
+      height: 90px;
+      margin-top: -45px;
+    }
+
+    .icon-profile-edit-contact{
+      width: 90px;
+      height: 90px;
+      margin-top: -45px;
+      font-size: 40px;
+    }
+
+    .add-new-contact-button-section{
+      margin-top: 24px;
+    }
+
+    .edit-contact-button-section{
+      margin-top: 24px;
+    }
+
+    .edit-contact-menu-text-headline{
+      margin-left: 16px;
+      font-size: 40px;
+    }
+
+    .edit-contact-menu-separator{
+      margin-left: 16px;
+    }
   }
   
-  @media (max-width: 395px) {
+  @media (max-width: 395px){
     .contact-list {
       width: 280px;
     }
@@ -1559,6 +1639,104 @@ a {
     .single-contact-profile {
       margin-left: 15px;
       font-size: 12px;
+    }
+  }
+
+  @media (max-width: 374px){
+    .add-new-contact{
+      width: 290px;
+      height: 600px;
+    }
+
+    .edit-contact{
+      width: 290px;
+      height: 600px;
+    }
+
+    .add-new-contact-menu{
+      width: 290px;
+      height: 220px;
+    }
+
+    .edit-contact-menu{
+      width: 290px;
+      height: 220px;
+    }
+
+    .add-new-contact-content{
+      width: 290px;
+      height: 300px;
+    }
+
+    .edit-contact-content{
+      width: 290px;
+      height: 300px;
+    }
+
+    .add-new-contact-input-field-section{
+      width: 270px;
+      margin-top: 50px;
+    }
+
+    .edit-contact-input-field-section{
+      width: 270px;
+      margin-top: 50px;
+    }
+
+    .input-fields-add-new-contact{
+      width: 270px;
+      font-size: 16px;
+    }
+
+    .input-fields-edit-contact{
+      width: 270px;
+      font-size: 16px;
+    }
+
+    .add-new-contact-menu-text-headline{
+      font-size: 40px;
+    }
+
+    .icon-profile-add-new-contact{
+      width: 75px;
+      height: 75px;
+      margin-top: -38px;
+    }
+
+    .icon-profile-edit-contact{
+      width: 75px;
+      height: 75px;
+      margin-top: -38px;
+      font-size: 30px;
+    }
+
+    .add-new-contact-button-section{
+      margin-top: 8px;
+    }
+
+    .edit-contact-button-section{
+      margin-top: 8px;
+    }
+
+    .edit-contact-menu-text-headline{
+      margin-left: 36px;
+      font-size: 40px;
+    }
+
+    .edit-contact-menu-separator{
+      margin-left: 36px;
+    }
+
+    .button-delete-contact{
+      font-size: 16px;
+    }
+
+    .button-save-contact{
+      font-size: 16px;
+    }
+
+    .button-create-new-contact{
+      font-size: 16px;
     }
   }
   
