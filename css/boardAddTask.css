@@ -90,7 +90,20 @@
     gap: 32px;
 }
 
+@media (max-height: 920px) {
+    .addTaskPopup {
+        padding: 16px;
+    }
+    .popup-content {
+        height: 100%;
+    }
+}
+
 @media (max-width: 1376px) {
+
+    .addTaskPopup {
+        padding: 0;
+    }
 
     .add-task-left,
     .add-task-right {
@@ -104,7 +117,8 @@
 
     .popup-content {
         width: 80%;
-        height: 90%;
+        /* height: 90%; */
+        height: unset;
         background-color: #fff;
         border-radius: 30px;
         padding: 0px;
