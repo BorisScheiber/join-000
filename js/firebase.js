@@ -7,8 +7,15 @@ async function getData(path = "") {
 }
 
 /* contacts*/
-// save and delete new contact in firebase 
-
+/**
+ * Asynchronously saves data to the specified path in the Firebase database.
+ *
+ * @async
+ * @function saveData
+ * @param {string} [path=""] - The path in the Firebase database where the data should be saved.
+ * @param {Object} data - The data to be saved, typically a JSON object.
+ * @returns {Promise<void>} A promise that resolves when the data is successfully saved.
+ */
 async function saveData(path = "", data) {
     await fetch(`${BASE_URL}${path}.json`, {
         method: 'PUT',
@@ -19,6 +26,14 @@ async function saveData(path = "", data) {
     });
 }
 
+/**
+ * Asynchronously removes data from the specified path in the Firebase database.
+ *
+ * @async
+ * @function removeData
+ * @param {string} [path=""] - The path in the Firebase database from which data should be deleted.
+ * @throws {Error} Throws an error if there is a problem with the DELETE request.
+ */
 async function removeData(path = "") {
     try {
         let response = await fetch(`${BASE_URL}${path}.json`, {
@@ -33,8 +48,15 @@ async function removeData(path = "") {
     }
 }
 
-// save updated contact
-
+/**
+ * Asynchronously saves or updates contact data in the Firebase database.
+ *
+ * @async
+ * @function saveDataToFirebase
+ * @param {string} contactId - The ID of the contact to be saved or updated.
+ * @param {Object} contactData - The contact data to be saved, typically a JSON object.
+ * @returns {Promise<void>} A promise that resolves when the data is successfully saved.
+ */
 async function saveDataToFirebase(contactId, contactData) {
     await fetch(`${BASE_URL}contacts/${contactId}.json`, {
         method: 'PUT',
@@ -44,7 +66,6 @@ async function saveDataToFirebase(contactId, contactData) {
         }
     });
 }
-
 
 /*tasks */
 
