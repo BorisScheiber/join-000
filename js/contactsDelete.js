@@ -8,15 +8,10 @@
  */
 async function deleteContactAndUpdateTasks(contactId) {
     try {
-        // Remove contact data from the database
         await removeData(`contacts/${contactId}`);
-        // Remove contact from tasks
         await removeContactFromTasks(contactId);
-        // Update local contacts list
         contacts = contacts.filter(contact => contact.id !== contactId);
-        // Render updated contact list
         renderContactList();
-        // Reload the page to reflect changes
         location.reload();
     } catch (error) {
         console.error('Error deleting contact and updating tasks:', error);
@@ -34,31 +29,24 @@ async function deleteContactAndUpdateTasks(contactId) {
  */
 async function removeContactFromTasks(contactId) {
     try {
-        // Retrieve current tasks data
         const tasks = await getData('tasks');
         if (!tasks) return;
-        // Create a new object to store updated tasks
         const updatedTasks = {};
-        // Iterate over all tasks to remove the contact from assignments
         for (const [taskId, task] of Object.entries(tasks)) {
             let assignedTo = task.Assigned_to || {};
-            // Filter out the contact from assignedTo if it's an array
             if (Array.isArray(assignedTo)) {
                 assignedTo = assignedTo.filter(contact => contact.id !== contactId);
             } 
-            // Remove the contact if it's assigned as an object
             else if (typeof assignedTo === 'object') {
                 assignedTo = Object.fromEntries(
                     Object.entries(assignedTo).filter(([key, contact]) => contact.id !== contactId)
                 );
             }
-            // Update the task with the new assignments
             updatedTasks[taskId] = {
                 ...task,
                 Assigned_to: assignedTo
             };
         }
-        // Save the updated tasks data back to the database
         await putData('tasks', updatedTasks);
     } catch (error) {
         console.error('Error removing contact from tasks:', error);

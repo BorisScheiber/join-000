@@ -15,10 +15,10 @@ async function createNewContact() {
         const newContact = createContactObject(name, email, phone, contactId);
         try {
             await saveDataToFirebase(contactId, newContact);
-            updateContactList(newContact);  // Add new contact
+            updateContactList(newContact);
             closeNewContact();
             successfullCreationContact();
-            await loadContacts();  // Ensure contacts are reloaded after update
+            await loadContacts();
         } catch (error) {
             console.error('Error creating new contact:', error);
         }
