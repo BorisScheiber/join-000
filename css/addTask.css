@@ -3,6 +3,10 @@
     margin-left: 328px;
     padding-right: 96px;
     padding-top: 110px;
+    height: calc(100vh - 96px);
+    height: calc(100svh - 96px);
+    overflow-y: auto;
+    padding-bottom: 24px;
 }
 
 .add-task-container {
