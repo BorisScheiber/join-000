@@ -12,6 +12,28 @@
     justify-content: center;
 }
 
+.popup-content::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .popup-content::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .popup-content::-webkit-scrollbar-thumb {
+    background-color: #a8a8a8;
+    border-radius: 4px;
+    border: 1px solid #f6f7f8;
+  }
+  
+  .popup-content::-webkit-scrollbar-thumb:hover {
+    cursor: grab;
+  }
+  
+  .popup-content::-webkit-scrollbar-thumb:active {
+    cursor: grabbing;
+  }
+
 .add-task-content-pop-up {
     padding: 64px;
 }
@@ -215,8 +237,7 @@
     }
 
     .add-task-title {
-
-        padding-left: 64px
+        padding-left: 50px;
     }
 /* 
     header {
@@ -234,7 +255,9 @@
         background-color: #F6F7F8;
         border-radius: 0;
         padding: 0px;
-        overflow-x: scroll;
+        overflow-x: auto;
+        height: calc(100vh - 160px);
+        height: calc(100svh - 160px);
     }
 
     .addTaskPopup {
@@ -243,8 +266,13 @@
 
     .add-task-container-popup {
         flex-direction: column;
-        margin: 136px 0;
+        /* margin: 136px 0; */
+        margin: 56px 0 20px 0;
         gap: 16px;
+    }
+
+    .add-task-content-pop-up {
+        padding: 64px 50px 64px 50px;
     }
 
     .category-dropdown {
@@ -356,17 +384,18 @@
     .footer {
         display: flex;
         justify-content: space-between;
-        width: 99%;
+        /* width: 99%; */
         height: 74px;
         padding: 20px 62px !important;
         position: fixed;
-        bottom: 81px;
+        bottom: 80px;
         left: 0;
         right: 0;
         align-items: center;
         background-color: #F6F7F8;
         gap: 12px;
         z-index: 100 !important ;
+        width: calc(100% - 8px) !important;
     }
 
     .add-task-content h1 {
@@ -376,7 +405,8 @@
     }
 
     .add-task-title {
-        padding-top: 18px;
+        /* padding-top: 18px; */
+        padding-top: 48px;
         padding-bottom: 24px;
         height: 112px;
         position: fixed;
@@ -384,16 +414,21 @@
         right: 0;
         top: 80px;
         background-color: #F6F7F8;
-        width: 99%;
+        /* width: 99%; */
         z-index: 100;
+        width: calc(100% - 10px);
 
+    }
+
+    .close-popup {
+        display: none;
     }
 
 }
 
 @media (max-width: 672px) {
     .add-task-content-pop-up {
-        padding: 64px 18px;
+        padding: 64px 16px;
     }
 
     .priority-buttons {

@@ -45,7 +45,7 @@
 /* .task-details-content */
 
 .hidden {
-    animation: slideOutToRight 0.4s ease-in-out;
+    animation: slideOutToRight 0.4s ease-in-out forwards;
     transition: background-color 75ms ease-in-out;
     background-color: rgba(0, 0, 0, 0);
 }
