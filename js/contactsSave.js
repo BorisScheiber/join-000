@@ -58,8 +58,46 @@ function successfullCreationContact() {
     }, 1500);
 }
 
+///////////////////////////////////PHILIPS OLD CODE TO EDIT CONTACT///////////////////////////////////////////////
+
+// /**
+//  * Saves the edited contact data to the database and updates the contact list.
+//  * Refreshes the page to reflect changes.
+//  * 
+//  * @async
+//  * @function
+//  */
+// async function saveEditingContact() {
+//     const originalContactId = getOriginalContactId();
+//     if (!originalContactId) {
+//         console.error('Original Contact ID is undefined.');
+//         return;
+//     }
+//     const name = document.getElementById('contactName').value;
+//     const email = document.getElementById('contactMailAdress').value;
+//     const phone = document.getElementById('contactPhone').value;
+//     clearErrorMessages();
+//     if (!validateContactInputs(name, email, phone)) {
+//         console.error('Please fix the errors before saving.');
+//         return;
+//     }
+//     const contactData = createContactData();
+//     try {
+//         await updateContactInDatabase(originalContactId, contactData);
+//         updateContactList(originalContactId, contactData);
+//         closeEditContact();
+//         location.reload();
+//     } catch (error) {
+//         console.error('Error saving contact:', error);
+//     }
+// }
+
+
+//////////////////////////////////////////////BORIS CHANGES EDIT CONTACT + UPDATE ASSIGNET TO/////////////////////////////////////////////////////////////
+
 /**
  * Saves the edited contact data to the database and updates the contact list.
+ * Also updates the contact in all assigned tasks.
  * Refreshes the page to reflect changes.
  * 
  * @async
@@ -82,6 +120,7 @@ async function saveEditingContact() {
     const contactData = createContactData();
     try {
         await updateContactInDatabase(originalContactId, contactData);
+        await updateContactInTasks(originalContactId, contactData);
         updateContactList(originalContactId, contactData);
         closeEditContact();
         location.reload();
@@ -89,6 +128,88 @@ async function saveEditingContact() {
         console.error('Error saving contact:', error);
     }
 }
+
+/**
+ * Updates the assigned contacts in all tasks based on the updated contact data.
+ *
+ * @async
+ * @function
+ * @param {string} contactId - The ID of the contact to update.
+ * @param {Object} updatedContactData - The updated contact data.
+ */
+async function updateContactInTasks(contactId, updatedContactData) {
+    try {
+        const tasks = await getData('tasks');
+        if (!tasks) return;
+
+        const updatedTasks = processTasks(tasks, contactId, updatedContactData);
+
+        await saveUpdatedTasks(updatedTasks);
+    } catch (error) {
+        console.error('Error updating contact in tasks:', error);
+    }
+}
+
+/**
+ * Processes tasks to update the assigned contact information.
+ *
+ * @function
+ * @param {Object} tasks - The tasks to process.
+ * @param {string} contactId - The ID of the contact to update.
+ * @param {Object} updatedContactData - The updated contact data.
+ * @returns {Object} The tasks with updated assigned contact information.
+ */
+function processTasks(tasks, contactId, updatedContactData) {
+    const updatedTasks = {};
+
+    for (const [taskId, task] of Object.entries(tasks)) {
+        const updatedAssignedTo = updateAssignedTo(task.Assigned_to, contactId, updatedContactData);
+
+        updatedTasks[taskId] = {
+            ...task,
+            Assigned_to: updatedAssignedTo
+        };
+    }
+    return updatedTasks;
+}
+
+/**
+ * Updates the assigned contact information in a task.
+ *
+ * @function
+ * @param {Object|Array} assignedTo - The current assigned contacts.
+ * @param {string} contactId - The ID of the contact to update.
+ * @param {Object} updatedContactData - The updated contact data.
+ * @returns {Object|Array} The updated assigned contacts.
+ */
+function updateAssignedTo(assignedTo, contactId, updatedContactData) {
+    if (Array.isArray(assignedTo)) {
+        return assignedTo.map(contact =>
+            contact.id === contactId ? { ...contact, ...updatedContactData } : contact
+        );
+    } else if (typeof assignedTo === 'object') {
+        return Object.fromEntries(
+            Object.entries(assignedTo).map(([key, contact]) =>
+                contact.id === contactId ? [key, { ...contact, ...updatedContactData }] : [key, contact]
+            )
+        );
+    }
+    return assignedTo;
+}
+
+/**
+ * Saves the updated tasks to the database.
+ *
+ * @async
+ * @function
+ * @param {Object} updatedTasks - The tasks to save.
+ */
+async function saveUpdatedTasks(updatedTasks) {
+    await putData('tasks', updatedTasks);
+}
+
+
+//////////////////////////////////////////////////////////AB HIER WIEDER PHILIPS CODE////////////////////////////////////////////////////////////////
 
 /**
  * Retrieves the ID of the contact currently being edited from the DOM.
