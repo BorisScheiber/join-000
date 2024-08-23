@@ -262,7 +262,7 @@
         background-color: #F6F7F8;
         /* width: 99%; */
         margin-right: 10px;
-        z-index: 2;
+        z-index: 20;
     }
 
     .priority-button,
