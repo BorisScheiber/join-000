@@ -204,11 +204,18 @@
         font-size: 12px ;
     
     }
+}
 
-
+@media (max-width: 1000px) {
+    .priority-button, .priority-button.urgent, .priority-button.medium, .priority-button.low {
+        font-size: 12px !important;
+    }
 }
 
 @media (max-width: 850px) {
+    .priority-button, .priority-button.urgent, .priority-button.medium, .priority-button.low {
+        font-size: 14px !important;
+    }
     .footer {
         width: 98% !important;
     }
