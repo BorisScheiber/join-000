@@ -1,11 +1,14 @@
+let selectedContactsDataEdit = {}; // Initialize as an empty object
+
+
 /**
  * Opens the task details popup for a given task ID.
  * Fetches the task data from Firebase and populates the popup with the task details.
  * 
- * @param {string} taskId - The ID of the task to display in the popup.
+ * @param {string} firebaseId - The ID of the task to display in the popup.
  */
-async function openTaskDetails(taskId) {
-    const task = await getTaskById(taskId);
+async function openTaskDetails(firebaseId) {
+    const task = await getTaskById(firebaseId);
     if (!task) {
         console.error('Task not found!');
         return;
@@ -162,49 +165,40 @@ function toggleCheckboxImage(checkboxDiv) {
  * @param {number} taskId - The ID of the task to fetch.
  * @returns {Promise<Object|null>} A promise that resolves with the task object if found, or null if not found.
  */
-async function getTaskById(taskId) {
-    try {
-        const allTasks = await getData('tasks');
-        console.log('All Tasks:', allTasks); // Log all tasks
-        for (const firebaseId in allTasks) {
-            if (allTasks[firebaseId].id === parseInt(taskId)) {
-                return {
-                    firebaseId,
-                    ...allTasks[firebaseId]
-                };
-            }
-        }
-        console.warn(`Task with ID ${taskId} not found.`);
-        return null;
-    } catch (error) {
-        console.error('Error fetching tasks:', error);
-        return null;
-    }
-}
-/**
- * Fetches a task from Firebase based on its Firebase document ID.
- * 
- * @param {string} firebaseId - The Firebase document ID of the task to fetch.
- * @returns {Promise<Object|null>} A promise that resolves with the task object if found, or null if not found.
- */
+ async function getTaskById(taskId) {
+     try {
+         const allTasks = await getData('tasks');
+         console.log('All Tasks:', allTasks); // Log all tasks
+         for (const firebaseId in allTasks) {
+             if (allTasks[firebaseId].id === parseInt(taskId)) {
+                 return {
+                     firebaseId,
+                     ...allTasks[firebaseId]
+                 };
+             }
+         }
+         console.warn(`Task with ID ${taskId} not found.`);
+         return null;
+     } catch (error) {
+         console.error('Error fetching tasks:', error);
+         return null;
+     }
+ }
+
+
+// Update getTaskByIdToEdit to accept firebaseId
 async function getTaskByIdToEdit(firebaseId) {
-    try {
-        const taskData = await getData(`tasks/${firebaseId}`);
-        console.log('Fetched Task:', taskData); // Log the fetched task data
-        if (taskData) {
-            return {
-                firebaseId, // Include firebaseId in the returned object
-                ...taskData
-            };
-        } else {
-            console.warn(`Task with ID ${firebaseId} not found.`);
-            return null;
-        }
-    } catch (error) {
-        console.error('Error fetching task:', error);
-        return null;
+    const tasks = await getData('tasks');
+    if (tasks && tasks[firebaseId]) { // Check if the task exists using firebaseId
+        return {
+            firebaseId,
+            ...tasks[firebaseId]
+        };
     }
+    console.warn(`Task with ID ${firebaseId} not found.`);
+    return null;
 }
+
 
 
 /**
@@ -269,9 +263,11 @@ window.addEventListener('click', (event) => {
  * 
  * @param {string} taskId - The ID of the task to edit.
  */
-async function editTask(taskId) {
-    const task = await getTaskByIdToEdit(taskId);
-    if (!task) {
+// async function editTask(taskId) {
+//     const task = await getTaskByIdToEdit(taskId);
+async function editTask(firebaseId) { // Change parameter to firebaseId
+    const task = await getTaskByIdToEdit(firebaseId); // Pass firebaseId here   
+if (!task) {
         console.error('Task not found!');
         return;
     }
@@ -294,8 +290,45 @@ async function editTask(taskId) {
 
     // Populate the form fields with existing task data
     populateEditForm(task);
-}
 
+    selectedContactsDataEdit = { ...task.Assigned_to }; 
+
+     const contactList = document.getElementById("contact-list-edit");
+     try {
+         const contactsData = await getData("contacts");
+         if (contactsData) {
+             const firebaseContacts = Object.values(contactsData);
+             firebaseContacts.forEach(contact => createContactItemEdit(contact, contactList));
+         } else {
+             console.log("No contacts found in Firebase.");
+         }
+     } catch (error) {
+         console.error("Error fetching contacts:", error);
+     }
+ 
+     // Add event listener to contactSearch AFTER the popup is loaded
+     const contactSearch = document.getElementById("contact-search-edit");
+     contactSearch.addEventListener("input", filterContactsEdit); 
+
+     /**
+ * Adds a click event listener to the contact list.
+ * When a contact item is clicked, it toggles the 'checked' class on the checkbox and the contact item itself,
+ * and then updates the display of selected contacts.
+ */
+     document.getElementById("contact-list-edit").addEventListener("click", (event) => {
+        const contactItem = event.target.closest(".contact-item");
+        if (contactItem) {
+            const checkbox = contactItem.querySelector(".contact-checkbox");
+            checkbox.classList.toggle("checked");
+            contactItem.classList.toggle("checked");
+            updateSelectedContactsEdit();
+        }
+    });
+// Add event listener to contact list
+const contactListEdit = document.getElementById("contact-list-edit");
+contactListEdit.addEventListener("click", handleContactCheckboxClickEdit)
+ }
+ 
 
 /**
  * Generates the HTML for the edit task form.
@@ -327,17 +360,18 @@ function generateEditTaskFormHTML(task) {
                  <!-- Assigned to Section -->
                  <div class="assigned-to">
                      <div class="search-container">
-                         <input type="text" id="contact-search" class="contact-search"
-                             placeholder="Select contacts to assign" oninput="filterContacts()">
+                         <input type="text" id="contact-search-edit" class="contact-search"
+                             placeholder="Select contacts to assign" oninput="filterContactsEdit()">
 
-                         <button id="toggle-list" class="toggle-list" onclick="toggleContactList()">
+                         <button id="toggle-list-edit" class="toggle-list" onclick="toggleContactListEdit()">
                              <img src="./assets/icons/arrow_drop_down.svg" alt="Dropdown Icon"
-                                 id="dropdown-assigned" class="dropdown-icon">
+                                 id="dropdown-assigned-edit" class="dropdown-icon">
                          </button>
                      </div>
-                     <div id="contact-list" class="contact-list hidden">
+                     <div id="contact-list-edit" class="contact-list hidden">
                      </div>
-                     <div id="selected-contacts" class="selected-contacts">
+                     <div id="selected-contacts-edit" class="selected-contacts">
+                     ${displaySelectedContactsEdit(task)} 
                      </div>
                  </div>
        <!-- Due Date Section -->
@@ -522,11 +556,13 @@ async function saveEditTask(taskId) {
         // 2. Create the updatedTask object by copying the original task
         const updatedTask = { ...originalTask };
 
+
         // 3. Update only the modified fields
         updatedTask.Title = document.getElementById('editTitle').value;
         updatedTask.Description = document.getElementById('editDescription').value;
         updatedTask.Due_date = document.getElementById('editDueDate').value;
         updatedTask.Prio = currentPriority;
+        updatedTask.Assigned_to = selectedContactsDataEdit; // Update assigned contacts
         // ... update other fields that are editable in the popup
 
         // 4. Update the task in Firebase
@@ -543,3 +579,173 @@ async function saveEditTask(taskId) {
     }
 }
 
+
+/**
+ * Toggles the visibility of the contact list.
+ */
+function toggleContactListEdit() {
+    const contactList = document.getElementById("contact-list-edit");
+    const contactSearch = document.getElementById("contact-search-edit");
+    const selectedContacts = document.getElementById("selected-contacts-edit");
+    const toggleButton = document.getElementById("toggle-list-edit");
+    const dropdownIcon = toggleButton.querySelector(".dropdown-icon");
+
+    // Use classList.toggle to consistently manage the hidden class
+    contactList.classList.toggle("hidden");
+    if (contactList.classList.contains("hidden")) {
+        contactSearch.style.borderRadius = "10px";
+        dropdownIcon.src = "./assets/icons/arrow_drop_down.svg";
+        selectedContacts.style.display = "flex";
+        document.removeEventListener('click', closeContactListOnClickOutsideEdit);
+        contactSearch.value = ''; // Clear the search field
+
+    } else {
+        contactSearch.style.borderRadius = "10px 10px 0 0";
+        dropdownIcon.src = "./assets/icons/arrow_drop_up.svg";
+        selectedContacts.style.display = "none";
+        document.addEventListener('click', closeContactListOnClickOutsideEdit);
+    }
+}
+
+
+/**
+ * Filters the contact list based on the search term entered in the contact search field.
+ */
+function filterContactsEdit() {
+    const searchTerm = document.getElementById("contact-search-edit").value.toLowerCase();
+    const contactItems = document.querySelectorAll("#contact-list-edit .contact-item");
+    contactItems.forEach(item => {
+        const name = item.textContent.toLowerCase();
+        item.style.display = name.includes(searchTerm) ? "" : "none";
+    });
+
+    // Öffne die Liste, wenn sie versteckt ist
+    const contactList = document.getElementById("contact-list-edit");
+    const isListOpen = !contactList.classList.contains("hidden");
+    if (!isListOpen) {
+        toggleContactListEdit(); // Liste öffnen
+    }
+}
+
+
+/**
+ * Closes the contact list when the user clicks outside of it.
+ *
+ * @param {Event} event - The click event.
+ */
+function closeContactListOnClickOutsideEdit(event) {
+    const contactList = document.getElementById("contact-list-edit");
+    const contactSearch = document.getElementById("contact-search-edit");
+    const toggleButton = document.getElementById("toggle-list-edit");
+    const selectedContacts = document.getElementById("selected-contacts-edit");
+
+    if (!contactList.contains(event.target) &&
+        !contactSearch.contains(event.target) &&
+        !toggleButton.contains(event.target)) {
+        toggleContactListEdit(); // Liste schließen
+        selectedContacts.style.display = "flex"; // Selected Contacts anzeigen
+        contactSearch.value = ''; // Clear the search field
+    }
+}
+
+
+/**
+ * Initializes the contact list on page load.
+ * Fetches contacts from Firebase, creates contact items, and sets up event listeners.
+ */
+// document.addEventListener("DOMContentLoaded", async () => {
+//     const contactList = document.getElementById("contact-list-edit");
+//     const contactSearch = document.getElementById("contact-search-edit");
+//     try {
+//         const contactsData = await getData("contacts");
+//         if (contactsData) {
+//             const firebaseContacts = Object.values(contactsData);
+//             firebaseContacts.forEach(contact => createContactItemEdit(contact, contactList));
+//         } else {
+//             console.log("No contacts found in Firebase.");
+//         }
+//     } catch (error) {
+//         console.error("Error fetching contacts:", error);
+//     }
+//     contactSearch.addEventListener("input", filterContacts);
+//     setPriority('medium');
+// });
+
+
+function displaySelectedContactsEdit(task) {
+    let html = '';
+    for (const contactId in task.Assigned_to) {
+        const contact = task.Assigned_to[contactId];
+        const initials = contact.name.split(' ').map(part => part.charAt(0)).join('');
+        html += `
+            <div class="selected-contact" style="background-color: ${contact.color}" data-contact-id="${contact.id}">
+                ${initials}
+            </div>
+        `;
+    }
+    return html;
+}
+
+
+/**
+ * Creates a contact item element and appends it to the contact list.
+ * @param {Object} contact - The contact data.
+ * @param {HTMLElement} contactList - The contact list element.
+ */
+function createContactItemEdit(contact, contactList) {
+    const contactItem = document.createElement("div");
+    contactItem.classList.add("contact-item");
+    const nameParts = contact.name.split(" ");
+    const initials = nameParts[0].charAt(0) + nameParts[1].charAt(0);
+    contactItem.innerHTML = `
+      <div class="contact-logo" style="background-color: ${contact.color};" data-background="${contact.color}">
+          ${initials} 
+      </div>
+      <span>${contact.name}</span>
+      <div class="contact-checkbox" data-email="${contact.email}"></div>
+    `;
+    contactList.appendChild(contactItem);
+}
+
+
+
+
+
+
+
+
+function updateSelectedContactsEdit() {
+    const selectedContactsDiv = document.getElementById("selected-contacts-edit");
+    selectedContactsDiv.innerHTML = ''; // Clear existing contacts
+
+    selectedContactsDataEdit = {}; // Clear the selected contacts data
+
+    const selectedCheckboxes = document.querySelectorAll("#contact-list-edit .contact-checkbox.checked");
+    selectedCheckboxes.forEach(checkbox => {
+        const contactItem = checkbox.parentElement;
+        const logo = contactItem.querySelector(".contact-logo");
+        const name = contactItem.querySelector("span").textContent;
+        const id = contactItem.querySelector(".contact-checkbox").dataset.email; // Assuming you store the ID in a data attribute
+        const color = logo.style.backgroundColor;
+
+        // Add selected contact data to the object
+        selectedContactsDataEdit[id] = { name, id, color };
+
+        // Update the display of selected contacts
+        selectedContactsDiv.innerHTML += `
+            <div class="selected-contact" style="background-color: ${color}">
+                ${logo.innerText}
+            </div>
+        `;
+    });
+}
+
+
+function handleContactCheckboxClickEdit(event) {
+    const checkbox = event.target.closest(".contact-checkbox");
+    if (checkbox) {
+        checkbox.classList.toggle("checked");
+        checkbox.parentElement.classList.toggle("checked");
+        updateSelectedContactsEdit();
+    }
+}
