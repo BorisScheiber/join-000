@@ -432,6 +432,9 @@
     height: 49px;
     width: 104px;
   }
+  .login-remember {
+    padding-left: 16px;
+  }
   @media (max-height: 950px) {
     .sign-up-container-mobile {
       margin-top: 40px;
@@ -460,5 +463,64 @@
     .login-remember {
       margin-top: 16px;
     }
+  }
+}
+
+@media (max-width: 550px) {
+  @media (max-height: 775px) {
+    .login-content {
+      height: 100svh;
+    }
+
+    .login-input {
+      height: 40px;
+    }
+
+    .input-container {
+      gap: 24px;
+    }
+
+    .login-card {
+      padding: 24px 16px 24px 16px;
+      min-height: fit-content;
+      height: fit-content;
+    }
+
+    .login-button-container {
+      flex-direction: row;
+      margin-top: 20px;
+    }
+    .login-button {
+      width: 104px !important;
+    }
+    .guest-login-button {
+      width: 160px !important;
+    }
+
+    .sign-up-container-mobile {
+      margin-top: 40px;
+    }
+
+    .login-legal-links {
+      margin-top: auto;
+    }
+   
+  }
+  @media (max-height: 700px) {
+    .sign-up-container-mobile {
+      margin-top: 20px;
+    }
+    .login-content {
+      padding: 124px 16px 16px 16px;
+  }
+  .login-legal-links {
+    height: 24px;
+  }
+  .login-button-container button {
+    height: 49px;
+  }
+  .sign-up-button {
+    height: 47px;
+  }
   }
 }

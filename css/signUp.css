@@ -341,3 +341,44 @@
     }
   }
 }
+@media (max-width: 550px) {
+  @media (max-height: 775px) {
+    .signup-content {
+      height: 100svh;
+    }
+    .signup-input {
+      height: 40px;
+    }
+    .signup-card-form {
+      padding: 24px 16px 24px 16px;
+    }
+    .signup-legal-links {
+      margin-top: auto;
+    }
+    .signup-button-container {
+      margin-top: 16px;
+    }
+    .signup-accept {
+      margin-top: 8px;
+    }
+    .signup-input-container {
+      gap: 20px;
+    }
+    .signup-title {
+      margin-bottom: 20px;
+    }
+   
+   
+  }
+  @media (max-height: 700px) {
+    .signup-content {
+      padding: 124px 16px 16px 16px;
+    }
+    .signup-legal-links {
+      height: 24px;
+    }
+    .signup-button {
+      height: 49px;
+    }
+  }
+}
