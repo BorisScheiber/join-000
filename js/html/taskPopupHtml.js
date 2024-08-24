@@ -41,7 +41,7 @@ function generateTaskDetailsPopupHTML(task) {
                     <span>Delete</span>
                 </div>
                 <div class="vertical-line"></div>
-                <div class="edit-button" onclick="editTask('${task.firebaseId}')">
+                <div class="edit-button" onclick="editTask('${task.id}')">
                     <img src="./assets/icons/edit.svg" alt="Edit">
                     <span>Edit</span>
                 </div>

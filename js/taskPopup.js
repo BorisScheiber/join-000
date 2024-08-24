@@ -5,10 +5,10 @@ let selectedContactsDataEdit = {}; // Initialize as an empty object
  * Opens the task details popup for a given task ID.
  * Fetches the task data from Firebase and populates the popup with the task details.
  * 
- * @param {string} firebaseId - The ID of the task to display in the popup.
+ * @param {string} taskId - The ID of the task to display in the popup.
  */
-async function openTaskDetails(firebaseId) {
-    const task = await getTaskById(firebaseId);
+async function openTaskDetails(taskId) {
+    const task = await getTaskById(taskId);
     if (!task) {
         console.error('Task not found!');
         return;
@@ -103,25 +103,58 @@ function displayAssignedContacts(contacts) {
  * @param {Object} subtasks - An object containing the subtasks for the task.
  * @returns {string} The HTML string for displaying the subtasks.
  */
-function displaySubtasks(subtasks) {
+function displaySubtasks(subtasks) { // Make sure subtasks is a parameter
     if (!subtasks || Object.keys(subtasks).length === 0) {
         return '<p>You don`t have any subtasks .</p>';
     }
     let html = '';
     for (const subtaskId in subtasks) {
-        const subtask = subtasks[subtaskId];
-        const checkboxImg = subtask.isChecked ? './assets/icons/checkedBox.svg' : './assets/icons/uncheckedBox.svg';
-        html += /*html*/ `
-            <div class="subtask-item-popup ${subtask.isChecked ? 'checked' : ''}" data-subtask-id="${subtaskId}">
-                <div class="subtask-checkbox" onclick="toggleSubtaskCheck('${subtaskId}');"> 
-                    <img src="${checkboxImg}" alt="" id="checkbox-img-${subtaskId}">
-                </div>
-                <span>${subtask.description}</span> 
-            </div>
-        `;
-    }
-    return html;
-}
+         const subtask = subtasks[subtaskId];
+         const checkboxImg = subtask.isChecked ? './assets/icons/checkedBox.svg' : './assets/icons/uncheckedBox.svg';
+         html += /*html*/ `
+             <div class="subtask-item-popup ${subtask.isChecked ? 'checked' : ''}" data-subtask-id="${subtaskId}">
+                 <div class="subtask-checkbox" onclick="toggleSubtaskCheck( '${subtaskId}');"> 
+                     <img src="${checkboxImg}" alt="" id="checkbox-img-${subtaskId}">
+                 </div>
+                 <span>${subtask.description}</span> 
+             </div>
+         `;
+     }
+     return html;
+ }
+
+// ... other functions ...
+
+/**
+ * Generates the HTML for displaying the subtasks of a task in the popup.
+ * If there are no subtasks, it returns a message indicating that.
+ * 
+ * @param {Object} task - The task object containing the subtasks.
+ * @returns {string} The HTML string for displaying the subtasks.
+ */
+// function displaySubtasks(task) { // Add task as a parameter
+// // Check if task.Subtasks exists and is not empty
+// if (task && task.Subtasks && Object.keys(task.Subtasks).length > 0) { 
+//     let html = '';
+//     for (const subtaskId in task.Subtasks) {
+//         const subtask = task.Subtasks[subtaskId];
+//         const checkboxImg = subtask.isChecked ? './assets/icons/checkedBox.svg' : './assets/icons/uncheckedBox.svg';
+//         html += /*html*/ `
+//             <div class="subtask-item-popup ${subtask.isChecked ? 'checked' : ''}" data-subtask-id="${subtaskId}">
+//                 <div class="subtask-checkbox" onclick="toggleSubtaskCheck('${task.id}', '${subtaskId}');"> 
+//                     <img src="${checkboxImg}" alt="" id="checkbox-img-${subtaskId}">
+//                 </div>
+//                 <span>${subtask.description}</span> 
+//             </div>
+//         `;
+//     }
+//     return html;
+// } else {
+//     return '<p>You don`t have any subtasks .</p>'; 
+// }
+// }
+
+// ... other functions ...
 
 
 /**
@@ -131,7 +164,7 @@ function displaySubtasks(subtasks) {
  * @param {string} subtaskId - The ID of the subtask to toggle.
  */
 async function toggleSubtaskCheck(subtaskId) {
-    const taskId = document.querySelector('.task-details-content').dataset.taskId;
+   taskId = document.querySelector('.task-details-content').dataset.taskId;
     const task = await getTaskByIdToEdit(taskId);
     if (!task) {
         console.error('Task not found!');
@@ -165,40 +198,40 @@ function toggleCheckboxImage(checkboxDiv) {
  * @param {number} taskId - The ID of the task to fetch.
  * @returns {Promise<Object|null>} A promise that resolves with the task object if found, or null if not found.
  */
- async function getTaskById(taskId) {
-     try {
-         const allTasks = await getData('tasks');
-         console.log('All Tasks:', allTasks); // Log all tasks
-         for (const firebaseId in allTasks) {
-             if (allTasks[firebaseId].id === parseInt(taskId)) {
-                 return {
-                     firebaseId,
-                     ...allTasks[firebaseId]
-                 };
-             }
-         }
-         console.warn(`Task with ID ${taskId} not found.`);
-         return null;
-     } catch (error) {
-         console.error('Error fetching tasks:', error);
-         return null;
-     }
- }
-
-
-// Update getTaskByIdToEdit to accept firebaseId
-async function getTaskByIdToEdit(firebaseId) {
-    const tasks = await getData('tasks');
-    if (tasks && tasks[firebaseId]) { // Check if the task exists using firebaseId
-        return {
-            firebaseId,
-            ...tasks[firebaseId]
-        };
+async function getTaskById(taskId) {
+    try {
+        const allTasks = await getData('tasks');
+        for (const firebaseId in allTasks) {
+            if (allTasks[firebaseId].id === parseInt(taskId)) { // Using id for comparison
+                return {
+                    firebaseId, // Including firebaseId for potential future use
+                    ...allTasks[firebaseId]
+                };
+            }
+        }
+        console.warn(`Task with ID ${taskId} not found.`);
+        return null;
+    } catch (error) {
+        console.error('Error fetching tasks:', error);
+        return null;
     }
-    console.warn(`Task with ID ${firebaseId} not found.`);
-    return null;
 }
 
+async function getTaskByIdToEdit(taskId) {
+    let firebaseId; // Declare firebaseId outside the loop
+    const tasks = await getData('tasks');
+    for (const id in tasks) {
+        if (tasks[id].id === parseInt(taskId)) {
+            firebaseId = id; // Assign the value inside the loop
+            return {
+                firebaseId,
+                ...tasks[id]
+            };
+        }
+    }
+    console.warn(`Task with ID ${taskId} not found.`);
+    return null;
+}
 
 
 /**
@@ -265,8 +298,8 @@ window.addEventListener('click', (event) => {
  */
 // async function editTask(taskId) {
 //     const task = await getTaskByIdToEdit(taskId);
-async function editTask(firebaseId) { // Change parameter to firebaseId
-    const task = await getTaskByIdToEdit(firebaseId); // Pass firebaseId here   
+async function editTask(taskId) { // Change parameter to taskId
+    const task = await getTaskByIdToEdit(taskId); // Pass firebaseId here   
 if (!task) {
         console.error('Task not found!');
         return;
@@ -277,13 +310,13 @@ if (!task) {
 
     // Create the edit task popup content
     const editTaskPopupHTML = `
-         <div id="editTaskDetailsPopup" class="task-details-content" data-task-id="${task.id}">
-           
-                 <img src="./assets/icons/close-contact.svg" alt="Close" class="close-popup-edit-button" onclick="closeTaskDetailsPopup()">
-          
-             ${generateEditTaskFormHTML(task)}
-         </div>
-     `;
+    <div id="editTaskDetailsPopup" class="task-details-content" 
+         data-task-id="${task.id}" 
+         data-firebase-id="${task.firebaseId}"> 
+        <img src="./assets/icons/close-contact.svg" alt="Close" class="close-popup-edit-button" onclick="closeTaskDetailsPopup()">
+        ${generateEditTaskFormHTML(task)}
+    </div>
+`;
 
     // Append the edit task popup to the main popup container
     document.getElementById('taskDetailsPopup').innerHTML = editTaskPopupHTML;
@@ -430,7 +463,7 @@ function generateEditTaskFormHTML(task) {
              </div>
 
              </form>
-             <button onclick="saveEditTask('${task.firebaseId}')" class="create-button" id="delete-button" type="submit">
+             <button onclick="saveEditTask('${task.id}', '${task.firebaseId}')" class="create-button" id="delete-button" type="submit">
                  <p>OK</p>
                  <img src="./assets/icons/check.svg" alt="Check">
              </button>
@@ -541,7 +574,7 @@ function generateSubtaskListHTML(subtasks) {
  * 
  * @param {string} taskId - The Firebase ID of the task to update.
  */
-async function saveEditTask(taskId) {
+async function saveEditTask(taskId, firebaseId) {
     // if (!validateFields()) { // Call validateFields and check the result
     //     return; // Stop saving if validation fails
     // }
@@ -562,11 +595,35 @@ async function saveEditTask(taskId) {
         updatedTask.Description = document.getElementById('editDescription').value;
         updatedTask.Due_date = document.getElementById('editDueDate').value;
         updatedTask.Prio = currentPriority;
-        updatedTask.Assigned_to = selectedContactsDataEdit; // Update assigned contacts
-        // ... update other fields that are editable in the popup
-
+      // Update Assigned_to, maintaining the original structure
+      updatedTask.Assigned_to = {};
+      const contactsData = await getData("contacts");
+  
+      for (const contactId in selectedContactsDataEdit) {
+          const contact = selectedContactsDataEdit[contactId];
+  
+          // Find the contact in Firebase data using the email address
+          let firebaseContactId = null;
+          for (const firebaseContactKey in contactsData) {
+              if (contactsData[firebaseContactKey].email.toLowerCase() === contact.id.toLowerCase()) {
+                  firebaseContactId = firebaseContactKey; // Found the matching contact ID
+                  break;
+              }
+          }
+  
+          if (firebaseContactId) {
+              // Generate a new dynamic ID for the Assigned_to key
+              const generatedId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`; 
+  
+              // Use the generated ID as the key and assign the contact object
+              updatedTask.Assigned_to[generatedId] = contactsData[firebaseContactId]; 
+          } else {
+              console.warn(`Contact with email ${contact.id} not found in Firebase`);
+          }
+      }
+  
         // 4. Update the task in Firebase
-        await putData(`tasks/${taskId}`, updatedTask);
+        await putData(`tasks/${firebaseId}`, updatedTask); 
         console.log('Task updated successfully!');
 
         // Close the edit task popup
@@ -647,29 +704,6 @@ function closeContactListOnClickOutsideEdit(event) {
         contactSearch.value = ''; // Clear the search field
     }
 }
-
-
-/**
- * Initializes the contact list on page load.
- * Fetches contacts from Firebase, creates contact items, and sets up event listeners.
- */
-// document.addEventListener("DOMContentLoaded", async () => {
-//     const contactList = document.getElementById("contact-list-edit");
-//     const contactSearch = document.getElementById("contact-search-edit");
-//     try {
-//         const contactsData = await getData("contacts");
-//         if (contactsData) {
-//             const firebaseContacts = Object.values(contactsData);
-//             firebaseContacts.forEach(contact => createContactItemEdit(contact, contactList));
-//         } else {
-//             console.log("No contacts found in Firebase.");
-//         }
-//     } catch (error) {
-//         console.error("Error fetching contacts:", error);
-//     }
-//     contactSearch.addEventListener("input", filterContacts);
-//     setPriority('medium');
-// });
 
 
 function displaySelectedContactsEdit(task) {
