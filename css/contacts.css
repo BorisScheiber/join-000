@@ -1608,6 +1608,7 @@ a {
   .edit-contact-input-field-section{
     width: 310px;
     margin-top: 75px;
+    margin-top: 64px;
   }
 
   .input-fields-add-new-contact{
@@ -1720,6 +1721,7 @@ a {
   .edit-contact-menu{
     width: 290px;
     height: 220px;
+    padding-bottom: 212.5px;
   }
 
   .add-new-contact-content{
@@ -1775,6 +1777,7 @@ a {
 
   .edit-contact-button-section{
     margin-top: 8px;
+    margin-top: 4px;
   }
 
   .edit-contact-menu-text-headline{
