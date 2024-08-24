@@ -17,7 +17,7 @@ function openNewContact() {
                         <div class="add-new-contact-menu-img">
                             <img src="./assets/icons/logo-add-new-contact.svg" alt="logo" class="add-new-contact-menu-img">
                         </div>
-                        <div>
+                        <div class="add-new-contact-menu-container">
                             <div class="add-new-contact-menu-text">
                                 <span class="add-new-contact-menu-text-headline">Add contact</span>
                                 <span class="add-new-contact-menu-text-subtext">Tasks are better with a team!</span>

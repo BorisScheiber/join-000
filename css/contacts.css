@@ -1202,6 +1202,21 @@ a {
     width: 202px;
     font-size: 21px;
   }
+ .add-new-contact-menu-container {
+  display: flex;
+  flex-direction: column;
+ }
+ .add-new-contact-menu-text {
+  width: unset;
+ }
+ .add-new-contact-menu-text-headline {
+  white-space: nowrap;
+  padding: 0;
+ }
+ .add-new-contact-menu-text-subtext {
+  white-space: nowrap;
+ }
+
 
   /*edit menu*/
 
@@ -1587,6 +1602,7 @@ a {
   .add-new-contact-input-field-section{
     width: 310px;
     margin-top: 75px;
+    margin-top: 64px;
   }
 
   .edit-contact-input-field-section{
@@ -1621,6 +1637,7 @@ a {
 
   .add-new-contact-button-section{
     margin-top: 24px;
+    margin-top: 20px;
   }
 
   .edit-contact-button-section{
@@ -1664,6 +1681,27 @@ a {
 }
 
 @media (max-width: 374px){
+  .add-new-contact-menu-text {
+   width: unset;
+  }
+  .add-new-contact-menu-text-headline {
+    white-space: nowrap;
+    padding: 0;
+}
+.add-new-contact-menu-container {
+  display: flex;
+  flex-direction: column;
+}
+.add-new-contact-menu-text-subtext {
+  font-size: 16px;
+  white-space: nowrap;
+}
+.add-new-contact-menu-text {
+  margin-top: 32px;
+}
+.add-new-contact-menu {
+  padding-bottom: 212.5px;
+}
   .add-new-contact{
     width: 290px;
     height: 600px;
