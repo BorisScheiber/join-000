@@ -386,9 +386,14 @@ async function createTask() {
         const generatedId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
         assignedContactsWithIds[generatedId] = contact;
     });
-    const newTask = { timestamp: Date.now() , id: Date.now(), Title: document.getElementById('title').value.trim(), Description: document.getElementById('description').value.trim(), Assigned_to: assignedContactsWithIds, Due_date: document.getElementById('due-date').value, Prio: currentPriority, Category: document.getElementById('category').value.trim(), Subtasks: getSubtasks(), Status: 'to do' };
+    const newTask = {
+        timestamp: Date.now(), id: Date.now(), Title: document.getElementById('title').value.trim(), Description: document.getElementById('description').value.trim(), Assigned_to: assignedContactsWithIds, Due_date: document.getElementById('due-date').value, Prio: currentPriority, Category: document.getElementById('category').value.trim(), Subtasks: getSubtasks(), Status: 'to do'
+    };
     try {
-        await postData("tasks", newTask);
+        const response = await postData("tasks", newTask); // Store the response
+        // Access the generated firebaseId from the response
+        newTask.firebaseId = response.name;
+
         console.log("Task created successfully:", newTask);
         clearFields();
         showTaskCreatedPopup();
