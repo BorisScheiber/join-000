@@ -58,43 +58,6 @@ function successfullCreationContact() {
     }, 1500);
 }
 
-///////////////////////////////////PHILIPS OLD CODE TO EDIT CONTACT///////////////////////////////////////////////
-
-// /**
-//  * Saves the edited contact data to the database and updates the contact list.
-//  * Refreshes the page to reflect changes.
-//  * 
-//  * @async
-//  * @function
-//  */
-// async function saveEditingContact() {
-//     const originalContactId = getOriginalContactId();
-//     if (!originalContactId) {
-//         console.error('Original Contact ID is undefined.');
-//         return;
-//     }
-//     const name = document.getElementById('contactName').value;
-//     const email = document.getElementById('contactMailAdress').value;
-//     const phone = document.getElementById('contactPhone').value;
-//     clearErrorMessages();
-//     if (!validateContactInputs(name, email, phone)) {
-//         console.error('Please fix the errors before saving.');
-//         return;
-//     }
-//     const contactData = createContactData();
-//     try {
-//         await updateContactInDatabase(originalContactId, contactData);
-//         updateContactList(originalContactId, contactData);
-//         closeEditContact();
-//         location.reload();
-//     } catch (error) {
-//         console.error('Error saving contact:', error);
-//     }
-// }
-
-
-//////////////////////////////////////////////BORIS CHANGES EDIT CONTACT + UPDATE ASSIGNET TO/////////////////////////////////////////////////////////////
-
 /**
  * Saves the edited contact data to the database and updates the contact list.
  * Also updates the contact in all assigned tasks.
@@ -207,9 +170,6 @@ function updateAssignedTo(assignedTo, contactId, updatedContactData) {
 async function saveUpdatedTasks(updatedTasks) {
     await putData('tasks', updatedTasks);
 }
-
-
-//////////////////////////////////////////////////////////AB HIER WIEDER PHILIPS CODE////////////////////////////////////////////////////////////////
 
 /**
  * Retrieves the ID of the contact currently being edited from the DOM.
