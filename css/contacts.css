@@ -1672,12 +1672,12 @@ a {
   }
 
   .single-contact {
-    width: 260px;
+    width: 100%;
   }
 
   .single-contact-profile {
     margin-left: 15px;
-    font-size: 12px;
+    font-size: 14px;
   }
 }
 
