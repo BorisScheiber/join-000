@@ -124,15 +124,17 @@ function validateEmail(email) {
  * @returns {string} An error message if the phone number is invalid, or an empty string if valid.
  */
 function validatePhone(phone) {
-    const PHONE_PATTERN = /^[\+\d\s]+$/;
-    if (!phone) {
+    const trimmedPhone = phone.trim();
+    if (!trimmedPhone) {
         return 'Please enter a phone number.';
     }
-    if (phone.length < 9) {
-        return 'The phone number must be at least 9 characters long.';
-    }
-    if (!PHONE_PATTERN.test(phone)) {
+    const PHONE_PATTERN = /^[\+\d\s]+$/;
+    if (!PHONE_PATTERN.test(trimmedPhone)) {
         return 'The phone number can only contain numbers, the plus sign (+), and spaces.';
+    }
+    const digitsOnly = trimmedPhone.replace(/\D+/g, '');
+    if (digitsOnly.length < 9) {
+        return 'The phone number must be at least 9 digits long.';
     }
     return '';
 }
@@ -150,6 +152,9 @@ function setErrorMessage(elementId, message) {
     if (errorElement) {
         errorElement.textContent = message;
         errorElement.style.display = 'block';  // Stelle sicher, dass das Element sichtbar ist
+        errorElement.style.color = 'red';  // Optional: Stelle sicher, dass die Fehlermeldung gut sichtbar ist
+    } else {
+        console.error(`Element with ID ${elementId} not found.`);
     }
 }
 
