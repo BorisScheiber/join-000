@@ -14,6 +14,7 @@ async function initContacts() {
     displayHeader();
     displayMobileNav();
     removeClassesIfNotLoggedIn();
+    await getUsersData();
     displayInitialsHeaderUser();
     loadContacts();
 }

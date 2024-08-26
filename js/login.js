@@ -3,12 +3,16 @@ let users = [];
 
 /**
  * Initializes the login page.
- * Checks the previous page, displays the login page, and fetches all users.
+ *
+ * This function performs the initial setup for the login page. It checks the previous page, 
+ * displays the login page content, fetches all user data, and pre-fills the login form 
+ * if there are saved user details.
  */
 async function initLogin() {
   checkPreviousPage();
   displayLoginPage();
   await getAllUsers();
+  prefillLoginForm();
 }
 
 
@@ -54,10 +58,15 @@ function goToSignUp() {
 
 
 /**
- * Logs in as a guest, removes any user-specific data from local storage, saves guest data, and redirects to the summary page.
+ * Logs in as a guest by clearing any user-specific data and setting guest data.
+ *
+ * This function removes any existing user data from local storage, clears the email and password fields,
+ * saves the guest login data to local storage, and then redirects to the summary page.
  */
 async function guestLogin() {
-  await userLoginRemoveLocalStorage();
+  await userLoginRemoveLocalStorage();  
+  document.getElementById("email").value = "";  
+  document.getElementById("password").value = "";  
   await guestLoginSaveLocalStorage();
   window.location.href = "summary.html";
 }
@@ -98,8 +107,8 @@ async function guestLoginRemoveLocalStorage() {
  */
 async function userLoginSaveLocalStorage(user) {
   let userData = {
-    initials: user.initials,
-    name: user.name
+    id: user.id,
+    rememberMe: document.getElementById("rememberMeCheckbox").checked
 };
   localStorage.setItem("user", btoa(JSON.stringify(userData)));
 }
@@ -244,3 +253,52 @@ function showHidePassword() {
     inputField.type = "password";
   }
 }
+
+
+/**
+ * Pre-fills the login form with stored user data if available and the "Remember Me" option is enabled.
+ *
+ * This function checks if there is user data stored in local storage. If the "Remember Me" option
+ * was enabled during the last login, it finds the corresponding user in the users array and 
+ * pre-fills the login form with the user's email and password.
+ */
+function prefillLoginForm() {
+  let storedUserData = localStorage.getItem("user");
+
+  if (storedUserData) {
+    let userData = JSON.parse(atob(storedUserData));
+
+    if (userData.rememberMe) {
+      let user = users.find((u) => u.id === userData.id);
+
+      if (user) {
+        updateLoginFields(user);
+      }
+    }
+  }
+}
+
+
+/**
+ * Updates the login form fields with the provided user data.
+ *
+ * This function sets the email and password fields with the user's information 
+ * and checks the "Remember Me" checkbox. It also updates the icon on the password field 
+ * based on its value.
+ *
+ * @param {Object} user - The user object containing the email, password, and other details.
+ */
+function updateLoginFields(user) {
+  let emailField = document.getElementById("email");
+  let passwordField = document.getElementById("password");
+  let rememberMeCheckbox = document.getElementById("rememberMeCheckbox");
+
+  emailField.value = user.email;
+  passwordField.value = user.password;
+  rememberMeCheckbox.checked = true;
+
+  updateIconOnInput(passwordField);
+}
+
+
+

@@ -2,10 +2,15 @@ let tasks = [];
 
 
 /**
- * Initializes the summary page.
- * Sets the greeting, displays the username, and updates the mobile greeting.
+ * Initializes the summary page by setting up necessary data and UI elements.
+ *
+ * This asynchronous function first waits for the `init()` function to complete,
+ * which initializes global data and UI components. Then, it sets the greeting message,
+ * displays the user's name, updates the mobile greeting, loads tasks from the database,
+ * and updates the summary metrics on the page.
  */
 async function initSummary() {
+  await init();
   getGreeting();
   displayUserName();
   getGreetingAndUserNameMobile();
@@ -51,15 +56,22 @@ function getGreeting() {
 
 
 /**
- * Displays the username from local storage in the summary.
- * If the user is logged in, their name is displayed.
+ * Displays the logged-in user's name in the summary greeting.
+ *
+ * This function retrieves the user data from local storage, decodes it, 
+ * and searches for the user's name by their ID. If the user's name is found, 
+ * it updates the HTML element with the ID "summaryGreetingName" to display the name.
  */
 function displayUserName() {
   let user = localStorage.getItem("user");
   if (user) {
     let userData = JSON.parse(atob(user));
-    let userName = userData.name;
-    document.getElementById("summaryGreetingName").innerHTML = userName;
+    let userId = userData.id;
+
+    let foundUser = searchUserById(userId);
+    if (foundUser && foundUser.name) {
+      document.getElementById("summaryGreetingName").innerHTML = foundUser.name;
+    }
   }
 }
 

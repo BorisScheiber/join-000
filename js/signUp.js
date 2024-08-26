@@ -137,12 +137,13 @@ function redirectToLogin() {
 
 
 /**
-* Creates a new user object with the email, initials, name, and password from the input fields.
+* Creates a new user object with the email, id, initials, name, and password from the input fields.
 * 
 * @returns {Object} - The new user object.
 */
 function createNewUserObject() {
     let newUser = {
+        id: generateUUID(),
         email: document.getElementById("email").value.trim(),
         initials: setUserInitials(),
         name: formatUserName(),
@@ -221,4 +222,22 @@ function formatUserName() {
   let formattedUserName = userName.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
 
   return formattedUserName;
+}
+
+
+/**
+ * Generates a random UUID (Universally Unique Identifier).
+ *
+ * This function creates a unique ID string that looks like this: 
+ * 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.
+ * The ID is made up of 32 characters (numbers and letters) and is split into five parts by hyphens.
+ *
+ * @returns {string} A randomly generated UUID.
+ */
+function generateUUID() { 
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0,
+      v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
 }

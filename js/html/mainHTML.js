@@ -47,7 +47,7 @@ function displayHeaderHTML() {
                 <img src="./assets/icons/help.svg" alt="">
             </a>
             <button onclick="toggleDropDownNav()" class="header-user-button">
-                <span id="headerUserInitials" class="header-user-initials">G</span>
+                <span id="headerUserInitials" class="header-user-initials"></span>
             </button>
             <nav id="dropDownNav" class="drop-down-nav" style="display: none;">
                 <a class="drop-down-nav-links drop-down-nav-help" href="./help.html">Help</a>

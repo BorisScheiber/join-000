@@ -1,3 +1,6 @@
+let usersData = [];
+
+
 /**
  * Initializes the page by displaying the desktop sidebar, header, mobile navigation,
  * removing certain classes if the user is not logged in, and displaying the user's initials in the header.
@@ -7,6 +10,7 @@ async function init() {
   displayHeader();
   displayMobileNav();
   removeClassesIfNotLoggedIn();
+  await getUsersData();
   displayInitialsHeaderUser();
 }
 
@@ -98,25 +102,78 @@ function isTouchDevice() {
 
 
 /**
- * Gets the user's initials from localStorage.
- * If user initials are not found, it checks for guest initials.
- * If neither are found, it returns "G" as a default.
- * 
- * @returns {string} The initials of the user or guest.
+ * Fetches user data from the database and stores it in the usersData array.
+ *
+ * This asynchronous function retrieves user data from the database using the getData function.
+ * If successful, it stores the fetched data in the usersData variable.
+ * If an error occurs during the fetch, it logs the error to the console.
+ */
+async function getUsersData() {
+  try {
+    usersData = await getData("users");
+  } catch (error) {
+    console.error("Error fetching users:", error);
+  }
+}
+
+
+/**
+ * Retrieves the initials to display in the header.
+ *
+ * This function checks if a user is stored in local storage and, if so,
+ * retrieves their initials. If no user is found, it checks for guest initials.
+ * If neither are found, it defaults to "G".
+ *
+ * @returns {string} The initials to display in the header.
  */
 function getInitialsHeaderUser() {
   let user = localStorage.getItem("user");
   let guestInitials = localStorage.getItem("guestInitials");
-  let initials = "G";
-  let userData;
 
   if (user) {
-    userData = JSON.parse(atob(user));
-    initials = userData.initials || initials;
+    return getUserInitials(user);
   } else if (guestInitials) {
-    initials = guestInitials;
+    return guestInitials;
   }
-  return initials;
+
+  return "G";
+}
+
+
+/**
+ * Extracts the initials of a user from the provided user data.
+ *
+ * This function decodes the user data, searches for the user by ID, 
+ * and returns their initials. If the user or initials are not found, it defaults to "G".
+ *
+ * @param {string} user - The encoded user data from local storage.
+ * @returns {string} The initials of the user or "G" if not found.
+ */
+function getUserInitials(user) {
+  let userData = JSON.parse(atob(user));
+  let userId = userData.id;
+
+  if (userId) {
+    let foundUser = searchUserById(userId);
+    if (foundUser && foundUser.initials) {
+      return foundUser.initials;
+    }
+  }
+
+  return "G";
+}
+
+
+/**
+ * Searches for a user by their ID in the usersData array.
+ *
+ * This function looks through the usersData array to find a user with the matching ID.
+ *
+ * @param {string} userId - The ID of the user to search for.
+ * @returns {Object|null} The user object if found, or null if not found.
+ */
+function searchUserById(userId) {
+  return usersData.find((u) => u.id === userId) || null;
 }
 
 
