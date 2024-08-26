@@ -181,13 +181,15 @@ function generateContactDetailHTML(user, bgColor) {
 }
 
 /**
- * Generates HTML content for a form to edit contact details.
- * 
- * @function
+ * Generates the HTML content for editing a contact.
+ *
  * @param {Object} user - The user object containing contact details.
- * @param {string} initials - The initials of the contact for display.
- * @param {string} bgColor - The background color for the contact's profile image.
- * @returns {string} The HTML content for the contact editing window.
+ * @param {string} user.name - The name of the contact.
+ * @param {string} user.email - The email address of the contact.
+ * @param {string} user.phone - The phone number of the contact.
+ * @param {string} initials - The initials of the contact to be displayed in the profile icon.
+ * @param {string} bgColor - The background color for the profile icon.
+ * @returns {string} - The generated HTML string for the edit contact form.
  */
 function generateEditContactHTML(user, initials, bgColor) {
     return /*HTML*/`
@@ -197,7 +199,7 @@ function generateEditContactHTML(user, initials, bgColor) {
                     <img src="./assets/icons/logo-add-new-contact.svg" alt="logo" class="edit-contact-menu-img">
                 </div>
                 <div class="add-new-contact-close-button-responsive">
-                        <img src="./assets/icons/closeContactsResponsive.svg" alt="close" class="close-contact-responsive" onclick="closeEditContact()">
+                    <img src="./assets/icons/closeContactsResponsive.svg" alt="close" class="close-contact-responsive" onclick="closeEditContact()">
                 </div>
                 <div class="edit-contact-text-area">
                     <div class="edit-contact-menu-text">

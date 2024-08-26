@@ -5,7 +5,6 @@ let selectedContactElement = null;
 
 /**
  * Initializes the contact page by displaying the sidebar, header, and loading contacts.
- * 
  * @async
  * @function
  * @returns {void}
@@ -20,8 +19,7 @@ async function initContacts() {
 }
 
 /**
- * Generates a random hexadecimal color code.
- * 
+ * Generates a random hexadecimal color code. 
  * @function
  * @returns {string} A random hexadecimal color code.
  */
@@ -36,7 +34,6 @@ function getRandomColor() {
 
 /**
  * Loads contacts from a data source and renders them on the page.
- * 
  * @async
  * @function
  * @returns {void}
@@ -59,7 +56,6 @@ async function loadContacts() {
 
 /**
  * Renders the contact list in the contact menu.
- * 
  * @function
  * @returns {void}
  */
@@ -85,7 +81,6 @@ function renderContactList() {
 
 /**
  * Validates a contact's name.
- * 
  * @function
  * @param {string} name - The contact's name.
  * @returns {string} An error message if the name is invalid, or an empty string if valid.
@@ -103,7 +98,6 @@ function validateName(name) {
 
 /**
  * Validates an email address.
- * 
  * @function
  * @param {string} email - The email address.
  * @returns {string} An error message if the email is invalid, or an empty string if valid.
@@ -118,10 +112,26 @@ function validateEmail(email) {
 
 /**
  * Validates a phone number.
- * 
- * @function
- * @param {string} phone - The phone number.
- * @returns {string} An error message if the phone number is invalid, or an empty string if valid.
+ * This function checks if the provided phone number is not empty, contains only valid characters (numbers, plus sign, and spaces),
+ * and has at least 9 digits.
+ * @param {string} phone - The phone number to be validated.
+ * @returns {string} - An error message if the phone number is invalid; otherwise, an empty string.
+ * @example
+ * // Valid phone number
+ * const result = validatePhone('+123 456 789');
+ * console.log(result); // Output: ''
+ * @example
+ * // Phone number too short
+ * const result = validatePhone('123 45');
+ * console.log(result); // Output: 'The phone number must be at least 9 digits long.'
+ * @example
+ * // Phone number contains invalid characters
+ * const result = validatePhone('123-456-7890');
+ * console.log(result); // Output: 'The phone number can only contain numbers, the plus sign (+), and spaces.'
+ * @example
+ * // Phone number is empty
+ * const result = validatePhone('   ');
+ * console.log(result); // Output: 'Please enter a phone number.'
  */
 function validatePhone(phone) {
     const trimmedPhone = phone.trim();
@@ -141,7 +151,6 @@ function validatePhone(phone) {
 
 /**
  * Sets an error message for a specific HTML element.
- * 
  * @function
  * @param {string} elementId - The ID of the HTML element.
  * @param {string} message - The error message to set.
@@ -151,18 +160,22 @@ function setErrorMessage(elementId, message) {
     const errorElement = document.getElementById(elementId);
     if (errorElement) {
         errorElement.textContent = message;
-        errorElement.style.display = 'block';  // Stelle sicher, dass das Element sichtbar ist
-        errorElement.style.color = 'red';  // Optional: Stelle sicher, dass die Fehlermeldung gut sichtbar ist
+        errorElement.style.display = 'block';
+        errorElement.style.color = 'red';
     } else {
         console.error(`Element with ID ${elementId} not found.`);
     }
 }
 
 /**
- * Clears all error messages.
- * 
- * @function
- * @returns {void}
+ * Clears all error messages in the contact form.
+ * This function iterates over the predefined list of error message element IDs,
+ * clears the text content of each element, and hides the element to ensure that
+ * no error messages are visible to the user.
+ * Array of IDs corresponding to the error message elements for name, email, and phone fields.
+ * @type {string[]}
+ * The DOM element corresponding to the current error ID.
+ * @type {HTMLElement|null}
  */
 function clearErrorMessages() {
     const errorIds = ['nameError', 'emailError', 'phoneError'];
@@ -170,19 +183,17 @@ function clearErrorMessages() {
         const errorElement = document.getElementById(id);
         if (errorElement) {
             errorElement.textContent = '';
-            errorElement.style.display = 'none';  // Verstecke die Fehlermeldung
+            errorElement.style.display = 'none';
         }
     });
 }
 
 /**
- * Validates contact inputs for name, email, and phone.
- * 
- * @function
- * @param {string} name - The contact's name.
- * @param {string} email - The contact's email.
- * @param {string} phone - The contact's phone number.
- * @returns {boolean} True if all inputs are valid, otherwise false.
+ * Validates the contact input fields for name, email, and phone.
+ * @param {string} name - The name input value to validate.
+ * @param {string} email - The email input value to validate.
+ * @param {string} phone - The phone input value to validate.
+ * @returns {boolean} - Returns `true` if all inputs are valid, otherwise `false`.
  */
 function validateContactInputs(name, email, phone) {
     const validations = [
@@ -202,7 +213,6 @@ function validateContactInputs(name, email, phone) {
 
 /**
  * Creates a contact object.
- * 
  * @function
  * @param {string} name - The contact's name.
  * @param {string} email - The contact's email.
@@ -222,7 +232,6 @@ function createContactObject(name, email, phone, id) {
 
 /**
  * Closes the "Add New Contact" form.
- * 
  * @function
  * @returns {void}
  */
@@ -233,7 +242,6 @@ function closeNewContact() {
 
 /**
  * Closes the "Add New Contact" form.
- * 
  * @function
  * @returns {void}
  */
@@ -244,7 +252,6 @@ function closeEditContact() {
 
 /**
  * Handles showing contact details based on screen size.
- * 
  * @function
  * @param {string} name - The contact's name.
  * @returns {void}
@@ -260,7 +267,6 @@ function handleShowContactDetail(name) {
 
 /**
  * Displays the contact detail view.
- * 
  * @function
  * @param {string} name - The contact's name.
  * @returns {void}
@@ -282,7 +288,6 @@ function showContactDetail(name) {
 
 /**
  * Hides the contact list for small screens.
- * 
  * @function
  * @returns {void}
  */
@@ -295,7 +300,6 @@ function hideContactList() {
 
 /**
  * Displays the contact detail view for small screens.
- * 
  * @function
  * @param {string} name - The contact's name.
  * @returns {void}
@@ -320,7 +324,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /**
  * Opens the contact editing form.
- * 
  * @function
  * @param {string} contactId - The ID of the contact to edit.
  * @returns {void}
@@ -340,7 +343,6 @@ function openEditingContact(contactId) {
 
 /**
  * Sorts contacts alphabetically and re-renders the contact list.
- * 
  * @function
  * @returns {void}
  */
@@ -351,7 +353,6 @@ function sortAndRenderContacts() {
 
 /**
  * Updates the contact list with new or modified contact data.
- * 
  * @function
  * @param {(Object|string)} param1 - A contact object or ID.
  * @param {Object} [param2] - The contact data (if the first parameter is an ID).
@@ -373,7 +374,6 @@ function updateContactList(param1, param2) {
 
 /**
  * Clears the contact information fields in the editing form.
- * 
  * @function
  * @returns {void}
  */
