@@ -146,7 +146,11 @@ function validatePhone(phone) {
  * @returns {void}
  */
 function setErrorMessage(elementId, message) {
-    document.getElementById(elementId).innerHTML = message;
+    const errorElement = document.getElementById(elementId);
+    if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';  // Stelle sicher, dass das Element sichtbar ist
+    }
 }
 
 /**
@@ -156,9 +160,14 @@ function setErrorMessage(elementId, message) {
  * @returns {void}
  */
 function clearErrorMessages() {
-    setErrorMessage('nameError', '');
-    setErrorMessage('emailError', '');
-    setErrorMessage('phoneError', '');
+    const errorIds = ['nameError', 'emailError', 'phoneError'];
+    errorIds.forEach(id => {
+        const errorElement = document.getElementById(id);
+        if (errorElement) {
+            errorElement.textContent = '';
+            errorElement.style.display = 'none';  // Verstecke die Fehlermeldung
+        }
+    });
 }
 
 /**

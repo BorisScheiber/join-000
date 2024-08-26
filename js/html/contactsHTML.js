@@ -217,7 +217,7 @@ function generateEditContactHTML(user, initials, bgColor) {
                         </div>
                         <div class="edit-contact-input-field-section">
                             <div class="contact-input-fields">
-                                <input type="text" placeholder="Name" class="input-fields-edit-contact" value="${user.name}" id="contactName">
+                                <input type="text" name="name" placeholder="Name" class="input-fields-edit-contact" value="${user.name}" id="contactName" required>
                                 <div class="contact-input-icon">
                                     <img src="./assets/icons/contactPersonInput.svg" alt="profile">
                                 </div>
@@ -225,7 +225,7 @@ function generateEditContactHTML(user, initials, bgColor) {
                             </div>
                             <div class="input-field-separator"></div>
                             <div class="contact-input-fields">
-                                <input type="email" placeholder="Email" class="input-fields-edit-contact" value="${user.email}" id="contactMailAdress">
+                                <input type="email" name="email" placeholder="Email" class="input-fields-edit-contact" value="${user.email}" id="contactMailAdress" required>
                                 <div class="contact-input-icon">
                                     <img src="./assets/icons/contactMailInput.svg" alt="mail">
                                 </div>
@@ -233,7 +233,7 @@ function generateEditContactHTML(user, initials, bgColor) {
                             </div>
                             <div class="input-field-separator"></div>
                             <div class="contact-input-fields">
-                                <input type="tel" placeholder="Phone" class="input-fields-edit-contact" value="${user.phone}" id="contactPhone">
+                                <input type="tel" name="phone" placeholder="Phone" class="input-fields-edit-contact" value="${user.phone}" id="contactPhone" required>
                                 <div class="contact-input-icon">
                                     <img src="./assets/icons/contactCallInput.svg" alt="phone">
                                 </div>
@@ -246,10 +246,10 @@ function generateEditContactHTML(user, initials, bgColor) {
                             <div class="button-delete-contact" onclick="clearContactInfo()">
                                 <span>Delete</span>
                             </div>
-                            <div class="button-save-contact" onclick="saveEditingContact()">
+                            <button type="submit" class="button-save-contact">
                                 <span>Save</span>
                                 <img src="./assets/icons/createNewContact.svg" alt="tick">
-                            </div>
+                            </button>
                         </div>
                     </div>
                 </form>
