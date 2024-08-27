@@ -291,7 +291,7 @@ h6 {
     margin-top: 40px;
   }
   .summary-title {
-    max-width: 396px;
+    max-width: 472px;
     width: 100%;
   }
   .summary-greeting-mobile {
@@ -316,14 +316,63 @@ h6 {
     line-height: 24px;
   }
   h5 {
+    font-size: 18px;
+    line-height: 21.6px;
+  }
+  h6 {
+    font-size: 16px;
+    line-height: 19.2px;
+  }
+  .h7 {
+    font-size: 14px;
+    line-height: 16.8px;
+  }
+  .summary-icon-container {
+    height: 54px;
+    width: 54px;
+    background-size: contain;
+  }
+  .summary-metrics-box {
+    height: 134px;
+    display: flex;
+    gap: 32px;
+  }
+  .summary-metrics-container {
+    gap: 29px;
+    max-width: 472px;
+    width: 100%;
+  }
+  .summary-icon-urgent {
+    height: 50px;
+    width: 50px;
+  }
+  .summary-box-todo {
+    width: 224px;
+  }
+  .summary-box-todo-content {
+    gap: 18px;
+  }
+  .summary-seperator-grey {
+    height: 82px;
+  }
+  .summary-box-urgent {
+    gap: 54px;
+  }
+  .summary-box-elements {
+    border-radius: 20px;
+  }
+}
+
+@media (max-width: 550px) {
+  .summary-title {
+    max-width: 396px;
+    width: 100%;
+  }
+  h5 {
     font-size: 16px;
     line-height: 19.2px;
   }
   h6 {
-    font-size: 14px;
-    line-height: 16.8px;
-  }
-  .h7 {
     font-size: 14px;
     line-height: 16.8px;
   }
@@ -357,9 +406,6 @@ h6 {
   }
   .summary-box-urgent {
     gap: 40px;
-  }
-  .summary-box-elements {
-    border-radius: 20px;
   }
 }
 

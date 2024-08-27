@@ -114,10 +114,10 @@ function addAnimationToGreetingMobile() {
   let loginPage = document.referrer.includes("index.html");
   let greetingContainer = document.querySelector(".summary-greeting-mobile");
   if (loginPage) {
-    greetingContainer.style.animation = "fadeOutGreetingMobile 2s forwards";
+    greetingContainer.style.animation = "fadeOutGreetingMobile 2.5s forwards";
     setTimeout(() => {
       greetingContainer.classList.add("d-none");
-    }, 2000);
+    }, 2500);
   } else {
     greetingContainer.style.display = "none";
   }
