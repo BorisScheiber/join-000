@@ -468,13 +468,12 @@
         display: flex;
         flex-direction: column;
     }
+}
 
-    @media (max-height: 1050px) {
-        .popup-content {
-            display: block;
-        }
+@media (max-width: 850px) and (max-height: 1050px) {
+    .popup-content {
+        display: block;
     }
-
 }
 
 @media (max-width: 672px) {

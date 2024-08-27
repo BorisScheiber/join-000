@@ -110,18 +110,35 @@ function getGreetingAndUserNameMobile() {
  * Adds a fade-out animation to the mobile greeting if the previous page was the login page.
  * After the animation, the mobile greeting is hidden.
  */
+// function addAnimationToGreetingMobile() {
+//   let loginPage = document.referrer.includes("index.html");
+//   let greetingContainer = document.querySelector(".summary-greeting-mobile");
+//   if (loginPage) {
+//     greetingContainer.style.animation = "fadeOutGreetingMobile 2.5s forwards";
+//     setTimeout(() => {
+//       greetingContainer.classList.add("d-none");
+//     }, 2500);
+//   } else {
+//     greetingContainer.style.display = "none";
+//   }
+// }
+
 function addAnimationToGreetingMobile() {
-  let loginPage = document.referrer.includes("index.html");
+  let loginPage = document.referrer.includes("index.html") || localStorage.getItem('cameFromLogin');
   let greetingContainer = document.querySelector(".summary-greeting-mobile");
+
   if (loginPage) {
     greetingContainer.style.animation = "fadeOutGreetingMobile 2.5s forwards";
     setTimeout(() => {
       greetingContainer.classList.add("d-none");
     }, 2500);
+    localStorage.removeItem('cameFromLogin');
   } else {
     greetingContainer.style.display = "none";
   }
 }
+
+
 
 
 /**

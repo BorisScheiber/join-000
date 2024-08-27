@@ -1,6 +1,7 @@
 .board-content {
   margin-top: 96px;
   height: calc(100vh - 96px);
+  height: calc(100svh - 96px);
   margin-left: 232px;
   padding-right: 16px;
   padding-left: 64px;

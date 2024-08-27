@@ -68,7 +68,7 @@ async function guestLogin() {
   document.getElementById("email").value = "";  
   document.getElementById("password").value = "";  
   await guestLoginSaveLocalStorage();
-  window.location.href = "summary.html";
+  redirectToSummary();
 }
 
 
@@ -80,7 +80,19 @@ async function guestLogin() {
 async function userLogin(user) {
   await guestLoginRemoveLocalStorage();
   await userLoginSaveLocalStorage(user);
-  window.location.href = "summary.html";
+  redirectToSummary();
+}
+
+
+/**
+ * Redirects the user to the summary page after setting a flag in localStorage.
+ *
+ * This function sets a 'cameFromLogin' flag in localStorage to 'true' to indicate 
+ * that the user has just logged in, and then redirects the user to the summary page.
+ */
+function redirectToSummary() {
+  localStorage.setItem('cameFromLogin', 'true');
+  window.location.href = 'summary.html';
 }
 
 

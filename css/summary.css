@@ -1,6 +1,7 @@
 .summary-content {
   margin-top: 96px;
   height: calc(100vh - 96px);
+  height: calc(100svh - 96px);
   margin-left: 232px;
   padding-left: 96px;
   padding-right: 96px;
