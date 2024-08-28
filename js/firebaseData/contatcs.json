@@ -1,0 +1,102 @@
+{
+    "contacts": {
+      "0ad0aa6d-64ad-4ba9-86cf-b39e1e36899e": {
+        "color": "#C71E94",
+        "email": "lisa.weber@web.de",
+        "id": "0ad0aa6d-64ad-4ba9-86cf-b39e1e36899e",
+        "name": "Lisa Weber",
+        "phone": "+49 1111 111 88 8"
+      },
+      "1178253a-4482-400f-8eba-db901484fb39": {
+        "color": "#2DF024",
+        "email": "e.meinberg@hotmail.de",
+        "id": "1178253a-4482-400f-8eba-db901484fb39",
+        "name": "Emmanuel Meinberg",
+        "phone": "+49123456789"
+      },
+      "1d2bf13f-c8ad-42f1-9830-a1095cbcf965": {
+        "color": "#4D8979",
+        "email": "daniela.koch@web.com",
+        "id": "1d2bf13f-c8ad-42f1-9830-a1095cbcf965",
+        "name": "Daniela Koch",
+        "phone": "0043123456"
+      },
+      "1fd7aeaa-5117-451d-8008-16d34e2e874b": {
+        "color": "#EB433C",
+        "email": "Tina.Wind@hotmail.de",
+        "id": "1fd7aeaa-5117-451d-8008-16d34e2e874b",
+        "name": "Tina Wind",
+        "phone": "+49 1111 123 152"
+      },
+      "489f0a40-9c1d-4cb4-b9e9-34933cde6a38": {
+        "color": "#1544FF",
+        "email": "z.gross@hotmail.de",
+        "id": "489f0a40-9c1d-4cb4-b9e9-34933cde6a38",
+        "name": "Zacharias Gross",
+        "phone": "+49 1111 111 44 4"
+      },
+      "5b100171-5461-4c2a-8f09-8360e0199b91": {
+        "color": "#8608AC",
+        "email": "Kiko@gmail.com",
+        "id": "5b100171-5461-4c2a-8f09-8360e0199b91",
+        "name": "Markus Kiko",
+        "phone": "01628114256"
+      },
+      "5cbe12e3-86ec-4fa0-af9b-b08b4696a729": {
+        "color": "#1E3817",
+        "email": "consi.grey@gmail.com",
+        "id": "5cbe12e3-86ec-4fa0-af9b-b08b4696a729",
+        "name": "Constantin Grey",
+        "phone": "+49 1111 222 22 3"
+      },
+      "5e1b947a-f1fc-4fe8-b79f-b237a25b851b": {
+        "color": "#C28A06",
+        "email": "petermayer@hotmail.de",
+        "id": "5e1b947a-f1fc-4fe8-b79f-b237a25b851b",
+        "name": "Peter Mayer",
+        "phone": "+49 2222 222 10 1"
+      },
+      "5e73c537-9e87-420e-867f-05290c63c915": {
+        "color": "#B1D530",
+        "email": "kern.Julius@gmail.com",
+        "id": "5e73c537-9e87-420e-867f-05290c63c915",
+        "name": "Julius Kern",
+        "phone": "+49 789456123"
+      },
+      "8e2066df-bd0c-4806-b2ba-2bec09900a77": {
+        "color": "#EEEF0F",
+        "email": "beaNeumann@gmx.de",
+        "id": "8e2066df-bd0c-4806-b2ba-2bec09900a77",
+        "name": "Beatrice Neumann",
+        "phone": "+49 1111 222 10 2"
+      },
+      "928d0b7c-a028-4d82-a302-0010fa2c0af4": {
+        "color": "#D73538",
+        "email": "geordP@gmx.de",
+        "id": "928d0b7c-a028-4d82-a302-0010fa2c0af4",
+        "name": "Georg Plotter",
+        "phone": "+4912345617"
+      },
+      "a3b117e3-8cad-4430-bbc0-52322c38fe44": {
+        "color": "#AB8683",
+        "email": "alinamark@gmx.de",
+        "id": "a3b117e3-8cad-4430-bbc0-52322c38fe44",
+        "name": "Alina Mark",
+        "phone": "+49 1111 777 88"
+      },
+      "d4f30f5c-7e23-47e0-a99f-eec3345b89f7": {
+        "color": "#F35B80",
+        "email": "valle@gmail.com",
+        "id": "d4f30f5c-7e23-47e0-a99f-eec3345b89f7",
+        "name": "Valentin Schön",
+        "phone": "+49 1111 111 10 12"
+      },
+      "f8d0be2f-628a-487b-87f8-053e6cbcafb2": {
+        "color": "#CED754",
+        "email": "daniel@maier.com",
+        "id": "f8d0be2f-628a-487b-87f8-053e6cbcafb2",
+        "name": "Daniel Maier",
+        "phone": "+4325552255255"
+      }
+    }
+  }
