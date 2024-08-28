@@ -1,28 +1,99 @@
 /**
- * Creates a new contact, saves it to the database, and updates the contact list.
- * Displays a success message and reloads the contact list.
+ * Creates a new contact by validating the inputs, checking for duplicates,
+ * and then saving the contact to Firebase.
  * 
  * @async
- * @function
+ * @function createNewContact
  */
 async function createNewContact() {
-    const name = document.getElementById('newContactName').value;
-    const email = document.getElementById('newContactEmail').value;
-    const phone = document.getElementById('newContactPhone').value;
+    const { name, email, phone } = getInputValues();
     clearErrorMessages();
+    if (checkForDuplicates(email, phone)) return;
     if (validateContactInputs(name, email, phone)) {
-        const contactId = generateRandomId();
-        const newContact = createContactObject(name, email, phone, contactId);
         try {
-            await saveDataToFirebase(contactId, newContact);
-            updateContactList(newContact);
-            closeNewContact();
-            successfullCreationContact();
-            await loadContacts();
+            await processNewContact(name, email, phone);
         } catch (error) {
             console.error('Error creating new contact:', error);
         }
     }
+}
+
+/**
+ * Retrieves the input values for the new contact from the form fields.
+ * 
+ * @function getInputValues
+ * @returns {Object} An object containing the name, email, and phone values.
+ */
+function getInputValues() {
+    return {
+        name: document.getElementById('newContactName').value,
+        email: document.getElementById('newContactEmail').value,
+        phone: document.getElementById('newContactPhone').value
+    };
+}
+
+/**
+ * Checks if the provided email or phone number already exists in the contacts list.
+ * If a duplicate is found, an error message is displayed.
+ * 
+ * @function checkForDuplicates
+ * @param {string} email - The email address to check for duplicates.
+ * @param {string} phone - The phone number to check for duplicates.
+ * @returns {boolean} True if a duplicate is found, otherwise false.
+ */
+function checkForDuplicates(email, phone) {
+    let hasError = false;
+    if (isEmailDuplicate(email)) {
+        setErrorMessage('emailError', 'This email address is already in use.');
+        hasError = true;
+    }
+    if (isPhoneDuplicate(phone)) {
+        setErrorMessage('phoneError', 'This phone number is already in use.');
+        hasError = true;
+    }
+    return hasError;
+}
+
+/**
+ * Processes the creation of a new contact by generating an ID, creating a contact object,
+ * saving it to Firebase, updating the contact list, and closing the form.
+ * 
+ * @async
+ * @function processNewContact
+ * @param {string} name - The name of the new contact.
+ * @param {string} email - The email address of the new contact.
+ * @param {string} phone - The phone number of the new contact.
+ */
+async function processNewContact(name, email, phone) {
+    const contactId = generateRandomId();
+    const newContact = createContactObject(name, email, phone, contactId);
+    await saveDataToFirebase(contactId, newContact);
+    updateContactList(newContact);
+    closeNewContact();
+    successfullCreationContact();
+    await loadContacts();
+}
+
+/**
+ * Checks if the provided email address is already in use by another contact.
+ * 
+ * @function isEmailDuplicate
+ * @param {string} email - The email address to check.
+ * @returns {boolean} True if the email address is already in use, otherwise false.
+ */
+function isEmailDuplicate(email) {
+    return contacts.some(contact => contact.email === email);
+}
+
+/**
+ * Checks if the provided phone number is already in use by another contact.
+ * 
+ * @function isPhoneDuplicate
+ * @param {string} phone - The phone number to check.
+ * @returns {boolean} True if the phone number is already in use, otherwise false.
+ */
+function isPhoneDuplicate(phone) {
+    return contacts.some(contact => contact.phone === phone);
 }
 
 /**
