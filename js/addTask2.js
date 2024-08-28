@@ -35,7 +35,9 @@ function getSubtasks() {
     const subtaskItems = document.querySelectorAll("#subtask-list .subtask-item");
 
     subtaskItems.forEach(item => {
-        const subtaskText = item.querySelector('.subtask-text').innerText;
+        const subtaskTextElement = item.querySelector('.subtask-text');
+        const subtaskText = subtaskTextElement ? subtaskTextElement.innerText : ''; // Check for null
+        // const subtaskText = item.querySelector('.subtask-text').innerText;
         const subtaskId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
         // Store subtask under generated ID

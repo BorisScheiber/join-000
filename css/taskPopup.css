@@ -464,10 +464,14 @@ display: flex;
 
 #delete-button{
     position: absolute;
-    bottom: 4%;
+    bottom: -4%;
     right: 4%;
 }
+.edit-delete-icons-edit {
+    display: flex;
+    gap: 4px;
 
+}
 #delete-button p {
     color: rgb(255, 255, 255);
 }

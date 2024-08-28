@@ -855,6 +855,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     justify-content: space-between;
     padding-left: 20px;
     line-break: anywhere;
+    position: relative;
 }
 
 .reset-icon {
