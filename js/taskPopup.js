@@ -293,15 +293,21 @@ async function editTask(taskId) { // Change parameter to taskId
 
     selectedContactsDataEdit = { ...task.Assigned_to };
 
+
     const contactList = document.getElementById("contact-list-edit");
     try {
         const contactsData = await getData("contacts");
         if (contactsData) {
             const firebaseContacts = Object.values(contactsData);
-        
-    firebaseContacts.forEach(contact => 
-        createContactItemEdit(contact, contactList, Object.values(task.Assigned_to)) // Pass assigned contacts
-    );
+
+            // Check if task.Assigned_to is a valid object
+            const assignedContacts = task.Assigned_to && typeof task.Assigned_to === 'object'
+                ? Object.values(task.Assigned_to)
+                : []; // Use an empty array if Assigned_to is invalid
+
+            firebaseContacts.forEach(contact =>
+                createContactItemEdit(contact, contactList, assignedContacts)
+            );
 
             // Call updateSelectedContactsEdit AFTER populating the list
             updateSelectedContactsEdit();
@@ -311,6 +317,7 @@ async function editTask(taskId) { // Change parameter to taskId
     } catch (error) {
         console.error("Error fetching contacts:", error);
     }
+
     // Add event listener to contactSearch AFTER the popup is loaded
     const contactSearch = document.getElementById("contact-search-edit");
     contactSearch.addEventListener("input", filterContactsEdit);
@@ -332,6 +339,10 @@ async function editTask(taskId) { // Change parameter to taskId
     // Add event listener to contact list
     const contactListEdit = document.getElementById("contact-list-edit");
     contactListEdit.addEventListener("click", handleContactCheckboxClickEdit)
+
+    document.getElementById('subtask-input-edit').addEventListener('keydown', (event) => {
+        handleEnterKey(event, addSubtaskEditTask);
+    });
 }
 
 
@@ -424,8 +435,8 @@ function generateEditTaskFormHTML(task) {
                                 <img src="./assets/icons/add.svg" alt="Add" class="add-icon">
                             </div>
             </div>
-            <ul id="subtask-list" class="subtask-list" >
-           ${generateSubtaskListHTML(task.Subtasks)}
+            <ul id="subtask-list-edit" class="subtask-list" >
+           ${generateSubtaskListHTML(task.Subtasks, task)}
             </ul>
         </div>
     </div>
@@ -550,17 +561,35 @@ function populateEditForm(task) {
 //     return html;
 // }
 
-function generateSubtaskListHTML(subtasks) {
+// function generateSubtaskListHTML(subtasks) {
+//     let html = '';
+//     for (const subtaskId in subtasks) {
+//         const subtask = subtasks[subtaskId];
+//         html += `
+//             <li class="subtask-item" style="list-style-type:disc" data-subtask-id="${subtaskId}">
+//                 <div class="subtask-text" ondblclick="editSubtaskEditTask(this, '${subtask.description}')">${subtask.description}</div>
+//                 <div class="edit-delete-icons-edit" style="display: flex;">
+//                     <img src="./assets/icons/edit.svg" alt="Edit" onclick="editSubtaskEditTask(this, '${subtask.description}')">
+//                     <div class="vertical-line"></div>
+//                     <img src="./assets/icons/delete.svg" alt="Delete" onclick="deleteSubtaskEditTask(this)">
+//                 </div>
+//             </li>
+//         `;
+//     }
+//     return html;
+// }
+function generateSubtaskListHTML(subtasks, task) { // Make sure task is a parameter
     let html = '';
     for (const subtaskId in subtasks) {
         const subtask = subtasks[subtaskId];
+
         html += `
             <li class="subtask-item" style="list-style-type:disc" data-subtask-id="${subtaskId}">
                 <div class="subtask-text" ondblclick="editSubtaskEditTask(this, '${subtask.description}')">${subtask.description}</div>
                 <div class="edit-delete-icons-edit" style="display: flex;">
                     <img src="./assets/icons/edit.svg" alt="Edit" onclick="editSubtaskEditTask(this, '${subtask.description}')">
                     <div class="vertical-line"></div>
-                    <img src="./assets/icons/delete.svg" alt="Delete" onclick="deleteSubtaskEditTask(this)">
+                    <img src="./assets/icons/delete.svg" alt="Delete" onclick="deleteSubtaskEditTask(this, '${task}')"> 
                 </div>
             </li>
         `;
@@ -574,9 +603,9 @@ function generateSubtaskListHTML(subtasks) {
  * @param {string} taskId - The Firebase ID of the task to update.
  */
 async function saveEditTask(taskId, firebaseId) {
-    // if (!validateFields()) { // Call validateFields and check the result
-    //     return; // Stop saving if validation fails
-    // }
+     if (!validateFieldsEditTask()) { // Call validateFields and check the result
+         return; // Stop saving if validation fails
+    }
     try {
         // 1. Fetch the original task data from Firebase
         const originalTask = await getTaskByIdToEdit(taskId);
@@ -596,12 +625,12 @@ async function saveEditTask(taskId, firebaseId) {
         updatedTask.Prio = currentPriority;
         if (Object.keys(selectedContactsDataEdit).length > 0) {
             updatedTask.Assigned_to = { ...selectedContactsDataEdit };
-        
-    } else {
-        // If no contacts are selected, clear Assigned_to
-        updatedTask.Assigned_to = {}; // Assign an empty object
-      }
-     
+
+        } else {
+            // If no contacts are selected, clear Assigned_to
+            updatedTask.Assigned_to = {}; // Assign an empty object
+        }
+
         // Update the Subtasks property with the updated subtasks
         updatedTask.Subtasks = getSubtasksEditTask(originalTask);
         // 4. Update the task in Firebase
@@ -620,6 +649,145 @@ async function saveEditTask(taskId, firebaseId) {
 
 
 /**
+ * Validates all input fields in the form.
+ *
+ * @returns {boolean} True if all fields are valid, otherwise false.
+ */
+// function validateFieldsEditTask() {
+//     let isValid = true;
+//     fields.forEach(field => {
+//         if (field.element.value.trim() === "") {
+//             (field.fieldElement || field.element).style.border = '1px solid rgba(255, 129, 144, 1)';
+//             if (field.id === 'category') {
+//                 showErrorMessageCategory('This field is required'); // Use showErrorMessageCategory
+//             } else {
+//                 showErrorMessage(field.element, 'This field is required');
+//             }
+//             isValid = false;
+//         } else if (field.id === 'due-date') {
+//             const errorMessage = validateDueDate(field.element.value);
+//             if (errorMessage) {
+//                 field.element.style.border = '1px solid rgba(255, 129, 144, 1)';
+//                 showErrorMessage(field.element, errorMessage);
+//                 isValid = false;
+//             }
+//         } else {
+//             (field.fieldElement || field.element).style.border = '1px solid rgba(41, 171, 226, 1)';
+//             if (field.id === 'category') {
+//                 removeErrorMessageCategory(); // Use removeErrorMessageCategory
+//             } else {
+//                 removeErrorMessage(field.element);
+//             }
+//         }
+//     });
+//     return isValid;
+// }
+
+/**
+ * Validates the due date to ensure it's in the correct format (YYYY-MM-DD) and a future date.
+ *
+ * @param {string} dueDate - The due date string to validate.
+ * @returns {string} An error message if the date is invalid, otherwise an empty string.
+ */
+function validateDueDateEdit(dueDate) {
+    const datePattern = /^\d{4}-\d{2}-\d{2}$/; // Regular expression for YYYY-MM-DD format
+    if (!datePattern.test(dueDate)) {
+        return 'Please enter a valid date in YYYY-MM-DD format.';
+    }
+    const today = new Date();
+    const selectedDate = new Date(dueDate);
+
+    if (selectedDate <= today) {
+        return 'Please enter a future date.';
+    }
+
+    return ''; // No error
+}
+
+
+function validateFieldsEditTask() {
+    let isValid = true;
+
+    // Filter the fields array to exclude the 'category' field
+    const fieldsToValidate = fields.filter(field => field.id !== 'category');
+
+    fieldsToValidate.forEach(field => {
+        if (field.element.value.trim() === "") {
+            (field.fieldElement || field.element).style.border = '1px solid rgba(255, 129, 144, 1)';
+            showErrorMessage(field.element, 'This field is required');
+            isValid = false;
+        } else if (field.id === 'editDueDate') {
+            const errorMessage = validateDueDateEdit(field.element.value);
+            if (errorMessage) {
+                field.element.style.border = '1px solid rgba(255, 129, 144, 1)';
+                showErrorMessage(field.element, errorMessage);
+                isValid = false;
+            }
+        } else {
+            (field.fieldElement || field.element).style.border = '1px solid rgba(41, 171, 226, 1)';
+            removeErrorMessage(field.element);
+        }
+    });
+
+    return isValid;
+}
+
+
+/**
+ * Handles the input event on input fields, resetting the border color and removing error messages.
+ *
+ * @param {Event} event - The input event.
+ */
+function handleInputEdit(event) {
+    const field = event.target;
+    if (field.value.trim() !== "") {
+        field.style.border = '1px solid rgba(41, 171, 226, 1)';
+        removeErrorMessage(field);
+    }
+}
+
+
+/**
+ * Handles the blur event on input fields, validating the input and displaying error messages if necessary.
+ *
+ * @param {Event} event - The blur event.
+ */
+function handleBlurEdit(event) {
+    const field = event.target;
+    if (field.value.trim() !== "") {
+        field.style.border = '1px solid rgba(209, 209, 209, 1)';
+    } else {
+        if (field.id !== 'editDescription') {
+            field.style.border = '1px solid rgba(255, 129, 144, 1)';
+            showErrorMessage(field, 'This field is required');
+        } else {
+            field.style.border = '1px solid rgba(209, 209, 209, 1)';
+            removeErrorMessage(field);
+        }
+    }
+
+}
+
+
+/**
+ * Adds input event listeners to the 'title', 'editDescription', 'due-date', and 'category-field' input fields.
+ * The `handleInput` function will be called whenever the user types into these fields.
+ */
+document.getElementById('editTitle').addEventListener('input', handleInputEdit);
+document.getElementById('editDescription').addEventListener('input', handleInputEdit);
+document.getElementById('editDueDate').addEventListener('input', handleInputEdit);
+
+
+/**
+ * Adds blur event listeners to the 'title', 'editDescription', 'editDueDate', and 'category-field' input fields.
+ * The `handleBlur` function will be called when the user moves focus away from these fields.
+ */
+document.getElementById('editTitle').addEventListener('blur', handleBlurEdit);
+document.getElementById('editDescription').addEventListener('blur', handleBlurEdit);
+document.getElementById('editDueDate').addEventListener('blur', handleBlurEdit);
+
+
+/**
  * Toggles the visibility of the contact list.
  */
 function toggleContactListEdit() {
@@ -629,7 +797,7 @@ function toggleContactListEdit() {
     const toggleButton = document.getElementById("toggle-list-edit");
     const dropdownIcon = toggleButton.querySelector(".dropdown-icon");
 
-    
+
     // Use classList.toggle to consistently manage the hidden class
     contactList.classList.toggle("hidden");
     if (contactList.classList.contains("hidden")) {
@@ -709,15 +877,15 @@ function displaySelectedContactsEdit(task) {
  * @param {Object} contact - The contact data.
  * @param {HTMLElement} contactList - The contact list element.
  */
-function createContactItemEdit(contact, contactList , assignedContacts) {
+function createContactItemEdit(contact, contactList, assignedContacts) {
     const contactItem = document.createElement("div");
     contactItem.classList.add("contact-item");
     const nameParts = contact.name.split(" ");
     const initials = nameParts[0].charAt(0) + nameParts[1].charAt(0);
-   // Check if the contact is in the assignedContacts array
-   const isChecked = assignedContacts.some(c => c.id === contact.id);
+    // Check if the contact is in the assignedContacts array
+    const isChecked = assignedContacts.some(c => c.id === contact.id);
 
-   contactItem.innerHTML = `
+    contactItem.innerHTML = `
        <div class="contact-logo" style="background-color: ${contact.color};" data-background="${contact.color}">
            ${initials} 
        </div>
@@ -725,49 +893,11 @@ function createContactItemEdit(contact, contactList , assignedContacts) {
        <div class="contact-checkbox ${isChecked ? 'checked' : ''}" data-contact-id="${contact.id}"></div> 
    `;
 
-   if (isChecked) {
-       contactItem.classList.add("checked");
-   }
-   contactList.appendChild(contactItem);
+    if (isChecked) {
+        contactItem.classList.add("checked");
+    }
+    contactList.appendChild(contactItem);
 }
-
-// function updateSelectedContactsEdit() {
-//     const selectedContactsDiv = document.getElementById("selected-contacts-edit");
-//     selectedContactsDiv.innerHTML = ''; // Clear existing contacts
-
-//     const selectedCheckboxes = document.querySelectorAll("#contact-list-edit .contact-checkbox.checked");
-//     selectedCheckboxes.forEach(checkbox => {
-//         const contactId = checkbox.dataset.contactId; // Get the contact ID from the data attribute
-//         const contactItem = checkbox.parentElement;
-//         const logo = contactItem.querySelector(".contact-logo");
-//         const name = contactItem.querySelector("span").textContent;
-//         const color = logo.style.backgroundColor;
-
-//         // Add or update the contact in selectedContactsDataEdit using the contact ID
-//         selectedContactsDataEdit[contactId] = { name, id: contactId, color };
-
-//         // Update the display of selected contacts
-//         selectedContactsDiv.innerHTML += `
-//             <div class="selected-contact" style="background-color: ${color}">
-//                 ${logo.innerText}
-//             </div>
-//         `;
-//     });
-//     // Create a new object to store the selected contacts
-//     const newSelectedContacts = {};
-
-//     // Add only the selected contacts to the new object
-//     selectedCheckboxes.forEach(checkbox => {
-//         const contactId = checkbox.dataset.contactId;
-//         if (contactId in selectedContactsDataEdit) {
-//             newSelectedContacts[contactId] = selectedContactsDataEdit[contactId];
-//         }
-//     });
-
-//     // Replace selectedContactsDataEdit with the new object
-//     selectedContactsDataEdit = Object.assign({}, newSelectedContacts);
-
-// }
 
 function updateSelectedContactsEdit() {
     const selectedContactsDiv = document.getElementById("selected-contacts-edit");
@@ -787,14 +917,14 @@ function updateSelectedContactsEdit() {
 
             // Add or update the contact in selectedContactsDataEdit using the contact ID
             selectedContactsDataEdit[contactId] = { name, id: contactId, color };
-               // Update the display of selected contacts
-        selectedContactsDiv.innerHTML += `
+            // Update the display of selected contacts
+            selectedContactsDiv.innerHTML += `
         <div class="selected-contact" style="background-color: ${color}">
             ${logo.innerText}
         </div>
     `;
         });
-     
+
     };
     // Create a new object to store the selected contacts
     const newSelectedContacts = {};
@@ -821,121 +951,9 @@ function handleContactCheckboxClickEdit(event) {
     }
 }
 
-
-// // function getSubtasksEditTask() {
-// //     const subtasks = {};
-// //     const subtaskItems = document.querySelectorAll("#subtask-list .subtask-item");
-// //     subtaskItems.forEach(item => {
-// //         const subtaskId = item.dataset.subtaskId;
-// //         const description = item.querySelector('label').textContent;
-// //         const isChecked = item.querySelector('input[type="checkbox"]').checked;
-// //         subtasks[subtaskId] = { id: subtaskId, description, isChecked };
-// //     });
-// //     return subtasks;
-// // }
-
-// function getSubtasksEditTask() {
-//     const subtasks = {}; // Change from array to object
-//     const subtaskItems = document.querySelectorAll("#subtask-list .subtask-item");
-
-//     subtaskItems.forEach(item => {
-//         const subtaskText = element.tagName.toLowerCase() === 'div' ? element.innerText : element.closest('li').querySelector('.subtask-text').innerText;
-//         const subtaskId = item.dataset.subtaskId;
-
-//         // Store subtask under generated ID
-//         subtasks[subtaskId] = {
-//             id: subtaskId,
-//             description: subtaskText,
-//             isChecked
-//         };
-//     });
-//     return subtasks;
-// }
-
-// function getSubtasksEditTask() {
-//     const subtasks = {}; 
-//     const subtaskItems = document.querySelectorAll("#subtask-list .subtask-item");
-
-//     subtaskItems.forEach(item => {
-//         const subtaskText = item.tagName.toLowerCase() === 'div' ? item.innerText : item.closest('li').querySelector('.subtask-text').innerText; // Use item here
-//         const subtaskId = item.dataset.subtaskId;
-//         const isChecked = item.querySelector('input[type="checkbox"]').checked;
-//         subtasks[subtaskId] = {
-//             id: subtaskId,
-//             description: subtaskText,
-//             isChecked // You also need to get the isChecked value here
-//         };
-//     });
-//     return subtasks;
-// }
-
-// function getSubtasksEditTask() {
-//     const subtasks = {};
-//     const subtaskItems = document.querySelectorAll("#subtask-list .subtask-item");
-
-//     subtaskItems.forEach(item => {
-//         const subtaskText = item.querySelector('.subtask-text').innerText.trim(); // Get subtask text
-//         const subtaskId = item.dataset.subtaskId;
-
-//         // No need to get isChecked as there are no checkboxes
-//         subtasks[subtaskId] = {
-//             id: subtaskId,
-//             description: subtaskText
-//         };
-//     });
-//     return subtasks;
-// }
-// function getSubtasksEditTask() {
-//     const subtasks = {};
-//     const subtaskItems = document.querySelectorAll("#subtask-list .subtask-item");
-
-//     subtaskItems.forEach(item => {
-//         const subtaskTextDiv = item.querySelector('.subtask-text'); // The div
-//         const subtaskInput = item.querySelector('.subtask-edit-input'); // The input field
-
-//         // Get the text based on whether the subtask is being edited
-//         const subtaskText = subtaskTextDiv 
-//             ? subtaskTextDiv.innerText.trim() 
-//             : subtaskInput 
-//                 ? subtaskInput.value.trim() 
-//                 : '';
-
-//         const subtaskId = item.dataset.subtaskId;
-
-//         subtasks[subtaskId] = {
-//             id: subtaskId,
-//             description: subtaskText
-//         };
-//     });
-//     return subtasks;
-// }
-// function getSubtasksEditTask() {
-//     const subtasks = {};
-//     const subtaskItems = document.querySelectorAll("#subtask-list .subtask-item");
-
-//     subtaskItems.forEach(item => {
-//         const subtaskTextDiv = item.querySelector('.subtask-text'); // The div
-//         const subtaskInput = item.querySelector('.subtask-edit-input'); // The input field
-
-//         // Get the text based on whether the subtask is being edited
-//         const subtaskText = subtaskTextDiv 
-//             ? subtaskTextDiv.innerText.trim() 
-//             : subtaskInput 
-//                 ? subtaskInput.value.trim() 
-//                 : '';
-
-//         const subtaskId = item.dataset.subtaskId;
-
-//         subtasks[subtaskId] = {
-//             id: subtaskId,
-//             description: subtaskText
-//         };
-//     });
-//     return subtasks;
-// }
 function getSubtasksEditTask(originalTask) {
     const subtasks = {};
-    const subtaskItems = document.querySelectorAll("#subtask-list .subtask-item");
+    const subtaskItems = document.querySelectorAll("#subtask-list-edit .subtask-item");
 
     subtaskItems.forEach(item => {
         const subtaskTextDiv = item.querySelector('.subtask-text');
@@ -958,39 +976,6 @@ function getSubtasksEditTask(originalTask) {
 }
 
 
-// function saveSubtaskEditTask(element) {
-//     const listItem = element.closest('.subtask-item');
-//     const subtaskId = listItem.dataset.subtaskId;
-//     const inputField = listItem.querySelector('input[type="text"]');
-//     const newDescription = inputField.value;
-
-//     // Update the task object
-//     task.Subtasks[subtaskId].description = newDescription;
-
-//     // Update the UI
-//     listItem.querySelector('label').textContent = newDescription;
-//     listItem.removeChild(inputField);
-//     // ... (Replace edit icon with delete icon, etc.)
-// }
-
-
-/**
- * Saves the edited subtask, replacing the input field with the updated text.
- *
- * @param {HTMLElement} element - The element that triggered the save action.
- */
-// function saveSubtaskEditTask(element) {
-//     const subtask = document.getElementById("subtask-list");
-//     const li = element.closest('li');
-//     const subtaskInput = li.querySelector('input');
-//     const newText = subtaskInput.value.trim();
-//     if (newText === '') return;
-
-//     subtask.style.paddingLeft = '20px';
-//     li.style.paddingLeft = '20px';
-//     li.innerHTML = generateSavedSubtaskHTMLEditTask(newText);
-// }
-// Modified saveSubtaskEditTask
 function saveSubtaskEditTask(element) {
     const li = element.closest('li');
     const subtaskInput = li.querySelector('input');
@@ -1022,61 +1007,13 @@ function generateSavedSubtaskHTMLEditTask(newText) {
 }
 
 
-// function editSubtaskEditTask(element) {
-//     const listItem = element.closest('.subtask-item');
-//     const label = listItem.querySelector('label');
-//     const currentDescription = label.textContent;
-//     const inputField = document.createElement('input');
-//     inputField.type = 'text';
-//     inputField.value = currentDescription;
-//     listItem.replaceChild(inputField, label);
-//     inputField.focus();
-//     // ... (Replace edit icon with save icon, etc.)
-// }
-
-/**
- * Edits a subtask, replacing its text with an input field for editing.
- *
- * @param {HTMLElement} element - The element that triggered the edit action.
- */
-// function editSubtaskEditTask(element) {
-//     const subtask = document.getElementById("subtask-list");
-//     const li = element.closest('li');
-//     const subtaskTextElement = element.closest('li').querySelector('.subtask-text');
-//     const subtaskText = subtaskTextElement ? subtaskTextElement.innerText : ''; // Check for null
-
-//     // const subtaskText = element.tagName.toLowerCase() === 'div' ? element.innerText : element.closest('li').querySelector('.subtask-text').innerText;
-//     subtask.style.paddingLeft = '0px';
-//     li.style.paddingLeft = '0';
-//     li.innerHTML = generateEditSubtaskHTMLEditTask(subtaskText);
-//     const subtaskInput = li.querySelector('input');
-//     subtaskInput.focus();
-// }
 function editSubtaskEditTask(element, originalText) {
     const li = element.closest('li');
     li.innerHTML = generateEditSubtaskHTMLEditTask(originalText);
     const subtaskInput = li.querySelector('input');
     subtaskInput.focus();
 }
-/**
-   * Generates the HTML for the edit subtask input field and buttons.
-   * @param {string} subtaskText - The text of the subtask being edited.
-   * @returns {string} The HTML string for the edit subtask section.
-   */
-// function generateEditSubtaskHTMLEditTask(subtaskText) {
-//     return `
-//       <div class="subtask-content">
-//         <div class="edit-div">
-//           <input type="text" class="input-field-editing" value="${subtaskText}">
-//           <div class="edit-delete">
-//             <img src="./assets/icons/done.svg" alt="Done" onclick="saveSubtaskEditTask(this)">
-//             <div class="vertical-line"></div>
-//             <img src="./assets/icons/delete.svg" alt="Delete" onclick="deleteSubtaskEditTask(this)">
-//           </div>
-//         </div>
-//       </div>
-//     `;
-//   }
+
 function generateEditSubtaskHTMLEditTask(subtaskText) {
     return `
       <input type="text" class="input-field-editing" value="${subtaskText}">
@@ -1099,25 +1036,165 @@ function deleteSubtaskEditTask(element) {
 }
 
 // function addSubtaskEditTask() {
-//     const newSubtaskDescription = document.getElementById('subtask-input').value;
-//     if (newSubtaskDescription.trim() !== '') {
-//         const subtaskId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-//         task.Subtasks[subtaskId] = { id: subtaskId, description: newSubtaskDescription, isChecked: false };
-//         document.getElementById('subtask-list').innerHTML += generateSubtaskListHTML(task.Subtasks);
-//         document.getElementById('subtask-input').value = '';
-//         toggleEditDeleteVisibilityEditTask();
-//     }
+//     const subtaskInput = document.getElementById('subtask-input-edit');
+//     const subtaskList = document.getElementById('subtask-list');
+//     const subtaskText = subtaskInput.value.trim();
+//     if (subtaskText === '') return;
+//     const li = createSubtaskItem(subtaskText);
+//     subtaskList.appendChild(li);
+//     subtaskInput.value = '';
+//     toggleEditDeleteVisibilityEditTask();
 // }
+
+// function addSubtaskEditTask() {
+//     const subtaskInput = document.getElementById('subtask-input-edit');
+//     const subtaskList = document.getElementById('subtask-list');
+//     const subtaskText = subtaskInput.value.trim();
+//     if (subtaskText === '') return;
+
+//     // 1. Get the task ID and Firebase ID
+//     const taskDetailsContent = document.getElementById('editTaskDetailsPopup');
+//     const taskId = taskDetailsContent.dataset.taskId;
+//     const firebaseId = taskDetailsContent.dataset.firebaseId;
+
+//     // 2. Fetch the task from Firebase
+//     getTaskByIdToEdit(taskId)
+//         .then(task => {
+//             if (!task) {
+//                 console.error('Task not found!');
+//                 return;
+//             }
+
+//             // 3. Add the new subtask to the task object
+//             const newSubtaskId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`; // Generate a unique ID
+//             task.Subtasks[newSubtaskId] = {
+//                 id: newSubtaskId,
+//                 description: subtaskText,
+//                 isChecked: false
+//             };
+
+//             // 4. Update the task in Firebase
+//             putData(`tasks/${firebaseId}`, task)
+//                 .then(() => {
+//                     console.log('Subtask added successfully!');
+
+//                     // 5. Update the UI
+//                     const li = createSubtaskItemEditTask(subtaskText, newSubtaskId, task); // Pass newSubtaskId and task
+//                     subtaskList.appendChild(li);
+//                     subtaskInput.value = '';
+//                     toggleEditDeleteVisibilityEditTask();
+//                 })
+//                 .catch(error => {
+//                     console.error('Error adding subtask to Firebase:', error);
+//                 });
+//         })
+//         .catch(error => {
+//             console.error('Error fetching task:', error);
+//         });
+// }
+
 function addSubtaskEditTask() {
     const subtaskInput = document.getElementById('subtask-input-edit');
-    const subtaskList = document.getElementById('subtask-list');
+    const subtaskList = document.getElementById('subtask-list-edit');
     const subtaskText = subtaskInput.value.trim();
     if (subtaskText === '') return;
-    const li = createSubtaskItem(subtaskText);
-    subtaskList.appendChild(li);
-    subtaskInput.value = '';
-    toggleEditDeleteVisibilityEditTask();
+
+    // 1. Get the task ID and Firebase ID
+    const taskDetailsContent = document.getElementById('editTaskDetailsPopup');
+    const taskId = taskDetailsContent.dataset.taskId;
+    const firebaseId = taskDetailsContent.dataset.firebaseId;
+
+    // 2. Generate a unique ID for the new subtask
+    const newSubtaskId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+    // 3. Fetch the task from Firebase
+    getTaskByIdToEdit(taskId)
+        .then(task => {
+            if (!task) {
+                console.error('Task not found!');
+                return;
+            }
+
+            // 4. Add the new subtask to the task object
+            task.Subtasks[newSubtaskId] = {
+                id: newSubtaskId,
+                description: subtaskText,
+                isChecked: false
+            };
+
+            // 5. Update the UI IMMEDIATELY
+            const li = createSubtaskItemEditTask(subtaskText, newSubtaskId, task);
+            subtaskList.appendChild(li);
+
+
+            // 6. Clear the input field and toggle visibility
+            subtaskInput.value = '';
+            toggleEditDeleteVisibilityEditTask();
+
+            // 7. Update the task in Firebase
+            putData(`tasks/${firebaseId}`, task)
+                .then(() => {
+                    console.log('Subtask added successfully!');
+                })
+                .catch(error => {
+                    console.error('Error adding subtask to Firebase:', error);
+                    // Handle the error appropriately, e.g., remove the subtask from the UI
+                    li.remove();
+                });
+        })
+        .catch(error => {
+            console.error('Error fetching task:', error);
+        });
 }
+
+// Modify createSubtaskItem to accept the newSubtaskId and task
+// function createSubtaskItem(subtaskText, subtaskId, task) {
+//     const li = document.createElement('li');
+//     li.classList.add('subtask-item');
+//     li.dataset.subtaskId = subtaskId; // Set the data-subtask-id attribute
+//     li.innerHTML = `
+//         <div class="subtask-text" ondblclick="editSubtaskEditTask(this, '${subtaskText}')">${subtaskText}</div>
+//         <div class="edit-delete-icons-edit" style="display: flex;">
+//             <img src="./assets/icons/edit.svg" alt="Edit" onclick="editSubtaskEditTask(this, '${subtaskText}')">
+//             <div class="vertical-line"></div>
+//             <img src="./assets/icons/delete.svg" alt="Delete" onclick="deleteSubtaskEditTask(this, task, '${subtaskId}')"> <div class="vertical-line"></div>
+//         </div>
+//     `;
+//     return li;
+// }
+// Modify createSubtaskItem to accept the newSubtaskId and task
+// function createSubtaskItemEditTask(subtaskText, subtaskId, task) {
+//     const li = document.createElement('li');
+//     li.classList.add('subtask-item');
+//     li.dataset.subtaskId = subtaskId; // Set the data-subtask-id attribute
+//     li.innerHTML = `
+//         <div class="subtask-text" ondblclick="editSubtaskEditTask(this, '${subtaskText}')">${subtaskText}</div>
+//         <div class="edit-delete-icons-edit" style="display: flex;">
+//             <img src="./assets/icons/edit.svg" alt="Edit" onclick="editSubtaskEditTask(this, '${subtaskText}')">
+//             <div class="vertical-line"></div>
+//             <img src="./assets/icons/delete.svg" alt="Delete" onclick="deleteSubtaskEditTask(this, task, '${subtaskId}')"> <div class="vertical-line"></div>
+//         </div>
+//     `;
+//     return li;
+// }
+
+
+function createSubtaskItemEditTask(subtaskText, subtaskId, task) {
+    const li = document.createElement('li');
+    li.classList.add('subtask-item');
+    li.dataset.subtaskId = subtaskId;
+    li.innerHTML = `
+        <div class="subtask-text" ondblclick="editSubtaskEditTask(this, '${subtaskText}')">${subtaskText}</div>
+        <div class="edit-delete-icons-edit" style="display: flex;">
+            <img src="./assets/icons/edit.svg" alt="Edit" onclick="editSubtaskEditTask(this, '${subtaskText}')">
+            <div class="vertical-line"></div>
+            <img src="./assets/icons/delete.svg" alt="Delete" onclick="deleteSubtaskEditTask(this, '${task}', '${subtaskId}')">
+        </div>
+    `;
+    return li;
+}
+
+
 /**
  * Resets the subtask input field to an empty string.
  */
@@ -1140,31 +1217,6 @@ function toggleEditDeleteVisibilityEditTask() {
         addTask.style.display = 'flex';
     }
 }
-
-/**
- * Toggles the visibility of the edit/delete icons for subtasks.
- * When a subtask item is clicked, its edit/delete icons are shown.
- * For all other subtask items, the edit/delete icons are hidden.
- */
-// document.addEventListener('click', (event) => {
-//     const isSubtaskItem = event.target.closest('.subtask-item');
-//     document.querySelectorAll('.subtask-item').forEach(item => {
-//         if (item === isSubtaskItem) {
-//             const editDelete = item.querySelector('.edit-delete-icons');
-//             if (editDelete) editDelete.style.display = 'flex';
-//         } else {
-//             const editDelete = item.querySelector('.edit-delete-icons');
-//             if (editDelete) editDelete.style.display = 'none';
-//         }
-//     });
-// });
-
-
-/**
- * Listens for input changes in the subtask input field and calls `toggleEditDeleteVisibility` to show or hide the edit/delete icons based on the input field's content.
- */
-// document.getElementById('subtask-input').addEventListener('input', toggleEditDeleteVisibilityEditTask);
-
 
 /**
  * Handles the Enter key press in the subtask input field, adding a new subtask.
