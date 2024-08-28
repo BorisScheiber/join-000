@@ -18,6 +18,7 @@ async function createNewContact() {
     }
 }
 
+
 /**
  * Retrieves the input values for the new contact from the form fields.
  * 
@@ -31,6 +32,7 @@ function getInputValues() {
         phone: document.getElementById('newContactPhone').value
     };
 }
+
 
 /**
  * Checks if the provided email or phone number already exists in the contacts list.
@@ -54,6 +56,7 @@ function checkForDuplicates(email, phone) {
     return hasError;
 }
 
+
 /**
  * Processes the creation of a new contact by generating an ID, creating a contact object,
  * saving it to Firebase, updating the contact list, and closing the form.
@@ -74,6 +77,7 @@ async function processNewContact(name, email, phone) {
     await loadContacts();
 }
 
+
 /**
  * Checks if the provided email address is already in use by another contact.
  * 
@@ -85,6 +89,7 @@ function isEmailDuplicate(email) {
     return contacts.some(contact => contact.email === email);
 }
 
+
 /**
  * Checks if the provided phone number is already in use by another contact.
  * 
@@ -95,6 +100,7 @@ function isEmailDuplicate(email) {
 function isPhoneDuplicate(phone) {
     return contacts.some(contact => contact.phone === phone);
 }
+
 
 /**
  * Generates a unique identifier (UUID) for a contact.
@@ -109,6 +115,7 @@ function generateRandomId() {
         return v.toString(16);
     });
 }
+
 
 /**
  * Displays a success message pop-up when a new contact is successfully created.
@@ -128,6 +135,7 @@ function successfullCreationContact() {
         }, 400);
     }, 1500);
 }
+
 
 /**
  * Saves the edited contact data to the database and updates the contact list.
@@ -163,6 +171,7 @@ async function saveEditingContact() {
     }
 }
 
+
 /**
  * Updates the assigned contacts in all tasks based on the updated contact data.
  *
@@ -183,6 +192,7 @@ async function updateContactInTasks(contactId, updatedContactData) {
         console.error('Error updating contact in tasks:', error);
     }
 }
+
 
 /**
  * Processes tasks to update the assigned contact information.
@@ -206,6 +216,7 @@ function processTasks(tasks, contactId, updatedContactData) {
     }
     return updatedTasks;
 }
+
 
 /**
  * Updates the assigned contact information in a task.
@@ -231,6 +242,7 @@ function updateAssignedTo(assignedTo, contactId, updatedContactData) {
     return assignedTo;
 }
 
+
 /**
  * Saves the updated tasks to the database.
  *
@@ -242,6 +254,7 @@ async function saveUpdatedTasks(updatedTasks) {
     await putData('tasks', updatedTasks);
 }
 
+
 /**
  * Retrieves the ID of the contact currently being edited from the DOM.
  * 
@@ -251,6 +264,7 @@ async function saveUpdatedTasks(updatedTasks) {
 function getOriginalContactId() {
     return document.getElementById('editContact').dataset.originalContactId;
 }
+
 
 /**
  * Creates a contact data object from the values in the edit contact form.
@@ -268,6 +282,7 @@ function createContactData() {
     };
 }
 
+
 /**
  * Updates a contact in the database with the given contact data.
  * 
@@ -279,6 +294,7 @@ function createContactData() {
 async function updateContactInDatabase(originalContactId, contactData) {
     await saveDataToFirebase(originalContactId, contactData);
 }
+
 
 /**
  * Updates an existing contact in the contact list.

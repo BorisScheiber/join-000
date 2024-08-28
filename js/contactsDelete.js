@@ -18,6 +18,7 @@ async function deleteContactAndUpdateTasks(contactId) {
     }
 }
 
+
 /**
  * Removes a contact from all tasks where it is assigned.
  * Updates the tasks data in the database to reflect the removal.
@@ -52,6 +53,7 @@ async function removeContactFromTasks(contactId) {
         console.error('Error removing contact from tasks:', error);
     }
 }
+
 
 /**
  * Handles the deletion of a contact by delegating the task to `deleteContactAndUpdateTasks`.

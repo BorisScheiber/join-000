@@ -13,6 +13,7 @@ function closeEditContact() {
     }, 400);
 }
 
+
 /**
  * Changes the icon of a button element.
  * 
@@ -28,6 +29,7 @@ function changeIcon(button, newIcon) {
     }
 }
 
+
 /**
  * Opens the "Add New Contact" form.
  * 
@@ -41,6 +43,7 @@ function openNewContactWindow() {
     newContactOverlay.classList.add('fadeInOverlayBg');
     newContactCard.classList.add('show');
 }
+
 
 /**
  * Opens the "Edit Contact" form.
@@ -56,6 +59,7 @@ function openEditContactWindow() {
     editContactCard.classList.add('show');
 }
 
+
 /**
  * Checks if a click happened outside the "Add New Contact" form and closes it if so.
  * 
@@ -70,6 +74,7 @@ function checkClickOutsideAddNewContact(event) {
     }
 }
 
+
 /**
  * Checks if a click happened outside the "Edit Contact" form and closes it if so.
  * 
@@ -83,6 +88,7 @@ function checkClickOutsideEditContact(event) {
         closeEditContact();
     }
 }
+
 
 /**
  * Closes the "Add New Contact" form with an animation.
@@ -104,6 +110,7 @@ function closeNewContact() {
     }, 400); 
 }
 
+
 /**
  * Closes the "Edit Contact" form with an animation.
  * 
@@ -124,6 +131,7 @@ function closeEditContact() {
     }, 400); 
 }
 
+
 /**
  * Prevents click events from propagating to parent elements.
  * 
@@ -134,6 +142,7 @@ function closeEditContact() {
 function preventClickPropagation(event) {
     event.stopPropagation();
 }
+
 
 /**
  * Closes the contact detail card by reloading the current page.
@@ -158,6 +167,7 @@ function toggleContactDetailEditDropdown() {
     }
 }
   
+
 /**
  * Slides in the contact detail edit dropdown menu by adding the appropriate animation class
  * and setting its display to "flex".
@@ -170,6 +180,7 @@ function slideInContactDropdown(element) {
     element.classList.add("slide-in-contact-dropdown");
 }
   
+
 /**
  * Slides out the contact detail edit dropdown menu by adding the appropriate animation class.
  * After the animation is complete, the dropdown is hidden by setting its display to "none".
@@ -185,6 +196,7 @@ function slideOutContactDropdown(element) {
     }, 200);
 }
   
+
 /**
  * Closes the contact detail edit dropdown menu if the user clicks outside of it.
  * This function is triggered by a click event listener added when the dropdown is shown.
