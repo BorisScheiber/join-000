@@ -149,6 +149,12 @@ function generateContactDetailHTML(user, bgColor) {
                     <img src="./assets/icons/deleteContactActive.svg" alt="delete" class="change-icon-after-hover-detailed-contact">
                     <span class="contact-detail-delete-text">Delete</span>
                 </button>
+                <!-- <button class="contact-detail-delete" onmouseover="changeIcon(this, 'deleteContactActive.svg')" 
+                    onmouseout="changeIcon(this, 'delete-contact.svg')" onclick="openDeletePopUp()">
+                    <img src="./assets/icons/delete-contact.svg" alt="delete" class="contact-detail-change-icons-delete">
+                    <img src="./assets/icons/deleteContactActive.svg" alt="delete" class="change-icon-after-hover-detailed-contact">
+                    <span class="contact-detail-delete-text">Delete</span>
+                </button> -->
                 </div>
             </div>
         </div>
@@ -175,6 +181,10 @@ function generateContactDetailHTML(user, bgColor) {
                 <div class="contact-detail-edit-icon contact-detail-delete-icon"></div>
                 <span class="contact-detail-edit-text">Delete</span>
             </button>
+            <!-- <button onclick="openDeletePopUp()" class="contact-detail-edit-buttons">
+                <div class="contact-detail-edit-icon contact-detail-delete-icon"></div>
+                <span class="contact-detail-edit-text">Delete</span>
+            </button> -->
             
         </div>
     `;

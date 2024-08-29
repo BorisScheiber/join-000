@@ -65,3 +65,4 @@ async function removeContactFromTasks(contactId) {
 async function handleDeleteContact(contactId) {
     await deleteContactAndUpdateTasks(contactId);
 }
+

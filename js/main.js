@@ -367,3 +367,5 @@ function closeDropDownNavOnClickOutside(event) {
     document.removeEventListener("click", closeDropDownNavOnClickOutside);
   }
 }
+
+

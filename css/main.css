@@ -416,6 +416,56 @@ header {
   display: none !important;
 }
 
+.delete-pup-up {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  inset: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 100000;
+}
+
+.delete-pop-up-box {
+  width: 300px;
+  height: 150px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-section-delete-pop-up {
+  display: flex;
+  flex-direction: row;
+  margin-top: 34px;
+}
+
+.button-delete-pop-up {
+  border: 1px;
+  border-radius: 10px;
+  padding: 12px 0px 12px 0px;
+  background-color: #2a3647;
+  width: 60px;
+}
+
+.delete-pop-up-separator {
+  width: 20px;
+}
+
+.delete-pop-up-text{
+  color: #ffffff;
+}
+
+.button-delete-pop-up:hover {
+  background-color: #29abe2;
+  box-shadow: 4px 4px 4px 0px #b7b7b7;
+  cursor: pointer;
+}
+
+
 @media (max-height: 1000px) {
   .legal-menu {
     padding: 0;

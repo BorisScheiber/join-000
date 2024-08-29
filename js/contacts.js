@@ -322,3 +322,11 @@ function clearContactInfo() {
         `;
     }
 }
+
+// function openDeletePopUp(){
+//     document.getElementById('deletePopUp').classList.remove('d-none-important');
+//   }
+  
+//   function closeDeletePopUp(){
+//     document.getElementById('deletePopUp').classList.add('d-none-important');
+//   }
