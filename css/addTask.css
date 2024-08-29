@@ -217,6 +217,7 @@
     overflow-x: auto;
     flex-wrap: wrap;
     align-content: flex-start;
+    padding-bottom: 4px;
 }
 
 .selected-logo {

@@ -630,9 +630,6 @@
     width: 20px;
     height: 20px;
   }
-  .edit-task-details-content {
-    padding: 72px 8px 90px 8px;
-  }
   .popup-content-task {
     padding: 0 8px;
   }
@@ -644,7 +641,7 @@
     padding: 0 8px;
   }
   .edit-task-details-content {
-    padding: 72px 8px 90px 8px;
+    padding: 64px 8px 80px 8px;
   }
   .edit-task-ok-button {
     right: 16px !important;
