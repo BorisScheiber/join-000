@@ -244,6 +244,7 @@ async function saveEditTask(taskId, firebaseId) {
 
     const updatedTask = createUpdatedTask(originalTask);
     await updateTaskInFirebase(firebaseId, updatedTask);
+    //  await saveTaskToFirebase(firebaseId, task);
 
     closeTaskDetailsPopup();
     updateBoard();
