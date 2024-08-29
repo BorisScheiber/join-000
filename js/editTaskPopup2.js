@@ -189,8 +189,7 @@ function getSubtasksEditTask(originalTask) {
         const subtaskTextDiv = item.querySelector('.subtask-text');
         const subtaskInput = item.querySelector('.subtask-edit-input');
         const subtaskId = item.dataset.subtaskId;
-        // const subtaskText = subtaskInput ? subtaskInput.value.trim() : subtaskTextDiv.innerText.trim();
-        const subtaskText = subtaskTextDiv ? subtaskTextDiv.innerText.trim() : ''; 
+        const subtaskText = subtaskInput ? subtaskInput.value.trim() : subtaskTextDiv.innerText.trim();
         const isChecked = originalTask.Subtasks[subtaskId]?.isChecked || false;
 
         subtasks[subtaskId] = { id: subtaskId, description: subtaskText, isChecked: isChecked };
@@ -234,7 +233,7 @@ function saveSubtaskEditTask(element) {
         return;
     }
     subtaskInput.style.borderBottom = ''; // Reset border
-    li.innerHTML = generateSavedSubtaskHTML(newText, originalText); 
+    li.innerHTML = generateSavedSubtaskHTML(newText, originalText);
     updateSubtaskInFirebase(li, newText);
 }
 
