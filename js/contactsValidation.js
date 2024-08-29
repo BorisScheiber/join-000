@@ -1,23 +1,44 @@
 /**
- * Validates the contact input fields for name, email, and phone.
- * @param {string} name - The name input value to validate.
- * @param {string} email - The email input value to validate.
- * @param {string} phone - The phone input value to validate.
- * @returns {boolean} - Returns `true` if all inputs are valid, otherwise `false`.
+ * Validates the input values for a contact form based on the form type (new or edit).
+ * This function checks the validity of the provided name, email, and phone values. It uses
+ * the appropriate form-specific input IDs and error IDs to validate each input and display
+ * any error messages. The function returns a boolean indicating whether all inputs are valid.
+ * @function
+ * @param {string} name - The name of the contact to validate.
+ * @param {string} email - The email address of the contact to validate.
+ * @param {string} phone - The phone number of the contact to validate.
+ * @param {string} formType - The type of form being used, either 'new' for adding a new contact or 'edit' for editing an existing contact.
+ * @returns {boolean} Returns true if all inputs are valid, otherwise returns false.
  */
-function validateContactInputs(name, email, phone) {
-    const validations = [
-        { error: validateName(name), elementId: 'nameError' },
-        { error: validateEmail(email), elementId: 'emailError' },
-        { error: validatePhone(phone), elementId: 'phoneError' },
-    ];
+function validateContactInputs(name, email, phone, formType) {
     let valid = true;
-    validations.forEach(({ error, elementId }) => {
-        if (error) {
-            setErrorMessage(elementId, error);
-            valid = false;
-        }
+    const nameErrorId = formType === 'new' ? 'nameError' : 'nameError';
+    const emailErrorId = formType === 'new' ? 'emailError' : 'emailError';
+    const phoneErrorId = formType === 'new' ? 'phoneError' : 'phoneError';
+    const nameError = validateName(name, { 
+        inputId: formType === 'new' ? 'newContactName' : 'contactName', 
+        errorId: nameErrorId 
     });
+    const emailError = validateEmail(email, { 
+        inputId: formType === 'new' ? 'newContactEmail' : 'contactMailAdress', 
+        errorId: emailErrorId 
+    });
+    const phoneError = validatePhone(phone, { 
+        inputId: formType === 'new' ? 'newContactPhone' : 'contactPhone', 
+        errorId: phoneErrorId 
+    });
+    if (nameError) {
+        setErrorMessage(nameErrorId, nameError);
+        valid = false;
+    }
+    if (emailError) {
+        setErrorMessage(emailErrorId, emailError);
+        valid = false;
+    }
+    if (phoneError) {
+        setErrorMessage(phoneErrorId, phoneError);
+        valid = false;
+    }
     return valid;
 }
 
@@ -46,6 +67,7 @@ function validateName(name, elementIds = { inputId: 'newContactName', errorId: '
     return '';
 }
 
+
 /**
  * Validates an email address input field.
  * The email address must follow the standard email format.
@@ -65,6 +87,7 @@ function validateEmail(email, elementIds = { inputId: 'newContactEmail', errorId
     removeErrorClass(elementIds.inputId, elementIds.errorId);
     return '';
 }
+
 
 /**
  * Validates a phone number input field.
@@ -96,6 +119,7 @@ function validatePhone(phone, elementIds = { inputId: 'newContactPhone', errorId
     return '';
 }
 
+
 /**
  * Adds an error class to the input field and displays the corresponding error message.
  * @function
@@ -107,6 +131,7 @@ function addErrorClass(inputId, errorId) {
     document.getElementById(inputId).classList.add('input-error');
     document.getElementById(errorId).style.display = 'block';
 }
+
 
 /**
  * Removes the error class from the input field and hides the corresponding error message.

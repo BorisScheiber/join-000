@@ -94,7 +94,7 @@ function renderContactList() {
 function setErrorMessage(elementId, message) {
     const errorElement = document.getElementById(elementId);
     if (errorElement) {
-        errorElement.textContent = message;
+        errorElement.innerHTML = message;
         errorElement.style.display = 'block';
         errorElement.style.color = 'red';
     } else {
@@ -104,23 +104,20 @@ function setErrorMessage(elementId, message) {
 
 
 /**
- * Clears all error messages in the contact form.
- * This function iterates over the predefined list of error message element IDs,
- * clears the text content of each element, and hides the element to ensure that
- * no error messages are visible to the user.
- * Array of IDs corresponding to the error message elements for name, email, and phone fields.
- * @type {string[]}
- * The DOM element corresponding to the current error ID.
- * @type {HTMLElement|null}
+ * Clears all error messages and input field error states in the form.
+ * This function iterates over all elements with the class `form-error-message`, hiding them
+ * by setting their `display` style to `none`. It also removes the `input-error` class from all
+ * input fields that have this class, effectively resetting the form's error state.
+ * @function
  */
 function clearErrorMessages() {
-    const errorIds = ['nameError', 'emailError', 'phoneError'];
-    errorIds.forEach(id => {
-        const errorElement = document.getElementById(id);
-        if (errorElement) {
-            errorElement.textContent = '';
-            errorElement.style.display = 'none';
-        }
+    const errorElements = document.querySelectorAll('.form-error-message');
+    errorElements.forEach(element => {
+        element.style.display = 'none';
+    });
+    const inputFields = document.querySelectorAll('.input-error');
+    inputFields.forEach(field => {
+        field.classList.remove('input-error');
     });
 }
 
@@ -298,9 +295,16 @@ function updateContactList(param1, param2) {
 
 
 /**
- * Clears the contact information fields in the editing form.
+ * Clears all contact information input fields and resets the profile container.
+ * This function performs the following actions:
+ * 1. Sets the value of the input fields for contact name, email, and phone to an empty string.
+ * 2. Resets the profile container to its default state by replacing its outer HTML with a default profile icon.
+ * Specifically:
+ * - `contactName` input field is cleared if it exists.
+ * - `contactMailAdress` input field is cleared if it exists.
+ * - `contactPhone` input field is cleared if it exists.
+ * - `profileEditContact` container is replaced with a default profile icon if it exists.
  * @function
- * @returns {void}
  */
 function clearContactInfo() {
     const userName = document.getElementById('contactName');

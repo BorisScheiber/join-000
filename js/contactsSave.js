@@ -1,15 +1,41 @@
 /**
- * Creates a new contact by validating the inputs, checking for duplicates,
- * and then saving the contact to Firebase.
+ * Handles the addition of a new contact by validating inputs and processing the contact creation.
  * 
+ * @function handleAddNewContact
+ */
+function handleAddNewContact() {
+    // Werte aus den Eingabefeldern holen
+    const name = document.getElementById('newContactName').value;
+    const email = document.getElementById('newContactEmail').value;
+    const phone = document.getElementById('newContactPhone').value;
+    
+    // Eingaben validieren
+    const isValid = validateContactInputs(name, email, phone, 'new');
+    if (!isValid) {
+        console.error('Please fix the errors before saving.');
+        return;
+    }
+    
+    // Weiterverarbeitung für die Neuanlage
+    createNewContact();
+}
+
+
+/**
+ * Creates a new contact by validating the input values, checking for duplicates,
+ * and then processing the new contact creation.
+ * This function retrieves the input values for the contact, clears any existing error messages,
+ * checks if the provided email or phone number already exists, validates the inputs,
+ * and processes the new contact creation if all validations pass.
  * @async
- * @function createNewContact
+ * @function
+ * @throws {Error} Throws an error if the contact creation fails during processing.
  */
 async function createNewContact() {
     const { name, email, phone } = getInputValues();
     clearErrorMessages();
     if (checkForDuplicates(email, phone)) return;
-    if (validateContactInputs(name, email, phone)) {
+    if (validateContactInputs(name, email, phone, 'new')) {
         try {
             await processNewContact(name, email, phone);
         } catch (error) {
@@ -32,6 +58,24 @@ function getInputValues() {
         phone: document.getElementById('newContactPhone').value
     };
 }
+
+
+/**
+ * Initializes the event listeners once the DOM content is fully loaded.
+ * This ensures that the form submission handler is attached only after the
+ * HTML elements are available in the DOM.
+ * @function
+ * @param {Event} event - The event object representing the DOMContentLoaded event.
+ */
+document.addEventListener('DOMContentLoaded', (event) => {
+    const form = document.getElementById('addNewContactForm');
+    if (form) {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            handleAddNewContact();
+        });
+    }
+});
 
 
 /**
@@ -138,27 +182,35 @@ function successfullCreationContact() {
 
 
 /**
- * Saves the edited contact data to the database and updates the contact list.
- * Also updates the contact in all assigned tasks.
- * Refreshes the page to reflect changes.
- * 
+ * Saves the edited contact information to the database, updates the contact list,
+ * and refreshes the page to reflect the changes.
+ * This function retrieves the values from the input fields, validates them, and
+ * performs the following actions:
+ * 1. Validates the input values.
+ * 2. Retrieves the original contact ID.
+ * 3. Creates the contact data object.
+ * 4. Updates the contact information in the database.
+ * 5. Updates the contact information in associated tasks.
+ * 6. Updates the contact list in the UI.
+ * 7. Closes the edit contact form and reloads the page.
  * @async
  * @function
+ * @throws {Error} Throws an error if any issue occurs while saving the contact or updating related data.
  */
 async function saveEditingContact() {
+    const name = document.getElementById('contactName').value;
+    const email = document.getElementById('contactMailAdress').value;
+    const phone = document.getElementById('contactPhone').value;
+    const isValid = validateContactInputs(name, email, phone, 'edit');
+    if (!isValid) {
+        console.error('Please fix the errors before saving.');
+        return;
+    }
     const originalContactId = getOriginalContactId();
     if (!originalContactId) {
         console.error('Original Contact ID is undefined.');
         return;
     }
-    const name = document.getElementById('contactName').value;
-    const email = document.getElementById('contactMailAdress').value;
-    const phone = document.getElementById('contactPhone').value;
-    clearErrorMessages();
-    // if (!validateContactInputs(name, email, phone)) {
-    //     console.error('Please fix the errors before saving.');
-    //     return;
-    // }
     const contactData = createContactData();
     try {
         await updateContactInDatabase(originalContactId, contactData);

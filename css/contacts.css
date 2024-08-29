@@ -14,7 +14,7 @@ a {
 }
 
 .input-error {
-  border: 1px solid red !important;
+  border: 1px solid #ff8190 !important;
 }
 
 /* contact list*/
