@@ -50,7 +50,7 @@ function clearPopupContent() {
  */
 function renderEditPopup(task) {
     const editTaskPopupHTML = `
-        <div id="editTaskDetailsPopup" class="task-details-content" 
+        <div id="editTaskDetailsPopup" class="task-details-content edit-task-details-content" 
              data-task-id="${task.id}" 
              data-firebase-id="${task.firebaseId}"> 
             <img src="./assets/icons/close-contact.svg" alt="Close" class="close-popup-edit-button" onclick="closeTaskDetailsPopup()">
