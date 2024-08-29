@@ -90,11 +90,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
 function checkForDuplicates(email, phone) {
     let hasError = false;
     if (isEmailDuplicate(email)) {
-        setErrorMessage('emailError', 'This email address is already in use.');
+        setErrorMessage('emailError', 'This email address is already taken.');
         hasError = true;
     }
     if (isPhoneDuplicate(phone)) {
-        setErrorMessage('phoneError', 'This phone number is already in use.');
+        setErrorMessage('phoneError', 'This phone number is already taken.');
         hasError = true;
     }
     return hasError;
