@@ -29,7 +29,9 @@
 
     <header id="header"></header>
     <div class="add-task-content">
-        <div class="add-task-title"><h1> Add Task</h1> </div>
+        <div class="add-task-title">
+            <h1> Add Task</h1>
+        </div>
         <form id="recipeForm" class="add-task-container">
             <div class="add-task-left">
                 <!-- Title Section -->
@@ -76,25 +78,6 @@
                             onblur="(this.type='text')" required>
                     </div>
                 </div>
-
-                <!-- Priority Level Section -->
-                <!-- <div class="priority-section">
-                    <div class="input-group">
-                        <p>Prio</p>
-                        <div class="priority-buttons">
-                            <button id="urgent-button" class="priority-button" onclick="setPriority('urgent')">
-                                Urgent <img src="./assets/icons/urgent.svg" alt="Urgent">
-                            </button>
-                            <button id="medium-button" class="priority-button " onclick="setPriority('medium')">
-                                Medium <img src="./assets/icons/medium.svg" alt="Medium">
-                            </button>
-                            <button id="low-button" class="priority-button" onclick="setPriority('low')">
-                                Low <img src="./assets/icons/low.svg" alt="Low">
-                            </button>
-                        </div>
-                    </div>
-                </div> -->
-
 
                 <div class="priority-section">
                     <div class="input-group">
@@ -196,7 +179,7 @@
     <script src="./js/board.js"></script>
     <script src="./js/firebase.js"></script>
     <script src="./js/html/addTaskHtml.js"></script>
-    <script src="./js/boardAddTask.js"></script> 
+    <script src="./js/boardAddTask.js"></script>
 
 </body>
 
