@@ -155,10 +155,10 @@ async function saveEditingContact() {
     const email = document.getElementById('contactMailAdress').value;
     const phone = document.getElementById('contactPhone').value;
     clearErrorMessages();
-    if (!validateContactInputs(name, email, phone)) {
-        console.error('Please fix the errors before saving.');
-        return;
-    }
+    // if (!validateContactInputs(name, email, phone)) {
+    //     console.error('Please fix the errors before saving.');
+    //     return;
+    // }
     const contactData = createContactData();
     try {
         await updateContactInDatabase(originalContactId, contactData);
