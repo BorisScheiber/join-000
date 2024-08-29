@@ -816,6 +816,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     height: 24px;
 }
 
+.right-position {
+    right: 16px !important;
+
+}
 .edit-delete-icons {
     display: flex;
     gap: 4px;

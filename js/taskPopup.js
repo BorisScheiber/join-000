@@ -346,14 +346,14 @@ async function editTask(taskId) { // Change parameter to taskId
     });
 
     document.addEventListener('DOMContentLoaded', (event) => {
-        const editForm = document.getElementById('editForm'); 
+        const editForm = document.getElementById('editForm');
         if (editForm) { // Check if editForm exists
             editForm.addEventListener('input', (event) => {
                 if (event.target.matches('#editTitle, #editDescription, #editDueDate')) {
                     handleInputEdit(event);
                 }
             });
-    
+
             // ... rest of your event listeners for editForm ...
         } else {
             console.error("Element with ID 'editForm' not found!");
@@ -537,64 +537,7 @@ function populateEditForm(task) {
 
 }
 
-/**
- * Generates the HTML for the subtask list in the edit task form.
- * 
- * @param {Object} subtasks - The subtasks object containing the subtask details.
- * @returns {string} The HTML string for the subtask list.
- */
-// function generateSubtaskListHTML(subtasks) {
-//     let html = '';
-//     for (const subtaskId in subtasks) {
-//         const subtask = subtasks[subtaskId];
-//         html += `
-//             <li class="subtask-item ${subtask.isChecked ? 'checked' : ''}" data-subtask-id="${subtaskId}">
-//                 <label for="subtask-${subtaskId}">${subtask.description}</label>
-//                 <div class="edit-delete-icons-edit" style="display: flex;">
-//                     <img src="./assets/icons/edit.svg" alt="Edit" onclick="editSubtaskEditTask(this)">
-//                     <div class="vertical-line"></div>
-//                     <img src="./assets/icons/delete.svg" alt="Delete" onclick="deleteSubtaskEditTask(this)">
-//                 </div>
-//             </li>
-//         `;
-//     }
-//     return html;
-// }
-// function generateSubtaskListHTML(subtasks) {
-//     let html = '';
-//     for (const subtaskId in subtasks) {
-//         const subtask = subtasks[subtaskId];
-//         html += `
-//             <li class="subtask-item" data-subtask-id="${subtaskId}">
-//                 <ul for="subtask-${subtaskId}">${subtask.description}</ul> 
-//                 <div class="edit-delete-icons" style="display: flex;">
-//                     <img src="./assets/icons/edit.svg" alt="Edit" onclick="editSubtaskEditTask(this)">
-//                     <div class="vertical-line"></div>
-//                     <img src="./assets/icons/delete.svg" alt="Delete" onclick="deleteSubtaskEditTask(this)">
-//                 </div>
-//             </li>
-//         `;
-//     }
-//     return html;
-// }
 
-// function generateSubtaskListHTML(subtasks) {
-//     let html = '';
-//     for (const subtaskId in subtasks) {
-//         const subtask = subtasks[subtaskId];
-//         html += `
-//             <li class="subtask-item" style="list-style-type:disc" data-subtask-id="${subtaskId}">
-//                 <div class="subtask-text" ondblclick="editSubtaskEditTask(this, '${subtask.description}')">${subtask.description}</div>
-//                 <div class="edit-delete-icons-edit" style="display: flex;">
-//                     <img src="./assets/icons/edit.svg" alt="Edit" onclick="editSubtaskEditTask(this, '${subtask.description}')">
-//                     <div class="vertical-line"></div>
-//                     <img src="./assets/icons/delete.svg" alt="Delete" onclick="deleteSubtaskEditTask(this)">
-//                 </div>
-//             </li>
-//         `;
-//     }
-//     return html;
-// }
 function generateSubtaskListHTML(subtasks, task) { // Make sure task is a parameter
     let html = '';
     for (const subtaskId in subtasks) {
@@ -620,9 +563,11 @@ function generateSubtaskListHTML(subtasks, task) { // Make sure task is a parame
  * @param {string} taskId - The Firebase ID of the task to update.
  */
 async function saveEditTask(taskId, firebaseId) {
-     if (!validateFieldsEditTask()) { // Call validateFields and check the result
-         return; // Stop saving if validation fails
+    if (!validateFieldsEditTask()) { // Call validateFields and check the result
+        return; // Stop saving if validation fails
     }
+
+
     try {
         // 1. Fetch the original task data from Firebase
         const originalTask = await getTaskByIdToEdit(taskId);
@@ -631,11 +576,20 @@ async function saveEditTask(taskId, firebaseId) {
             return;
         }
 
-        // 2. Create the updatedTask object by copying the original task
+        // 2. Check for empty subtask descriptions before saving
+        const subtasks = getSubtasksEditTask(originalTask);
+        for (const subtaskId in subtasks) {
+            if (subtasks[subtaskId].description.trim() === '') {
+                alert('Subtask descriptions cannot be empty!');
+                return; // Stop saving if an empty subtask is found
+            }
+        }
+
+        // 3. Create the updatedTask object by copying the original task
         const updatedTask = { ...originalTask };
 
 
-        // 3. Update only the modified fields
+        // 4. Update only the modified fields
         updatedTask.Title = document.getElementById('editTitle').value;
         updatedTask.Description = document.getElementById('editDescription').value;
         updatedTask.Due_date = document.getElementById('editDueDate').value;
@@ -650,7 +604,7 @@ async function saveEditTask(taskId, firebaseId) {
 
         // Update the Subtasks property with the updated subtasks
         updatedTask.Subtasks = getSubtasksEditTask(originalTask);
-        // 4. Update the task in Firebase
+        // 5. Update the task in Firebase
         await putData(`tasks/${firebaseId}`, updatedTask);
         console.log('Task updated successfully!');
 
@@ -662,43 +616,9 @@ async function saveEditTask(taskId, firebaseId) {
     } catch (error) {
         console.error('Error updating task:', error);
     }
+
 }
 
-
-/**
- * Validates all input fields in the form.
- *
- * @returns {boolean} True if all fields are valid, otherwise false.
- */
-// function validateFieldsEditTask() {
-//     let isValid = true;
-//     fields.forEach(field => {
-//         if (field.element.value.trim() === "") {
-//             (field.fieldElement || field.element).style.border = '1px solid rgba(255, 129, 144, 1)';
-//             if (field.id === 'category') {
-//                 showErrorMessageCategory('This field is required'); // Use showErrorMessageCategory
-//             } else {
-//                 showErrorMessage(field.element, 'This field is required');
-//             }
-//             isValid = false;
-//         } else if (field.id === 'due-date') {
-//             const errorMessage = validateDueDate(field.element.value);
-//             if (errorMessage) {
-//                 field.element.style.border = '1px solid rgba(255, 129, 144, 1)';
-//                 showErrorMessage(field.element, errorMessage);
-//                 isValid = false;
-//             }
-//         } else {
-//             (field.fieldElement || field.element).style.border = '1px solid rgba(41, 171, 226, 1)';
-//             if (field.id === 'category') {
-//                 removeErrorMessageCategory(); // Use removeErrorMessageCategory
-//             } else {
-//                 removeErrorMessage(field.element);
-//             }
-//         }
-//     });
-//     return isValid;
-// }
 
 /**
  * Validates the due date to ensure it's in the correct format (YYYY-MM-DD) and a future date.
@@ -728,7 +648,7 @@ function validateFieldsEditTask() {
         { id: 'editTitle', element: document.getElementById('editTitle') },
         { id: 'editDueDate', element: document.getElementById('editDueDate') }
     ];
-    
+
     // Filter the fields array to exclude the 'category' field
     const fieldsToValidateEdit = EditFields.filter(field => field.id !== 'category');
 
@@ -788,38 +708,6 @@ function handleBlurEdit(event) {
     }
 
 }
-
-
-// /**
-//  * Adds input event listeners to the 'title', 'editDescription', 'due-date', and 'category-field' input fields.
-//  * The `handleInput` function will be called whenever the user types into these fields.
-//  */
-// document.getElementById('editTitle').addEventListener('input', handleInputEdit);
-// document.getElementById('editDescription').addEventListener('input', handleInputEdit);
-// document.getElementById('editDueDate').addEventListener('input', handleInputEdit);
-
-
-// /**
-//  * Adds blur event listeners to the 'title', 'editDescription', 'editDueDate', and 'category-field' input fields.
-//  * The `handleBlur` function will be called when the user moves focus away from these fields.
-//  */
-// document.getElementById('editTitle').addEventListener('blur', handleBlurEdit);
-// document.getElementById('editDescription').addEventListener('blur', handleBlurEdit);
-// document.getElementById('editDueDate').addEventListener('blur', handleBlurEdit);
-
-// const editForm = document.getElementById('editForm'); // Assuming your inputs are within a form with this ID
-
-// editForm.addEventListener('input', (event) => {
-//   if (event.target.matches('#editTitle, #editDescription, #editDueDate')) {
-//     handleInputEdit(event);
-//   }
-// });
-
-// editForm.addEventListener('blur', (event) => {
-//   if (event.target.matches('#editTitle, #editDescription, #editDueDate')) {
-//     handleBlurEdit(event);
-//   }
-// });
 
 
 
@@ -987,29 +875,7 @@ function handleContactCheckboxClickEdit(event) {
     }
 }
 
-// function getSubtasksEditTask(originalTask) {
-//     const subtasks = {};
-//     const subtaskItems = document.querySelectorAll("#subtask-list-edit .subtask-item .Sub-hover");
 
-//     subtaskItems.forEach(item => {
-//         const subtaskTextDiv = item.querySelector('.subtask-text');
-//         const subtaskInput = item.querySelector('.subtask-edit-input');
-
-//         // Prioritize existing description over potential edit input
-//         const subtaskText = subtaskTextDiv ? subtaskTextDiv.innerText.trim() : (subtaskInput ? subtaskInput.value.trim() : '');
-//         // Get the isChecked status from the original task data
-//         const subtaskId = item.dataset.subtaskId;
-//         const isChecked = originalTask.Subtasks[subtaskId].isChecked;
-
-
-//         subtasks[subtaskId] = {
-//             id: subtaskId,
-//             description: subtaskText,
-//             isChecked: isChecked // Include isChecked
-//         };
-//     });
-//     return subtasks;
-// }
 function getSubtasksEditTask(originalTask) {
     const subtasks = {};
     const subtaskItems = document.querySelectorAll("#subtask-list-edit .subtask-item");
@@ -1039,7 +905,19 @@ function saveSubtaskEditTask(element) {
     const li = element.closest('li');
     const subtaskInput = li.querySelector('input');
     const newText = subtaskInput.value.trim();
+    const originalText = li.dataset.originalText;
 
+    if (newText === '') {
+        if (!li.dataset.subtaskId) {
+            li.remove();
+            console.log('New subtask removed because it was empty.');
+        } else {
+            // Show a browser alert for existing subtasks with empty descriptions
+            alert('Subtask description cannot be empty!');
+            console.log('Error: Subtask description cannot be empty.');
+        }
+        return;
+    }
     // Use the original text if the input is empty
     li.innerHTML = `<span>•</span><div class="subtask-text" ondblclick="editSubtaskEditTask(this, '${newText}')">${newText}</div>  <div class="edit-delete-icons-edit" style="display: flex;">
         <img src="./assets/icons/edit.svg" alt="Edit" onclick="editSubtaskEditTask(this, '${newText}')">
@@ -1048,6 +926,8 @@ function saveSubtaskEditTask(element) {
       </div>
     `;
 }
+
+
 
 /**
   * Generates the HTML for a saved subtask item.
@@ -1066,13 +946,22 @@ function generateSavedSubtaskHTMLEditTask(newText) {
 }
 
 
+// function editSubtaskEditTask(element, originalText) {
+//     const li = element.closest('li');
+//     li.innerHTML = generateEditSubtaskHTMLEditTask(originalText);
+//     const subtaskInput = li.querySelector('input');
+//     subtaskInput.focus();
+// }
 function editSubtaskEditTask(element, originalText) {
     const li = element.closest('li');
+
+    // Store the original text as a data attribute on the li element
+    li.dataset.originalText = originalText;
+
     li.innerHTML = generateEditSubtaskHTMLEditTask(originalText);
     const subtaskInput = li.querySelector('input');
     subtaskInput.focus();
 }
-
 function generateEditSubtaskHTMLEditTask(subtaskText) {
     return `
       <input type="text" class="input-field-editing" value="${subtaskText}">
@@ -1111,66 +1000,6 @@ async function deleteSubtaskEditTask(element, firebaseId) {
     }
 }
 
-
-
-// function addSubtaskEditTask() {
-//     const subtaskInput = document.getElementById('subtask-input-edit');
-//     const subtaskList = document.getElementById('subtask-list');
-//     const subtaskText = subtaskInput.value.trim();
-//     if (subtaskText === '') return;
-//     const li = createSubtaskItem(subtaskText);
-//     subtaskList.appendChild(li);
-//     subtaskInput.value = '';
-//     toggleEditDeleteVisibilityEditTask();
-// }
-
-// function addSubtaskEditTask() {
-//     const subtaskInput = document.getElementById('subtask-input-edit');
-//     const subtaskList = document.getElementById('subtask-list');
-//     const subtaskText = subtaskInput.value.trim();
-//     if (subtaskText === '') return;
-
-//     // 1. Get the task ID and Firebase ID
-//     const taskDetailsContent = document.getElementById('editTaskDetailsPopup');
-//     const taskId = taskDetailsContent.dataset.taskId;
-//     const firebaseId = taskDetailsContent.dataset.firebaseId;
-
-//     // 2. Fetch the task from Firebase
-//     getTaskByIdToEdit(taskId)
-//         .then(task => {
-//             if (!task) {
-//                 console.error('Task not found!');
-//                 return;
-//             }
-
-//             // 3. Add the new subtask to the task object
-//             const newSubtaskId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`; // Generate a unique ID
-//             task.Subtasks[newSubtaskId] = {
-//                 id: newSubtaskId,
-//                 description: subtaskText,
-//                 isChecked: false
-//             };
-
-//             // 4. Update the task in Firebase
-//             putData(`tasks/${firebaseId}`, task)
-//                 .then(() => {
-//                     console.log('Subtask added successfully!');
-
-//                     // 5. Update the UI
-//                     const li = createSubtaskItemEditTask(subtaskText, newSubtaskId, task); // Pass newSubtaskId and task
-//                     subtaskList.appendChild(li);
-//                     subtaskInput.value = '';
-//                     toggleEditDeleteVisibilityEditTask();
-//                 })
-//                 .catch(error => {
-//                     console.error('Error adding subtask to Firebase:', error);
-//                 });
-//         })
-//         .catch(error => {
-//             console.error('Error fetching task:', error);
-//         });
-// }
-
 function addSubtaskEditTask() {
     const subtaskInput = document.getElementById('subtask-input-edit');
     const subtaskList = document.getElementById('subtask-list-edit');
@@ -1193,21 +1022,21 @@ function addSubtaskEditTask() {
                 return;
             }
 
-          // 4. Initialize Subtasks if it doesn't exist
-          if (!task.Subtasks) {
-            task.Subtasks = {}; 
-        }
+            // 4. Initialize Subtasks if it doesn't exist
+            if (!task.Subtasks) {
+                task.Subtasks = {};
+            }
 
-        // 5. Add the new subtask to the task object
-        task.Subtasks[newSubtaskId] = {
-            id: newSubtaskId,
-            description: subtaskText,
-            isChecked: false
-        };
+            // 5. Add the new subtask to the task object
+            task.Subtasks[newSubtaskId] = {
+                id: newSubtaskId,
+                description: subtaskText,
+                isChecked: false
+            };
 
-        // 6. Update the UI IMMEDIATELY
-        const li = createSubtaskItemEditTask(subtaskText, newSubtaskId, task);
-        subtaskList.appendChild(li);
+            // 6. Update the UI IMMEDIATELY
+            const li = createSubtaskItemEditTask(subtaskText, newSubtaskId, task);
+            subtaskList.appendChild(li);
 
 
             // 6. Clear the input field and toggle visibility
@@ -1230,59 +1059,6 @@ function addSubtaskEditTask() {
         });
 }
 
-
-// function getSubtasksEditTask(originalTask) {
-//     const subtasks = {}; // Initialize subtasks as an empty object
-//     const subtaskItems = document.querySelectorAll("#subtask-list-edit .subtask-item");
-
-//     subtaskItems.forEach(item => {
-//         const subtaskTextElement = item.querySelector('.subtask-text');
-//         const subtaskText = subtaskTextElement ? subtaskTextElement.innerText : ''; // Check for null
-//         // const subtaskText = item.querySelector('.subtask-text').innerText;
-//         const subtaskId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-
-//         // Store subtask under generated ID
-//         subtasks[subtaskId] = {
-//             id: subtaskId,
-//             description: subtaskText,
-//             isChecked: false
-//         };
-//     });
-
-//     return subtasks;
-// }
-
-
-// Modify createSubtaskItem to accept the newSubtaskId and task
-// function createSubtaskItem(subtaskText, subtaskId, task) {
-//     const li = document.createElement('li');
-//     li.classList.add('subtask-item');
-//     li.dataset.subtaskId = subtaskId; // Set the data-subtask-id attribute
-//     li.innerHTML = `
-//         <div class="subtask-text" ondblclick="editSubtaskEditTask(this, '${subtaskText}')">${subtaskText}</div>
-//         <div class="edit-delete-icons-edit" style="display: flex;">
-//             <img src="./assets/icons/edit.svg" alt="Edit" onclick="editSubtaskEditTask(this, '${subtaskText}')">
-//             <div class="vertical-line"></div>
-//             <img src="./assets/icons/delete.svg" alt="Delete" onclick="deleteSubtaskEditTask(this, task, '${subtaskId}')"> <div class="vertical-line"></div>
-//         </div>
-//     `;
-//     return li;
-// }
-// Modify createSubtaskItem to accept the newSubtaskId and task
-// function createSubtaskItemEditTask(subtaskText, subtaskId, task) {
-//     const li = document.createElement('li');
-//     li.classList.add('subtask-item');
-//     li.dataset.subtaskId = subtaskId; // Set the data-subtask-id attribute
-//     li.innerHTML = `
-//         <div class="subtask-text" ondblclick="editSubtaskEditTask(this, '${subtaskText}')">${subtaskText}</div>
-//         <div class="edit-delete-icons-edit" style="display: flex;">
-//             <img src="./assets/icons/edit.svg" alt="Edit" onclick="editSubtaskEditTask(this, '${subtaskText}')">
-//             <div class="vertical-line"></div>
-//             <img src="./assets/icons/delete.svg" alt="Delete" onclick="deleteSubtaskEditTask(this, task, '${subtaskId}')"> <div class="vertical-line"></div>
-//         </div>
-//     `;
-//     return li;
-// }
 
 
 function createSubtaskItemEditTask(subtaskText, subtaskId, task) {
@@ -1337,16 +1113,3 @@ function handleEnterKey(event, callback) {
         callback();
     }
 }
-
-
-/**
- * Listens for the 'keydown' event on the subtask input field.
- * If the pressed key is 'Enter', it prevents the default action (form submission) and calls the `addSubtask` function.
- */
-
-//  document.getElementById('subtask-input-edit').addEventListener('keydown', (event) => {
-//      if (event.key === 'Enter') {
-//          event.preventDefault();
-//          addSubtaskEditTask();
-//      }
-//  });
