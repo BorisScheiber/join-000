@@ -36,7 +36,11 @@ function generateTaskDetailsPopupHTML(task) {
                 </div>
             </div>
             <div class="popup-buttons">
-                <div class="delete-button" onclick="deleteTask('${task.firebaseId}')">
+                <!-- <div class="delete-button" onclick="deleteTask('${task.firebaseId}')">
+                    <img src="./assets/icons/delete.svg" alt="Delete">
+                    <span>Delete</span>
+                </div> -->
+                <div class="delete-button" onclick="openDeletePopUp('${task.firebaseId}')">
                     <img src="./assets/icons/delete.svg" alt="Delete">
                     <span>Delete</span>
                 </div>

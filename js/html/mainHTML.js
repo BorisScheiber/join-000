@@ -109,21 +109,23 @@ function displayLandscapeWarningMobileHTML() {
 
 
 /**
- * Generates the HTML content for the delete confirmation popup.
+ * Generates the HTML content for a delete confirmation popup.
  * 
- * This function returns a string of HTML that represents a popup
- * asking the user to confirm whether they want to delete a contact.
- * The popup includes "Yes" and "No" buttons for user interaction.
+ * This function creates a confirmation popup with "Yes" and "No" buttons,
+ * allowing the user to confirm or cancel the deletion of an item. 
+ * The specific delete function is passed as a parameter and is triggered 
+ * when the "Yes" button is clicked.
  * 
- * @param {string} contactId - The ID of the contact to be deleted.
+ * @param {string} itemId - The ID of the item to be deleted (contact or task).
+ * @param {string} deleteFunction - The name of the function to be called for deletion (as a string).
  * @returns {string} The HTML string for the delete confirmation popup.
  */
-function openDeletePopUpHtml(contactId) {
+function openDeletePopUpHtml(itemId, deleteFunction) {
     return /*HTML*/`
         <div class="delete-pop-up-box">
             <span> Are you sure?</span>
             <div class="button-section-delete-pop-up">
-                <button class="button-delete-pop-up" onclick="deleteContactAndUpdateTasks('${contactId}')">
+                <button class="button-delete-pop-up" onclick="${deleteFunction}('${itemId}')">
                     <span class="delete-pop-up-text">Yes</span>
                 </button>
                 <div class="delete-pop-up-separator"></div>
