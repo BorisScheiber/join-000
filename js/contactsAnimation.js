@@ -1,6 +1,5 @@
 /**
  * Closes the contact editing form.
- * 
  * @function
  * @returns {void}
  */
@@ -16,7 +15,6 @@ function closeEditContact() {
 
 /**
  * Changes the icon of a button element.
- * 
  * @function
  * @param {HTMLElement} button - The button element to change the icon for.
  * @param {string} newIcon - The new icon file name.
@@ -32,7 +30,6 @@ function changeIcon(button, newIcon) {
 
 /**
  * Opens the "Add New Contact" form.
- * 
  * @function
  * @returns {void}
  */
@@ -47,7 +44,6 @@ function openNewContactWindow() {
 
 /**
  * Opens the "Edit Contact" form.
- * 
  * @function
  * @returns {void}
  */
@@ -62,7 +58,6 @@ function openEditContactWindow() {
 
 /**
  * Checks if a click happened outside the "Add New Contact" form and closes it if so.
- * 
  * @function
  * @param {Event} event - The click event.
  * @returns {void}
@@ -77,7 +72,6 @@ function checkClickOutsideAddNewContact(event) {
 
 /**
  * Checks if a click happened outside the "Edit Contact" form and closes it if so.
- * 
  * @function
  * @param {Event} event - The click event.
  * @returns {void}
@@ -91,9 +85,12 @@ function checkClickOutsideEditContact(event) {
 
 
 /**
- * Closes the "Add New Contact" form with an animation.
- * 
- * @function
+ * Closes the "New Contact" form by applying animations and then reloads the page.
+ * This function:
+ * 1. Removes the 'show' class and adds the 'hide' class to the contact card.
+ * 2. Removes the 'fadeInOverlayBg' class and adds the 'fadeOutOverlayBg' class to the overlay.
+ * 3. Sets a timeout to hide the overlay and reset the classes after the animation completes.
+ * 4. Reloads the page to ensure any changes are applied and the form is reset.
  * @returns {void}
  */
 function closeNewContact() {
@@ -104,16 +101,16 @@ function closeNewContact() {
     newContactOverlay.classList.remove('fadeInOverlayBg');
     newContactOverlay.classList.add('fadeOutOverlayBg');
     setTimeout(() => {
-        newContactOverlay.style.display = "none"; 
-        newContactOverlay.classList.remove('fadeOutOverlayBg'); 
-        newContactCard.classList.remove('hide'); 
-    }, 400); 
+        newContactOverlay.style.display = 'none';
+        newContactOverlay.classList.remove('fadeOutOverlayBg');
+        newContactCard.classList.remove('hide');
+        location.reload();
+    }, 400);
 }
 
 
 /**
  * Closes the "Edit Contact" form with an animation.
- * 
  * @function
  * @returns {void}
  */
@@ -134,7 +131,6 @@ function closeEditContact() {
 
 /**
  * Prevents click events from propagating to parent elements.
- * 
  * @function
  * @param {Event} event - The click event.
  * @returns {void}
@@ -150,6 +146,7 @@ function preventClickPropagation(event) {
 function closeContactDetailCard() {
     window.location.reload();
 }
+
 
 /**
  * Toggles the visibility of the contact detail edit dropdown menu.
@@ -171,7 +168,6 @@ function toggleContactDetailEditDropdown() {
 /**
  * Slides in the contact detail edit dropdown menu by adding the appropriate animation class
  * and setting its display to "flex".
- * 
  * @param {HTMLElement} element - The dropdown menu element to slide in.
  */
 function slideInContactDropdown(element) {
@@ -184,7 +180,6 @@ function slideInContactDropdown(element) {
 /**
  * Slides out the contact detail edit dropdown menu by adding the appropriate animation class.
  * After the animation is complete, the dropdown is hidden by setting its display to "none".
- * 
  * @param {HTMLElement} element - The dropdown menu element to slide out.
  */
 function slideOutContactDropdown(element) {
@@ -200,7 +195,6 @@ function slideOutContactDropdown(element) {
 /**
  * Closes the contact detail edit dropdown menu if the user clicks outside of it.
  * This function is triggered by a click event listener added when the dropdown is shown.
- * 
  * @param {Event} event - The click event triggered by the user's interaction.
  */
 function closeContactDetailEditDropdownOnClickOutside(event) {

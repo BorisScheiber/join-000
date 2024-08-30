@@ -147,17 +147,6 @@ function createContactObject(name, email, phone, id) {
  * @function
  * @returns {void}
  */
-function closeNewContact() {
-    const addNewContactContainer = document.getElementById('newContact');
-    addNewContactContainer.style.display = 'none';
-}
-
-
-/**
- * Closes the "Add New Contact" form.
- * @function
- * @returns {void}
- */
 function closeEditContact() {
     const addNewContactContainer = document.getElementById('editContact');
     addNewContactContainer.style.display = 'none';
@@ -231,6 +220,15 @@ function showContactDetailSmallScreen(name) {
 }
 
 
+/**
+ * Adds click event listeners to all contact elements once the DOM content is fully loaded.
+ * This function waits for the DOM content to be loaded, then it selects all elements with
+ * the class `single-contact`. For each of these elements, it sets up a click event handler.
+ * When a contact element is clicked, it retrieves the contact's name from a `data-name` attribute
+ * and calls the `handleShowContactDetail` function with the retrieved name.
+ * @listens DOMContentLoaded - Ensures that the event listener is added only after the DOM content is fully loaded.
+ * @returns {void}
+ */
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.single-contact').forEach(contactElement => {
         contactElement.onclick = function() {
@@ -322,11 +320,3 @@ function clearContactInfo() {
         `;
     }
 }
-
-// function openDeletePopUp(){
-//     document.getElementById('deletePopUp').classList.remove('d-none-important');
-//   }
-  
-//   function closeDeletePopUp(){
-//     document.getElementById('deletePopUp').classList.add('d-none-important');
-//   }

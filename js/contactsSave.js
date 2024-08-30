@@ -1,7 +1,10 @@
 /**
- * Handles the addition of a new contact by validating inputs and processing the contact creation.
- * 
- * @function handleAddNewContact
+ * Handles the process of adding a new contact.
+ * This function collects input data for a new contact, validates the inputs,
+ * and then calls the `createNewContact` function if all inputs are valid.
+ * The email address is converted to lowercase.
+ * If the inputs are invalid, an error message is logged to the console.
+ * @returns {void}
  */
 function handleAddNewContact() {
     const name = document.getElementById('newContactName').value;
@@ -13,7 +16,6 @@ function handleAddNewContact() {
         return;
     }
     email = email.toLowerCase();
-    console.log('Lowercased Email in handleAddNewContact:', email);
     createNewContact(name, email, phone);
 }
 
@@ -44,13 +46,11 @@ async function createNewContact() {
 
 /**
  * Retrieves the input values for the new contact from the form fields.
- * 
  * @function getInputValues
  * @returns {Object} An object containing the name, email, and phone values.
  */
 function getInputValues() {
     const email = document.getElementById('newContactEmail').value.toLowerCase();
-    console.log('Lowercased Email in getInputValues:', email);
     return {
         name: document.getElementById('newContactName').value,
         email: email,
@@ -78,13 +78,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
 /**
- * Checks if the provided email is a duplicate and sets an error message if it is.
- * If a duplicate is found, the 'input-error' class is added to the email input field.
- * If no duplicate is found, the 'input-error' class is removed.
- * 
- * @function
+ * Checks if the provided email address is a duplicate and updates the UI accordingly.
+ * This function checks whether the given email address already exists by calling
+ * the `isEmailDuplicate` function. If the email is a duplicate, it sets an error message
+ * and adds an error class to the email input field. If the email is not a duplicate, it removes
+ * the error class from the input field. The function returns a boolean indicating if an error was found.
  * @param {string} email - The email address to check for duplicates.
- * @returns {boolean} True if a duplicate is found, otherwise false.
+ * @returns {boolean} Returns `true` if the email address is a duplicate and `false` otherwise.
  */
 function checkForDuplicates(email) {
     let hasError = false;
@@ -105,19 +105,22 @@ function checkForDuplicates(email) {
 
 
 /**
- * Processes the creation of a new contact by generating an ID, creating a contact object,
- * saving it to Firebase, updating the contact list, and closing the form.
- * 
- * @async
- * @function processNewContact
+ * Processes the creation of a new contact.
+ * This function generates a unique ID for the new contact, creates a contact object,
+ * and then performs the following operations:
+ * - Saves the contact data to Firebase.
+ * - Updates the contact list.
+ * - Closes the new contact form.
+ * - Displays a success message to the user.
+ * - Loads the updated contact list from the server.
  * @param {string} name - The name of the new contact.
  * @param {string} email - The email address of the new contact.
  * @param {string} phone - The phone number of the new contact.
+ * @returns {Promise<void>} A promise that resolves when all asynchronous operations are completed.
  */
 async function processNewContact(name, email, phone) {
     const contactId = generateRandomId();
     const newContact = createContactObject(name, email.toLowerCase(), phone, contactId);
-    console.log('Lowercased Email in processNewContact:', newContact.email);
     await saveDataToFirebase(contactId, newContact);
     updateContactList(newContact);
     closeNewContact();
@@ -128,7 +131,6 @@ async function processNewContact(name, email, phone) {
 
 /**
  * Checks if the provided email address is already in use by another contact.
- * 
  * @function isEmailDuplicate
  * @param {string} email - The email address to check.
  * @returns {boolean} True if the email address is already in use, otherwise false.
@@ -139,20 +141,7 @@ function isEmailDuplicate(email) {
 
 
 /**
- * Checks if the provided phone number is already in use by another contact.
- * 
- * @function isPhoneDuplicate
- * @param {string} phone - The phone number to check.
- * @returns {boolean} True if the phone number is already in use, otherwise false.
- */
-function isPhoneDuplicate(phone) {
-    return contacts.some(contact => contact.phone === phone);
-}
-
-
-/**
  * Generates a unique identifier (UUID) for a contact.
- * 
  * @function
  * @returns {string} A unique ID string in the format 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.
  */
@@ -166,9 +155,11 @@ function generateRandomId() {
 
 
 /**
- * Displays a success message pop-up when a new contact is successfully created.
- * 
- * @function
+ * Displays a success message to the user and reloads the page after the animation.
+ * This function shows a success overlay with an animation indicating that the contact was created successfully.
+ * It first animates the overlay and then animates it out before hiding it. After the animation completes, the page is reloaded.
+ * The function returns a promise that resolves once the animation is finished and the page is reloaded.
+ * @returns {Promise<void>} A promise that resolves when the animation is complete and the page is reloaded.
  */
 function successfullCreationContact() {
     return new Promise((resolve) => {
@@ -176,36 +167,31 @@ function successfullCreationContact() {
         let container = overlay.querySelector('.create-contact-successfull-container');
         overlay.style.display = 'flex';
         container.style.animation = 'slideInFromRight 0.4s forwards';
-
         setTimeout(() => {
             container.style.animation = 'slideOutToRight 0.4s forwards';
             setTimeout(() => {
                 overlay.style.display = 'none';
                 container.style.animation = '';
-                resolve();  // Promise wird aufgelöst, wenn die Animation abgeschlossen ist
-                // Seite neu laden, nachdem die Animation abgeschlossen ist
+                resolve();
                 location.reload();
-            }, 400);  // Dauer der Slide-Out-Animation
-        }, 1500);  // Dauer der Anzeige der Erfolgsnachricht
+            }, 400);
+        }, 1500);
     });
 }
 
 
 /**
- * Saves the edited contact information to the database, updates the contact list,
- * and refreshes the page to reflect the changes.
- * This function retrieves the values from the input fields, validates them, and
- * performs the following actions:
- * 1. Validates the input values.
- * 2. Retrieves the original contact ID.
- * 3. Creates the contact data object.
- * 4. Updates the contact information in the database.
- * 5. Updates the contact information in associated tasks.
- * 6. Updates the contact list in the UI.
- * 7. Closes the edit contact form and reloads the page.
- * @async
- * @function
- * @throws {Error} Throws an error if any issue occurs while saving the contact or updating related data.
+ * Saves the edited contact information and updates related data.
+ * This function performs the following steps:
+ * 1. Retrieves the input values for the contact from the form fields.
+ * 2. Validates the input values.
+ * 3. Retrieves the original contact ID.
+ * 4. Creates the updated contact data object.
+ * 5. Attempts to save the updated contact data in the database and related tasks.
+ * 6. Updates the contact list in the UI and closes the edit form.
+ * 7. Reloads the page to reflect the changes.
+ * If any errors occur during the process, they are logged to the console.
+ * @returns {Promise<void>} A promise that resolves when all operations are completed.
  */
 async function saveEditingContact() {
     const name = document.getElementById('contactName').value;
@@ -236,7 +222,6 @@ async function saveEditingContact() {
 
 /**
  * Updates the assigned contacts in all tasks based on the updated contact data.
- *
  * @async
  * @function
  * @param {string} contactId - The ID of the contact to update.
@@ -246,9 +231,7 @@ async function updateContactInTasks(contactId, updatedContactData) {
     try {
         const tasks = await getData('tasks');
         if (!tasks) return;
-
         const updatedTasks = processTasks(tasks, contactId, updatedContactData);
-
         await saveUpdatedTasks(updatedTasks);
     } catch (error) {
         console.error('Error updating contact in tasks:', error);
@@ -258,7 +241,6 @@ async function updateContactInTasks(contactId, updatedContactData) {
 
 /**
  * Processes tasks to update the assigned contact information.
- *
  * @function
  * @param {Object} tasks - The tasks to process.
  * @param {string} contactId - The ID of the contact to update.
@@ -267,7 +249,6 @@ async function updateContactInTasks(contactId, updatedContactData) {
  */
 function processTasks(tasks, contactId, updatedContactData) {
     const updatedTasks = {};
-
     for (const [taskId, task] of Object.entries(tasks)) {
         const updatedAssignedTo = updateAssignedTo(task.Assigned_to, contactId, updatedContactData);
 
@@ -282,7 +263,6 @@ function processTasks(tasks, contactId, updatedContactData) {
 
 /**
  * Updates the assigned contact information in a task.
- *
  * @function
  * @param {Object|Array} assignedTo - The current assigned contacts.
  * @param {string} contactId - The ID of the contact to update.
@@ -307,7 +287,6 @@ function updateAssignedTo(assignedTo, contactId, updatedContactData) {
 
 /**
  * Saves the updated tasks to the database.
- *
  * @async
  * @function
  * @param {Object} updatedTasks - The tasks to save.
@@ -319,7 +298,6 @@ async function saveUpdatedTasks(updatedTasks) {
 
 /**
  * Retrieves the ID of the contact currently being edited from the DOM.
- * 
  * @function
  * @returns {string} The ID of the contact being edited.
  */
@@ -330,7 +308,6 @@ function getOriginalContactId() {
 
 /**
  * Creates a contact data object from the values in the edit contact form.
- * 
  * @function
  * @returns {Object} An object containing the contact data with id, name, email, phone, and color properties.
  */
@@ -347,7 +324,6 @@ function createContactData() {
 
 /**
  * Updates a contact in the database with the given contact data.
- * 
  * @async
  * @function
  * @param {string} originalContactId - The ID of the contact to update.
@@ -361,7 +337,6 @@ async function updateContactInDatabase(originalContactId, contactData) {
 /**
  * Updates an existing contact in the contact list.
  * If the contact with the specified ID exists, it is updated with the new data.
- * 
  * @function
  * @param {string} id - The ID of the contact to update.
  * @param {Object} contactData - The new data for the contact.
