@@ -861,7 +861,7 @@ a {
 }
 
 .create-contact-successfull-container {
-  top: 40%;
+  top: 0%;
   height: 74px;
   width: 312px;
   background-color: var(--clr-main);

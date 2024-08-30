@@ -84,17 +84,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
  * 
  * @function checkForDuplicates
  * @param {string} email - The email address to check for duplicates.
- * @param {string} phone - The phone number to check for duplicates.
  * @returns {boolean} True if a duplicate is found, otherwise false.
  */
-function checkForDuplicates(email, phone) {
+function checkForDuplicates(email) {
     let hasError = false;
     if (isEmailDuplicate(email)) {
         setErrorMessage('emailError', 'This email address is already taken.');
-        hasError = true;
-    }
-    if (isPhoneDuplicate(phone)) {
-        setErrorMessage('phoneError', 'This phone number is already taken.');
         hasError = true;
     }
     return hasError;
