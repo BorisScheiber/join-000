@@ -427,7 +427,7 @@ header {
   justify-content: center;
   align-items: center;
   inset: 0;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: 100000;
 }
 
@@ -460,7 +460,7 @@ header {
   width: 20px;
 }
 
-.delete-pop-up-text{
+.delete-pop-up-text {
   color: #ffffff;
 }
 
@@ -469,7 +469,6 @@ header {
   box-shadow: 4px 4px 4px 0px #b7b7b7;
   cursor: pointer;
 }
-
 
 @media (max-height: 1000px) {
   .legal-menu {

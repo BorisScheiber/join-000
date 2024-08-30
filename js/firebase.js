@@ -1,10 +1,19 @@
 const BASE_URL = "https://join-294-1008d-default-rtdb.europe-west1.firebasedatabase.app/";
 
 
+/**
+ * Asynchronously fetches data from the specified path in the Firebase database.
+ *
+ * @async
+ * @function getData
+ * @param {string} [path=""] - The path in the Firebase database from which to fetch data.
+ * @returns {Promise<Object>} A promise that resolves with the JSON data fetched from the database.
+ */
 async function getData(path = "") {
     let response = await fetch(BASE_URL + path + ".json");
     return (responseToJson = await response.json());
 }
+
 
 /* contacts*/
 /**
@@ -25,6 +34,7 @@ async function saveData(path = "", data) {
         }
     });
 }
+
 
 /**
  * Asynchronously removes data from the specified path in the Firebase database.
@@ -48,6 +58,7 @@ async function removeData(path = "") {
     }
 }
 
+
 /**
  * Asynchronously saves or updates contact data in the Firebase database.
  *
@@ -67,19 +78,33 @@ async function saveDataToFirebase(contactId, contactData) {
     });
 }
 
-/*tasks */
 
-// Function to delete data from Firebase
+/**
+ * Asynchronously deletes data from the specified path in the Firebase database.
+ *
+ * @async
+ * @function deleteData
+ * @param {string} [path=""] - The path in the Firebase database from which data should be deleted.
+ * @returns {Promise<Object>} A promise that resolves with the JSON response after deletion.
+ */
 async function deleteData(path = "") {
     let response = await fetch(BASE_URL + path + ".json", {
       method: "DELETE",
     });
     return responseAsJson = await response.json();
-  }
+}
 
-// Function to edit data from Firebase
 
-  async function putData(path = "", data = {}) {
+/**
+ * Asynchronously saves or updates data at the specified path in the Firebase database.
+ *
+ * @async
+ * @function putData
+ * @param {string} [path=""] - The path in the Firebase database where the data should be saved or updated.
+ * @param {Object} [data={}] - The data to be saved or updated, typically a JSON object.
+ * @returns {Promise<Object>} A promise that resolves with the JSON response after the data is saved.
+ */
+async function putData(path = "", data = {}) {
     let response = await fetch(BASE_URL + path + ".json", {
         method: "PUT",
         headers: {
@@ -90,9 +115,16 @@ async function deleteData(path = "") {
     return await response.json();
 }
 
-/*Board */
 
-// Function to update data from Firebase with PATCH method
+/**
+ * Asynchronously updates data at the specified path in the Firebase database using the PATCH method.
+ *
+ * @async
+ * @function patchData
+ * @param {string} [path=""] - The path in the Firebase database where the data should be updated.
+ * @param {Object} [data={}] - The data to be updated, typically a JSON object.
+ * @returns {Promise<Object>} A promise that resolves with the JSON response after the data is updated.
+ */
 async function patchData(path = "", data = {}) {
     let response = await fetch(BASE_URL + path + ".json", {
       method: "PATCH",
@@ -102,4 +134,4 @@ async function patchData(path = "", data = {}) {
       body: JSON.stringify(data),
     });
     return await response.json();
-  }
+}

@@ -182,6 +182,20 @@ async function getTaskById(taskId) {
     }
 }
 
+
+/**
+ * Asynchronously fetches a task by its ID from the Firebase database for editing.
+ *
+ * This function retrieves all tasks from Firebase and searches for the task 
+ * with the specified ID. If found, it returns the task data along with its 
+ * Firebase ID; otherwise, it returns `null` and logs a warning.
+ *
+ * @async
+ * @function getTaskByIdToEdit
+ * @param {string} taskId - The ID of the task to fetch.
+ * @returns {Promise<Object|null>} A promise that resolves with the task object 
+ * including its Firebase ID if found, otherwise `null`.
+ */
 async function getTaskByIdToEdit(taskId) {
     let firebaseId; // Declare firebaseId outside the loop
     const tasks = await getData('tasks');
@@ -231,8 +245,6 @@ async function deleteTask(taskId) {
     }
 }
 
-/////////////////////////////////////BORIS////////////////////////////////////////
-
 
 /**
  * Displays a delete confirmation popup for a specific task.
@@ -261,8 +273,6 @@ function closeDeletePopUp() {
     let deletePopUp = document.getElementById('deletePopUp');
     deletePopUp.classList.add('d-none-important'); 
 }
-
-/////////////////////////////////////BORIS END////////////////////////////////////////
 
 
 /**
