@@ -61,7 +61,7 @@ function validateName(name, elementIds = { inputId: 'newContactName', errorId: '
     }
     if (!NAME_PATTERN.test(name)) {
         addErrorClass(elementIds.inputId, elementIds.errorId);
-        return 'The name may only contain letters and must begin with a capital letter and must contain both first and last names.';
+        return 'The name needs to be changed to: Max Muster.';
     }
     removeErrorClass(elementIds.inputId, elementIds.errorId);
     return '';
