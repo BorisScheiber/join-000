@@ -17,7 +17,51 @@ async function deleteContactAndUpdateTasks(contactId) {
         console.error('Error deleting contact and updating tasks:', error);
     }
 }
+/////////////////////////////////////BORIS////////////////////////////////////////
 
+/**
+ * Opens the delete confirmation popup and populates it with content.
+ * 
+ * This function dynamically generates and displays a popup asking the user 
+ * if they are sure about deleting a contact. The popup includes buttons 
+ * to confirm or cancel the deletion. The specific contact ID is passed to 
+ * the delete function when the user confirms.
+ * 
+ * @param {string} contactId - The ID of the contact to be deleted.
+ */
+function openDeletePopUp(contactId) {
+    let deletePopUp = document.getElementById('deletePopUp');
+    deletePopUp.innerHTML = "";
+    deletePopUp.innerHTML = /*HTML*/`
+        <div class="delete-pop-up-box">
+            <span> Are you sure?</span>
+            <div class="button-section-delete-pop-up">
+                <button class="button-delete-pop-up" onclick="deleteContactAndUpdateTasks('${contactId}')">
+                    <span class="delete-pop-up-text">Yes</span>
+                </button>
+                <div class="delete-pop-up-separator"></div>
+                <button class="button-delete-pop-up" onclick="closeDeletePopUp()">
+                    <span class="delete-pop-up-text">No</span>
+                </button>
+            </div>
+        </div>
+    `;
+    deletePopUp.classList.remove('d-none-important'); 
+}
+
+
+/**
+ * Closes the delete confirmation popup.
+ * 
+ * This function hides the delete confirmation popup, which is 
+ * displayed when the user is asked to confirm the deletion of a contact.
+ */
+function closeDeletePopUp() {
+    let deletePopUp = document.getElementById('deletePopUp');
+    deletePopUp.classList.add('d-none-important'); 
+}
+
+/////////////////////////////////////BORIS END////////////////////////////////////////
 
 /**
  * Removes a contact from all tasks where it is assigned.

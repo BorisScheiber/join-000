@@ -143,18 +143,18 @@ function generateContactDetailHTML(user, bgColor) {
                     <img src="./assets/icons/editContactsActive.svg" alt="edit" class="change-icon-after-hover-detailed-contact">
                     <span class="contact-detail-edit-text">Edit</span>
                 </button>
-                <button class="contact-detail-delete" onmouseover="changeIcon(this, 'deleteContactActive.svg')" 
+                <!-- <button class="contact-detail-delete" onmouseover="changeIcon(this, 'deleteContactActive.svg')" 
                     onmouseout="changeIcon(this, 'delete-contact.svg')" onclick="deleteContactAndUpdateTasks('${user.id}')">
                     <img src="./assets/icons/delete-contact.svg" alt="delete" class="contact-detail-change-icons-delete">
                     <img src="./assets/icons/deleteContactActive.svg" alt="delete" class="change-icon-after-hover-detailed-contact">
                     <span class="contact-detail-delete-text">Delete</span>
-                </button>
-                <!-- <button class="contact-detail-delete" onmouseover="changeIcon(this, 'deleteContactActive.svg')" 
-                    onmouseout="changeIcon(this, 'delete-contact.svg')" onclick="openDeletePopUp()">
+                </button> -->
+                <button class="contact-detail-delete" onmouseover="changeIcon(this, 'deleteContactActive.svg')" 
+                    onmouseout="changeIcon(this, 'delete-contact.svg')" onclick="openDeletePopUp('${user.id}')">
                     <img src="./assets/icons/delete-contact.svg" alt="delete" class="contact-detail-change-icons-delete">
                     <img src="./assets/icons/deleteContactActive.svg" alt="delete" class="change-icon-after-hover-detailed-contact">
                     <span class="contact-detail-delete-text">Delete</span>
-                </button> -->
+                </button>
                 </div>
             </div>
         </div>
