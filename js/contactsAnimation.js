@@ -105,7 +105,7 @@ function closeNewContact() {
         newContactOverlay.classList.remove('fadeOutOverlayBg');
         newContactCard.classList.remove('hide');
         location.reload();
-    }, 400);
+    }, 2000);
 }
 
 
