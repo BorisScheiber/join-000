@@ -100,21 +100,31 @@ function validateEmail(email, elementIds = { inputId: 'newContactEmail', errorId
  * @returns {string} An error message if the phone number is invalid, or an empty string if valid.
  */
 function validatePhone(phone, elementIds = { inputId: 'newContactPhone', errorId: 'phoneError' }) {
+    // Sicherstellen, dass phone definiert ist
+    if (typeof phone !== 'string') {
+        addErrorClass(elementIds.inputId, elementIds.errorId);
+        return 'Phone number is invalid.';
+    }
+    
     const trimmedPhone = phone.trim();
+
     if (!trimmedPhone) {
         addErrorClass(elementIds.inputId, elementIds.errorId);
         return 'Please enter a phone number.';
     }
+
     const PHONE_PATTERN = /^[\+\d\s]+$/;
     if (!PHONE_PATTERN.test(trimmedPhone)) {
         addErrorClass(elementIds.inputId, elementIds.errorId);
         return 'The phone number can only contain numbers, the plus sign (+), and spaces.';
     }
+
     const digitsOnly = trimmedPhone.replace(/\D+/g, '');
     if (digitsOnly.length < 9) {
         addErrorClass(elementIds.inputId, elementIds.errorId);
         return 'The phone number must be at least 9 digits long.';
     }
+
     removeErrorClass(elementIds.inputId, elementIds.errorId);
     return '';
 }

@@ -4,20 +4,17 @@
  * @function handleAddNewContact
  */
 function handleAddNewContact() {
-    // Werte aus den Eingabefeldern holen
     const name = document.getElementById('newContactName').value;
-    const email = document.getElementById('newContactEmail').value;
+    let email = document.getElementById('newContactEmail').value;
     const phone = document.getElementById('newContactPhone').value;
-    
-    // Eingaben validieren
     const isValid = validateContactInputs(name, email, phone, 'new');
     if (!isValid) {
         console.error('Please fix the errors before saving.');
         return;
     }
-    
-    // Weiterverarbeitung für die Neuanlage
-    createNewContact();
+    email = email.toLowerCase();
+    console.log('Lowercased Email in handleAddNewContact:', email);
+    createNewContact(name, email, phone);
 }
 
 
@@ -52,9 +49,11 @@ async function createNewContact() {
  * @returns {Object} An object containing the name, email, and phone values.
  */
 function getInputValues() {
+    const email = document.getElementById('newContactEmail').value.toLowerCase();
+    console.log('Lowercased Email in getInputValues:', email);
     return {
         name: document.getElementById('newContactName').value,
-        email: document.getElementById('newContactEmail').value,
+        email: email,
         phone: document.getElementById('newContactPhone').value
     };
 }
@@ -79,18 +78,27 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
 /**
- * Checks if the provided email or phone number already exists in the contacts list.
- * If a duplicate is found, an error message is displayed.
+ * Checks if the provided email is a duplicate and sets an error message if it is.
+ * If a duplicate is found, the 'input-error' class is added to the email input field.
+ * If no duplicate is found, the 'input-error' class is removed.
  * 
- * @function checkForDuplicates
+ * @function
  * @param {string} email - The email address to check for duplicates.
  * @returns {boolean} True if a duplicate is found, otherwise false.
  */
 function checkForDuplicates(email) {
     let hasError = false;
+    const emailInputField = document.getElementById('newContactEmail');
     if (isEmailDuplicate(email)) {
         setErrorMessage('emailError', 'This email address is already taken.');
+        if (emailInputField) {
+            emailInputField.classList.add('input-error');
+        }
         hasError = true;
+    } else {
+        if (emailInputField) {
+            emailInputField.classList.remove('input-error');
+        }
     }
     return hasError;
 }
@@ -108,7 +116,8 @@ function checkForDuplicates(email) {
  */
 async function processNewContact(name, email, phone) {
     const contactId = generateRandomId();
-    const newContact = createContactObject(name, email, phone, contactId);
+    const newContact = createContactObject(name, email.toLowerCase(), phone, contactId);
+    console.log('Lowercased Email in processNewContact:', newContact.email);
     await saveDataToFirebase(contactId, newContact);
     updateContactList(newContact);
     closeNewContact();
