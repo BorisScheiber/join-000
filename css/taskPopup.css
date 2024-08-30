@@ -39,6 +39,10 @@
   /* margin-top: 24px; */
 }
 
+.popup-content-edit-task input {
+    padding-right: 50px !important;
+}
+
 .task-details-content {
   background-color: #fff;
   border-radius: 30px;
