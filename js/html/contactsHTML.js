@@ -87,6 +87,7 @@ function openNewContact() {
  * 
  * @function
  * @param {Object} user - The user object containing contact details.
+ * @param {string} user.id - The unique identifier for the contact.
  * @param {string} user.name - The name of the contact.
  * @param {string} user.email - The email of the contact.
  * @param {string} user.color - The background color for the contact's profile image.
@@ -95,7 +96,7 @@ function openNewContact() {
 function generateContactHTML(user) {
     const initials = user.name.split(' ').map(n => n.charAt(0)).join('');
     return /*HTML*/`
-        <div class="single-contact" data-name="${user.name}" onclick="showContactDetail('${user.name}')" id="singleCardResponsive">
+        <div class="single-contact" data-id="${user.id}" onclick="handleShowContactDetail('${user.id}')" id="singleCardResponsive">
             <div class="single-contact-profile-img" style="background-color: ${user.color};">
                 ${initials}
             </div>
@@ -106,6 +107,7 @@ function generateContactHTML(user) {
         </div>
     `;
 }
+
 
 /**
  * Generates HTML content for the detailed view of a contact.

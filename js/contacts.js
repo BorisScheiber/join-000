@@ -156,15 +156,15 @@ function closeEditContact() {
 /**
  * Handles showing contact details based on screen size.
  * @function
- * @param {string} name - The contact's name.
+ * @param {string} id - The contact's ID.
  * @returns {void}
  */
-function handleShowContactDetail(name) {
+function handleShowContactDetail(id) {
     if (window.innerWidth >= 850) {
-        showContactDetail(name);
+        showContactDetail(id);
     } else {
         hideContactList();
-        showContactDetailSmallScreen(name);
+        showContactDetailSmallScreen(id);
     }
 }
 
@@ -172,18 +172,18 @@ function handleShowContactDetail(name) {
 /**
  * Displays the contact detail view.
  * @function
- * @param {string} name - The contact's name.
+ * @param {string} id - The contact's ID.
  * @returns {void}
  */
-function showContactDetail(name) {
-    const user = contacts.find(u => u.name === name);
+function showContactDetail(id) {
+    const user = contacts.find(u => u.id === id);
     const contactDetail = document.getElementById('contactDetail');
     contactDetail.innerHTML = generateContactDetailHTML(user, user.color);
     contactDetail.style.display = 'flex';
     if (selectedContactElement) {
         selectedContactElement.classList.remove('selected-contact');
     }
-    const contactElement = document.querySelector(`.single-contact[data-name="${name}"]`);
+    const contactElement = document.querySelector(`.single-contact[data-id="${id}"]`);
     if (contactElement) {
         contactElement.classList.add('selected-contact');
         selectedContactElement = contactElement;
