@@ -36,17 +36,13 @@ function generateTaskDetailsPopupHTML(task) {
                 </div>
             </div>
             <div class="popup-buttons">
-                <!-- <div class="delete-button" onclick="deleteTask('${task.firebaseId}')">
+                <div class="delete-button" onclick="deleteTask('${task.firebaseId}')">
                     <img src="./assets/icons/delete.svg" alt="Delete">
-                    <span>Delete</span>
-                </div> -->
-                <div class="delete-button" onclick="openDeletePopUp('${task.firebaseId}')">
-                    <div class="task-popup-delete-icon"></div>
                     <span>Delete</span>
                 </div>
                 <div class="vertical-line"></div>
                 <div class="edit-button" onclick="editTask('${task.id}')">
-                    <div class="task-popup-delete-icon task-popup-edit-icon"></div>
+                    <img src="./assets/icons/edit.svg" alt="Edit">
                     <span>Edit</span>
                 </div>
             </div>
@@ -62,9 +58,9 @@ function generateTaskDetailsPopupHTML(task) {
  * @returns {string} The HTML string for the edit task form.
  */
 function generateEditTaskFormHTML(task) {
-    return /*html*/`
-         <form id="editForm" class="popup-content-edit-task-form">
-             <div class="popup-content-task popup-content-edit-task">
+    return `
+         <form id="editForm" class="add-task-container-popup width-pop-up">
+             <div class="popup-content-task">
                  <!-- Title Section -->
                  <div class="input-group">
                      <label for="editTitle">Title<span class="red-color">*</span></label>
@@ -82,7 +78,7 @@ function generateEditTaskFormHTML(task) {
        <!-- Due Date Section -->
                  <div class="due-date-section">
                      <div class="input-group">
-                         <label for="editDueDate">Due date<span class="required">*</span></label>
+                         <label for="editDueDate">Due date <span class="required">*</span></label>
                          <input type="text" id="editDueDate" class="input-field" placeholder="dd/mm/yyyy"
                              onfocus="(this.type='date'); this.min = new Date().toISOString().split('T')[0]"
                              onblur="(this.type='text')" required value="${task.Due_date}">
@@ -111,7 +107,7 @@ function generateEditTaskFormHTML(task) {
                  <!-- Assigned to Section -->
                  <div class="assigned-to">
                      <div class="search-container">
-                         <input type="text" id="contact-search-edit" class="contact-search contact-search-edit"
+                         <input type="text" id="contact-search-edit" class="contact-search"
                              placeholder="Select contacts to assign" oninput="filterContactsEdit()">
 
                          <button id="toggle-list-edit" class="toggle-list" onclick="toggleContactListEdit()">
@@ -119,7 +115,7 @@ function generateEditTaskFormHTML(task) {
                                  id="dropdown-assigned-edit" class="dropdown-icon">
                          </button>
                      </div>
-                     <div id="contact-list-edit" class="contact-list contact-list-edit hidden">
+                     <div id="contact-list-edit" class="contact-list hidden">
                      </div>
                      <div id="selected-contacts-edit" class="selected-contacts">
                      ${displaySelectedContactsEdit(task)} 
@@ -141,14 +137,14 @@ function generateEditTaskFormHTML(task) {
                                 <img src="./assets/icons/add.svg" alt="Add" class="add-icon">
                             </div>
             </div>
-            <ul id="subtask-list-edit" class="subtask-list edit-task-subtasks" style="list-style-type:disc" >
+            <ul id="subtask-list-edit" class="subtask-list" style="list-style-type:disc" >
            ${generateSubtaskListHTML(task.Subtasks, task)}
             </ul>
         </div>
     </div>
 
              </form>
-             <button onclick="saveEditTask('${task.id}', '${task.firebaseId}')" class="create-button edit-task-ok-button" id="delete-button" type="submit">
+             <button onclick="saveEditTask('${task.id}', '${task.firebaseId}')" class="create-button" id="delete-button" type="submit">
                  <p>OK</p>
                  <img src="./assets/icons/check.svg" alt="Check">
              </button>

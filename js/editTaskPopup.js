@@ -1,3 +1,6 @@
+let subtasksToDelete = [];
+
+
 /**
  * Edits the task details within a popup.
  * 
@@ -235,16 +238,25 @@ function populateEditForm(task) {
  * @param {string} firebaseId - The Firebase ID of the task to update.
  */
 async function saveEditTask(taskId, firebaseId) {
-    if (!validateFieldsEditTask()) return; 
-
+    if (!validateFieldsEditTask()) return;
     const originalTask = await fetchOriginalTask(taskId);
-    if (!originalTask) return;
-
-    if (!validateSubtasks(originalTask)) return;
+    if (!originalTask || !validateSubtasks(originalTask)) return;
 
     const updatedTask = createUpdatedTask(originalTask);
     await updateTaskInFirebase(firebaseId, updatedTask);
 
+   // Check if there are subtasks to delete
+    if (subtasksToDelete.length > 0) { 
+        for (const subtaskId of subtasksToDelete) {
+            try {
+                await deleteData(`tasks/${firebaseId}/Subtasks/${subtaskId}`);
+            } catch (error) {
+                console.error(`Error deleting subtask ${subtaskId}:`, error);
+            }
+        }
+
+        subtasksToDelete = []; // Clear the array after deleting
+    }
     closeTaskDetailsPopup();
     updateBoard();
 }
@@ -333,67 +345,55 @@ async function updateTaskInFirebase(firebaseId, updatedTask) {
 }
 
 
-/**
- * Validates the due date to ensure it's in the correct format (YYYY-MM-DD) and a future date.
- *
- * @param {string} dueDate - The due date string to validate.
- * @returns {string} An error message if the date is invalid, otherwise an empty string.
- */
-function validateDueDateEdit(editDueDate) {
-    const datePattern = /^\d{4}-\d{2}-\d{2}$/; // Regular expression for YYYY-MM-DD format
-    if (!datePattern.test(editDueDate)) {
-        return 'Please enter a valid date in YYYY-MM-DD format.';
-    }
-    const today = new Date();
-    const selectedDate = new Date(editDueDate);
+// /**
+//  * Validates the due date to ensure it's in the correct format (YYYY-MM-DD) and a future date.
+//  *
+//  * @param {string} dueDate - The due date string to validate.
+//  * @returns {string} An error message if the date is invalid, otherwise an empty string.
+//  */
+ function validateDueDateEdit(editDueDate) {
+     const datePattern = /^\d{4}-\d{2}-\d{2}$/; // Regular expression for YYYY-MM-DD format
+     if (!datePattern.test(editDueDate)) {
+         return 'Please enter a valid date in YYYY-MM-DD format.';
+     }
+     const today = new Date();
+     const selectedDate = new Date(editDueDate);
 
-    if (selectedDate <= today) {
-        return 'Please enter a future date.';
-    }
+     if (selectedDate <= today) {
+         return 'Please enter a future date.';
+     }
 
-    return ''; // No error
-}
+     return ''; // No error
+ }
 
 
-/**
- * Validates the title and due date fields in the edit task form.
- * Highlights invalid fields and displays error messages.
- * 
- * @returns {boolean} True if all fields are valid, otherwise false.
- */
 function validateFieldsEditTask() {
     let isValid = true;
-    isValid = validateField('editTitle') && isValid;
-    isValid = validateDueDateField('editDueDate') && isValid;
+    const EditFields = [
+        { id: 'editTitle', element: document.getElementById('editTitle') },
+        { id: 'editDueDate', element: document.getElementById('editDueDate') }
+    ];
+
+    // Filter the fields array to exclude the 'category' field
+    const fieldsToValidateEdit = EditFields.filter(field => field.id !== 'category');
+
+    fieldsToValidateEdit.forEach(field => {
+        if (field.element.value.trim() === "") {
+            (field.fieldElement || field.element).style.border = '1px solid rgba(255, 129, 144, 1)';
+            showErrorMessage(field.element, 'This field is required');
+            isValid = false;
+        } else if (field.id === 'editDueDate') {
+            const errorMessage = validateDueDateEdit(field.element.value);
+            if (errorMessage) {
+                field.element.style.border = '1px solid rgba(255, 129, 144, 1)';
+                showErrorMessage(field.element, errorMessage);
+                isValid = false;
+            }
+        } else {
+            (field.fieldElement || field.element).style.border = '1px solid rgba(41, 171, 226, 1)';
+            removeErrorMessage(field.element);
+        }
+    });
+
     return isValid;
-}
-
-
-/**
- * Validates a single input field in the edit task form.
- * 
- * @param {string} fieldId - The ID of the field to validate.
- * @returns {boolean} True if the field is valid, otherwise false.
- */
-function validateField(fieldId) {
-    const field = document.getElementById(fieldId);
-    if (field.value.trim() === "") {
-        field.style.border = '1px solid rgba(255, 129, 144, 1)';
-        showErrorMessage(field, 'This field is required');
-        return false;
-    }
-    field.style.border = '1px solid rgba(41, 171, 226, 1)';
-    removeErrorMessage(field);
-    return true;
-}
-
-
-/**
- * Validates the due date field in the edit task form.
- * 
- * @param {string} fieldId - The ID of the due date field to validate.
- * @returns {boolean} True if the due date is valid, otherwise false.
- */
-function validateDueDateField(fieldId) {
-    return validateField(fieldId) && !validateDueDateEdit(document.getElementById(fieldId).value);
 }
