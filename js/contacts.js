@@ -207,7 +207,7 @@ function hideContactList() {
 /**
  * Displays the contact detail view for small screens.
  * @function
- * @param {string} name - The contact's name.
+ * @param {string} id - The contact's ID.
  * @returns {void}
  */
 function showContactDetailSmallScreen(id) {
