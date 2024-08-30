@@ -61,7 +61,7 @@ function validateName(name, elementIds = { inputId: 'newContactName', errorId: '
     }
     if (!NAME_PATTERN.test(name)) {
         addErrorClass(elementIds.inputId, elementIds.errorId);
-        return 'The name needs to be changed to: Max Muster.';
+        return 'Enter a valid name. E.g. Max Muster';
     }
     removeErrorClass(elementIds.inputId, elementIds.errorId);
     return '';
@@ -108,7 +108,7 @@ function validatePhone(phone, elementIds = { inputId: 'newContactPhone', errorId
     const PHONE_PATTERN = /^[\+\d\s]+$/;
     if (!PHONE_PATTERN.test(trimmedPhone)) {
         addErrorClass(elementIds.inputId, elementIds.errorId);
-        return 'The phone number can only contain numbers, the plus sign (+), and spaces.';
+        return 'Please use only numbers, the plus sign (+), and spaces.';
     }
     const digitsOnly = trimmedPhone.replace(/\D+/g, '');
     if (digitsOnly.length < 9) {
