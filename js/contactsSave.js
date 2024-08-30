@@ -112,22 +112,22 @@ function checkForDuplicates(email) {
  * @param {string} email - The email address to check for duplicates.
  * @returns {boolean} - Returns true if a duplicate is found, otherwise false.
  */
-function checkForDuplicatesEdit(email) {
-    let hasError = false;
-    const emailInputField = document.getElementById('contactMailAdress');
-    if (isEmailDuplicate(email)) {
-        setErrorMessage('emailError', 'This email address is already taken.');
-        if (emailInputField) {
-            emailInputField.classList.add('input-error');
-        }
-        hasError = true;
-    } else {
-        if (emailInputField) {
-            emailInputField.classList.remove('input-error');
-        }
-    }
-    return hasError;
-}
+// function checkForDuplicatesEdit(email) {
+//     let hasError = false;
+//     const emailInputField = document.getElementById('contactMailAdress');
+//     if (isEmailDuplicate(email)) {
+//         setErrorMessage('emailError', 'This email address is already taken.');
+//         if (emailInputField) {
+//             emailInputField.classList.add('input-error');
+//         }
+//         hasError = true;
+//     } else {
+//         if (emailInputField) {
+//             emailInputField.classList.remove('input-error');
+//         }
+//     }
+//     return hasError;
+// }
 
 
 /**
@@ -226,11 +226,11 @@ async function saveEditingContact() {
         console.error('Please fix the errors before saving.');
         return;
     }
-    const isDuplicate = checkForDuplicatesEdit(email);
-    if (isDuplicate) {
-        console.error('Duplicate email address detected.');
-        return;
-    }
+    // const isDuplicate = checkForDuplicatesEdit(email);
+    // if (isDuplicate) {
+    //     console.error('Duplicate email address detected.');
+    //     return;
+    // }
     const originalContactId = getOriginalContactId();
     if (!originalContactId) {
         console.error('Original Contact ID is undefined.');
