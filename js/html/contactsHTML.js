@@ -177,7 +177,7 @@ function generateContactDetailHTML(user, bgColor) {
                 <div class="contact-detail-edit-icon"></div>
                 <span class="contact-detail-edit-text">Edit</span>
             </button>
-            <button onclick="deleteContactAndUpdateTasks('${user.id}')" class="contact-detail-edit-buttons">
+            <button onclick="openDeletePopUp('${user.id}')" class="contact-detail-edit-buttons">
                 <div class="contact-detail-edit-icon contact-detail-delete-icon"></div>
                 <span class="contact-detail-edit-text">Delete</span>
             </button>
