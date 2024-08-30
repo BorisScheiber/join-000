@@ -1,0 +1,53 @@
+{
+    "users": [
+      {
+        "email": "testuser@example.com",
+        "id": "7b528b45-bc99-4492-b608-6bf74e5141e3",
+        "initials": "TU",
+        "name": "Test User",
+        "password": "password123"
+      },
+      {
+        "email": "test@test.com",
+        "id": "5da7db1e-c76f-4236-bf1b-c1da59ee00ad",
+        "initials": "TT",
+        "name": "Test Test",
+        "password": "Test1234"
+      },
+      {
+        "email": "test@three.com",
+        "id": "f5bdab70-2687-461a-ad22-7b51041cd11e",
+        "initials": "TT",
+        "name": "Test Three",
+        "password": "Three1234"
+      },
+      {
+        "email": "test@four.com",
+        "id": "c531cd18-f2c2-48fd-b4f0-a756c4344084",
+        "initials": "TF",
+        "name": "Test Four",
+        "password": "Four1234"
+      },
+      {
+        "email": "boris@scheiber.com",
+        "id": "49653df1-b119-4547-a8c2-447bbe3aecb5",
+        "initials": "BS",
+        "name": "Boris Scheiber",
+        "password": "Boris1234"
+      },
+      {
+        "email": "philipp.schoenborn@gmail.com",
+        "id": "f60a311b-30b3-452c-a0f9-69599d2f9144",
+        "initials": "PS",
+        "name": "Philipp Schönborn",
+        "password": "Test_123456"
+      },
+      {
+        "email": "responsive@man.com",
+        "id": "d25c736d-ab3a-4774-beb3-4eb7d7ae83cb",
+        "initials": "RM",
+        "name": "Responsive Man",
+        "password": "Responsive1234"
+      }
+    ]
+  }
