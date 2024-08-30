@@ -210,8 +210,8 @@ function hideContactList() {
  * @param {string} name - The contact's name.
  * @returns {void}
  */
-function showContactDetailSmallScreen(name) {
-    const user = contacts.find(u => u.name === name);
+function showContactDetailSmallScreen(id) {
+    const user = contacts.find(u => u.id === id);
     const contactDetail = document.getElementById('contactDetail');
     if (contactDetail) {
         contactDetail.innerHTML = generateContactDetailHTML(user, user.color);
