@@ -1,3 +1,24 @@
+/**
+ * Validates the 'editTitle' input field in the edit task form.
+ * Checks if the field is empty. If empty, it highlights the field, 
+ * displays an error message, and sets isValid to false.
+ *
+ * @returns {boolean} True if the title field is valid (not empty), otherwise false.
+ */
+function validateEditTitle() {
+    let isValid = true;
+    const titleInput = document.getElementById('editTitle');
+    if (titleInput.value.trim() === "") {
+        titleInput.style.border = '1px solid rgba(255, 129, 144, 1)';
+        showErrorMessage(titleInput, 'This field is required');
+        isValid = false;
+    } else {
+        titleInput.style.border = '1px solid rgba(41, 171, 226, 1)';
+        removeErrorMessage(titleInput);
+    }
+    return isValid;
+}
+
 
 
 /**
@@ -186,17 +207,17 @@ function updateSelectedContactsEdit() {
 function getSubtasksEditTask(originalTask) {
     const subtasks = { ...originalTask.Subtasks };
     document.querySelectorAll("#subtask-list-edit .subtask-item").forEach(item => {
-      const subtaskText = item.querySelector('.subtask-edit-input')?.value.trim() 
-                         || item.querySelector('.subtask-text')?.innerText.trim() || '';
-      const subtaskId = item.dataset.subtaskId;
-      if (subtasks[subtaskId]) {
-        subtasks[subtaskId].description = subtaskText;
-      } else {
-        subtasks[subtaskId] = { id: subtaskId, description: subtaskText, isChecked: false };
-      }
+        const subtaskText = item.querySelector('.subtask-edit-input')?.value.trim()
+            || item.querySelector('.subtask-text')?.innerText.trim() || '';
+        const subtaskId = item.dataset.subtaskId;
+        if (subtasks[subtaskId]) {
+            subtasks[subtaskId].description = subtaskText;
+        } else {
+            subtasks[subtaskId] = { id: subtaskId, description: subtaskText, isChecked: false };
+        }
     });
     return subtasks;
-  }
+}
 
 
 /**
@@ -211,7 +232,7 @@ function handleContactCheckboxClickEdit(event) {
     if (checkbox) {
         checkbox.classList.toggle("checked");
         checkbox.parentElement.classList.toggle("checked");
-        updateSelectedContactsEdit(); // Call to update selected contacts
+        updateSelectedContactsEdit();
     }
 }
 
@@ -234,8 +255,6 @@ function saveSubtaskEditTask(element) {
     }
     subtaskInput.style.borderBottom = ''; // Reset border
     li.innerHTML = generateSavedSubtaskHTML(newText, originalText);
-    //  updateSubtaskInFirebase(li, newText);
-
 }
 
 
@@ -248,11 +267,9 @@ function saveSubtaskEditTask(element) {
 function handleEmptySubtask(li) {
     if (!li.dataset.subtaskId) {
         li.remove();
-        console.log('New subtask removed because it was empty.');
     } else {
         const subtaskInput = li.querySelector('input');
         subtaskInput.style.borderBottom = '2px solid rgb(255, 129, 144)';
-        console.log('Error: Subtask description cannot be empty.');
     }
 }
 
@@ -272,7 +289,6 @@ async function updateSubtaskInFirebase(li, newText) {
     task.Subtasks[subtaskId].description = newText;
     try {
         await putData(`tasks/${firebaseId}`, task);
-        console.log('Subtask updated successfully!');
     } catch (error) {
         console.error('Error updating subtask in Firebase:', error);
     }
@@ -306,13 +322,7 @@ function editSubtaskEditTask(element, originalText) {
 async function deleteSubtaskEditTask(element) {
     const listItem = element.closest('.subtask-item');
     const subtaskId = listItem.dataset.subtaskId;
-
-    // Add the subtask ID to the array for later deletion
     subtasksToDelete.push(subtaskId);
-
-    // Update the UI by removing the list item
     listItem.remove();
-
-    console.log('Subtask marked for deletion (will be deleted on save).');
 
 }

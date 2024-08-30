@@ -36,7 +36,6 @@
 
 .popup-content-edit-task-form {
   overflow-x: auto;
-  /* margin-top: 24px; */
 }
 
 .popup-content-edit-task input {
@@ -241,20 +240,14 @@
   line-height: 73.2px;
   text-align: left;
   word-break: break-word;
-  /* Allow long words to break */
   overflow-wrap: break-word;
-  /* Alternative for older browsers */
   white-space: normal;
-  /* Allow line breaks within the element */
 }
 
 .task-description {
   word-break: break-word;
-  /* Allow long words to break */
   overflow-wrap: break-word;
-  /* Alternative for older browsers */
   white-space: normal;
-  /* Allow line breaks within the element */
   font-size: 20px;
 }
 
@@ -442,7 +435,6 @@
 
 .prio-btn.selected:hover {
   box-shadow: none;
-  /* Remove the box-shadow on hover */
 }
 
 .prio-btn img {
@@ -465,13 +457,9 @@
   color: rgb(255, 255, 255);
 }
 
-/* #editForm {
-    margin: 0 !important;
-} */
 
 @media (max-width: 850px) {
   .task-details-content {
-    /* height: 90%; */
     height: fit-content;
     max-height: calc(100% - 160px);
     padding: 48px 24px;

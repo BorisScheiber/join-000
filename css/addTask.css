@@ -23,7 +23,6 @@
 
 
 .add-task-left {
-    /* height: 376px; */
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -68,7 +67,6 @@
     position: relative;
 }
 
-/* Placeholder-Farbe ändern */
 .text-area::placeholder,
 .input-field::placeholder {
     color: rgba(209, 209, 209, 1);
@@ -85,7 +83,6 @@
     text-align: left;
 }
 
-/* Eingabefelder beim Schreiben */
 .input-field:focus,
 .text-area:focus,
 .contact-search:focus {
@@ -95,8 +92,6 @@
 }
 
 
-
-/* Fehlermeldung */
 .error-message {
     font-family: Poppins;
     font-size: 12px;
@@ -111,7 +106,6 @@
 #select-contacts-button {
     width: 100%;
     height: 48px;
-    /* Höhe entsprechend dem Input-Feld */
     padding: 12px 21px;
     display: flex;
     justify-content: space-between;
@@ -139,12 +133,8 @@
     max-height: 200px;
     background: rgba(255, 255, 255, 1);
     border: 1px solid rgba(209, 209, 209, 1);
-    /* border-radius: 10px; */
     border-top: none;
-    /* Entfernt die obere Rahmenlinie */
     border-radius: 0 0 10px 10px;
-    /* Untere Ecken abrunden */
-    /* z-index: 1000; */
     height: 240px;
     z-index: 10;
     overflow-y: auto;
@@ -152,36 +142,9 @@
 }
 
 
-
-
-/* .popup-content-task::-webkit-scrollbar ,
-.contact-list::-webkit-scrollbar ,
-.subtask-list::-webkit-scrollbar, 
-.contacts::-webkit-scrollbar {
-    width: 8px;
-} */
-
-/* .popup-content-task::-webkit-scrollbar-thumb ,
-.contact-list::-webkit-scrollbar-thumb ,
-.subtask-list::-webkit-scrollbar-thumb, 
-.contacts::-webkit-scrollbar-thumb {
-    background-color: #A8A8A8;
-    border-radius: 4px;
-    min-height: 53px;
-}
-
-.popup-content-task::-webkit-scrollbar-thumb:hover ,
-.contact-list::-webkit-scrollbar-thumb:hover ,
-.subtask-list::-webkit-scrollbar-thumb:hover, 
-.contacts::-webkit-scrollbar-thumb:hover {
-    background-color: #A8A8A8;
-} */
-
 .contact-list.hidden {
     display: none !important;
 }
-
-
 
 .contact-logo {
     width: 32px;
@@ -244,6 +207,7 @@
     padding: 20px 0;
     align-items: center;
 }
+
 .required-note span {
     color: red;
 }
@@ -367,7 +331,6 @@
     text-align: left;
     color: black;
     outline: none;
-    /* border-radius: 10px 10px 0 0; Obere Ecken abrunden */
 }
 
 
@@ -410,10 +373,10 @@
     margin-right: 10px;
 }
 
-.subtask-content{
+.subtask-content {
     width: 100%;
-  }
-  
+}
+
 .selected-contact {
     width: 42px;
     height: 42px;
@@ -489,22 +452,14 @@
 }
 
 
-/* Stil für den Toggle-Button */
 .toggle-list {
     border-radius: 10px;
-    /* Gleiche abgerundete Ecken wie bei den Eingabefeldern */
     cursor: pointer;
-    /* Mauszeiger ändert sich zu einem Zeiger */
     padding: 12px 16px;
-    /* Innenabstand */
     position: absolute;
-    /* Absolute Positionierung */
     right: 12px;
-    /* Positionierung rechts */
     top: 50%;
-    /* Vertikale Zentrierung */
     transform: translateY(-50%);
-    /* Vertikale Zentrierung */
     height: 20px;
     width: 20px;
     margin-right: 2px;
@@ -514,15 +469,12 @@
     color: rgba(42, 54, 71, 1);
     font-size: 10px;
     border-radius: 0 10px 0 0;
-    /* Obere rechte Ecke abrunden */
 }
 
 
-/* Stil für das übergeordnete Container-Element */
 .search-container {
     display: flex;
     position: relative;
-    /* Relative Positionierung für die absolute Positionierung des Buttons */
     align-items: center;
     flex-direction: column;
 
@@ -530,9 +482,7 @@
 
 .contact-search {
     flex: 1;
-    /* Das Eingabefeld nimmt den restlichen Platz ein */
     padding-right: 40px;
-    /* Platz für den Button rechts einräumen */
 }
 
 .add-task-clear-icon {
@@ -553,7 +503,6 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    /* Adjust gap as needed */
 }
 
 .required {
@@ -648,7 +597,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .priority-button.selected:hover {
     box-shadow: none;
-    /* Remove the box-shadow on hover */
 }
 
 .priority-button img {
@@ -679,7 +627,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .category-field {
-    /* Make category-field the positioning context */
     height: 48px;
     width: 100%;
     display: flex;
@@ -724,21 +671,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background: rgba(209, 209, 209, 0.5);
 }
 
-/* Definiere eine CSS-Klasse für den Standardrahmen */
 .default-border {
     border: 1px solid rgba(209, 209, 209, 1);
 }
 
-/* Definiert das Aussehen des Rahmens bei einem Fehlerzustand */
 .error-border {
     border: 1px solid rgba(255, 129, 144, 1);
-    /* Rotton für Fehler */
 }
 
-/* Definiert das Aussehen des Rahmens bei einer Hervorhebung */
 .highlight-border {
     border: 1px solid rgba(41, 171, 226, 1);
-    /* Blauer Farbton zur Hervorhebung */
 }
 
 /* Subtasks Section */
@@ -767,8 +709,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     cursor: pointer;
 }
 
-.add-icon:hover , .dropdown-icon:hover , .reset-icon:hover , .subtask-item img:hover 
-    {
+.add-icon:hover,
+.dropdown-icon:hover,
+.reset-icon:hover,
+.subtask-item img:hover {
     background-color: rgb(238 231 231);
     border-radius: 10px;
 }
@@ -821,6 +765,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     right: 16px !important;
 
 }
+
 .edit-delete-icons {
     display: flex;
     gap: 4px;
@@ -836,7 +781,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .subtask-item input {
     flex: 1;
     padding-right: 72px;
-    /* Platz für die Icons */
 }
 
 .subtask-item img {
@@ -867,7 +811,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     text-align: left;
     justify-content: space-between;
     padding-left: 20px;
-    /* line-break: anywhere; */
     position: relative;
     overflow-wrap: break-word;
 }
@@ -878,11 +821,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     cursor: pointer;
 }
 
-/* Popup Styles */
 .taskCreatedPopup {
     position: fixed;
     bottom: -100px;
-    /* Initially hidden below the screen */
     left: 50%;
     transform: translateX(-50%);
     width: 300px;
@@ -893,18 +834,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     align-items: center;
     justify-content: center;
     opacity: 0;
-    /* Initially transparent */
     transition: bottom 0.5s ease, opacity 0.5s ease;
-    /* Animation settings */
     z-index: 1000;
-    /* Ensure popup is on top */
 }
 
 .taskCreatedPopup.show {
     bottom: 50%;
-    /* Move to center of the screen */
     opacity: 1;
-    /* Make it visible */
 }
 
 .taskCreatedPopup p {
@@ -929,5 +865,3 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     gap: 4px;
     height: 24px;
 }
-
-

@@ -73,7 +73,7 @@ function populateEditForm(task) {
     document.getElementById('editTitle').value = task.Title;
     document.getElementById('editDescription').value = task.Description;
     document.getElementById('editDueDate').value = task.Due_date;
-    setPrio(task.Prio); 
+    setPrio(task.Prio);
 }
 
 
@@ -90,7 +90,7 @@ async function populateContactList(task) {
             const firebaseContacts = Object.values(contactsData);
             const assignedContacts = task.Assigned_to && typeof task.Assigned_to === 'object'
                 ? Object.values(task.Assigned_to)
-                : []; 
+                : [];
             firebaseContacts.forEach(contact =>
                 createContactItemEdit(contact, contactList, assignedContacts)
             );
@@ -108,10 +108,11 @@ async function populateContactList(task) {
  * Sets up event listeners for the contact list elements in the edit popup.
  */
 function setupContactListListeners() {
+    const contactList = document.getElementById("contact-list-edit");
     const contactSearch = document.getElementById("contact-search-edit");
-    contactSearch.addEventListener("input", filterContactsEdit);
 
-    document.getElementById("contact-list-edit").addEventListener("click", (event) => {
+    contactSearch.addEventListener("input", filterContactsEdit);
+    contactList.addEventListener("click", (event) => {
         const contactItem = event.target.closest(".contact-item");
         if (contactItem) {
             const checkbox = contactItem.querySelector(".contact-checkbox");
@@ -120,17 +121,6 @@ function setupContactListListeners() {
             updateSelectedContactsEdit();
         }
     });
-
-    document.querySelectorAll(".contact-checkbox").forEach(checkbox => {
-        checkbox.addEventListener("click", (event) => {
-            checkbox.classList.toggle("checked");
-            checkbox.parentElement.classList.toggle("checked");
-            updateSelectedContacts();
-        });
-    });
-
-    const contactListEdit = document.getElementById("contact-list-edit");
-    contactListEdit.addEventListener("click", handleContactCheckboxClickEdit);
 }
 
 
@@ -150,7 +140,7 @@ function setupSubtaskInputListener() {
 function setupEditFormListeners() {
     document.addEventListener('DOMContentLoaded', (event) => {
         const editForm = document.getElementById('editForm');
-        if (editForm) { 
+        if (editForm) {
             editForm.addEventListener('input', (event) => {
                 if (event.target.matches('#editTitle, #editDescription, #editDueDate')) {
                     handleInputEdit(event);
@@ -170,9 +160,7 @@ function setupEditFormListeners() {
  */
 function setPrio(level) {
     const buttons = document.querySelectorAll('.prio-btn');
-    // Reset all buttons first
     buttons.forEach(button => resetBtnsStyles(button));
-    // Set the styles for the clicked button
     const activeButton = document.getElementById(`${level}-btn`);
     activeButton.classList.add(level); // Add the level as a class for styling
     activeButton.querySelector('img').src = `./assets/icons/${level}White.svg`;
@@ -207,6 +195,14 @@ function resetBtnsStyles(button) {
 }
 
 
+/**
+ * Listens for the 'DOMContentLoaded' event to ensure the script runs after the page has fully loaded.
+ * Then, it adds a 'submit' event listener to the document body to handle form submissions.
+ * 
+ * When a form with the ID 'editForm' is submitted:
+ * - Prevents the default form submission behavior, which typically involves a page reload.
+ * - You can add your custom form submission logic here to handle the form data.
+ */
 document.addEventListener('DOMContentLoaded', (event) => {
     document.body.addEventListener('submit', function (event) {
         if (event.target.id === 'editForm') {
@@ -245,8 +241,8 @@ async function saveEditTask(taskId, firebaseId) {
     const updatedTask = createUpdatedTask(originalTask);
     await updateTaskInFirebase(firebaseId, updatedTask);
 
-   // Check if there are subtasks to delete
-    if (subtasksToDelete.length > 0) { 
+    // Check if there are subtasks to delete
+    if (subtasksToDelete.length > 0) {
         for (const subtaskId of subtasksToDelete) {
             try {
                 await deleteData(`tasks/${firebaseId}/Subtasks/${subtaskId}`);
@@ -254,7 +250,6 @@ async function saveEditTask(taskId, firebaseId) {
                 console.error(`Error deleting subtask ${subtaskId}:`, error);
             }
         }
-
         subtasksToDelete = []; // Clear the array after deleting
     }
     closeTaskDetailsPopup();
@@ -289,7 +284,7 @@ function validateSubtasks(originalTask) {
     for (const subtaskId in subtasks) {
         if (subtasks[subtaskId].description.trim() === '') {
             highlightEmptySubtask(subtaskId);
-            return false; 
+            return false;
         }
     }
     return true;
@@ -303,9 +298,8 @@ function validateSubtasks(originalTask) {
  */
 function highlightEmptySubtask(subtaskId) {
     const subtaskItem = document.querySelector(`.subtask-item[data-subtask-id="${subtaskId}"]`);
-    const subtaskInput = subtaskItem.querySelector('.input-field-editing'); 
-    subtaskInput.style.borderBottom = '2px solid rgb(255, 129, 144)'; 
-    console.log('Error: Subtask description cannot be empty.');
+    const subtaskInput = subtaskItem.querySelector('.input-field-editing');
+    subtaskInput.style.borderBottom = '2px solid rgb(255, 129, 144)';
 }
 
 
@@ -321,9 +315,9 @@ function createUpdatedTask(originalTask) {
     updatedTask.Description = document.getElementById('editDescription').value;
     updatedTask.Due_date = document.getElementById('editDueDate').value;
     updatedTask.Prio = currentPriority;
-    updatedTask.Assigned_to = Object.keys(selectedContactsDataEdit).length > 0 
-        ? { ...selectedContactsDataEdit } 
-        : {}; 
+    updatedTask.Assigned_to = Object.keys(selectedContactsDataEdit).length > 0
+        ? { ...selectedContactsDataEdit }
+        : {};
     updatedTask.Subtasks = getSubtasksEditTask(originalTask);
     return updatedTask;
 }
@@ -338,62 +332,69 @@ function createUpdatedTask(originalTask) {
 async function updateTaskInFirebase(firebaseId, updatedTask) {
     try {
         await putData(`tasks/${firebaseId}`, updatedTask);
-        console.log('Task updated successfully!');
     } catch (error) {
         console.error('Error updating task:', error);
     }
 }
 
 
-// /**
-//  * Validates the due date to ensure it's in the correct format (YYYY-MM-DD) and a future date.
-//  *
-//  * @param {string} dueDate - The due date string to validate.
-//  * @returns {string} An error message if the date is invalid, otherwise an empty string.
-//  */
- function validateDueDateEdit(editDueDate) {
-     const datePattern = /^\d{4}-\d{2}-\d{2}$/; // Regular expression for YYYY-MM-DD format
-     if (!datePattern.test(editDueDate)) {
-         return 'Please enter a valid date in YYYY-MM-DD format.';
-     }
-     const today = new Date();
-     const selectedDate = new Date(editDueDate);
-
-     if (selectedDate <= today) {
-         return 'Please enter a future date.';
-     }
-
-     return ''; // No error
- }
+/**
+ * Validates the due date to ensure it's in the correct format (YYYY-MM-DD) and a future date.
+ *
+ * @param {string} dueDate - The due date string to validate.
+ * @returns {string} An error message if the date is invalid, otherwise an empty string.
+ */
+function validateDueDateEdit(editDueDate) {
+    const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+    if (!datePattern.test(editDueDate)) {
+        return 'Please enter a valid date in YYYY-MM-DD format.';
+    }
+    const today = new Date();
+    const selectedDate = new Date(editDueDate);
+    if (selectedDate <= today) {
+        return 'Please enter a future date.';
+    }
+    return ''; // No error
+}
 
 
+/**
+ * Validates the input fields in the edit task form, excluding the 'category' field.
+ * Checks if 'editTitle' and 'editDueDate' fields are empty or if the due date is invalid.
+ * If an error is found, it highlights the field and sets isValid to false.
+ *
+ * @returns {boolean} True if all validated fields are valid, otherwise false.
+ */
 function validateFieldsEditTask() {
+    return validateEditTitle() && validateEditDueDate();
+}
+
+
+/**
+ * Validates the 'editDueDate' input field in the edit task form.
+ * Checks if the field is empty and if the entered date is valid and in the future.
+ * If an error is found, it highlights the field, displays an error message,
+ * and sets isValid to false.
+ *
+ * @returns {boolean} True if the due date field is valid, otherwise false.
+ */
+function validateEditDueDate() {
     let isValid = true;
-    const EditFields = [
-        { id: 'editTitle', element: document.getElementById('editTitle') },
-        { id: 'editDueDate', element: document.getElementById('editDueDate') }
-    ];
-
-    // Filter the fields array to exclude the 'category' field
-    const fieldsToValidateEdit = EditFields.filter(field => field.id !== 'category');
-
-    fieldsToValidateEdit.forEach(field => {
-        if (field.element.value.trim() === "") {
-            (field.fieldElement || field.element).style.border = '1px solid rgba(255, 129, 144, 1)';
-            showErrorMessage(field.element, 'This field is required');
+    const dueDateInput = document.getElementById('editDueDate');
+    if (dueDateInput.value.trim() === "") {
+        dueDateInput.style.border = '1px solid rgba(255, 129, 144, 1)';
+        showErrorMessage(dueDateInput, 'This field is required');
+        isValid = false;
+    } else {
+        const errorMessage = validateDueDateEdit(dueDateInput.value);
+        if (errorMessage) {
+            dueDateInput.style.border = '1px solid rgba(255, 129, 144, 1)';
+            showErrorMessage(dueDateInput, errorMessage);
             isValid = false;
-        } else if (field.id === 'editDueDate') {
-            const errorMessage = validateDueDateEdit(field.element.value);
-            if (errorMessage) {
-                field.element.style.border = '1px solid rgba(255, 129, 144, 1)';
-                showErrorMessage(field.element, errorMessage);
-                isValid = false;
-            }
         } else {
-            (field.fieldElement || field.element).style.border = '1px solid rgba(41, 171, 226, 1)';
-            removeErrorMessage(field.element);
+            dueDateInput.style.border = '1px solid rgba(41, 171, 226, 1)';
+            removeErrorMessage(dueDateInput);
         }
-    });
-
+    }
     return isValid;
 }

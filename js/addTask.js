@@ -394,7 +394,6 @@ async function createTask() {
         // Access the generated firebaseId from the response
         newTask.firebaseId = response.name;
 
-        console.log("Task created successfully:", newTask);
         clearFields();
         showTaskCreatedPopup();
         setTimeout(() => { window.location.href = 'board.html'; }, 2000);
