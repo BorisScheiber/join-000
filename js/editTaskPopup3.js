@@ -14,8 +14,6 @@ async function addSubtaskEditTask() {
     addNewSubtaskToTask(task, newSubtaskId, subtaskText);
     updateSubtaskList(subtaskText, newSubtaskId, task);
     clearSubtaskInput();
-
-    // await saveTaskToFirebase(firebaseId, task);
 }
 
 

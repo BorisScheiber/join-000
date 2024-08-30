@@ -65,7 +65,6 @@
                 <div class="board-section-title">
                     <h2>To do</h2>
                     <button class="board-add-button"  onclick="openAddTaskPopup('to do')"></button>
-                    <!-- /*ADD ONCLICK ISMAIL*/ -->
                 </div>
                 <!-- TODO Container -->
                 <div id="toDo" ondrop="moveTo('toDo')" ondragleave="removeHighlightDragArea('toDo')" ondragover="allowDrop(event); addHighlightDragArea('toDo')" class="board-drag-area-container">
@@ -76,8 +75,6 @@
                 <div class="board-section-title">
                     <h2>In progress</h2>
                     <button class="board-add-button"  onclick="openAddTaskPopup('in progress')"></button>
-                    <!-- /*ADD ONCLICK ISMAIL*/ -->
-
                 </div>
                 <!-- IN PROGRESS Container -->
                 <div id="inProgress" ondrop="moveTo('inProgress')"  ondragleave="removeHighlightDragArea('inProgress')" ondragover="allowDrop(event); addHighlightDragArea('inProgress')" class="board-drag-area-container">
@@ -88,7 +85,6 @@
                 <div class="board-section-title">
                     <h2>Await feedback</h2>
                     <button class="board-add-button" onclick="openAddTaskPopup('await feedback')"></button> 
-                    <!-- /*ADD ONCLICK ISMAIL*/ -->
                 </div>
                 <!-- AWAIT FEEDBACK Container -->
                 <div id="awaitFeedback" ondrop="moveTo('awaitFeedback')"  ondragleave="removeHighlightDragArea('awaitFeedback')" ondragover="allowDrop(event); addHighlightDragArea('awaitFeedback')" class="board-drag-area-container">
@@ -98,7 +94,6 @@
             <div id="scrollToDone" class="board-sections board-done">
                 <div class="board-section-title">
                     <h2>Done</h2>
-                    <!-- <button class="board-add-button"></button> -->
                 </div>
                 <!-- DONE Container -->
                 <div id="done" ondrop="moveTo('done')"  ondragleave="removeHighlightDragArea('done')" ondragover="allowDrop(event); addHighlightDragArea('done')" class="board-drag-area-container">
@@ -109,7 +104,7 @@
             <!-- MOVE TO MOBILE OVERLAY -->
         <div id="moveToMobileOverlay" class="board-move-to-mobile" onclick="closeMoveToMobileIfClickOutside(event)"></div>
 
-        <!-- addTaskPopup  / ISMAIL -->
+        <!-- addTaskPopup -->
         <div id="addTaskPopup" class="addTaskPopup" style="display: none;">
             <div class="popup-content">
                 <img src="./assets/icons/close-contact.svg" alt="Close" class="close-popup" id="closePopup"
@@ -189,8 +184,6 @@
                             <form class="category-section">
                                 <div class="input-group" id="category-groupe">
                                     <label for="category">Category <span class="required">*</span></label>
-                                    <!-- <div class="category-container" id="category-container"> -->
-
                                     <div class="category-field" id="category-field" onclick="toggleCategoryDropdown()">
                                         <button id="toggle-list" class="toggle-list">
                                             <img src="./assets/icons/arrow_drop_down.svg" alt="Dropdown Icon"

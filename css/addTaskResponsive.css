@@ -52,7 +52,6 @@
         justify-content: flex-start;
     }
 
-    /* Reduce font sizes */
     label,
     input,
     textarea {
@@ -231,7 +230,6 @@
     .footer {
         display: flex;
         justify-content: space-between;
-        /* width: 99%; */
         height: 74px;
         padding: 20px 50px;
         position: fixed;
@@ -260,7 +258,6 @@
         right: 0;
         top: 80px;
         background-color: #F6F7F8;
-        /* width: 99%; */
         margin-right: 10px;
         z-index: 20;
     }
@@ -354,7 +351,4 @@
         height: 56px;
         padding: 7px 6px;
     }
-
-
-
 }
