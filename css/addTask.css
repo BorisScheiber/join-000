@@ -756,7 +756,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .subtask-input input {
     width: 100%;
-    padding-right: 74px;
+    padding-right: 74px !important;
 }
 
 .add-icon {
@@ -867,8 +867,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     text-align: left;
     justify-content: space-between;
     padding-left: 20px;
-    line-break: anywhere;
+    /* line-break: anywhere; */
     position: relative;
+    overflow-wrap: break-word;
 }
 
 .reset-icon {

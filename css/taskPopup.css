@@ -196,6 +196,7 @@
 .subtasks {
   display: flex;
   gap: 10px;
+  gap: 4px;
   flex-direction: column;
   padding: 6px 0px;
 }
@@ -212,6 +213,7 @@
   display: flex;
   align-items: center;
   height: 32px;
+  height: fit-content;
   padding: 6px 16px;
   gap: 16px;
   justify-content: flex-start;
@@ -547,6 +549,9 @@
     bottom: 16px !important;
     right: 24px !important;
     width: 89px;
+  }
+  .edit-task-ok-button p {
+    font-size: 20px;
   }
 }
 
