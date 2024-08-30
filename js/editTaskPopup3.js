@@ -15,7 +15,7 @@ async function addSubtaskEditTask() {
     updateSubtaskList(subtaskText, newSubtaskId, task);
     clearSubtaskInput();
 
-    await saveTaskToFirebase(firebaseId, task);
+    // await saveTaskToFirebase(firebaseId, task);
 }
 
 
@@ -86,22 +86,6 @@ function clearSubtaskInput() {
     const subtaskInput = document.getElementById('subtask-input-edit');
     subtaskInput.value = '';
     toggleEditDeleteVisibilityEditTask();
-}
-
-
-/**
- * Saves the updated task to Firebase.
- * 
- * @param {string} firebaseId - The Firebase ID of the task.
- * @param {Object} task - The updated task object.
- */
-async function saveTaskToFirebase(firebaseId, task) {
-    try {
-        await putData(`tasks/${firebaseId}`, task);
-        console.log('Subtask added successfully!');
-    } catch (error) {
-        console.error('Error adding subtask:', error);
-    }
 }
 
 

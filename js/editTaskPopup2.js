@@ -1,3 +1,5 @@
+
+
 /**
  * Handles the input event on input fields, resetting the border color and removing error messages.
  *
@@ -182,21 +184,19 @@ function updateSelectedContactsEdit() {
  * @returns {Object} An object containing the updated subtask data.
  */
 function getSubtasksEditTask(originalTask) {
-    const subtasks = {};
-    const subtaskItems = document.querySelectorAll("#subtask-list-edit .subtask-item");
-
-    subtaskItems.forEach(item => {
-        const subtaskTextDiv = item.querySelector('.subtask-text');
-        const subtaskInput = item.querySelector('.subtask-edit-input');
-        const subtaskId = item.dataset.subtaskId;
-        const subtaskText = subtaskInput ? subtaskInput.value.trim() : subtaskTextDiv.innerText.trim();
-        const isChecked = originalTask.Subtasks[subtaskId]?.isChecked || false;
-
-        subtasks[subtaskId] = { id: subtaskId, description: subtaskText, isChecked: isChecked };
+    const subtasks = { ...originalTask.Subtasks };
+    document.querySelectorAll("#subtask-list-edit .subtask-item").forEach(item => {
+      const subtaskText = item.querySelector('.subtask-edit-input')?.value.trim() 
+                         || item.querySelector('.subtask-text')?.innerText.trim() || '';
+      const subtaskId = item.dataset.subtaskId;
+      if (subtasks[subtaskId]) {
+        subtasks[subtaskId].description = subtaskText;
+      } else {
+        subtasks[subtaskId] = { id: subtaskId, description: subtaskText, isChecked: false };
+      }
     });
-
     return subtasks;
-}
+  }
 
 
 /**
@@ -234,7 +234,8 @@ function saveSubtaskEditTask(element) {
     }
     subtaskInput.style.borderBottom = ''; // Reset border
     li.innerHTML = generateSavedSubtaskHTML(newText, originalText);
-    updateSubtaskInFirebase(li, newText);
+    //  updateSubtaskInFirebase(li, newText);
+
 }
 
 
@@ -298,44 +299,20 @@ function editSubtaskEditTask(element, originalText) {
 
 
 /**
- * Generates the HTML for editing a subtask in the edit task popup.
- * Includes an input field for the new subtask text and buttons for saving and deleting.
- * 
- * @param {string} subtaskText - The current text of the subtask being edited.
- * @returns {string} The HTML string for the edit subtask form.
- */
-function generateEditSubtaskHTMLEditTask(subtaskText) {
-    return `
-      <input type="text" class="input-field-editing" value="${subtaskText}">
-      <div class="edit-delete">
-        <img src="./assets/icons/done.svg" alt="Done" onclick="saveSubtaskEditTask(this)">
-        <div class="vertical-line"></div>
-        <img src="./assets/icons/delete.svg" alt="Delete" onclick="deleteSubtaskEditTask(this)">
-      </div>
-    `;
-}
-
-
-/**
  * Deletes a subtask from the edit task popup and updates Firebase.
  * 
  * @param {HTMLElement} element - The element that triggered the delete action (e.g., the delete icon).
- * @param {string} firebaseId - The Firebase ID of the parent task.
  */
-async function deleteSubtaskEditTask(element, firebaseId) {
+async function deleteSubtaskEditTask(element) {
     const listItem = element.closest('.subtask-item');
     const subtaskId = listItem.dataset.subtaskId;
 
-    try {
-        // Delete the subtask from Firebase
-        await deleteData(`tasks/${firebaseId}/Subtasks/${subtaskId}`);
+    // Add the subtask ID to the array for later deletion
+    subtasksToDelete.push(subtaskId);
 
-        // Update the UI by removing the list item
-        listItem.remove();
+    // Update the UI by removing the list item
+    listItem.remove();
 
-        console.log('Subtask deleted successfully!');
-    } catch (error) {
-        console.error('Error deleting subtask:', error);
-        // Handle the error appropriately, e.g., show an error message to the user
-    }
+    console.log('Subtask marked for deletion (will be deleted on save).');
+
 }

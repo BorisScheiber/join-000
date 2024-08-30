@@ -209,6 +209,8 @@ function closeTaskDetailsPopup() {
     setTimeout(() => {
         popup.style.display = 'none';
     }, 400);
+
+    subtasksToDelete = []; // Clear the array when the popup closes
 }
 
 
