@@ -105,6 +105,32 @@ function checkForDuplicates(email) {
 
 
 /**
+ * Checks if the provided email is a duplicate and updates the UI accordingly.
+ * This function:
+ * 1. Checks if the email already exists.
+ * 2. Displays an error message and highlights the input field if a duplicate is found.
+ * @param {string} email - The email address to check for duplicates.
+ * @returns {boolean} - Returns true if a duplicate is found, otherwise false.
+ */
+function checkForDuplicatesEdit(email) {
+    let hasError = false;
+    const emailInputField = document.getElementById('contactMailAdress');
+    if (isEmailDuplicate(email)) {
+        setErrorMessage('emailError', 'This email address is already taken.');
+        if (emailInputField) {
+            emailInputField.classList.add('input-error');
+        }
+        hasError = true;
+    } else {
+        if (emailInputField) {
+            emailInputField.classList.remove('input-error');
+        }
+    }
+    return hasError;
+}
+
+
+/**
  * Processes the creation of a new contact.
  * This function generates a unique ID for the new contact, creates a contact object,
  * and then performs the following operations:
@@ -181,17 +207,15 @@ function successfullCreationContact() {
 
 
 /**
- * Saves the edited contact information and updates related data.
- * This function performs the following steps:
- * 1. Retrieves the input values for the contact from the form fields.
- * 2. Validates the input values.
- * 3. Retrieves the original contact ID.
- * 4. Creates the updated contact data object.
- * 5. Attempts to save the updated contact data in the database and related tasks.
- * 6. Updates the contact list in the UI and closes the edit form.
- * 7. Reloads the page to reflect the changes.
- * If any errors occur during the process, they are logged to the console.
- * @returns {Promise<void>} A promise that resolves when all operations are completed.
+ * Saves the edited contact details after validating inputs and checking for duplicate email addresses.
+ * If the email is a duplicate or inputs are invalid, the process will be halted.
+ * This function:
+ * 1. Retrieves the contact details from input fields.
+ * 2. Validates the inputs.
+ * 3. Checks for duplicate email addresses.
+ * 4. Updates the contact in the database and tasks if no errors are found.
+ * 5. Reloads the page after successful update.
+ * @returns {void}
  */
 async function saveEditingContact() {
     const name = document.getElementById('contactName').value;
@@ -200,6 +224,11 @@ async function saveEditingContact() {
     const isValid = validateContactInputs(name, email, phone, 'edit');
     if (!isValid) {
         console.error('Please fix the errors before saving.');
+        return;
+    }
+    const isDuplicate = checkForDuplicatesEdit(email);
+    if (isDuplicate) {
+        console.error('Duplicate email address detected.');
         return;
     }
     const originalContactId = getOriginalContactId();
