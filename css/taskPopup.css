@@ -66,6 +66,7 @@
 
 .edit-task-details-content {
   padding: 72px 20px 101px 20px;
+  animation: unset;
 }
 
 .hidden {
