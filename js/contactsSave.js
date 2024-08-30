@@ -171,17 +171,23 @@ function generateRandomId() {
  * @function
  */
 function successfullCreationContact() {
-    let overlay = document.getElementById('createContactSuccessfull');
-    let container = overlay.querySelector('.create-contact-successfull-container');
-    overlay.style.display = 'flex';
-    container.style.animation = 'slideInFromRight 0.4s forwards';
-    setTimeout(() => {
-        container.style.animation = 'slideOutToRight 0.4s forwards';
+    return new Promise((resolve) => {
+        let overlay = document.getElementById('createContactSuccessfull');
+        let container = overlay.querySelector('.create-contact-successfull-container');
+        overlay.style.display = 'flex';
+        container.style.animation = 'slideInFromRight 0.4s forwards';
+
         setTimeout(() => {
-            overlay.style.display = 'none';
-            container.style.animation = '';
-        }, 400);
-    }, 1500);
+            container.style.animation = 'slideOutToRight 0.4s forwards';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                container.style.animation = '';
+                resolve();  // Promise wird aufgelöst, wenn die Animation abgeschlossen ist
+                // Seite neu laden, nachdem die Animation abgeschlossen ist
+                location.reload();
+            }, 400);  // Dauer der Slide-Out-Animation
+        }, 1500);  // Dauer der Anzeige der Erfolgsnachricht
+    });
 }
 
 
