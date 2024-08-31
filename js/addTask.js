@@ -16,17 +16,39 @@ function toggleContactList() {
     const dropdownIcon = toggleButton.querySelector(".dropdown-icon");
     contactList.classList.toggle("hidden");
     if (contactList.classList.contains("hidden")) {
-        contactSearch.style.borderRadius = "10px";
-        dropdownIcon.src = "./assets/icons/arrow_drop_down.svg";
-        selectedContacts.style.display = "flex";
-        document.removeEventListener('click', closeContactListOnClickOutside);
-        contactSearch.value = '';
+        hideContactList(contactSearch, dropdownIcon, selectedContacts);
     } else {
-        contactSearch.style.borderRadius = "10px 10px 0 0";
-        dropdownIcon.src = "./assets/icons/arrow_drop_up.svg";
-        selectedContacts.style.display = "none";
-        document.addEventListener('click', closeContactListOnClickOutside);
+        showContactList(contactSearch, dropdownIcon, selectedContacts);
     }
+}
+
+
+/**
+ * Hides the contact list and updates related elements.
+ * @param {HTMLElement} contactSearch - The contact search input element.
+ * @param {HTMLElement} dropdownIcon - The dropdown icon element.
+ * @param {HTMLElement} selectedContacts - The selected contacts container element.
+ */
+function hideContactList(contactSearch, dropdownIcon, selectedContacts) {
+    contactSearch.style.borderRadius = "10px";
+    dropdownIcon.src = "./assets/icons/arrow_drop_down.svg";
+    selectedContacts.style.display = "flex";
+    document.removeEventListener('click', closeContactListOnClickOutside);
+    contactSearch.value = '';
+}
+
+
+/**
+ * Shows the contact list and updates related elements.
+ * @param {HTMLElement} contactSearch - The contact search input element.
+ * @param {HTMLElement} dropdownIcon - The dropdown icon element.
+ * @param {HTMLElement} selectedContacts - The selected contacts container element.
+ */
+function showContactList(contactSearch, dropdownIcon, selectedContacts) {
+    contactSearch.style.borderRadius = "10px 10px 0 0";
+    dropdownIcon.src = "./assets/icons/arrow_drop_up.svg";
+    selectedContacts.style.display = "none";
+    document.addEventListener('click', closeContactListOnClickOutside);
 }
 
 
@@ -264,20 +286,27 @@ function validateDueDate(dueDate) {
 
 
 /**
- * Validates all input fields in the form.
+ * Validates all input fields in the form except for the category field.
  *
  * @returns {boolean} True if all fields are valid, otherwise false.
  */
 function validateFields() {
+    return validateTitleDueDate() && validateCategory();
+}
+
+
+/**
+ * Validates the title and due date input fields in the form.
+ *
+ * @returns {boolean} True if both fields are valid, otherwise false.
+ */
+function validateTitleDueDate() {
     let isValid = true;
-    fields.forEach(field => {
+    const fieldsToValidate = fields.filter(field => field.id !== 'category');
+    fieldsToValidate.forEach(field => {
         if (field.element.value.trim() === "") {
             (field.fieldElement || field.element).style.border = '1px solid rgba(255, 129, 144, 1)';
-            if (field.id === 'category') {
-                showErrorMessageCategory('This field is required');
-            } else {
-                showErrorMessage(field.element, 'This field is required');
-            }
+            showErrorMessage(field.element, 'This field is required');
             isValid = false;
         } else if (field.id === 'due-date') {
             const errorMessage = validateDueDate(field.element.value);
@@ -288,13 +317,30 @@ function validateFields() {
             }
         } else {
             (field.fieldElement || field.element).style.border = '1px solid rgba(41, 171, 226, 1)';
-            if (field.id === 'category') {
-                removeErrorMessageCategory();
-            } else {
-                removeErrorMessage(field.element);
-            }
+            removeErrorMessage(field.element);
         }
     });
+    return isValid;
+}
+
+
+/**
+ * Validates the category input field in the form.
+ *
+ * @returns {boolean} True if the field is valid, otherwise false.
+ */
+function validateCategory() {
+    const categoryField = fields.find(field => field.id === 'category');
+    let isValid = true;
+
+    if (categoryField.element.value.trim() === "") {
+        (categoryField.fieldElement || categoryField.element).style.border = '1px solid rgba(255, 129, 144, 1)';
+        showErrorMessageCategory('This field is required');
+        isValid = false;
+    } else {
+        (categoryField.fieldElement || categoryField.element).style.border = '1px solid rgba(41, 171, 226, 1)';
+        removeErrorMessageCategory();
+    }
     return isValid;
 }
 
@@ -359,28 +405,3 @@ async function postData(path = "", data = {}) {
     return responseAsJson = await response.json();
 }
 
-
-/**
- * Creates a new task object and saves it to Firebase.
- */
-async function createTask() {
-    if (!validateFields()) return;
-    const assignedContacts = await getAssignedContacts();
-    const assignedContactsWithIds = {};
-    assignedContacts.forEach(contact => {
-        const generatedId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-        assignedContactsWithIds[generatedId] = contact;
-    });
-    const newTask = {
-        timestamp: Date.now(), id: Date.now(), Title: document.getElementById('title').value.trim(), Description: document.getElementById('description').value.trim(), Assigned_to: assignedContactsWithIds, Due_date: document.getElementById('due-date').value, Prio: currentPriority, Category: document.getElementById('category').value.trim(), Subtasks: getSubtasks(), Status: 'to do'
-    };
-    try {
-        const response = await postData("tasks", newTask);
-        newTask.firebaseId = response.name;
-        clearFields();
-        showTaskCreatedPopup();
-        setTimeout(() => { window.location.href = 'board.html'; }, 2000);
-    } catch (error) {
-        console.error("Error creating task:", error);
-    }
-}

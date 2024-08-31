@@ -1,4 +1,24 @@
 /**
+ * Creates a new task object with the status "To do" and saves it to Firebase.
+ * This function is called when the "Create task" button is clicked in the popup.
+ */
+async function createTask() {
+    if (!validateFields()) return;
+    const newTask = await buildNewTaskObject('to do'); // Default status is 'to do'
+    try {
+        const response = await postData("tasks", newTask);
+        newTask.firebaseId = response.name;
+        clearFields();
+        showTaskCreatedPopup();
+        setTimeout(() => { window.location.href = 'board.html'; }, 2000);
+    } catch (error) {
+        console.error("Error creating task:", error);
+    }
+    
+}
+
+
+/**
  * Gets an array of objects representing the assigned contacts, each with name and ID and color.
  * It fetches contact data from Firebase and matches the selected contact names with their IDs and color.
  *
@@ -187,7 +207,6 @@ function getPriorityColor(level) {
 }
 
 
-// For Category
 /**
  * Shows an error message for the category field.
  *
@@ -232,7 +251,6 @@ function selectCategory(category) {
 }
 
 
-// Optionale Initialisierung um sicherzustellen, dass das Icon beim Laden korrekt gesetzt wird
 /**
  * Ensures the category dropdown icon is set correctly on page load.
  * If the dropdown is displayed, it sets the icon to 'arrow_drop_up.svg', otherwise to 'arrow_drop_down.svg'.
@@ -262,7 +280,6 @@ document.addEventListener('click', function (event) {
 });
 
 
-// // For subtasks
 /**
  * Adds a new subtask to the subtask list.
  */
@@ -349,4 +366,3 @@ function resetSubtaskInput() {
     subtaskInput.value = '';
     toggleEditDeleteVisibility();
 }
-
