@@ -14,16 +14,13 @@ function toggleContactList() {
     const selectedContacts = document.getElementById("selected-contacts");
     const toggleButton = document.getElementById("toggle-list");
     const dropdownIcon = toggleButton.querySelector(".dropdown-icon");
-
-    // Use classList.toggle to consistently manage the hidden class
     contactList.classList.toggle("hidden");
     if (contactList.classList.contains("hidden")) {
         contactSearch.style.borderRadius = "10px";
         dropdownIcon.src = "./assets/icons/arrow_drop_down.svg";
         selectedContacts.style.display = "flex";
         document.removeEventListener('click', closeContactListOnClickOutside);
-        contactSearch.value = ''; // Clear the search field
-
+        contactSearch.value = '';
     } else {
         contactSearch.style.borderRadius = "10px 10px 0 0";
         dropdownIcon.src = "./assets/icons/arrow_drop_up.svg";
@@ -43,12 +40,10 @@ function filterContacts() {
         const name = item.textContent.toLowerCase();
         item.style.display = name.includes(searchTerm) ? "" : "none";
     });
-
-    // Öffne die Liste, wenn sie versteckt ist
     const contactList = document.getElementById("contact-list");
     const isListOpen = !contactList.classList.contains("hidden");
     if (!isListOpen) {
-        toggleContactList(); // Liste öffnen
+        toggleContactList();
     }
 }
 
@@ -63,13 +58,12 @@ function closeContactListOnClickOutside(event) {
     const contactSearch = document.getElementById("contact-search");
     const toggleButton = document.getElementById("toggle-list");
     const selectedContacts = document.getElementById("selected-contacts");
-
     if (!contactList.contains(event.target) &&
         !contactSearch.contains(event.target) &&
         !toggleButton.contains(event.target)) {
-        toggleContactList(); // Liste schließen
-        selectedContacts.style.display = "flex"; // Selected Contacts anzeigen
-        contactSearch.value = ''; // Clear the search field
+        toggleContactList();
+        selectedContacts.style.display = "flex";
+        contactSearch.value = '';
     }
 }
 
@@ -86,8 +80,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (contactsData) {
             const firebaseContacts = Object.values(contactsData);
             firebaseContacts.forEach(contact => createContactItem(contact, contactList));
-        } else {
-            console.log("No contacts found in Firebase.");
         }
     } catch (error) {
         console.error("Error fetching contacts:", error);
@@ -139,14 +131,11 @@ document.getElementById("contact-list").addEventListener("click", (event) => {
  */
 function updateSelectedContacts() {
     const selectedContacts = document.getElementById("selected-contacts");
-    selectedContacts.innerHTML = ''; // Clear the existing content
-
+    selectedContacts.innerHTML = '';
     const selectedCheckboxes = document.querySelectorAll("#contact-list .contact-checkbox.checked");
     selectedCheckboxes.forEach(checkbox => {
         const contactItem = checkbox.parentElement;
         const logo = contactItem.querySelector(".contact-logo");
-
-        // Create the selected contact element directly using innerHTML
         selectedContacts.innerHTML += `
             <div class="selected-contact" style="background-color: ${logo.dataset.background}">
                 ${logo.innerText}
@@ -156,10 +145,9 @@ function updateSelectedContacts() {
 }
 
 
-// Open dropdown when typing in search field
 document.getElementById('contact-search').addEventListener('input', function () {
     document.getElementById('contact-list').style.display = 'block';
-    filterContacts(); // Assuming this function filters contacts based on input
+    filterContacts();
 });
 
 
@@ -262,18 +250,16 @@ function removeErrorMessage(field) {
  * @returns {string} An error message if the date is invalid, otherwise an empty string.
  */
 function validateDueDate(dueDate) {
-    const datePattern = /^\d{4}-\d{2}-\d{2}$/; // Regular expression for YYYY-MM-DD format
+    const datePattern = /^\d{4}-\d{2}-\d{2}$/;
     if (!datePattern.test(dueDate)) {
         return 'Please enter a valid date in YYYY-MM-DD format.';
     }
     const today = new Date();
     const selectedDate = new Date(dueDate);
-
     if (selectedDate <= today) {
         return 'Please enter a future date.';
     }
-
-    return ''; // No error
+    return '';
 }
 
 
@@ -288,7 +274,7 @@ function validateFields() {
         if (field.element.value.trim() === "") {
             (field.fieldElement || field.element).style.border = '1px solid rgba(255, 129, 144, 1)';
             if (field.id === 'category') {
-                showErrorMessageCategory('This field is required'); // Use showErrorMessageCategory
+                showErrorMessageCategory('This field is required');
             } else {
                 showErrorMessage(field.element, 'This field is required');
             }
@@ -303,7 +289,7 @@ function validateFields() {
         } else {
             (field.fieldElement || field.element).style.border = '1px solid rgba(41, 171, 226, 1)';
             if (field.id === 'category') {
-                removeErrorMessageCategory(); // Use removeErrorMessageCategory
+                removeErrorMessageCategory();
             } else {
                 removeErrorMessage(field.element);
             }
@@ -333,11 +319,10 @@ document.getElementById('recipeForm').onsubmit = function (event) {
  */
 function showErrorMessage(field, message) {
     let errorElement = field.nextElementSibling;
-    // Check if an error message element already exists
     if (!errorElement || !errorElement.classList.contains('error-message')) {
         errorElement = document.createElement('div');
         errorElement.className = 'error-message';
-        field.parentNode.insertBefore(errorElement, field.nextSibling); // Insert after the field
+        field.parentNode.insertBefore(errorElement, field.nextSibling);
     }
     errorElement.textContent = message;
 }
@@ -390,10 +375,8 @@ async function createTask() {
         timestamp: Date.now(), id: Date.now(), Title: document.getElementById('title').value.trim(), Description: document.getElementById('description').value.trim(), Assigned_to: assignedContactsWithIds, Due_date: document.getElementById('due-date').value, Prio: currentPriority, Category: document.getElementById('category').value.trim(), Subtasks: getSubtasks(), Status: 'to do'
     };
     try {
-        const response = await postData("tasks", newTask); // Store the response
-        // Access the generated firebaseId from the response
+        const response = await postData("tasks", newTask);
         newTask.firebaseId = response.name;
-
         clearFields();
         showTaskCreatedPopup();
         setTimeout(() => { window.location.href = 'board.html'; }, 2000);

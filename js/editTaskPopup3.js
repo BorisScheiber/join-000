@@ -4,13 +4,10 @@
 async function addSubtaskEditTask() {
     const subtaskText = getSubtaskText();
     if (subtaskText === '') return;
-
     const { taskId, firebaseId } = getTaskIds();
     const newSubtaskId = generateSubtaskId();
-
     const task = await getTaskByIdToEdit(taskId);
     if (!task) return;
-
     addNewSubtaskToTask(task, newSubtaskId, subtaskText);
     updateSubtaskList(subtaskText, newSubtaskId, task);
     clearSubtaskInput();

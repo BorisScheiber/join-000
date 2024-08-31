@@ -83,14 +83,11 @@ async function updateTaskStatus(firebaseId, newStatus) {
  */
 async function moveTo(dropContainerId) {
   if (!currentDraggedElement) return;
-
   let firebaseId = getFirebaseIdByTaskId(currentDraggedElement);
   let newStatus = getStatusFromDropContainerId(dropContainerId);
-
   if (newStatus) {
     await updateTaskStatus(firebaseId, newStatus);
   }
-
   await updateBoard();
   removeHighlightDragArea(dropContainerId);
   currentDraggedElement = null;
@@ -136,7 +133,6 @@ function removeHighlightDragArea(id) {
 function searchTasks() {
   let searchField = document.getElementById("boardSearchInput").value.toLowerCase();
   let taskCards = document.querySelectorAll(".board-cards");
-
   if (searchField === "") {
     showAllTasks(taskCards);
     hideNoResultsError();
@@ -178,16 +174,13 @@ function updateTaskVisibility(taskCard, shouldShow) {
  */
 function filterTasks(searchField, taskCards) {
   let matchFound = false;
-
   taskCards.forEach(taskCard => {
     let title = taskCard.querySelector(".board-card-title").innerText.toLowerCase();
     let description = taskCard.querySelector(".board-card-description").innerText.toLowerCase();
     let isMatch = title.includes(searchField) || description.includes(searchField);
-
     updateTaskVisibility(taskCard, isMatch);
     if (isMatch) matchFound = true;
   });
-
   matchFound ? hideNoResultsError() : showNoResultsError();
 }
   
@@ -219,7 +212,6 @@ function hideNoResultsError() {
 function renderMoveToMobileOverlay(taskId) {
   let overlayContainer = document.getElementById("moveToMobileOverlay");
   overlayContainer.innerHTML = "";
-
   overlayContainer.innerHTML = generateMoveToMobileOverlayHtml(taskId);
 }
   
@@ -232,7 +224,7 @@ function renderMoveToMobileOverlay(taskId) {
 function closeMoveToMobileIfClickOutside(event) {
   let card = document.querySelector('.board-move-to-mobile-card');
     if (!card.contains(event.target)) {
-        closeMoveToMobileOverlay();
+        closeMoveToMobileOevrlay();
     }
 }
   
@@ -249,7 +241,6 @@ function openMoveToMobileOverlay(event, taskId) {
   renderMoveToMobileOverlay(taskId); 
   let overlay = document.getElementById("moveToMobileOverlay");
   let card = overlay.querySelector('.board-move-to-mobile-card');
-
   rotateTask(taskId);
   showMoveToOverlay(overlay, card);
 }
@@ -261,9 +252,7 @@ function openMoveToMobileOverlay(event, taskId) {
 function closeMoveToMobileOverlay() {
   let overlay = document.getElementById("moveToMobileOverlay");
   let card = overlay.querySelector('.board-move-to-mobile-card');
-
   hideMoveToOverlay(overlay, card);
-
   if (currentDraggedElementMobile) {
     resetRotateTaskMobile(currentDraggedElementMobile);
     currentDraggedElementMobile = null;
@@ -295,7 +284,6 @@ function hideMoveToOverlay(overlay, card) {
   card.classList.add('slideOutMoveToMobile'); 
   overlay.classList.remove('fadeInMoveToMobile'); 
   overlay.classList.add('fadeOutMoveToMobile'); 
-
   setTimeout(() => {
       overlay.style.display = "none"; 
       overlay.classList.remove('fadeOutMoveToMobile'); 
@@ -313,7 +301,6 @@ function hideMoveToOverlay(overlay, card) {
  */
 async function moveTaskToMobile(status, taskId) {
   let firebaseId = getFirebaseIdByTaskId(taskId);
-
   if (firebaseId) {
       await updateTaskStatusInFirebase(firebaseId, status);
       await updateBoard();
@@ -330,7 +317,6 @@ async function moveTaskToMobile(status, taskId) {
 function scrollToSection() {
   let urlParams = new URLSearchParams(window.location.search);
   let scrollTo = urlParams.get('scrollTo');
-
 if (scrollTo) {
     let targetElement = document.getElementById(scrollTo);
     if (targetElement) {

@@ -15,7 +15,6 @@ function openAddTaskPopup(taskStatus) {
     popup.classList.remove('hidden');
     document.getElementById('add-task-mobile').classList.add('nav-mobile-links-active');
     document.getElementById('board-mobile').classList.remove('nav-mobile-links-active');
-
     switch (taskStatus) {
         case 'in progress':
             createTaskFunction = createTaskInProgress;
@@ -38,7 +37,6 @@ function closeAddTaskPopup() {
     let popup = document.getElementById('addTaskPopup');
     popup.classList.add('hidden'); 
     popup.classList.remove('show');
-
     setTimeout(() => {
         popup.style.display = 'none'; 
     }, 400); 
@@ -61,14 +59,12 @@ window.addEventListener('click', (event) => {
  */
 async function createTaskAwaitFeedback() {
     if (!validateFields()) return;
-
     const assignedContacts = await getAssignedContacts();
     const assignedContactsWithIds = {};
     assignedContacts.forEach(contact => {
         const generatedId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
         assignedContactsWithIds[generatedId] = contact;
     });
-
     const newTask = { 
         timestamp: Date.now(),
         id: Date.now(), 
@@ -81,14 +77,9 @@ async function createTaskAwaitFeedback() {
         Subtasks: getSubtasks(), 
         Status: 'await feedback' 
     };
-
     try {
-        const response = await postData("tasks", newTask); // Store the response
-
-        // Access the generated firebaseId from the response
+        const response = await postData("tasks", newTask);
         newTask.firebaseId = response.name; 
-
-        console.log("Task created successfully:", newTask);
         clearFields();
         showTaskCreatedPopup();
         setTimeout(() => { window.location.href = 'board.html'; }, 2000);
@@ -105,14 +96,12 @@ async function createTaskAwaitFeedback() {
  */
 async function createTaskInProgress() {
     if (!validateFields()) return;
-
     const assignedContacts = await getAssignedContacts();
     const assignedContactsWithIds = {};
     assignedContacts.forEach(contact => {
         const generatedId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
         assignedContactsWithIds[generatedId] = contact;
     });
-
     const newTask = { 
         timestamp: Date.now(),
         id: Date.now(), 
@@ -125,14 +114,9 @@ async function createTaskInProgress() {
         Subtasks: getSubtasks(), 
         Status: 'in progress' 
     };
-
     try {
-        const response = await postData("tasks", newTask); // Store the response
-
-        // Access the generated firebaseId from the response
-        newTask.firebaseId = response.name; 
-
-        console.log("Task created successfully:", newTask);
+        const response = await postData("tasks", newTask);
+        newTask.firebeId = response.name; 
         clearFields();
         showTaskCreatedPopup();
         setTimeout(() => { window.location.href = 'board.html'; }, 2000);

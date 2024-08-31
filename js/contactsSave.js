@@ -105,32 +105,6 @@ function checkForDuplicates(email) {
 
 
 /**
- * Checks if the provided email is a duplicate and updates the UI accordingly.
- * This function:
- * 1. Checks if the email already exists.
- * 2. Displays an error message and highlights the input field if a duplicate is found.
- * @param {string} email - The email address to check for duplicates.
- * @returns {boolean} - Returns true if a duplicate is found, otherwise false.
- */
-// function checkForDuplicatesEdit(email) {
-//     let hasError = false;
-//     const emailInputField = document.getElementById('contactMailAdress');
-//     if (isEmailDuplicate(email)) {
-//         setErrorMessage('emailError', 'This email address is already taken.');
-//         if (emailInputField) {
-//             emailInputField.classList.add('input-error');
-//         }
-//         hasError = true;
-//     } else {
-//         if (emailInputField) {
-//             emailInputField.classList.remove('input-error');
-//         }
-//     }
-//     return hasError;
-// }
-
-
-/**
  * Processes the creation of a new contact.
  * This function generates a unique ID for the new contact, creates a contact object,
  * and then performs the following operations:
@@ -226,11 +200,6 @@ async function saveEditingContact() {
         console.error('Please fix the errors before saving.');
         return;
     }
-    // const isDuplicate = checkForDuplicatesEdit(email);
-    // if (isDuplicate) {
-    //     console.error('Duplicate email address detected.');
-    //     return;
-    // }
     const originalContactId = getOriginalContactId();
     if (!originalContactId) {
         console.error('Original Contact ID is undefined.');

@@ -32,7 +32,6 @@ async function addNewUser(newUser) {
   let usersResponse = await getData("users");
   let userKeysArray = usersResponse ? Object.keys(usersResponse) : [];
   let newUserId = userKeysArray.length;
-
   await fetch(`${BASE_URL}users/${newUserId}.json`, {
     method: "PUT",
     headers: {
@@ -56,7 +55,6 @@ function updateIconOnInput(inputField) {
   let passwordValue = inputField.value;
   let inputIconDiv = inputField.nextElementSibling;
   let inputFieldImg = inputIconDiv.querySelector("img");
-
   if (passwordValue === "") {
     inputFieldImg.src = "./assets/icons/lock.svg";
     inputFieldImg.classList.remove("cursor-pointer");
@@ -206,7 +204,6 @@ function setUserInitials() {
   let userName = document.getElementById("name").value.toLowerCase();
   let nameParts = userName.split(" ");
   let initials = nameParts.map((part) => part.charAt(0).toUpperCase()).join("");
-
   return initials;
 }
 
@@ -220,7 +217,6 @@ function formatUserName() {
   let userNameInput = document.getElementById("name");
   let userName = userNameInput.value.trim();
   let formattedUserName = userName.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
-
   return formattedUserName;
 }
 

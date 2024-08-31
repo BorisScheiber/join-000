@@ -91,7 +91,6 @@ function filterContactsEdit() {
         const name = item.textContent.toLowerCase();
         item.style.display = name.includes(searchTerm) ? "" : "none";
     });
-
     const contactList = document.getElementById("contact-list-edit");
     const isListOpen = !contactList.classList.contains("hidden");
     if (!isListOpen) {
@@ -110,13 +109,12 @@ function closeContactListOnClickOutsideEdit(event) {
     const contactSearch = document.getElementById("contact-search-edit");
     const toggleButton = document.getElementById("toggle-list-edit");
     const selectedContacts = document.getElementById("selected-contacts-edit");
-
     if (!contactList.contains(event.target) &&
         !contactSearch.contains(event.target) &&
         !toggleButton.contains(event.target)) {
-        toggleContactListEdit(); // Liste schließen
-        selectedContacts.style.display = "flex"; // Selected Contacts anzeigen
-        contactSearch.value = ''; // Clear the search field
+        toggleContactListEdit();
+        selectedContacts.style.display = "flex";
+        contactSearch.value = '';
     }
 }
 
@@ -253,7 +251,7 @@ function saveSubtaskEditTask(element) {
         handleEmptySubtask(li);
         return;
     }
-    subtaskInput.style.borderBottom = ''; // Reset border
+    subtaskInput.style.borderBottom = '';
     li.innerHTML = generateSavedSubtaskHTML(newText, originalText);
 }
 
@@ -304,10 +302,7 @@ async function updateSubtaskInFirebase(li, newText) {
  */
 function editSubtaskEditTask(element, originalText) {
     const li = element.closest('li');
-
-    // Store the original text as a data attribute on the li element
     li.dataset.originalText = originalText;
-
     li.innerHTML = generateEditSubtaskHTMLEditTask(originalText);
     const subtaskInput = li.querySelector('input');
     subtaskInput.focus();
@@ -324,5 +319,4 @@ async function deleteSubtaskEditTask(element) {
     const subtaskId = listItem.dataset.subtaskId;
     subtasksToDelete.push(subtaskId);
     listItem.remove();
-
 }

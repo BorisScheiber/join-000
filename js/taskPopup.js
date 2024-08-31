@@ -13,18 +13,9 @@ async function openTaskDetails(taskId) {
         console.error('Task not found!');
         return;
     }
-    // Log task details after it is fetched
-    console.log('Fetched task:', task);
-    console.log('Assigned_to data:', task.Assigned_to);
-
-    // Call the function to generate the HTML content
     const popupHTML = generateTaskDetailsPopupHTML(task);
-
-    // Get the popup element and set its content
     let popup = document.getElementById('taskDetailsPopup');
     popup.innerHTML = popupHTML;
-
-    // Show the popup
     popup.style.display = 'flex';
     popup.classList.add('show');
     popup.classList.remove('hidden');
@@ -43,7 +34,7 @@ function checkSingleTaskCategoryPopup(category) {
     } else if (category === 'User Story') {
         return 'user-story';
     } else {
-        return ''; // Default class if needed
+        return '';
     }
 }
 
@@ -63,7 +54,7 @@ function getPriorityIcon(priority) {
         case 'low':
             return `<p>Low</p><img src="./assets/icons/priorityLow.svg" alt="Low Priority">`;
         default:
-            return ''; // Or a default icon
+            return '';
     }
 }
 
@@ -77,13 +68,12 @@ function getPriorityIcon(priority) {
  */
 function displayAssignedContacts(contacts) {
     if (!contacts || Object.keys(contacts).length === 0) {
-        return '<p class="no-assigned">No one.</p>'; // Return a paragraph if no contacts
+        return '<p class="no-assigned">No one.</p>';
     }
     let html = '';
     for (const contactId in contacts) {
         const contact = contacts[contactId];
         const initials = contact.name.split(' ').map(part => part.charAt(0)).join('');
-
         html += /*html*/ `
         <div class="contact-item-assigned">
           <div class="contact-logo" style="background-color: ${contact.color}">${initials}</div>
@@ -102,7 +92,7 @@ function displayAssignedContacts(contacts) {
  * @param {Object} subtasks - An object containing the subtasks for the task.
  * @returns {string} The HTML string for displaying the subtasks.
  */
-function displaySubtasks(subtasks) { // Make sure subtasks is a parameter
+function displaySubtasks(subtasks) {
     if (!subtasks || Object.keys(subtasks).length === 0) {
         return '<p>You don`t have any subtasks .</p>';
     }
@@ -136,11 +126,8 @@ async function toggleSubtaskCheck(subtaskId) {
         return;
     }
     task.Subtasks[subtaskId].isChecked = !task.Subtasks[subtaskId].isChecked;
-
-    // Update the checkbox image immediately
     const checkboxImg = document.getElementById(`checkbox-img-${subtaskId}`);
     checkboxImg.src = task.Subtasks[subtaskId].isChecked ? './assets/icons/checkedBox.svg' : './assets/icons/uncheckedBox.svg';
-
     await putData(`tasks/${task.firebaseId}`, task);
     await updateBoard();
 }
@@ -167,9 +154,9 @@ async function getTaskById(taskId) {
     try {
         const allTasks = await getData('tasks');
         for (const firebaseId in allTasks) {
-            if (allTasks[firebaseId].id === parseInt(taskId)) { // Using id for comparison
+            if (allTasks[firebaseId].id === parseInt(taskId)) {
                 return {
-                    firebaseId, // Including firebaseId for potential future use
+                    firebaseId,
                     ...allTasks[firebaseId]
                 };
             }
@@ -197,11 +184,11 @@ async function getTaskById(taskId) {
  * including its Firebase ID if found, otherwise `null`.
  */
 async function getTaskByIdToEdit(taskId) {
-    let firebaseId; // Declare firebaseId outside the loop
+    let firebaseId;
     const tasks = await getData('tasks');
     for (const id in tasks) {
         if (tasks[id].id === parseInt(taskId)) {
-            firebaseId = id; // Assign the value inside the loop
+            firebaseId = id;
             return {
                 firebaseId,
                 ...tasks[id]
@@ -223,8 +210,7 @@ function closeTaskDetailsPopup() {
     setTimeout(() => {
         popup.style.display = 'none';
     }, 400);
-
-    subtasksToDelete = []; // Clear the array when the popup closes
+    subtasksToDelete = [];
 }
 
 
@@ -236,12 +222,10 @@ function closeTaskDetailsPopup() {
 async function deleteTask(taskId) {
     try {
         await deleteData(`tasks/${taskId}`);
-        // Update the UI or reload the page as needed
         closeTaskDetailsPopup();
-        location.reload(); // This will reload the entire page
+        location.reload();
     } catch (error) {
         console.error("Error deleting task:", error);
-        // Handle the error appropriately, e.g., show an error message to the user
     }
 }
 

@@ -9,11 +9,11 @@ async function getAssignedContacts() {
     const checkboxes = document.querySelectorAll('.contact-list .contact-checkbox.checked');
     try {
         const contactsData = await getData("contacts");
-        for (const checkbox of checkboxes) { // Use for...of loop for async/await
+        for (const checkbox of checkboxes) {
             const contactName = checkbox.parentElement.querySelector("span:nth-child(2)").textContent;
-            const contact = Object.values(contactsData).find(c => c.name === contactName); // Find contact by name
+            const contact = Object.values(contactsData).find(c => c.name === contactName);
             if (contact) {
-                assignedContacts.push({ name: contactName, id: contact.id, color: contact.color }); // Push color
+                assignedContacts.push({ name: contactName, id: contact.id, color: contact.color });
             } else {
                 console.warn(`Contact not found for ${contactName}`);
             }
@@ -31,23 +31,18 @@ async function getAssignedContacts() {
  * @returns {object} An object of subtask objects.
  */
 function getSubtasks() {
-    const subtasks = {}; // Change from array to object
+    const subtasks = {};
     const subtaskItems = document.querySelectorAll("#subtask-list .subtask-item");
-
     subtaskItems.forEach(item => {
         const subtaskTextElement = item.querySelector('.subtask-text');
-        const subtaskText = subtaskTextElement ? subtaskTextElement.innerText : ''; // Check for null
-        // const subtaskText = item.querySelector('.subtask-text').innerText;
+        const subtaskText = subtaskTextElement ? subtaskTextElement.innerText : '';
         const subtaskId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-
-        // Store subtask under generated ID
         subtasks[subtaskId] = {
             id: subtaskId,
             description: subtaskText,
             isChecked: false
         };
     });
-
     return subtasks;
 }
 
@@ -57,9 +52,7 @@ function getSubtasks() {
  */
 function showTaskCreatedPopup() {
     const popup = document.getElementById('taskCreatedPopup');
-    popup.classList.add('show'); // Add the 'show' class to trigger the animation
-
-    // Hide the popup after 2 seconds
+    popup.classList.add('show');
     setTimeout(() => {
         popup.classList.remove('show');
     }, 2000);
@@ -98,7 +91,6 @@ function handleBlur(event) {
             removeErrorMessage(field);
         }
     }
-    // Reset category-field border when focusing out of any field
     if (field.id !== 'category') {
         document.getElementById('category-field').style.border = '1px solid rgba(209, 209, 209, 1)';
     }
@@ -143,15 +135,11 @@ let currentPriority = "medium";
  */
 function setPriority(level) {
     const buttons = document.querySelectorAll('.priority-button');
-    // Reset all buttons first
     buttons.forEach(button => resetButtonStyles(button));
-    // Set the styles for the clicked button
     const activeButton = document.getElementById(`${level}-button`);
-    activeButton.classList.add(level); // Add the level as a class for styling
+    activeButton.classList.add(level);
     activeButton.querySelector('img').src = `./assets/icons/${level}White.svg`;
-    // Remove hover effect from the selected button
     activeButton.classList.add('selected');
-    // Update the current priority
     currentPriority = level;
 }
 
@@ -162,9 +150,8 @@ function setPriority(level) {
  * @param {HTMLElement} button - The priority button to reset.
  */
 function resetButtonStyles(button) {
-    button.classList.remove('selected'); // Remove the class when resetting
-    button.classList.remove('urgent', 'medium', 'low'); // Remove all priority classes
-
+    button.classList.remove('selected');
+    button.classList.remove('urgent', 'medium', 'low');
     const img = button.querySelector('img');
     switch (button.id) {
         case 'urgent-button':
@@ -209,13 +196,11 @@ function getPriorityColor(level) {
 function showErrorMessageCategory(message) {
     const categoryField = document.getElementById('category-dropdown');
     let errorElement = categoryField.nextElementSibling;
-
     if (!errorElement || !errorElement.classList.contains('error-message')) {
         errorElement = document.createElement('div');
         errorElement.className = 'error-message';
         categoryField.parentNode.insertBefore(errorElement, categoryField.nextSibling);
     }
-
     errorElement.textContent = message;
 }
 
@@ -226,7 +211,6 @@ function showErrorMessageCategory(message) {
 function removeErrorMessageCategory() {
     const categoryField = document.getElementById('category-dropdown');
     const errorElement = categoryField.nextElementSibling;
-
     if (errorElement && errorElement.classList.contains('error-message')) {
         errorElement.remove();
     }
@@ -263,7 +247,7 @@ function selectCategory(category) {
     categoryInput.value = category;
     toggleCategoryDropdown();
     categoryField.style.border = '1px solid rgba(41, 171, 226, 1)';
-    removeErrorMessageCategory(); // Remove the error message
+    removeErrorMessageCategory();
 }
 
 
@@ -351,7 +335,6 @@ function saveSubtask(element) {
     const subtaskInput = li.querySelector('input');
     const newText = subtaskInput.value.trim();
     if (newText === '') return;
-
     subtask.style.paddingLeft = '20px';
     li.style.paddingLeft = '20px';
     li.innerHTML = generateSavedSubtaskHTML(newText);

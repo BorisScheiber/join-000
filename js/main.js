@@ -21,7 +21,6 @@ async function init() {
  */
 function initLandscapeWarning() {
   displayLandscapeWarningMobile();
-
   if (isMobileDevice() && isTouchDevice()) {
     handleOrientationChangeMobile();
   }
@@ -45,13 +44,10 @@ function displayLandscapeWarningMobile() {
  */
 function handleOrientationChangeMobile() {
   let mediaQuery = window.matchMedia("(orientation: landscape)");
-
   toggleLandscapeWarning(mediaQuery.matches);
-
   mediaQuery.addEventListener("change", (e) => {
     toggleLandscapeWarning(e.matches);
   });
-
   window.addEventListener('resize', () => {
     toggleLandscapeWarning(mediaQuery.matches);
   });
@@ -129,13 +125,11 @@ async function getUsersData() {
 function getInitialsHeaderUser() {
   let user = localStorage.getItem("user");
   let guestInitials = localStorage.getItem("guestInitials");
-
   if (user) {
     return getUserInitials(user);
   } else if (guestInitials) {
     return guestInitials;
   }
-
   return "G";
 }
 
@@ -152,14 +146,12 @@ function getInitialsHeaderUser() {
 function getUserInitials(user) {
   let userData = JSON.parse(atob(user));
   let userId = userData.id;
-
   if (userId) {
     let foundUser = searchUserById(userId);
     if (foundUser && foundUser.initials) {
       return foundUser.initials;
     }
   }
-
   return "G";
 }
 
@@ -184,7 +176,6 @@ function searchUserById(userId) {
 function displayInitialsHeaderUser() {
   let initials = getInitialsHeaderUser();
   let initialsElement = document.getElementById("headerUserInitials");
-
   if (initialsElement) {
     initialsElement.innerHTML = initials;
   }
@@ -208,7 +199,6 @@ function setActiveLinkSidebar() {
   let path = window.location.pathname;
   let links = document.querySelectorAll(".sidebar-links");
   let legalLinks = document.querySelectorAll(".legal-links");
-
   addActiveClass(links, path, "link-desktop-active");
   addActiveClass(legalLinks, path, "legal-links-active");
 }
@@ -253,7 +243,6 @@ function displayMobileNav() {
 function setActiveLinkMobileNav() {
   let path = window.location.pathname;
   let links = document.querySelectorAll(".nav-mobile-links");
-
   addActiveClass(links, path, "nav-mobile-links-active");
 }
 
@@ -271,7 +260,6 @@ function pageBack() {
  */
 function removeClassesIfNotLoggedIn() {
   let path = window.location.pathname;
-
   if (path.includes("legalNoticeNo") || path.includes("privacyPolicyNo")) {
     hideElementsIfNotLoggedIn();
     updateLegalLinksNotLoggedIn();
@@ -312,7 +300,6 @@ function displayDropDownNav() {
  */
 function toggleDropDownNav() {
   let dropDownNav = document.getElementById("dropDownNav");
-
   if (dropDownNav.style.display === "flex") {
     slideOut(dropDownNav);
     document.removeEventListener("click", closeDropDownNavOnClickOutside); // Use a specific name
@@ -358,7 +345,6 @@ function slideOut(element) {
 function closeDropDownNavOnClickOutside(event) {
   let dropDownNav = document.getElementById("dropDownNav");
   let toggleButton = document.querySelector(".header-user-button");
-
   if (
     !dropDownNav.contains(event.target) &&
     !toggleButton.contains(event.target)

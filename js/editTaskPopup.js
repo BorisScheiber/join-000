@@ -9,12 +9,10 @@ let subtasksToDelete = [];
 async function editTask(taskId) {
     const task = await fetchTaskData(taskId);
     if (!task) return;
-
     clearPopupContent();
     renderEditPopup(task);
     populateEditForm(task);
     selectedContactsDataEdit = { ...task.Assigned_to };
-
     await populateContactList(task);
     setupContactListListeners();
     setupSubtaskInputListener();
@@ -95,8 +93,6 @@ async function populateContactList(task) {
                 createContactItemEdit(contact, contactList, assignedContacts)
             );
             updateSelectedContactsEdit();
-        } else {
-            console.log("No contacts found in Firebase.");
         }
     } catch (error) {
         console.error("Error fetching contacts:", error);
@@ -110,7 +106,6 @@ async function populateContactList(task) {
 function setupContactListListeners() {
     const contactList = document.getElementById("contact-list-edit");
     const contactSearch = document.getElementById("contact-search-edit");
-
     contactSearch.addEventListener("input", filterContactsEdit);
     contactList.addEventListener("click", (event) => {
         const contactItem = event.target.closest(".contact-item");
@@ -162,11 +157,9 @@ function setPrio(level) {
     const buttons = document.querySelectorAll('.prio-btn');
     buttons.forEach(button => resetBtnsStyles(button));
     const activeButton = document.getElementById(`${level}-btn`);
-    activeButton.classList.add(level); // Add the level as a class for styling
+    activeButton.classList.add(level);
     activeButton.querySelector('img').src = `./assets/icons/${level}White.svg`;
-    // Remove hover effect from the selected button
     activeButton.classList.add('selected');
-    // Update the current priority
     currentPriority = level;
 }
 
@@ -177,9 +170,8 @@ function setPrio(level) {
  * @param {HTMLElement} button - The priority button to reset.
  */
 function resetBtnsStyles(button) {
-    button.classList.remove('selected'); // Remove the class when resetting
-    button.classList.remove('urgent', 'medium', 'low'); // Remove all priority classes
-
+    button.classList.remove('selected');
+    button.classList.remove('urgent', 'medium', 'low');
     const img = button.querySelector('img');
     switch (button.id) {
         case 'urgent-btn':
@@ -207,7 +199,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     document.body.addEventListener('submit', function (event) {
         if (event.target.id === 'editForm') {
             event.preventDefault();
-            // Your form submission logic here
         }
     });
 });
@@ -222,8 +213,7 @@ function populateEditForm(task) {
     document.getElementById('editTitle').value = task.Title;
     document.getElementById('editDescription').value = task.Description;
     document.getElementById('editDueDate').value = task.Due_date;
-    setPrio(task.Prio); // Assuming you have a function to set the priority
-
+    setPrio(task.Prio);
 }
 
 
@@ -237,11 +227,8 @@ async function saveEditTask(taskId, firebaseId) {
     if (!validateFieldsEditTask()) return;
     const originalTask = await fetchOriginalTask(taskId);
     if (!originalTask || !validateSubtasks(originalTask)) return;
-
     const updatedTask = createUpdatedTask(originalTask);
     await updateTaskInFirebase(firebaseId, updatedTask);
-
-    // Check if there are subtasks to delete
     if (subtasksToDelete.length > 0) {
         for (const subtaskId of subtasksToDelete) {
             try {
@@ -250,7 +237,7 @@ async function saveEditTask(taskId, firebaseId) {
                 console.error(`Error deleting subtask ${subtaskId}:`, error);
             }
         }
-        subtasksToDelete = []; // Clear the array after deleting
+        subtasksToDelete = [];
     }
     closeTaskDetailsPopup();
     updateBoard();
@@ -354,7 +341,7 @@ function validateDueDateEdit(editDueDate) {
     if (selectedDate <= today) {
         return 'Please enter a future date.';
     }
-    return ''; // No error
+    return '';
 }
 
 

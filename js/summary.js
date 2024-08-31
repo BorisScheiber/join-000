@@ -67,7 +67,6 @@ function displayUserName() {
   if (user) {
     let userData = JSON.parse(atob(user));
     let userId = userData.id;
-
     let foundUser = searchUserById(userId);
     if (foundUser && foundUser.name) {
       document.getElementById("summaryGreetingName").innerHTML = foundUser.name;
@@ -95,7 +94,6 @@ function getGreetingAndUserNameMobile() {
   let getUserName = document.getElementById("summaryGreetingName").innerText;
   let greetingElement = document.getElementById("summaryGreetingMobile");
   let getUserNameElement = document.getElementById("summaryGreetingNameMobile");
-
   if (getUserName === "") {
     greetingElement.innerHTML = getGreeting + "!";
   } else {
@@ -116,7 +114,6 @@ function getGreetingAndUserNameMobile() {
 function addAnimationToGreetingMobile() {
   let loginPage = document.referrer.includes("index.html") || localStorage.getItem('cameFromLogin');
   let greetingContainer = document.querySelector(".summary-greeting-mobile");
-
   if (loginPage) {
     greetingContainer.style.animation = "fadeOutGreetingMobile 2.5s forwards";
     setTimeout(() => {
@@ -149,7 +146,6 @@ function displaySummaryMetrics(){
 async function loadTasksFromFirebase() {
   try {
     const fetchedTasks = await getData("tasks");
-
     tasks = Object.keys(fetchedTasks).map((key) => ({
       firebaseId: key,
       ...fetchedTasks[key],
@@ -182,7 +178,6 @@ function updateTaskCounts() {
   let inProgressTasks = countTasksByStatus("in progress");
   let awaitFeedbackTasks = countTasksByStatus("await feedback");
   let totalTasks = tasks.length;
-
   document.getElementById("toDo").innerHTML = toDoTasks;
   document.getElementById("done").innerHTML = doneTasks;
   document.getElementById("inProgress").innerHTML = inProgressTasks;
@@ -236,7 +231,6 @@ function updateUrgentTaskCount() {
 function getUpcomingDeadline() {
   let now = new Date();
   let tasksWithFutureDueDate = tasks.filter(task => task.Due_date && new Date(task.Due_date) > now);
-
   tasksWithFutureDueDate.sort((a, b) => new Date(a.Due_date) - new Date(b.Due_date));
   return tasksWithFutureDueDate.length > 0 ? tasksWithFutureDueDate[0] : null;
 }
@@ -253,7 +247,6 @@ function updateUpcomingDeadline() {
   let upcomingDeadlineDate = document.getElementById("upcomingDeadlineDate");
   let upcomingDeadlineText = document.getElementById("upcomingDeadlineText");
   let upcomingTask = getUpcomingDeadline();
-
   if (upcomingTask) {
     upcomingDeadlineDate.innerHTML = new Date(upcomingTask.Due_date).toLocaleDateString('en-US', {
       year: 'numeric', month: 'long', day: 'numeric'

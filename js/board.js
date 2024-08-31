@@ -33,7 +33,6 @@ async function updateBoard() {
  */
 function checkAndApplyMobileSettings() {
   isMobile = isMobileOrTablet();
-
   if (isMobile) {
       let categoryIcons = document.querySelectorAll('.board-card-category-icon');
       categoryIcons.forEach(icon => {
@@ -63,7 +62,6 @@ return isTouchDevice || isMobileAgent;
 async function loadTasksFromFirebase() {
   try {
     const fetchedTasks = await getData("tasks");
-
     tasks = Object.keys(fetchedTasks).map((key) => ({
       firebaseId: key,
       ...fetchedTasks[key],
@@ -129,7 +127,6 @@ function getFirebaseIdByTaskId(taskId) {
 function clearContainers() {
   let containers = getContainersById();
   let { toDoContainer, inProgressContainer, awaitFeedbackContainer, doneContainer } = containers;
-
   [toDoContainer, inProgressContainer, awaitFeedbackContainer, doneContainer].forEach(container => {
     container.innerHTML = "";
   });
@@ -142,10 +139,8 @@ function clearContainers() {
  */
 function renderBoard() {
   clearContainers();
-
   let containers = getContainersById();
   let sortedTasks = sortTasksByTimestamp(tasks);
-
   sortedTasks.forEach(task => {
     let container = getContainerForTaskStatus(task, containers);
     if (container) {
@@ -181,11 +176,9 @@ function getContainerForTaskStatus(task, containers) {
  */
 function renderSingleTaskSubtask(subtasks) {
   if (!subtasks || subtasks.length === 0) return "";
-
   let totalSubtasks = subtasks.length;
   let completedSubtasks = subtasks.filter(subtask => subtask.isChecked).length;
   let progressPercentage = (completedSubtasks / totalSubtasks) * 100;
-
   return generateSingleTaskSubtaskHtml(progressPercentage, completedSubtasks, totalSubtasks);
 }
 
@@ -210,7 +203,6 @@ function getContainersById() {
  */
 function checkIfContainerIsEmpty() {
   const { toDoContainer, inProgressContainer, awaitFeedbackContainer, doneContainer } = getContainersById();
-
   addPlaceholderIfEmpty(toDoContainer, "No tasks To do");
   addPlaceholderIfEmpty(inProgressContainer, "No tasks In progress");
   addPlaceholderIfEmpty(awaitFeedbackContainer, "No tasks Await feedback");
@@ -283,7 +275,6 @@ function checkSingleTaskCategory(category) {
  */
 function checkSingleTaskPriority(priority) {
   if (!priority) return '';
-
   switch (priority.toLowerCase()) {
     case 'urgent':
       return /*html*/`<img src="./assets/icons/priorityUrgent.svg" alt="Urgent Priority">`;
@@ -319,7 +310,6 @@ function generateAssignedToProfileBadges(assignedTo) {
   if (assignedTo && assignedTo.length > 0) {
     let assignedHtml = generateProfileBadgeHtml(assignedTo);
     let additionalAssigned = generateAdditionalAssignedToCount(assignedTo.length);
-
     return `${assignedHtml}${additionalAssigned}`;
   } else {
     return '';
@@ -338,7 +328,6 @@ function generateProfileBadgeHtml(assignedTo) {
     let name = getNameForSingleContact(person.id);
     let initials = getInitials(name);
     let color = getColorForSingleContact(person.id);
-
     return /*html*/`<div class="board-card-single-profile" style="background-color: ${color};">${initials}</div>`;
   }).join('');
 }

@@ -143,7 +143,6 @@ async function validateLoginForm() {
   let password = getPasswordFieldValue();
   let user = users.find((user) => user.email === email && user.password === password);
   let doesEmailExist = checkIfMailExists();
-
   if (doesEmailExist && user) {
     removeLoginErrorMessage();
     userLogin(user);
@@ -163,7 +162,6 @@ function checkIfMailExists() {
   let emailField = document.getElementById("email");
   let errorMessage = document.getElementById("loginEmailExists");
   let emailExists = users.some((user) => user.email === emailField.value.trim());
-
   if (emailExists) {
     errorMessage.style.display = "none";
     emailField.classList.remove("login-input-error");
@@ -204,7 +202,6 @@ function getEmailFieldValue() {
 function showLoginErrorMessage() {
   let errorMessage = document.getElementById("loginErrorMessage");
   let passwordField = document.getElementById("password");
-
   errorMessage.style.visibility = "visible";
   passwordField.classList.add("login-input-error");
 }
@@ -216,7 +213,6 @@ function showLoginErrorMessage() {
 function removeLoginErrorMessage() {
   let errorMessage = document.getElementById("loginErrorMessage");
   let passwordField = document.getElementById("password");
-
   errorMessage.style.visibility = "hidden";
   passwordField.classList.remove("login-input-error");
 }
@@ -230,7 +226,6 @@ function removeLoginErrorMessage() {
 function updateIconOnInput(inputField) {
   let passwordValue = inputField.value;
   let inputFieldImg = document.getElementById("passwordFieldImg");
-
   if (passwordValue === "") {
     inputFieldImg.src = "./assets/icons/lock.svg";
     inputFieldImg.classList.remove("cursor-pointer");
@@ -254,7 +249,6 @@ function updateIconOnInput(inputField) {
 function showHidePassword() {
   let inputField = document.getElementById("password");
   let inputFieldImg = document.getElementById("passwordFieldImg");
-
   if (inputFieldImg.src.includes("lock.svg")) {
     return;
   } else if (inputFieldImg.src.includes("visibility_off.svg")) {
@@ -276,13 +270,10 @@ function showHidePassword() {
  */
 function prefillLoginForm() {
   let storedUserData = localStorage.getItem("user");
-
   if (storedUserData) {
     let userData = JSON.parse(atob(storedUserData));
-
     if (userData.rememberMe) {
       let user = users.find((u) => u.id === userData.id);
-
       if (user) {
         updateLoginFields(user);
       }
@@ -304,11 +295,9 @@ function updateLoginFields(user) {
   let emailField = document.getElementById("email");
   let passwordField = document.getElementById("password");
   let rememberMeCheckbox = document.getElementById("rememberMeCheckbox");
-
   emailField.value = user.email;
   passwordField.value = user.password;
   rememberMeCheckbox.checked = true;
-
   updateIconOnInput(passwordField);
 }
 
