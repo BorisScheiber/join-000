@@ -14,6 +14,24 @@ function toggleEditDeleteVisibility() {
     }
 }
 
+/**
+ * Toggles the visibility of the category dropdown.
+ */
+function toggleCategoryDropdown() {
+    const dropdown = document.getElementById('category-dropdown');
+    const catField = document.getElementById('category-field');
+    const dropdownIcon = document.querySelector('.dropdown-icon-category');
+    if (dropdown.style.display === 'flex') {
+        dropdown.style.display = 'none';
+        dropdownIcon.src = './assets/icons/arrow_drop_down.svg';
+        catField.style.borderRadius = "10px";
+    } else {
+        dropdown.style.display = 'flex';
+        dropdownIcon.src = './assets/icons/arrow_drop_up.svg';
+        catField.style.borderRadius = "10px 10px 0 0";
+    }
+}
+
 
 /**
  * Listens for input changes in the subtask input field and calls `toggleEditDeleteVisibility` to show or hide the edit/delete icons based on the input field's content.
