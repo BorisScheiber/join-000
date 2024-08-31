@@ -510,6 +510,9 @@
 }
 
 @media (max-width: 550px) and (max-height: 700px) {
+  .login-content {
+    min-height: 650px;
+  }
   .sign-up-container-mobile {
     margin-top: 20px;
   }
