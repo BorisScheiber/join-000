@@ -82,6 +82,7 @@ function openNewContact() {
     openNewContactWindow();
 }
 
+
 /**
  * Generates HTML content for displaying a single contact in a contact menu.
  * 
@@ -181,6 +182,7 @@ function generateContactDetailHTML(user, bgColor) {
     `;
 }
 
+
 /**
  * Generates the HTML content for editing a contact.
  *
@@ -258,5 +260,35 @@ function generateEditContactHTML(user, initials, bgColor) {
                 </form>
             </div>
         </div>
+    `;
+}
+
+
+/**
+ * Returns the HTML string for the profile container.
+ * 
+ * @returns {string} HTML string for the profile container.
+ */
+function getProfileContainerHTML() {
+    return `
+        <div class="icon-profile-add-new-contact">
+            <img src="./assets/icons/personContact.svg" alt="profile" class="img-profile-add-new-contact">
+        </div>
+    `;
+}
+
+
+/**
+ * Generates the HTML for a letter section in the contact list.
+ * 
+ * @param {string} letter - The letter to display in the section header.
+ * @returns {string} The HTML string for the letter section.
+ */
+function generateLetterSectionHTML(letter) {
+    return `
+        <div class="contact-sequence" id="contactList">
+            <span class="contact-sequence-text">${letter}</span>
+        </div>
+        <div class="contact-separator"></div>
     `;
 }

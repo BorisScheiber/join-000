@@ -59,9 +59,8 @@ async function loadContacts() {
 
 
 /**
- * Renders the contact list in the contact menu.
- * @function
- * @returns {void}
+ * Renders the contact list by grouping contacts alphabetically by their first letter.
+ * Clears the current content of the contact menu, then populates it with the new list.
  */
 function renderContactList() {
     loadContactMenu.innerHTML = '';
@@ -71,12 +70,7 @@ function renderContactList() {
         const firstLetter = user.name.charAt(0).toUpperCase();
         if (firstLetter !== currentLetter) {
             currentLetter = firstLetter;
-            html += /*html*/`
-                <div class="contact-sequence" id="contactList">
-                    <span class="contact-sequence-text">${currentLetter}</span>
-                </div>
-                <div class="contact-separator"></div>
-            `;
+            html += generateLetterSectionHTML(currentLetter);
         }
         html += generateContactHTML(user);
     });
@@ -293,16 +287,7 @@ function updateContactList(param1, param2) {
 
 
 /**
- * Clears all contact information input fields and resets the profile container.
- * This function performs the following actions:
- * 1. Sets the value of the input fields for contact name, email, and phone to an empty string.
- * 2. Resets the profile container to its default state by replacing its outer HTML with a default profile icon.
- * Specifically:
- * - `contactName` input field is cleared if it exists.
- * - `contactMailAdress` input field is cleared if it exists.
- * - `contactPhone` input field is cleared if it exists.
- * - `profileEditContact` container is replaced with a default profile icon if it exists.
- * @function
+ * Clears the contact information fields and updates the profile container.
  */
 function clearContactInfo() {
     const userName = document.getElementById('contactName');
@@ -313,10 +298,6 @@ function clearContactInfo() {
     if (userMail) userMail.value = '';
     if (userPhone) userPhone.value = '';
     if (profileContainer) {
-        profileContainer.outerHTML = /*html*/`
-            <div class="icon-profile-add-new-contact">
-                <img src="./assets/icons/personContact.svg" alt="profile" class="img-profile-add-new-contact">
-            </div>
-        `;
+        profileContainer.outerHTML = getProfileContainerHTML();
     }
 }
