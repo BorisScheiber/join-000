@@ -1,4 +1,4 @@
-let createTaskFunction = createTask; // Default function
+let createTaskFunction = createTask;
 
 
 /**
@@ -59,24 +59,7 @@ window.addEventListener('click', (event) => {
  */
 async function createTaskAwaitFeedback() {
     if (!validateFields()) return;
-    const assignedContacts = await getAssignedContacts();
-    const assignedContactsWithIds = {};
-    assignedContacts.forEach(contact => {
-        const generatedId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-        assignedContactsWithIds[generatedId] = contact;
-    });
-    const newTask = { 
-        timestamp: Date.now(),
-        id: Date.now(), 
-        Title: document.getElementById('title').value.trim(), 
-        Description: document.getElementById('description').value.trim(), 
-        Assigned_to: assignedContactsWithIds, 
-        Due_date: document.getElementById('due-date').value, 
-        Prio: currentPriority, 
-        Category: document.getElementById('category').value.trim(), 
-        Subtasks: getSubtasks(), 
-        Status: 'await feedback' 
-    };
+    const newTask = await buildNewTaskObject('await feedback');
     try {
         const response = await postData("tasks", newTask);
         newTask.firebaseId = response.name; 
@@ -96,24 +79,7 @@ async function createTaskAwaitFeedback() {
  */
 async function createTaskInProgress() {
     if (!validateFields()) return;
-    const assignedContacts = await getAssignedContacts();
-    const assignedContactsWithIds = {};
-    assignedContacts.forEach(contact => {
-        const generatedId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-        assignedContactsWithIds[generatedId] = contact;
-    });
-    const newTask = { 
-        timestamp: Date.now(),
-        id: Date.now(), 
-        Title: document.getElementById('title').value.trim(), 
-        Description: document.getElementById('description').value.trim(), 
-        Assigned_to: assignedContactsWithIds, 
-        Due_date: document.getElementById('due-date').value, 
-        Prio: currentPriority, 
-        Category: document.getElementById('category').value.trim(), 
-        Subtasks: getSubtasks(), 
-        Status: 'in progress' 
-    };
+    const newTask = await buildNewTaskObject('in progress');
     try {
         const response = await postData("tasks", newTask);
         newTask.firebeId = response.name; 
@@ -123,4 +89,23 @@ async function createTaskInProgress() {
     } catch (error) {
         console.error("Error creating task:", error);
     }
+}
+
+
+/**
+ * Builds a new task object with data from the form.
+ * Assigns unique IDs to assigned contacts.
+ * @param {string} status - The status of the new task.
+ * @returns {Promise<object>} A promise that resolves with the new task object.
+ */
+async function buildNewTaskObject(status) {
+  const assignedContacts = await getAssignedContacts();
+  const assignedContactsWithIds = {};
+  assignedContacts.forEach(contact => {
+      const generatedId = `-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      assignedContactsWithIds[generatedId] = contact;
+  });
+  return {
+      timestamp: Date.now(),id: Date.now(),Title: document.getElementById('title').value.trim(),Description: document.getElementById('description').value.trim(),Assigned_to: assignedContactsWithIds,Due_date: document.getElementById('due-date').value,Prio: currentPriority,Category: document.getElementById('category').value.trim(),Subtasks: getSubtasks(),Status: status
+  };
 }

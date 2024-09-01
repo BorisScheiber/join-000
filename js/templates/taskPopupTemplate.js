@@ -59,7 +59,7 @@ function generateTaskDetailsPopupHTML(task) {
  */
 function generateEditTaskFormHTML(task) {
     return /*html*/`
-         <form id="editForm" class="popup-content-edit-task-form">
+         <div id="editForm" class="popup-content-edit-task-form">
              <div class="popup-content-task popup-content-edit-task">
                  <!-- Title Section -->
                  <div class="input-group">
