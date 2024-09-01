@@ -9,10 +9,25 @@ let users = [];
  * if there are saved user details.
  */
 async function initLogin() {
+  resetScrollPosition();
   checkPreviousPage();
   displayLoginPage();
   await getAllUsers();
   prefillLoginForm();
+}
+
+
+/**
+ * Resets the scroll position to the top of the page and disables automatic scroll restoration.
+ *
+ * If supported, sets `history.scrollRestoration` to 'manual' to prevent the browser 
+ * from restoring the previous scroll position. Then, scrolls the page to the top.
+ */
+function resetScrollPosition() {
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.scrollTo(0, 0);
 }
 
 
