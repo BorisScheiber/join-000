@@ -106,15 +106,6 @@ async function buildNewTaskObject(status) {
       assignedContactsWithIds[generatedId] = contact;
   });
   return {
-      timestamp: Date.now(),
-      id: Date.now(),
-      Title: document.getElementById('title').value.trim(),
-      Description: document.getElementById('description').value.trim(),
-      Assigned_to: assignedContactsWithIds,
-      Due_date: document.getElementById('due-date').value,
-      Prio: currentPriority,
-      Category: document.getElementById('category').value.trim(),
-      Subtasks: getSubtasks(),
-      Status: status
+      timestamp: Date.now(),id: Date.now(),Title: document.getElementById('title').value.trim(),Description: document.getElementById('description').value.trim(),Assigned_to: assignedContactsWithIds,Due_date: document.getElementById('due-date').value,Prio: currentPriority,Category: document.getElementById('category').value.trim(),Subtasks: getSubtasks(),Status: status
   };
 }
