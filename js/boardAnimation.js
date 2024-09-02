@@ -224,7 +224,7 @@ function renderMoveToMobileOverlay(taskId) {
 function closeMoveToMobileIfClickOutside(event) {
   let card = document.querySelector('.board-move-to-mobile-card');
     if (!card.contains(event.target)) {
-        closeMoveToMobileOevrlay();
+        closeMoveToMobileOverlay();
     }
 }
   
