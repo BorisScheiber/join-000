@@ -1,0 +1,508 @@
+{
+    "contacts": {
+      "0ad0aa6d-64ad-4ba9-86cf-b39e1e36899e": {
+        "color": "#C71E94",
+        "email": "lisa.weber@web.de",
+        "id": "0ad0aa6d-64ad-4ba9-86cf-b39e1e36899e",
+        "name": "Lisa Weber",
+        "phone": "+49 1111 111 88 8"
+      },
+      "1178253a-4482-400f-8eba-db901484fb39": {
+        "color": "#2DF024",
+        "email": "e.meinberg@hotmail.de",
+        "id": "1178253a-4482-400f-8eba-db901484fb39",
+        "name": "Emmanuel Meinberg",
+        "phone": "+49123456789"
+      },
+      "1d2bf13f-c8ad-42f1-9830-a1095cbcf965": {
+        "color": "#4D8979",
+        "email": "daniela.koch@web.com",
+        "id": "1d2bf13f-c8ad-42f1-9830-a1095cbcf965",
+        "name": "Daniela Koch",
+        "phone": "0043123456"
+      },
+      "1fd7aeaa-5117-451d-8008-16d34e2e874b": {
+        "color": "#EB433C",
+        "email": "Tina.Wind@hotmail.de",
+        "id": "1fd7aeaa-5117-451d-8008-16d34e2e874b",
+        "name": "Tina Wind",
+        "phone": "+49 1111 123 152"
+      },
+      "489f0a40-9c1d-4cb4-b9e9-34933cde6a38": {
+        "color": "#1544FF",
+        "email": "z.gross@hotmail.de",
+        "id": "489f0a40-9c1d-4cb4-b9e9-34933cde6a38",
+        "name": "Zacharias Gross",
+        "phone": "+49 1111 111 44 4"
+      },
+      "5b100171-5461-4c2a-8f09-8360e0199b91": {
+        "color": "#8608AC",
+        "email": "Kiko@gmail.com",
+        "id": "5b100171-5461-4c2a-8f09-8360e0199b91",
+        "name": "Markus Kiko",
+        "phone": "01628114256"
+      },
+      "5cbe12e3-86ec-4fa0-af9b-b08b4696a729": {
+        "color": "#1E3817",
+        "email": "consi.grey@gmail.com",
+        "id": "5cbe12e3-86ec-4fa0-af9b-b08b4696a729",
+        "name": "Constantin Grey",
+        "phone": "+49 1111 222 22 3"
+      },
+      "5e1b947a-f1fc-4fe8-b79f-b237a25b851b": {
+        "color": "#C28A06",
+        "email": "petermayer@hotmail.de",
+        "id": "5e1b947a-f1fc-4fe8-b79f-b237a25b851b",
+        "name": "Peter Mayer",
+        "phone": "+49 2222 222 10 1"
+      },
+      "5e73c537-9e87-420e-867f-05290c63c915": {
+        "color": "#B1D530",
+        "email": "kern.Julius@gmail.com",
+        "id": "5e73c537-9e87-420e-867f-05290c63c915",
+        "name": "Julius Kern",
+        "phone": "+49 789456123"
+      },
+      "8e2066df-bd0c-4806-b2ba-2bec09900a77": {
+        "color": "#EEEF0F",
+        "email": "beaNeumann@gmx.de",
+        "id": "8e2066df-bd0c-4806-b2ba-2bec09900a77",
+        "name": "Beatrice Neumann",
+        "phone": "+49 1111 222 10 2"
+      },
+      "928d0b7c-a028-4d82-a302-0010fa2c0af4": {
+        "color": "#D73538",
+        "email": "geordP@gmx.de",
+        "id": "928d0b7c-a028-4d82-a302-0010fa2c0af4",
+        "name": "Georg Plotter",
+        "phone": "+4912345617"
+      },
+      "a3b117e3-8cad-4430-bbc0-52322c38fe44": {
+        "color": "#AB8683",
+        "email": "alinamark@gmx.de",
+        "id": "a3b117e3-8cad-4430-bbc0-52322c38fe44",
+        "name": "Alina Mark",
+        "phone": "+49 1111 777 88"
+      },
+      "d4f30f5c-7e23-47e0-a99f-eec3345b89f7": {
+        "color": "#F35B80",
+        "email": "valle@gmail.com",
+        "id": "d4f30f5c-7e23-47e0-a99f-eec3345b89f7",
+        "name": "Valentin Schön",
+        "phone": "+49 1111 111 10 12"
+      },
+      "f8d0be2f-628a-487b-87f8-053e6cbcafb2": {
+        "color": "#CED754",
+        "email": "daniel.m@hotmail.com",
+        "id": "f8d0be2f-628a-487b-87f8-053e6cbcafb2",
+        "name": "Daniel Maier",
+        "phone": "+4325552255255"
+      }
+    },
+    "tasks": {
+      "-O5TDFdaOb9EUKAPRfcy": {
+        "Assigned_to": {
+          "0ad0aa6d-64ad-4ba9-86cf-b39e1e36899e": {
+            "color": "rgb(199, 30, 148)",
+            "id": "0ad0aa6d-64ad-4ba9-86cf-b39e1e36899e",
+            "name": "Lisa Weber"
+          },
+          "1178253a-4482-400f-8eba-db901484fb39": {
+            "color": "rgb(45, 240, 36)",
+            "id": "1178253a-4482-400f-8eba-db901484fb39",
+            "name": "Emmanuel Meinberg"
+          },
+          "1d2bf13f-c8ad-42f1-9830-a1095cbcf965": {
+            "color": "rgb(77, 137, 121)",
+            "id": "1d2bf13f-c8ad-42f1-9830-a1095cbcf965",
+            "name": "Daniela Koch"
+          }
+        },
+        "Category": "Technical Task",
+        "Description": "Prüfen ob das Programm fehlerfrei läuft",
+        "Due_date": "2024-08-30",
+        "Prio": "medium",
+        "Status": "await feedback",
+        "Subtasks": {
+          "-1724936424615-5w2g29v6b": {
+            "description": "Funktionen arbeiten fehlerfrei",
+            "id": "-1724936424615-5w2g29v6b",
+            "isChecked": true
+          },
+          "-1724936424615-ex7ufoxn5": {
+            "description": "Code ist nach Clean-Code-Regel erstellt",
+            "id": "-1724936424615-ex7ufoxn5",
+            "isChecked": true
+          },
+          "-1724943178272-vv8juqlpq": {
+            "description": "Prüfung durch Teamlead",
+            "id": "-1724943178272-vv8juqlpq",
+            "isChecked": false
+          }
+        },
+        "Title": "testing functions",
+        "firebaseId": "-O5TDFdaOb9EUKAPRfcy",
+        "id": 1724936424615,
+        "timestamp": 1724943140349
+      },
+      "-O5TbV1ypE1O3qv542WY": {
+        "Assigned_to": {
+          "0ad0aa6d-64ad-4ba9-86cf-b39e1e36899e": {
+            "color": "rgb(199, 30, 148)",
+            "id": "0ad0aa6d-64ad-4ba9-86cf-b39e1e36899e",
+            "name": "Lisa Weber"
+          },
+          "1178253a-4482-400f-8eba-db901484fb39": {
+            "color": "rgb(45, 240, 36)",
+            "id": "1178253a-4482-400f-8eba-db901484fb39",
+            "name": "Emmanuel Meinberg"
+          },
+          "1d2bf13f-c8ad-42f1-9830-a1095cbcf965": {
+            "color": "rgb(77, 137, 121)",
+            "id": "1d2bf13f-c8ad-42f1-9830-a1095cbcf965",
+            "name": "Daniela Koch"
+          },
+          "1fd7aeaa-5117-451d-8008-16d34e2e874b": {
+            "color": "rgb(235, 67, 60)",
+            "id": "1fd7aeaa-5117-451d-8008-16d34e2e874b",
+            "name": "Tina Wind"
+          },
+          "5cbe12e3-86ec-4fa0-af9b-b08b4696a729": {
+            "color": "rgb(30, 56, 23)",
+            "id": "5cbe12e3-86ec-4fa0-af9b-b08b4696a729",
+            "name": "Constantin Grey"
+          }
+        },
+        "Category": "User Story",
+        "Description": "Teammeeting findet am Freitag um 10.30 statt. Bitte die unten stehenden Punkte vorbereiten",
+        "Due_date": "2024-08-30",
+        "Prio": "medium",
+        "Status": "in progress",
+        "Subtasks": {
+          "-1724943041238-2v792b9gd": {
+            "description": "Durchsicht OP Kreditoren",
+            "id": "-1724943041238-2v792b9gd",
+            "isChecked": true
+          },
+          "-1724943041238-67jopt0tg": {
+            "description": "Sonstiges",
+            "id": "-1724943041238-67jopt0tg",
+            "isChecked": false
+          },
+          "-1724943041238-xtoq87jmd": {
+            "description": "Durchsicht OP Debitoren",
+            "id": "-1724943041238-xtoq87jmd",
+            "isChecked": false
+          },
+          "-1724943041238-za91l356u": {
+            "description": "Mahnungen",
+            "id": "-1724943041238-za91l356u",
+            "isChecked": true
+          }
+        },
+        "Title": "Team Meeting Buchhaltung",
+        "firebaseId": "-O5TbV1ypE1O3qv542WY",
+        "id": 1724943041238,
+        "timestamp": 1724943139333
+      },
+      "-O5TccUeI2xEK2nSEtk2": {
+        "Assigned_to": {
+          "-1724943337987-lgtxl9iog": {
+            "color": "#3568D8",
+            "id": "f8d0be2f-628a-487b-87f8-053e6cbcafb2",
+            "name": "Daniel Maier"
+          },
+          "-1724943337987-znx8xyjic": {
+            "color": "#F35B80",
+            "id": "d4f30f5c-7e23-47e0-a99f-eec3345b89f7",
+            "name": "Valentin Schön"
+          },
+          "-1724943337987-zzfpku21i": {
+            "color": "#6D07BE",
+            "id": "a3b117e3-8cad-4430-bbc0-52322c38fe44",
+            "name": "Alina Mark"
+          }
+        },
+        "Category": "Technical Task",
+        "Description": "prüfen ob alle user stories erfüllt sind",
+        "Due_date": "2024-08-31",
+        "Prio": "urgent",
+        "Status": "to do",
+        "Subtasks": {
+          "-1724943337988-ljsmbxfpa": {
+            "description": "user friendly",
+            "id": "-1724943337988-ljsmbxfpa",
+            "isChecked": false
+          },
+          "-1724943337988-nk932eg51": {
+            "description": "testing function",
+            "id": "-1724943337988-nk932eg51",
+            "isChecked": false
+          }
+        },
+        "Title": "Projektprüfung Join",
+        "id": 1724943337987,
+        "timestamp": 1724943337987
+      },
+      "-O5Td2T_EIE5djAt1F4b": {
+        "Assigned_to": {
+          "-1724943448499-0osumcbux": {
+            "color": "#6D07BE",
+            "id": "a3b117e3-8cad-4430-bbc0-52322c38fe44",
+            "name": "Alina Mark"
+          },
+          "-1724943448499-2l3fvhfo3": {
+            "color": "#D73538",
+            "id": "928d0b7c-a028-4d82-a302-0010fa2c0af4",
+            "name": "Georg Plotter"
+          },
+          "-1724943448499-4b2d9qhk9": {
+            "color": "#F35B80",
+            "id": "d4f30f5c-7e23-47e0-a99f-eec3345b89f7",
+            "name": "Valentin Schön"
+          },
+          "-1724943448499-5xrdnawed": {
+            "color": "#B1D530",
+            "id": "5e73c537-9e87-420e-867f-05290c63c915",
+            "name": "Julius Kern"
+          },
+          "-1724943448499-am9xtm3yc": {
+            "color": "#4D8979",
+            "id": "1d2bf13f-c8ad-42f1-9830-a1095cbcf965",
+            "name": "Daniela Koch"
+          },
+          "-1724943448499-bgrvtyucl": {
+            "color": "#8608AC",
+            "id": "5b100171-5461-4c2a-8f09-8360e0199b91",
+            "name": "Markus Kiko"
+          },
+          "-1724943448499-hx9ked1x8": {
+            "color": "#1E3817",
+            "id": "5cbe12e3-86ec-4fa0-af9b-b08b4696a729",
+            "name": "Constantin Grey"
+          },
+          "-1724943448499-p7cksrfwy": {
+            "color": "#C71E94",
+            "id": "0ad0aa6d-64ad-4ba9-86cf-b39e1e36899e",
+            "name": "Lisa Weber"
+          },
+          "-1724943448499-q9ehfqpsz": {
+            "color": "#C28A06",
+            "id": "5e1b947a-f1fc-4fe8-b79f-b237a25b851b",
+            "name": "Peter Mayer"
+          },
+          "-1724943448499-qr8ciexjk": {
+            "color": "#3568D8",
+            "id": "f8d0be2f-628a-487b-87f8-053e6cbcafb2",
+            "name": "Daniel Maier"
+          },
+          "-1724943448499-r0y28uwsl": {
+            "color": "#EEEF0F",
+            "id": "8e2066df-bd0c-4806-b2ba-2bec09900a77",
+            "name": "Beatrice Neumann"
+          },
+          "-1724943448499-sa5tsm8oc": {
+            "color": "#2DF024",
+            "id": "1178253a-4482-400f-8eba-db901484fb39",
+            "name": "Emmanuel Meinberg"
+          },
+          "-1724943448499-tn5r5s4rl": {
+            "color": "#EB433C",
+            "id": "1fd7aeaa-5117-451d-8008-16d34e2e874b",
+            "name": "Tina Wind"
+          },
+          "-1724943448499-tvqj3fute": {
+            "color": "#1544FF",
+            "id": "489f0a40-9c1d-4cb4-b9e9-34933cde6a38",
+            "name": "Zacharias Gross"
+          }
+        },
+        "Category": "User Story",
+        "Description": "Bitte um Rückmeldung wer anwesend sein wird. Treffen 18.30 Uhr",
+        "Due_date": "2024-09-03",
+        "Prio": "urgent",
+        "Status": "in progress",
+        "Subtasks": {
+          "-1724943448499-8fiz71920": {
+            "description": "Essen",
+            "id": "-1724943448499-8fiz71920",
+            "isChecked": false
+          },
+          "-1724943448499-k3fhgtjld": {
+            "description": "Getränke",
+            "id": "-1724943448499-k3fhgtjld",
+            "isChecked": false
+          },
+          "-1724943448499-z8p7cuu8i": {
+            "description": "Programm",
+            "id": "-1724943448499-z8p7cuu8i",
+            "isChecked": true
+          }
+        },
+        "Title": "Vorbereitung After Work Party",
+        "firebaseId": "-O5Td2T_EIE5djAt1F4b",
+        "id": 1724943448499,
+        "timestamp": 1724943778283
+      },
+      "-O5TdYxsAgADY89KsibG": {
+        "Assigned_to": {
+          "-1724943581582-7pn3e1kdc": {
+            "color": "#3568D8",
+            "id": "f8d0be2f-628a-487b-87f8-053e6cbcafb2",
+            "name": "Daniel Maier"
+          },
+          "-1724943581582-sthfjgw9x": {
+            "color": "#F35B80",
+            "id": "d4f30f5c-7e23-47e0-a99f-eec3345b89f7",
+            "name": "Valentin Schön"
+          }
+        },
+        "Category": "User Story",
+        "Description": "Bitte den CV sichten und vorab Fragen notieren.",
+        "Due_date": "2024-08-30",
+        "Prio": "urgent",
+        "Status": "in progress",
+        "Subtasks": {
+          "-1724943581582-2c799h0yu": {
+            "description": "debugging-chall. vorbereiten",
+            "id": "-1724943581582-2c799h0yu",
+            "isChecked": false
+          }
+        },
+        "Title": "Bewerbungsgespräch Software-Entwickler",
+        "id": 1724943581582,
+        "timestamp": 1724943588405
+      },
+      "-O5Te--BdJC3p2Df_6So": {
+        "Assigned_to": {
+          "8e2066df-bd0c-4806-b2ba-2bec09900a77": {
+            "color": "rgb(238, 239, 15)",
+            "id": "8e2066df-bd0c-4806-b2ba-2bec09900a77",
+            "name": "Beatrice Neumann"
+          }
+        },
+        "Category": "Technical Task",
+        "Description": "Sichtung Projektarbeit Sakura Ramen",
+        "Due_date": "2024-08-30",
+        "Prio": "medium",
+        "Status": "done",
+        "Subtasks": {
+          "-1724943696418-2bnsibcny": {
+            "description": "Einhaltung Designvorgaben",
+            "id": "-1724943696418-2bnsibcny",
+            "isChecked": true
+          },
+          "-1724943696418-prrruudez": {
+            "description": "responsive",
+            "id": "-1724943696418-prrruudez",
+            "isChecked": true
+          },
+          "-1724943696418-r04jj825x": {
+            "description": "user friendly",
+            "id": "-1724943696418-r04jj825x",
+            "isChecked": true
+          },
+          "-1724943696418-s5btodmle": {
+            "description": "clean code",
+            "id": "-1724943696418-s5btodmle",
+            "isChecked": true
+          },
+          "-1724943751928-r7a5bubdq": {
+            "description": "feedback an Schüler",
+            "id": "-1724943751928-r7a5bubdq",
+            "isChecked": true
+          }
+        },
+        "Title": "Projektsichtung Sakura Ramen",
+        "firebaseId": "-O5Te--BdJC3p2Df_6So",
+        "id": 1724943696417,
+        "timestamp": 1724943707898
+      },
+      "-O5TecnrOaq3Y8Sifjgs": {
+        "Assigned_to": {
+          "-1724943863554-i70xe5czp": {
+            "color": "#3568D8",
+            "id": "f8d0be2f-628a-487b-87f8-053e6cbcafb2",
+            "name": "Daniel Maier"
+          },
+          "-1724943863554-sd7ua698t": {
+            "color": "#F35B80",
+            "id": "d4f30f5c-7e23-47e0-a99f-eec3345b89f7",
+            "name": "Valentin Schön"
+          }
+        },
+        "Category": "User Story",
+        "Description": "Meeting um 11.00 Uhr",
+        "Due_date": "2024-09-04",
+        "Prio": "medium",
+        "Status": "to do",
+        "Subtasks": {
+          "-1724943863554-man9tgvud": {
+            "description": "sonstiges",
+            "id": "-1724943863554-man9tgvud",
+            "isChecked": false
+          },
+          "-1724943863554-vdh853fzx": {
+            "description": "aktuelle Bewerber",
+            "id": "-1724943863554-vdh853fzx",
+            "isChecked": false
+          }
+        },
+        "Title": "Meeting HR",
+        "id": 1724943863554,
+        "timestamp": 1724943863554
+      }
+    },
+    "users": [
+      {
+        "email": "testuser@example.com",
+        "id": "7b528b45-bc99-4492-b608-6bf74e5141e3",
+        "initials": "TU",
+        "name": "Test User",
+        "password": "password123"
+      },
+      {
+        "email": "test@test.com",
+        "id": "5da7db1e-c76f-4236-bf1b-c1da59ee00ad",
+        "initials": "TT",
+        "name": "Test Test",
+        "password": "Test1234"
+      },
+      {
+        "email": "test@three.com",
+        "id": "f5bdab70-2687-461a-ad22-7b51041cd11e",
+        "initials": "TT",
+        "name": "Test Three",
+        "password": "Three1234"
+      },
+      {
+        "email": "test@four.com",
+        "id": "c531cd18-f2c2-48fd-b4f0-a756c4344084",
+        "initials": "TF",
+        "name": "Test Four",
+        "password": "Four1234"
+      },
+      {
+        "email": "boris@scheiber.com",
+        "id": "49653df1-b119-4547-a8c2-447bbe3aecb5",
+        "initials": "BS",
+        "name": "Boris Scheiber",
+        "password": "Boris1234"
+      },
+      {
+        "email": "philipp.schoenborn@gmail.com",
+        "id": "f60a311b-30b3-452c-a0f9-69599d2f9144",
+        "initials": "PS",
+        "name": "Philipp Schönborn",
+        "password": "Test_123456"
+      },
+      {
+        "email": "responsive@man.com",
+        "id": "d25c736d-ab3a-4774-beb3-4eb7d7ae83cb",
+        "initials": "RM",
+        "name": "Responsive Man",
+        "password": "Responsive1234"
+      }
+    ]
+  }
+  
