@@ -1141,6 +1141,7 @@ a {
     right: 32px;
     height: 24px;
     width: 24px;
+    cursor: pointer;
   }
 
   .add-new-contact-menu-img {
